@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/graph_wallies">
+    android:id="@+id/graph_wallies"
+    app:startDestination="@id/splashFragment"
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.oguzdogdu.wallies.presentation.SplashFragment"
+        android:label="SplashFragment"
+        tools:layout="@layout/fragment_splash">
+
+    </fragment>
 </navigation>
