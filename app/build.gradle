@@ -1,6 +1,12 @@
+import com.oguzdogdu.buildsrc.Dependencies
+
 plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.kapt")
+    id("dagger.hilt.android.plugin")
+    id("androidx.navigation.safeargs.kotlin")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -34,11 +40,52 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.8.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Dependencies.Kotlin.gradle}"
+
+    implementation "androidx.core:core-ktx:${Dependencies.AndroidX.core}"
+    implementation "androidx.appcompat:appcompat:${Dependencies.AndroidX.appcompat}"
+    implementation "com.google.android.material:material:${Dependencies.Google.material}"
+    implementation "androidx.constraintlayout:constraintlayout:${Dependencies.AndroidX.constraintLayout}"
+    implementation "androidx.legacy:legacy-support-v4:${Dependencies.AndroidX.legacySupport}"
+    testImplementation "junit:junit:${Dependencies.Testing.junit}"
+    androidTestImplementation "androidx.test.ext:junit:${Dependencies.Testing.junitExt}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${Dependencies.Testing.espresso}"
+
+    //paging
+    implementation "androidx.paging:paging-runtime-ktx:${Dependencies.AndroidX.paging}"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:${Dependencies.Network.retrofit}"
+    implementation "com.squareup.retrofit2:converter-gson:${Dependencies.Network.gson}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${Dependencies.Network.okhttpLogging}"
+
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Dependencies.Kotlin.coroutines}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Dependencies.Kotlin.coroutines}"
+
+    // Coroutine Lifecycle Scopes
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${Dependencies.Kotlin.coroutineScope}"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:${Dependencies.Kotlin.coroutineScope}"
+
+    // Navigation Components
+    implementation "androidx.navigation:navigation-fragment-ktx:${Dependencies.AndroidX.navigation}"
+    implementation "androidx.navigation:navigation-ui-ktx:${Dependencies.AndroidX.navigation}"
+
+    //Coil
+    implementation "io.coil-kt:coil:${Dependencies.Image.coil}"
+
+    //Lottie
+    implementation "com.airbnb.android:lottie:${Dependencies.Image.lottie}"
+
+    //Dagger - Hilt
+    implementation "com.google.dagger:hilt-android:${Dependencies.Google.hilt}"
+    kapt "com.google.dagger:hilt-android-compiler:${Dependencies.Google.hilt}"
+    kapt "androidx.hilt:hilt-compiler:${Dependencies.Google.hiltCompiler}"
+
+    //Room
+    implementation "androidx.room:room-runtime:${Dependencies.AndroidX.room}"
+    annotationProcessor "androidx.room:room-compiler:${Dependencies.AndroidX.room}"
+    implementation "androidx.room:room-ktx:${Dependencies.AndroidX.room}"
+    kapt "androidx.room:room-compiler:${Dependencies.AndroidX.room}"
+    implementation "androidx.room:room-paging:${Dependencies.AndroidX.room}"
 }
