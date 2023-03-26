@@ -1,3 +1,5 @@
+import com.oguzdogdu.buildsrc.Dependencies
+
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
@@ -38,4 +40,9 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:${Dependencies.Network.retrofit}"
+    implementation "com.squareup.retrofit2:converter-gson:${Dependencies.Network.gson}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${Dependencies.Network.okhttpLogging}"
 }
