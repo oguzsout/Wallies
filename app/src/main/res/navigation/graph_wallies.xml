@@ -11,5 +11,18 @@
         android:label="SplashFragment"
         tools:layout="@layout/fragment_splash">
 
+        <action
+            android:id="@+id/action_splashFragment_to_mainFragment2"
+            app:destination="@id/mainFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.oguzdogdu.wallies.presentation.MainFragment"
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_main">
+
     </fragment>
 </navigation>

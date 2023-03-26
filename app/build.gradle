@@ -1,12 +1,10 @@
-import com.oguzdogdu.buildsrc.Dependencies
-
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.kapt")
-    id("dagger.hilt.android.plugin")
-    id("androidx.navigation.safeargs.kotlin")
-    id("kotlin-parcelize")
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id "androidx.navigation.safeargs.kotlin"
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -46,52 +44,71 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":data"))
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Dependencies.Kotlin.gradle}"
 
-    implementation "androidx.core:core-ktx:${Dependencies.AndroidX.core}"
-    implementation "androidx.appcompat:appcompat:${Dependencies.AndroidX.appcompat}"
-    implementation "com.google.android.material:material:${Dependencies.Google.material}"
-    implementation "androidx.constraintlayout:constraintlayout:${Dependencies.AndroidX.constraintLayout}"
-    implementation "androidx.legacy:legacy-support-v4:${Dependencies.AndroidX.legacySupport}"
-    testImplementation "junit:junit:${Dependencies.Testing.junit}"
-    androidTestImplementation "androidx.test.ext:junit:${Dependencies.Testing.junitExt}"
-    androidTestImplementation "androidx.test.espresso:espresso-core:${Dependencies.Testing.espresso}"
-
-    //paging
-    implementation "androidx.paging:paging-runtime-ktx:${Dependencies.AndroidX.paging}"
-
-    // Retrofit
-    implementation "com.squareup.retrofit2:retrofit:${Dependencies.Network.retrofit}"
-    implementation "com.squareup.retrofit2:converter-gson:${Dependencies.Network.gson}"
-    implementation "com.squareup.okhttp3:logging-interceptor:${Dependencies.Network.okhttpLogging}"
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.test:core-ktx:1.4.0'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
+    implementation 'androidx.core:core-ktx:1.9.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     // Coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Dependencies.Kotlin.coroutines}"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Dependencies.Kotlin.coroutines}"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 
     // Coroutine Lifecycle Scopes
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${Dependencies.Kotlin.coroutineScope}"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:${Dependencies.Kotlin.coroutineScope}"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
 
-    // Navigation Components
-    implementation "androidx.navigation:navigation-fragment-ktx:${Dependencies.AndroidX.navigation}"
-    implementation "androidx.navigation:navigation-ui-ktx:${Dependencies.AndroidX.navigation}"
+    //retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
+    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
 
-    //Coil
-    implementation "io.coil-kt:coil:${Dependencies.Image.coil}"
+    def nav_version = "2.5.3"
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
-    //Lottie
-    implementation "com.airbnb.android:lottie:${Dependencies.Image.lottie}"
+    def version_moshi = "1.14.0"
+    implementation "com.squareup.moshi:moshi:$version_moshi"
+    implementation "com.squareup.moshi:moshi-kotlin:$version_moshi"
 
+    def paging_version = "3.1.1"
+
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+
+    // alternatively - without Android dependencies for tests
+    testImplementation "androidx.paging:paging-common-ktx:$paging_version"
+
+    implementation 'com.github.bumptech.glide:glide:4.15.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.0'
+
+    // Activity KTX for viewModels()
+    implementation "androidx.activity:activity-ktx:1.6.1"
+    implementation("io.coil-kt:coil:2.2.2")
     //Dagger - Hilt
-    implementation "com.google.dagger:hilt-android:${Dependencies.Google.hilt}"
-    kapt "com.google.dagger:hilt-android-compiler:${Dependencies.Google.hilt}"
-    kapt "androidx.hilt:hilt-compiler:${Dependencies.Google.hiltCompiler}"
+    implementation "com.google.dagger:hilt-android:2.44"
+    kapt 'com.google.dagger:hilt-compiler:2.44'
 
-    //Room
-    implementation "androidx.room:room-runtime:${Dependencies.AndroidX.room}"
-    annotationProcessor "androidx.room:room-compiler:${Dependencies.AndroidX.room}"
-    implementation "androidx.room:room-ktx:${Dependencies.AndroidX.room}"
-    kapt "androidx.room:room-compiler:${Dependencies.AndroidX.room}"
-    implementation "androidx.room:room-paging:${Dependencies.AndroidX.room}"
+    def lottieVersion = "3.5.0"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
+
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+
+
+    def room_version = "2.5.0"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    // To use Kotlin annotation processing tool (kapt)
+    kapt "androidx.room:room-compiler:$room_version"
+    // optional - Paging 3 Integration
+    implementation "androidx.room:room-paging:$room_version"
 }

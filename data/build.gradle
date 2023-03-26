@@ -1,4 +1,3 @@
-import com.oguzdogdu.buildsrc.Dependencies
 
 plugins {
     id 'com.android.library'
@@ -41,8 +40,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    // Retrofit
-    implementation "com.squareup.retrofit2:retrofit:${Dependencies.Network.retrofit}"
-    implementation "com.squareup.retrofit2:converter-gson:${Dependencies.Network.gson}"
-    implementation "com.squareup.okhttp3:logging-interceptor:${Dependencies.Network.okhttpLogging}"
+    //retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
+    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
 }
