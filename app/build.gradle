@@ -70,23 +70,17 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
     implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
 
-    def nav_version = "2.5.3"
-    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    //okhttp
+    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
+    implementation "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.10"
 
-    def version_moshi = "1.14.0"
-    implementation "com.squareup.moshi:moshi:$version_moshi"
-    implementation "com.squareup.moshi:moshi-kotlin:$version_moshi"
+    //navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:2.5.3"
+    implementation "androidx.navigation:navigation-ui-ktx:2.5.3"
 
-    def paging_version = "3.1.1"
-
-    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
-
-    // alternatively - without Android dependencies for tests
-    testImplementation "androidx.paging:paging-common-ktx:$paging_version"
-
-    implementation 'com.github.bumptech.glide:glide:4.15.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.0'
+    //paging
+    implementation "androidx.paging:paging-runtime-ktx:3.1.1"
+    testImplementation "androidx.paging:paging-common-ktx:3.1.1"
 
     // Activity KTX for viewModels()
     implementation "androidx.activity:activity-ktx:1.6.1"
@@ -95,20 +89,18 @@ dependencies {
     implementation "com.google.dagger:hilt-android:2.44"
     kapt 'com.google.dagger:hilt-compiler:2.44'
 
-    def lottieVersion = "3.5.0"
-    implementation "com.airbnb.android:lottie:$lottieVersion"
+    //lottie
+    implementation "com.airbnb.android:lottie:5.2.0"
 
+    //circleimage
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
-
-
-    def room_version = "2.5.0"
-
-    implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
+    //room
+    implementation "androidx.room:room-runtime:2.5.1"
+    annotationProcessor "androidx.room:room-compiler:2.5.1"
+    implementation "androidx.room:room-ktx:2.5.1"
     // To use Kotlin annotation processing tool (kapt)
-    kapt "androidx.room:room-compiler:$room_version"
+    kapt "androidx.room:room-compiler:2.5.1"
     // optional - Paging 3 Integration
-    implementation "androidx.room:room-paging:$room_version"
+    implementation "androidx.room:room-paging:2.5.1"
 }
