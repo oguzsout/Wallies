@@ -1,22 +1,38 @@
 package com.oguzdogdu.data.model
 
+import com.google.gson.annotations.SerializedName
+
 data class UnsplashResponseItem(
-    val alt_description: String,
-    val blur_hash: String,
-    val color: String,
-    val created_at: String,
-    val current_user_collections: List<Any>,
-    val description: String,
-    val height: Int,
-    val id: String,
-    val liked_by_user: Boolean,
-    val likes: Int,
-    val links: Links,
-    val promoted_at: String,
-    val sponsorship: Sponsorship,
-    val topic_submissions: TopicSubmissions,
-    val updated_at: String,
-    val urls: Urls,
-    val user: User,
-    val width: Int
+    @SerializedName("alt_description")
+    val altDescription: String?,
+    @SerializedName("blur_hash")
+    val blurHash: String?,
+    @SerializedName("color")
+    val color: String?,
+    @SerializedName("created_at")
+    val createdAt: String?,
+    @SerializedName("description")
+    val description: String?,
+    @SerializedName("height")
+    val height: Int?,
+    @SerializedName("id")
+    val id: String?,
+    @SerializedName("liked_by_user")
+    val likedByUser: Boolean?,
+    @SerializedName("likes")
+    val likes: Int?,
+    @SerializedName("links")
+    val links: Links?,
+    @SerializedName("promoted_at")
+    val promotedAt: String?,
+    @SerializedName("sponsorship")
+    val sponsorship: Sponsorship?,
+    @SerializedName("updated_at")
+    val updatedAt: String?,
+    @SerializedName("urls")
+    val urls: Urls?,
+    @SerializedName("user")
+    val user: User?,
+    @SerializedName("width")
+    val width: Int?
 )

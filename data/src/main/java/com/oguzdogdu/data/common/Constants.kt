@@ -1,4 +1,4 @@
-package com.oguzdogdu.wallies.utils
+package com.oguzdogdu.data.common
 
 object Constants {
     const val UNSPLASH_BASE_URL = "https://api.unsplash.com/"
