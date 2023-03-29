@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="spacing_4xs">1dp</dimen>
+    <dimen name="spacing_3xs">2dp</dimen>
+    <dimen name="spacing_xxs">4dp</dimen>
+    <dimen name="spacing_xs">6dp</dimen>
+    <dimen name="spacing_small">8dp</dimen>
+    <dimen name="spacing_small_spec_1">10dp</dimen>
+    <dimen name="spacing_small_spec_2">12dp</dimen>
+    <dimen name="spacing_small_spec_3">14dp</dimen>
+    <dimen name="spacing_small_spec_4">15dp</dimen>
+    <dimen name="spacing_medium">16dp</dimen>
+    <dimen name="spacing_medium_spec_1">18dp</dimen>
+    <dimen name="spacing_medium_spec_2">20dp</dimen>
+    <dimen name="spacing_medium_spec_3">22dp</dimen>
+    <dimen name="spacing_large">24dp</dimen>
+    <dimen name="spacing_large_2">28dp</dimen>
+    <dimen name="spacing_xl">32dp</dimen>
+    <dimen name="spacing_xl_to_xxl">40dp</dimen>
+    <dimen name="spacing_xxl">48dp</dimen>
+    <dimen name="spacing_3xl">64dp</dimen>
+    <dimen name="spacing_largest">72dp</dimen>
+    <dimen name="spacing_largest_2">78dp</dimen>
+
+    <dimen name="font_xxs">10sp</dimen>
+    <dimen name="font_xs">11sp</dimen>
+    <dimen name="font_small">12sp</dimen>
+    <dimen name="font_medium">14sp</dimen>
+    <dimen name="font_large">16sp</dimen>
+    <dimen name="font_xl">18sp</dimen>
+    <dimen name="font_xxl">24sp</dimen>
+
+    <!-- corners -->
+    <dimen name="corner_nyt_button">8dp</dimen>
+    <dimen name="corner_xxs">2dp</dimen>
+    <dimen name="corner_xs">4dp</dimen>
+    <dimen name="corner_small">8dp</dimen>
+    <dimen name="corner_medium">12dp</dimen>
+    <dimen name="corner_medium_to_large">14dp</dimen>
+    <dimen name="corner_large">16dp</dimen>
+    <dimen name="corner_large_to_xl">18dp</dimen>
+    <dimen name="corner_xl">20dp</dimen>
+    <dimen name="corner_xxl">24dp</dimen>
+    <dimen name="icon_larger">40dp</dimen>
+    <dimen name="size_recipe_reply_image">250dp</dimen>
+    <dimen name="size_medium">128dp</dimen>
+    <dimen name="size_small_spec_2">100dp</dimen>
+    <dimen name="size_image_medium_spec_2">150dp</dimen>
+    <dimen name="size_image_medium">160dp</dimen>
+    <dimen name="size_avatar_medium">36dp</dimen>
+    <dimen name="size_23xl">184dp</dimen>
+
+    <!-- widget heights -->
+    <dimen name="button_height">56dp</dimen>
+    <dimen name="edit_text_height">40dp</dimen>
+    <dimen name="forgot_password_icon_size">18dp</dimen>
+    <dimen name="height_button_rounded_corner">40dp</dimen>
+    <dimen name="height_bottom_sheet_title">56dp</dimen>
+</resources>
