@@ -38,4 +38,4 @@ data class UnsplashResponseItem(
     val width: Int?
 )
 
-fun UnsplashResponseItem.toDomainModel() = PopularImage(url = urls?.full)
+fun UnsplashResponseItem.toDomainModel() = PopularImage(id = id,url = urls?.regular)

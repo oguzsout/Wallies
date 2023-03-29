@@ -1,4 +1,4 @@
-package com.oguzdogdu.wallies.presentation
+package com.oguzdogdu.wallies.presentation.splash
 
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -17,6 +17,6 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding
     }
     private suspend fun goToMainFragment() {
         delay(3000)
-       findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToMainFragment2())
+       findNavController().navigate(SplashFragmentDirections.toMain())
     }
 }

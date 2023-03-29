@@ -7,22 +7,24 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.oguzdogdu.wallies.presentation.SplashFragment"
+        android:name="com.oguzdogdu.wallies.presentation.splash.SplashFragment"
         android:label="SplashFragment"
         tools:layout="@layout/fragment_splash">
 
         <action
-            android:id="@+id/action_splashFragment_to_mainFragment2"
-            app:destination="@id/mainFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true"/>
+            android:id="@+id/toMain"
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.oguzdogdu.wallies.presentation.MainFragment"
+        android:name="com.oguzdogdu.wallies.presentation.main.MainFragment"
         android:label="MainFragment"
         tools:layout="@layout/fragment_main">
 
     </fragment>
+    <fragment
+        android:id="@+id/popularFragment"
+        android:name="com.oguzdogdu.wallies.presentation.popular.PopularFragment"
+        android:label="fragment_popular"
+        tools:layout="@layout/fragment_popular" />
 </navigation>
