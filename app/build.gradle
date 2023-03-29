@@ -97,6 +97,9 @@ dependencies {
     //circleimage
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    //Shimmer
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
     //room
     implementation "androidx.room:room-runtime:2.5.1"
     annotationProcessor "androidx.room:room-compiler:2.5.1"
