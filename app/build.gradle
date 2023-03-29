@@ -41,8 +41,9 @@ android {
 
 dependencies {
 
-    implementation(project(":domain"))
     implementation(project(":data"))
+    implementation(project(":domain"))
+
 
 
     implementation 'androidx.core:core-ktx:1.9.0'
@@ -85,6 +86,7 @@ dependencies {
     // Activity KTX for viewModels()
     implementation "androidx.activity:activity-ktx:1.6.1"
     implementation("io.coil-kt:coil:2.2.2")
+
     //Dagger - Hilt
     implementation "com.google.dagger:hilt-android:2.44"
     kapt 'com.google.dagger:hilt-compiler:2.44'

@@ -3,18 +3,22 @@ pluginManagement {
         gradlePluginPortal()
         google()
         mavenCentral()
+        maven { setUrl("https://jitpack.io") }
     }
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        gradlePluginPortal()
         google()
         mavenCentral()
+        maven { setUrl("https://jitpack.io") }
+        mavenCentral() //
     }
 }
 rootProject.name = "Wallies"
 include(
-        ":app",
+        "app",
         ":data",
         ":domain"
 )
