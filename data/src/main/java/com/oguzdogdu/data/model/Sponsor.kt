@@ -12,7 +12,7 @@ data class Sponsor(
     val location: String,
     val name: String,
     val portfolio_url: String,
-    val profile_image: Profileİmage,
+    val profile_image: ProfileImage,
     val social: Social,
     val total_collections: Int,
     val total_likes: Int,

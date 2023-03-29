@@ -1,6 +1,7 @@
 package com.oguzdogdu.data.model
 
 import com.google.gson.annotations.SerializedName
+import com.oguzdogdu.domain.PopularImage
 
 data class UnsplashResponseItem(
     @SerializedName("alt_description")
@@ -36,3 +37,5 @@ data class UnsplashResponseItem(
     @SerializedName("width")
     val width: Int?
 )
+
+fun UnsplashResponseItem.toDomainModel() = PopularImage(url = urls?.full)

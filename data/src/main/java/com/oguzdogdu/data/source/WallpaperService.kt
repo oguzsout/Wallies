@@ -8,9 +8,8 @@ interface WallpaperService {
 
     @GET("photos")
     suspend fun getPopularImages(
-        @Query("per_page") perPage : Int,
-        @Query("page") page : Int,
-        @Query("client_id") apiKey : String,
-        @Query("order_by") order: String
+        @Query("page") page : Int?,
+        @Query("client_id") apiKey : String?,
+        @Query("order_by") order: String?
     ): List<UnsplashResponseItem>
 }
