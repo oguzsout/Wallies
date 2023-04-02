@@ -14,4 +14,32 @@
         <item name="android:statusBarColor">@color/purple_dark</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="android:background">@color/background_dark</item>
+        <item name="android:bottomLeftRadius">@dimen/corner_xl</item>
+        <item name="android:bottomRightRadius">@dimen/corner_xl</item>
+        <item name="android:topLeftRadius">@dimen/corner_xl</item>
+        <item name="android:topRightRadius">@dimen/corner_xl</item>
+    </style>
+    <style name="Tab.Background" parent="Widget.MaterialComponents.TabLayout">
+        <item name="android:background">@color/background_dark</item>
+        <item name="tabIndicator">@drawable/tab_indicator</item>
+        <item name="tabIndicatorColor">@color/orange</item>
+        <item name="tabIndicatorGravity">center</item>
+        <item name="tabIndicatorFullWidth">true</item>
+        <item name="rippleColor">@null</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+        <item name="tabTextAppearance">@style/Tab</item>
+        <item name="tabTextColor">@color/orange</item>
+    </style>
+    <style name="ActionBarTextAppearance" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">32sp</item>
+        <item name="android:textColor">@color/purple_dark</item>
+        <item name="android:fontFamily">@font/cabalw5j3</item>
+    </style>
+    <style name="MainText" parent="@android:style/TextAppearance">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/googlesansregular</item>
+    </style>
 </resources>
