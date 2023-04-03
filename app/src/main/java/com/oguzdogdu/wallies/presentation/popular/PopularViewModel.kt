@@ -3,7 +3,6 @@ package com.oguzdogdu.wallies.presentation.popular
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oguzdogdu.data.common.Constants.PAGE
-import com.oguzdogdu.data.common.Constants.POPULAR
 import com.oguzdogdu.domain.Resource
 import com.oguzdogdu.domain.GetPopularUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +23,7 @@ class PopularViewModel @Inject constructor(private val useCase: GetPopularUseCas
     }
 
     private fun getPopularImages() {
-        useCase(POPULAR, PAGE).onEach { result ->
+        useCase(PAGE).onEach { result ->
             when (result) {
                 is Resource.Loading -> _getPopular.value = PopularState(isLoading = true)
 

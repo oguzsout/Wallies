@@ -10,8 +10,8 @@ import coil.request.CachePolicy
 import com.oguzdogdu.domain.PopularImage
 import com.oguzdogdu.wallies.databinding.ItemMainImageBinding
 
-class MainWallpaperAdapter :
-    ListAdapter<PopularImage, MainWallpaperAdapter.MainImageViewHolder>(
+class PopularWallpaperAdapter :
+    ListAdapter<PopularImage, PopularWallpaperAdapter.MainImageViewHolder>(
         DIFF_CALLBACK
     ) {
 

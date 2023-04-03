@@ -8,11 +8,11 @@ import javax.inject.Inject
 class GetPopularUseCase @Inject constructor(
     private val repository: WallpaperRepository
 ) {
-    operator fun invoke(order:String?,page: Int?): Flow<Resource<List<PopularImage?>>> = flow {
+    operator fun invoke(page: Int?): Flow<Resource<List<PopularImage?>>> = flow {
 
         try {
             emit(Resource.Loading)
-            emit(Resource.Success(repository.getPopularImages(order,page)))
+            emit(Resource.Success(repository.getImagesByPopulars(page)))
         } catch (e: IOException) {
             emit(Resource.Error(e.localizedMessage.orEmpty()))
         }

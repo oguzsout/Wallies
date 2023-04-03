@@ -44,15 +44,17 @@ class MainActivity : AppCompatActivity() {
                     val navHostFragment =
                         supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
                     navHostFragment.navController.navigate(R.id.mainFragment)
-                } else
+                } else {
                     DialogHelper.showInternetCheckDialog(this@MainActivity) {
                     }
-                Snackbar.make(
-                    this@MainActivity.binding.root,
-                    "Check Connectivity",
-                    Snackbar.LENGTH_LONG
-                )
-                    .show()
+                    Snackbar.make(
+                        this@MainActivity.binding.root,
+                        "Check Connectivity",
+                        Snackbar.LENGTH_LONG
+                    )
+                        .show()
+                }
+
             }
         }
     }
