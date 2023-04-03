@@ -20,25 +20,7 @@
             android:orientation="vertical">
 
             <include layout="@layout/item_main_shimmer" />
-
             <include layout="@layout/item_main_shimmer" />
-
-            <include layout="@layout/item_main_shimmer" />
-
-            <include layout="@layout/item_main_shimmer" />
-
-            <include layout="@layout/item_main_shimmer" />
-
-            <include layout="@layout/item_main_shimmer" />
-
-            <include layout="@layout/item_main_shimmer" />
-
-            <include layout="@layout/item_main_shimmer" />
-
-            <include layout="@layout/item_main_shimmer" />
-
-            <include layout="@layout/item_main_shimmer" />
-
             <include layout="@layout/item_main_shimmer" />
 
         </LinearLayout>
