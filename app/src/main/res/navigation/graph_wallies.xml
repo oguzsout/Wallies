@@ -2,25 +2,19 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/graph_wallies"
-    app:startDestination="@id/splashFragment"
+    app:startDestination="@id/mainFragment"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <fragment
-        android:id="@+id/splashFragment"
-        android:name="com.oguzdogdu.wallies.presentation.splash.SplashFragment"
-        android:label="SplashFragment"
-        tools:layout="@layout/fragment_splash">
-
-        <action
-            android:id="@+id/toMain"
-            app:destination="@id/mainFragment" />
-    </fragment>
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.oguzdogdu.wallies.presentation.main.MainFragment"
         android:label="MainFragment"
         tools:layout="@layout/fragment_main">
 
+        <action
+            android:id="@+id/toPopular"
+            app:destination="@id/popularFragment"
+            app:popUpToSaveState="true"/>
     </fragment>
     <fragment
         android:id="@+id/popularFragment"

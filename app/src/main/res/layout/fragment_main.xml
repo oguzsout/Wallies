@@ -8,7 +8,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/light_gray"
+        style="@style/AppBar"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:elevation="0dp">
 
@@ -39,21 +39,12 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
+            style="@style/Tab.Background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tabGravity="center"
-            android:background="@color/light_gray"
-            app:tabIndicator="@drawable/tab_indicator"
-            app:tabIndicatorColor="@color/orange"
-            app:tabIndicatorGravity="center"
-            app:tabIndicatorFullWidth="true"
-            app:tabRippleColor="@null"
-            app:tabSelectedTextColor="@color/white"
-            app:tabTextAppearance="@style/Tab"
-            app:tabTextColor="@color/orange" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"

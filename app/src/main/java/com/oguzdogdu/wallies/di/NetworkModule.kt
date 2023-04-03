@@ -39,7 +39,6 @@ object NetworkModule {
             followRedirects(true)
             retryOnConnectionFailure(true)
         }
-
         return builder.build()
     }
 
