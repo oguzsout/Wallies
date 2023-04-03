@@ -1,7 +1,6 @@
 package com.oguzdogdu.data.repository
 
 import com.oguzdogdu.data.common.Constants.API_KEY
-import com.oguzdogdu.data.model.UnsplashResponseItem
 import com.oguzdogdu.data.model.toDomainModel
 import com.oguzdogdu.data.source.WallpaperService
 import com.oguzdogdu.domain.PopularImage

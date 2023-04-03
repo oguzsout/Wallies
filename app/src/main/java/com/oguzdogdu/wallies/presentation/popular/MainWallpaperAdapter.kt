@@ -5,13 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import coil.Coil
 import coil.load
 import coil.request.CachePolicy
-import coil.transform.CircleCropTransformation
-import com.oguzdogdu.data.model.UnsplashResponseItem
 import com.oguzdogdu.domain.PopularImage
-import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.databinding.ItemMainImageBinding
 
 class MainWallpaperAdapter :

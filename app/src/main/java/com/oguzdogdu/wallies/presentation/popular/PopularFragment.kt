@@ -33,8 +33,7 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
                         binding.shimmerLayout.startShimmer()
                     }
                     result.error.isNotEmpty() -> {
-                        Snackbar.make(requireView(), "Check Connectivity", Snackbar.LENGTH_LONG)
-                            .show()
+
                     }
                     result.popular.isNotEmpty() -> {
                         with(binding){
