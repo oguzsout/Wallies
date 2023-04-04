@@ -1,6 +1,7 @@
 package com.oguzdogdu.data.model
 
 import com.google.gson.annotations.SerializedName
+import com.oguzdogdu.domain.LatestImage
 import com.oguzdogdu.domain.PopularImage
 
 data class UnsplashResponseItem(
@@ -38,4 +39,5 @@ data class UnsplashResponseItem(
     val width: Int?
 )
 
-fun UnsplashResponseItem.toDomainModel() = PopularImage(id = id,url = urls?.regular)
+fun UnsplashResponseItem.toDomainModelPopular() = PopularImage(id = id,url = urls?.regular)
+fun UnsplashResponseItem.toDomainModelLatest() = LatestImage(id = id,url = urls?.regular)

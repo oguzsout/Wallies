@@ -7,7 +7,7 @@ import retrofit2.http.Query
 interface WallpaperService {
 
     @GET("photos")
-    suspend fun getPopularImages(
+    suspend fun getImagesByOrders(
         @Query("page") page : Int?,
         @Query("client_id") apiKey : String?,
         @Query("order_by") order: String?

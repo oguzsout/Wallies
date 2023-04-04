@@ -12,7 +12,7 @@
         <!-- Status bar color. -->
 
         <item name="android:windowBackground">@color/background</item>
-        <item name="android:statusBarColor">@color/primary_purple_20</item>
+        <item name="android:statusBarColor">@color/purple_03</item>
         <!-- Customize your theme here. -->
     </style>
 
@@ -25,7 +25,7 @@
         <item name="tabIndicator">@drawable/tab_indicator</item>
         <item name="tabIndicatorColor">@color/orange</item>
         <item name="tabIndicatorGravity">center</item>
-        <item name="tabIndicatorFullWidth">true</item>
+        <item name="tabGravity">center</item>
         <item name="rippleColor">@null</item>
         <item name="tabSelectedTextColor">@color/white</item>
         <item name="tabTextAppearance">@style/Tab</item>

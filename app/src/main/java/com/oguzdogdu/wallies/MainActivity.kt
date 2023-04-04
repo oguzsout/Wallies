@@ -1,33 +1,25 @@
 package com.oguzdogdu.wallies
 
 import android.annotation.SuppressLint
-import android.app.PendingIntent.getActivity
+import android.app.Activity
+import android.os.Build
 import android.os.Bundle
+import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.createSavedStateHandle
-import androidx.lifecycle.enableSavedStateHandles
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavAction
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.oguzdogdu.wallies.databinding.ActivityMainBinding
-import com.oguzdogdu.wallies.presentation.main.MainFragment
-import com.oguzdogdu.wallies.presentation.main.MainFragmentDirections
-import com.oguzdogdu.wallies.presentation.popular.PopularFragment
 import com.oguzdogdu.wallies.util.CheckConnection
 import com.oguzdogdu.wallies.util.DialogHelper
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.launchIn
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)

@@ -1,5 +1,6 @@
 package com.oguzdogdu.domain
 
 interface WallpaperRepository {
-    suspend fun getPopularImages(order:String?,page: Int?): List<PopularImage>
+    suspend fun getImagesByPopulars(page: Int?): List<PopularImage>
+    suspend fun getImagesByLatest(page: Int?): List<LatestImage>
 }

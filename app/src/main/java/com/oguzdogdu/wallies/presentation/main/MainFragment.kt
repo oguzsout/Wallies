@@ -4,6 +4,7 @@ import androidx.fragment.app.FragmentActivity
 import com.google.android.material.tabs.TabLayoutMediator
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentMainBinding
+import com.oguzdogdu.wallies.presentation.latest.LatestFragment
 import com.oguzdogdu.wallies.presentation.popular.PopularFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -11,7 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::inflate) {
 
     private val fragments =
-        listOf(PopularFragment())
+        listOf(PopularFragment(),LatestFragment())
 
     private val tabTitles = listOf("POPULAR","LATEST")
     override fun initViews() {

@@ -14,7 +14,7 @@
         <!-- Status bar color. -->
 
         <item name="android:windowBackground">@color/background</item>
-        <item name="android:statusBarColor">@color/primary_purple_20</item>
+        <item name="android:statusBarColor">@color/purple_03</item>
         <!-- Customize your theme here. -->
     </style>
 </resources>
