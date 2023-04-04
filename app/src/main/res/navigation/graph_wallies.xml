@@ -15,10 +15,19 @@
             android:id="@+id/toPopular"
             app:destination="@id/popularFragment"
             app:popUpToSaveState="true"/>
+        <action
+            android:id="@+id/toLatest"
+            app:destination="@id/latestFragment"
+            app:popUpToSaveState="true"/>
     </fragment>
     <fragment
         android:id="@+id/popularFragment"
         android:name="com.oguzdogdu.wallies.presentation.popular.PopularFragment"
         android:label="fragment_popular"
         tools:layout="@layout/fragment_popular" />
+    <fragment
+        android:id="@+id/latestFragment"
+        android:name="com.oguzdogdu.wallies.presentation.latest.LatestFragment"
+        android:label="LatestFragment"
+        tools:layout="@layout/fragment_latest"/>
 </navigation>

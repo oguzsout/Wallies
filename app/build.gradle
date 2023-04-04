@@ -108,4 +108,6 @@ dependencies {
     kapt "androidx.room:room-compiler:2.5.1"
     // optional - Paging 3 Integration
     implementation "androidx.room:room-paging:2.5.1"
+
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 }
