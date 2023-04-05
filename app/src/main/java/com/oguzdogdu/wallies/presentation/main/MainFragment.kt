@@ -31,6 +31,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
     private fun initViewPager() {
         val pagerAdapter = ViewPagerAdapter(requireParentFragment().requireActivity(), fragments)
         binding.viewPager.adapter = pagerAdapter
-        binding.viewPager.isUserInputEnabled = true
+        binding.viewPager.isUserInputEnabled = false
     }
 }

@@ -1,4 +1,4 @@
-package com.oguzdogdu.domain
+package com.oguzdogdu.domain.model.popular
 
 data class PopularImage(
     val id : String?,

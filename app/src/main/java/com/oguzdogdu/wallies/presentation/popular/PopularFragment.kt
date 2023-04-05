@@ -1,17 +1,18 @@
 package com.oguzdogdu.wallies.presentation.popular
 
+import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentPopularBinding
-import com.oguzdogdu.wallies.util.addItemDivider
-import com.oguzdogdu.wallies.util.hide
-import com.oguzdogdu.wallies.util.show
+import com.oguzdogdu.wallies.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -19,7 +20,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 @AndroidEntryPoint
 class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBinding::inflate) {
     private val viewModel: PopularViewModel by viewModels()
-    private val popularWallpaperAdapter = PopularWallpaperAdapter()
+    private val popularWallpaperAdapter by lazy { PopularWallpaperAdapter() }
     override fun initViews() {
         super.initViews()
         binding.apply {
@@ -27,6 +28,12 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
             val layoutManager = GridLayoutManager(requireContext(), 2)
             recyclerViewWallpapers.layoutManager = layoutManager
             recyclerViewWallpapers.setHasFixedSize(true)
+            popularWallpaperAdapter.setOnItemClickListener {
+                val arguments = Bundle().apply {
+                    putString("id", it?.id)
+                }
+                navigate(R.id.toDetail,arguments)
+            }
             swipeRefresh.setOnRefreshListener {
                 getImages()
                 swipeRefresh.isRefreshing = false
@@ -40,7 +47,7 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
     }
 
     private fun getImages(){
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launchWhenCreated {
             viewModel.getPopular.flowWithLifecycle(
                 viewLifecycleOwner.lifecycle,
                 Lifecycle.State.STARTED

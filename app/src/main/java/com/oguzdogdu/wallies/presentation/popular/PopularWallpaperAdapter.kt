@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.request.CachePolicy
-import com.oguzdogdu.domain.PopularImage
+import com.oguzdogdu.domain.model.popular.PopularImage
 import com.oguzdogdu.wallies.databinding.ItemMainImageBinding
 
 class PopularWallpaperAdapter :

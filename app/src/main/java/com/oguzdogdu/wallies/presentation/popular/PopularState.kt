@@ -1,6 +1,6 @@
 package com.oguzdogdu.wallies.presentation.popular
 
-import com.oguzdogdu.domain.PopularImage
+import com.oguzdogdu.domain.model.popular.PopularImage
 
 data class PopularState(
     val isLoading: Boolean = false,

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oguzdogdu.data.common.Constants.PAGE
 import com.oguzdogdu.domain.Resource
-import com.oguzdogdu.domain.GetPopularUseCase
+import com.oguzdogdu.domain.usecase.popular.GetPopularUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
