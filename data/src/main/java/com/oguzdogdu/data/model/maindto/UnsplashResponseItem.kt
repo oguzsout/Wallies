@@ -1,9 +1,13 @@
-package com.oguzdogdu.data.model
+package com.oguzdogdu.data.model.maindto
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import com.oguzdogdu.domain.LatestImage
-import com.oguzdogdu.domain.PopularImage
+import com.oguzdogdu.domain.model.latest.LatestImage
+import com.oguzdogdu.domain.model.popular.PopularImage
+import com.oguzdogdu.domain.model.singlephoto.Photo
+import com.oguzdogdu.wallpaper.data.model.Sponsorship
 
+@kotlinx.parcelize.Parcelize
 data class UnsplashResponseItem(
     @SerializedName("alt_description")
     val altDescription: String?,
@@ -24,7 +28,7 @@ data class UnsplashResponseItem(
     @SerializedName("likes")
     val likes: Int?,
     @SerializedName("links")
-    val links: Links?,
+    val links: Link?,
     @SerializedName("promoted_at")
     val promotedAt: String?,
     @SerializedName("sponsorship")
@@ -36,8 +40,23 @@ data class UnsplashResponseItem(
     @SerializedName("user")
     val user: User?,
     @SerializedName("width")
-    val width: Int?
-)
+    val width: Int?,
+    @SerializedName("views")
+    val views: Double?,
+    @SerializedName("downloads")
+    val downloads: Int?
+) : Parcelable
 
 fun UnsplashResponseItem.toDomainModelPopular() = PopularImage(id = id,url = urls?.regular)
 fun UnsplashResponseItem.toDomainModelLatest() = LatestImage(id = id,url = urls?.regular)
+
+fun UnsplashResponseItem.toDomainModelPhoto() = Photo(
+    id = id,
+    username = user?.username,
+    portfolio = user?.portfolioUrl,
+    profileimage = user?.profileImage?.medium,
+    urls = urls?.full,
+    views = views,
+    downloads = downloads,
+    likes = likes
+)
