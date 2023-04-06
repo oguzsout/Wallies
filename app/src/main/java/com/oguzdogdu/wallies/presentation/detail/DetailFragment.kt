@@ -23,47 +23,65 @@ import com.oguzdogdu.domain.model.singlephoto.Photo
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentDetailBinding
-import com.oguzdogdu.wallies.util.hide
-import com.oguzdogdu.wallies.util.show
-import com.oguzdogdu.wallies.util.toPrettyString
+import com.oguzdogdu.wallies.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding::inflate) {
 
+    @Inject
+    lateinit var connection : CheckConnection
+
     private val viewModel: DetailViewModel by viewModels()
+
     private val args: DetailFragmentArgs by navArgs()
 
     override fun observeData() {
         super.observeData()
         args.id?.let { viewModel.getSinglePhoto(it) }
         lifecycleScope.launchWhenStarted {
-            viewModel.photo.collectLatest { result ->
-                    setItems(result.latest)
-            }
-        }
+            viewModel.photo.onEach { result ->
+                when {
+                    result.isLoading -> {
 
+                    }
+                    result.error.isNotEmpty() -> {
+                        connection.observe(this@DetailFragment) { isConnected ->
+                            if (isConnected) {
+                                args.id?.let { viewModel.getSinglePhoto(it) }
+                            } else {
+                                requireView().showSnackMessage("Check Connectivity")
+                            }
+                        }
+                    }
+                    else -> setItems(result.detail)
+                }
+            }.observeInLifecycle(this@DetailFragment)
+        }
     }
-    private fun setItems(photo: Photo?){
-        binding.imageViewPhotoOwner.load(photo?.profileimage ?: ""){
-            diskCachePolicy(CachePolicy.DISABLED)
-            transformations(CircleCropTransformation())
-            placeholder(R.drawable.avatar)
-            allowConversionToBitmap(true)
-        }
 
+    private fun setItems(photo: Photo?){
         Glide.with(this)
             .load(photo?.urls)
             .placeholder(R.drawable.placeholder)
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .into(binding.imageViewDetail)
-
-        binding.textViewPhotoOwnerName.text = photo?.username ?: ""
-        binding.textViewPhotoOwnerPortfolio.text = photo?.portfolio ?: ""
-        binding.textViewViewsCount.text = photo?.views?.toPrettyString() ?: ""
-        binding.textViewDownloadsCount.text = photo?.downloads?.toString() ?: ""
-        binding.textViewLikeCount.text = photo?.likes.toString() ?: ""
+        with(binding) {
+            imageViewPhotoOwner.load(photo?.profileimage ?: "") {
+                diskCachePolicy(CachePolicy.DISABLED)
+                transformations(CircleCropTransformation())
+                placeholder(R.drawable.avatar)
+                allowConversionToBitmap(true)
+            }
+            textViewPhotoOwnerName.text = photo?.username ?: ""
+            textViewPhotoOwnerPortfolio.text = photo?.portfolio ?: ""
+            textViewViewsCount.text = photo?.views?.toPrettyString() ?: ""
+            textViewDownloadsCount.text = photo?.downloads?.toString() ?: ""
+            textViewLikeCount.text = photo?.likes.toString() ?: ""
+        }
     }
 }

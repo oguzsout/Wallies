@@ -33,7 +33,7 @@ class DetailViewModel @Inject constructor(private val useCase: SinglePhotoUseCas
 
                 is Resource.Success -> {
                     result.data.let {
-                        _getPhoto.value = DetailState(latest = it)
+                        _getPhoto.value = DetailState(detail = it)
                     }
                 }
                 is Resource.Error -> {

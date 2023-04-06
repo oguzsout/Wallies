@@ -20,8 +20,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivInternetDialog"
-            android:layout_width="88dp"
-            android:layout_height="88dp"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
             app:srcCompat="@drawable/no_internet" />
@@ -35,7 +35,7 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
             android:gravity="center"
-            android:text="Check your internet connection!"
+            android:text="İnternet bağlantını kontrol etmelisin!"
             android:textAlignment="center"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="24dp"
-            android:text="Close"
+            android:text="Tekrar Dene"
             android:textAllCaps="false"
             android:textSize="16sp" />
 
