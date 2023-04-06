@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/graph_wallies"
-    app:startDestination="@id/mainFragment"
-    xmlns:tools="http://schemas.android.com/tools">
+    app:startDestination="@id/mainFragment">
 
     <fragment
         android:id="@+id/mainFragment"
@@ -13,21 +13,72 @@
 
         <action
             android:id="@+id/toPopular"
-            app:destination="@id/popularFragment"
-            app:popUpToSaveState="true"/>
+            app:destination="@id/popularFragment"/>
+
         <action
             android:id="@+id/toLatest"
-            app:destination="@id/latestFragment"
-            app:popUpToSaveState="true"/>
+            app:destination="@id/latestFragment"/>
+
+        <action
+            android:id="@+id/toDetail"
+            app:destination="@id/detailFragment" />
+
     </fragment>
+
     <fragment
         android:id="@+id/popularFragment"
         android:name="com.oguzdogdu.wallies.presentation.popular.PopularFragment"
         android:label="fragment_popular"
-        tools:layout="@layout/fragment_popular" />
+        tools:layout="@layout/fragment_popular">
+
+        <action
+            android:id="@+id/toDetail"
+            app:destination="@id/detailFragment" />
+
+    </fragment>
+
     <fragment
         android:id="@+id/latestFragment"
         android:name="com.oguzdogdu.wallies.presentation.latest.LatestFragment"
         android:label="LatestFragment"
-        tools:layout="@layout/fragment_latest"/>
+        tools:layout="@layout/fragment_latest">
+
+        <action
+            android:id="@+id/toDetail"
+            app:destination="@id/detailFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.oguzdogdu.wallies.presentation.detail.DetailFragment"
+        android:label="DetailFragment"
+        tools:layout="@layout/fragment_detail">
+
+        <action
+            android:id="@+id/toPopular"
+            app:destination="@id/popularFragment" />
+
+        <action
+            android:id="@+id/toLatest"
+            app:destination="@id/latestFragment" />
+
+        <argument
+            android:name="id"
+            app:argType="string"
+            app:nullable="true" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.oguzdogdu.wallies.presentation.splash.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+
+        <action
+            android:id="@+id/toMain"
+            app:destination="@id/mainFragment" />
+    </fragment>
+
 </navigation>

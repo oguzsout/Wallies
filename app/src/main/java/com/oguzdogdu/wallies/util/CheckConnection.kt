@@ -7,9 +7,10 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 
 @SuppressLint("StaticFieldLeak")
-object CheckConnection : LiveData<Boolean>() {
+object CheckConnection : MutableLiveData<Boolean>() {
 
     private var broadcastReceiver: BroadcastReceiver? = null
     private var context: Context? = null

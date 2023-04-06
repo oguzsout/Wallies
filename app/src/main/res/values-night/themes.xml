@@ -38,14 +38,23 @@
         <item name="tabTextAppearance">@style/Tab</item>
         <item name="tabTextColor">@color/orange</item>
     </style>
+
     <style name="ActionBarTextAppearance" parent="@android:style/TextAppearance.Medium">
         <item name="android:textSize">32sp</item>
         <item name="android:textColor">@color/orange</item>
         <item name="android:fontFamily">@font/cabalw5j3</item>
     </style>
+
     <style name="MainText" parent="@android:style/TextAppearance">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:fontFamily">@font/googlesansregular</item>
     </style>
+
+    <style name="DetailText" parent="@android:style/TextAppearance">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/googlesansmedium</item>
+    </style>
+
 </resources>

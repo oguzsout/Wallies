@@ -1,11 +1,8 @@
 package com.oguzdogdu.wallies.util
 
-import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.view.View
-import android.view.animation.DecelerateInterpolator
-import android.widget.ProgressBar
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager

@@ -20,6 +20,23 @@
         <item name="android:background">@color/light_gray</item>
     </style>
 
+    <style name="AppBarDetail" parent="Widget.Design.AppBarLayout">
+        <item name="android:background">@color/transparent</item>
+    </style>
+
+    <style name="BaseButtonStyle" parent="Widget.AppCompat.ImageButton">
+        <item name="cornerRadius">24dp</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:layout_height">@dimen/button_height</item>
+        <item name="android:textSize">@dimen/font_medium</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:clickable">true</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingStart">@dimen/spacing_medium</item>
+        <item name="android:paddingEnd">@dimen/spacing_medium</item>
+    </style>
+
     <style name="Tab.Background" parent="Widget.MaterialComponents.TabLayout">
         <item name="android:background">@color/light_gray</item>
         <item name="tabIndicator">@drawable/tab_indicator</item>
@@ -42,6 +59,12 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:fontFamily">@font/googlesansregular</item>
+    </style>
+
+    <style name="DetailText" parent="@android:style/TextAppearance">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/googlesansmedium</item>
     </style>
 
     <style name="AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
