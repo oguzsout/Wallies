@@ -8,16 +8,14 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
 @SuppressLint("StaticFieldLeak")
-object CheckConnection : MutableLiveData<Boolean>() {
+class CheckConnection @Inject constructor(private val context: Context) :
+    MutableLiveData<Boolean>() {
 
     private var broadcastReceiver: BroadcastReceiver? = null
-    private var context: Context? = null
-
-    fun init(context: Context) {
-        this.context = context
-    }
 
     private fun prepareNetwork(context: Context) {
         val intentFilter = IntentFilter()
@@ -38,11 +36,11 @@ object CheckConnection : MutableLiveData<Boolean>() {
 
 
     override fun onActive() {
-        prepareNetwork(context!!)
+        prepareNetwork(context)
     }
 
     override fun onInactive() {
-        context?.unregisterReceiver(broadcastReceiver)
+        context.unregisterReceiver(broadcastReceiver)
         broadcastReceiver = null
     }
 }

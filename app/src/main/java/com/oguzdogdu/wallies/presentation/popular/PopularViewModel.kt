@@ -22,7 +22,7 @@ class PopularViewModel @Inject constructor(private val useCase: GetPopularUseCas
         getPopularImages()
     }
 
-    private fun getPopularImages() {
+     fun getPopularImages() {
         useCase(PAGE).onEach { result ->
             when (result) {
                 is Resource.Loading -> _getPopular.value = PopularState(isLoading = true)

@@ -4,9 +4,11 @@ import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.oguzdogdu.wallies.R
 
 fun RecyclerView.addItemDivider(context: Context) {
@@ -20,7 +22,6 @@ fun RecyclerView.addItemDivider(context: Context) {
                     R.color.background
                 )
             )
-
             setSize(
                 resources.getDimensionPixelSize(R.dimen.spacing_4xs),
                 resources.getDimensionPixelSize(R.dimen.spacing_4xs)
@@ -28,6 +29,20 @@ fun RecyclerView.addItemDivider(context: Context) {
         }
     )
     this.addItemDecoration(itemDivider)
+}
+
+fun View.showSnackMessage(
+    message: String?,
+    length: Int = Snackbar.LENGTH_SHORT
+) {
+    message?.let {
+        try {
+            val snack = Snackbar.make(this, it, length)
+            snack.show()
+        } catch (ex: Exception) {
+            print(ex)
+        }
+    }
 }
 
 fun View.show() {

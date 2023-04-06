@@ -22,21 +22,20 @@ class LatestViewModel @Inject constructor(private val useCase: GetLatestUseCase)
         getLatestImages()
     }
 
-    private fun getLatestImages() {
-        useCase(Constants.PAGE).onEach { result ->
-            when (result) {
-                is Resource.Loading -> _getLatest.value = LatestState(isLoading = true)
+     fun getLatestImages() {
+         useCase(Constants.PAGE).onEach { result ->
+             when (result) {
+                 is Resource.Loading -> _getLatest.value = LatestState(isLoading = true)
 
-                is Resource.Success -> {
-                    result.data.let {
-                        _getLatest.value = LatestState(latest = it)
-                    }
-                }
-                is Resource.Error -> {
-                    _getLatest.value = LatestState(error = result.errorMessage ?: "")
-                }
-
-            }
-        }.launchIn(viewModelScope)
+                 is Resource.Success -> {
+                     result.data.let {
+                         _getLatest.value = LatestState(latest = it)
+                     }
+                 }
+                 is Resource.Error -> {
+                     _getLatest.value = LatestState(error = result.errorMessage ?: "")
+                 }
+             }
+         }.launchIn(viewModelScope)
     }
 }

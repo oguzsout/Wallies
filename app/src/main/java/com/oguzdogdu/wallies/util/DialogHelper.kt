@@ -23,6 +23,7 @@ object DialogHelper {
         binding.btnOk.setOnClickListener {
             alertDialog.dismiss()
             handler()
+            alertDialog.hide()
         }
     }
 }
