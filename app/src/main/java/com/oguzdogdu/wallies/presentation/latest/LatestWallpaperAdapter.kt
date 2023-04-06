@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.request.CachePolicy
-import com.oguzdogdu.domain.LatestImage
+import com.oguzdogdu.domain.model.latest.LatestImage
 import com.oguzdogdu.wallies.databinding.ItemMainImageBinding
 
 class LatestWallpaperAdapter :

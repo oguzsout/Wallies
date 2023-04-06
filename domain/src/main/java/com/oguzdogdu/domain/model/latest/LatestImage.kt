@@ -1,4 +1,4 @@
-package com.oguzdogdu.domain
+package com.oguzdogdu.domain.model.latest
 
 data class LatestImage(
     val id: String?,

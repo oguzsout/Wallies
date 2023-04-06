@@ -1,7 +1,6 @@
 package com.oguzdogdu.wallies.presentation.latest
 
-import com.oguzdogdu.domain.LatestImage
-import com.oguzdogdu.domain.PopularImage
+import com.oguzdogdu.domain.model.latest.LatestImage
 
 data class LatestState(
     val isLoading: Boolean = false,

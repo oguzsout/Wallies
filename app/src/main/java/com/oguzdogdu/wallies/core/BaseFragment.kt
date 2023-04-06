@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
+import com.oguzdogdu.wallies.util.navigateSafe
 
 abstract class BaseFragment<VB : ViewBinding>(
     private val bindingInflater: (inflater: LayoutInflater) -> VB
@@ -32,7 +32,6 @@ abstract class BaseFragment<VB : ViewBinding>(
         initViews()
         initListeners()
     }
-
     override fun observeData() {
     }
 
@@ -43,7 +42,7 @@ abstract class BaseFragment<VB : ViewBinding>(
     }
 
     fun navigate(@IdRes id: Int, extras: Bundle?) {
-        findNavController().navigate(id, extras)
+        findNavController().navigateSafe(id,extras)
     }
 
     fun navigateBack(@IdRes destination: Int? = null) {

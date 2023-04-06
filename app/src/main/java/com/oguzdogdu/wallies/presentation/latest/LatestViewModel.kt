@@ -3,7 +3,7 @@ package com.oguzdogdu.wallies.presentation.latest
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oguzdogdu.data.common.Constants
-import com.oguzdogdu.domain.GetLatestUseCase
+import com.oguzdogdu.domain.usecase.latest.GetLatestUseCase
 import com.oguzdogdu.domain.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
