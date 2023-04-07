@@ -7,24 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/containerWhenEmptyScreen"
-        android:visibility="gone"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:srcCompat="@tools:sample/avatars" />
-    </FrameLayout>
-
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageViewDetail"
         android:layout_width="match_parent"
@@ -61,9 +43,9 @@
                 android:id="@+id/buttonSetWallpaper"
                 style="@style/MainText"
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:backgroundTint="@color/transparent"
                 android:contentDescription="TODO"
@@ -76,6 +58,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/divider2"
                 tools:ignore="SpeakableTextPresentCheck" />
+
             <ImageView
                 android:id="@+id/imageViewPhotoOwner"
                 android:layout_width="40dp"
@@ -100,12 +83,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
                 android:autoLink="web"
                 android:fontFamily="@font/googlesansregular"
                 android:maxLines="1"
                 android:singleLine="true"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textViewPhotoOwnerName"
                 app:layout_constraintTop_toBottomOf="@+id/textViewPhotoOwnerName" />
 
@@ -127,10 +108,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
                 android:orientation="horizontal"
-                android:padding="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/divider2">
@@ -138,18 +118,20 @@
                 <ImageButton
                     android:id="@+id/buttonShare"
                     android:layout_width="wrap_content"
-                    android:layout_height="32dp"
+                    android:layout_height="wrap_content"
                     android:backgroundTint="@color/transparent"
                     android:contentDescription="TODO"
+                    android:paddingHorizontal="16dp"
                     android:src="@drawable/share"
                     tools:ignore="SpeakableTextPresentCheck" />
 
                 <ImageButton
                     android:id="@+id/buttonDownload"
                     android:layout_width="wrap_content"
-                    android:layout_height="32dp"
+                    android:layout_height="wrap_content"
                     android:backgroundTint="@color/transparent"
                     android:contentDescription="TODO"
+                    android:paddingHorizontal="16dp"
                     android:src="@drawable/download"
                     tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
             </LinearLayout>

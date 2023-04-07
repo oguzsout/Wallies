@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,7 +32,7 @@ fun RecyclerView.addItemDivider(context: Context) {
 
 fun View.showSnackMessage(
     message: String?,
-    length: Int = Snackbar.LENGTH_SHORT
+    length: Int = Snackbar.LENGTH_SHORT,
 ) {
     message?.let {
         try {

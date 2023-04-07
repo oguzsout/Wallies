@@ -1,23 +1,14 @@
 package com.oguzdogdu.wallies.presentation.popular
 
 import android.os.Bundle
-import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentPopularBinding
 import com.oguzdogdu.wallies.util.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -70,15 +61,7 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
                         binding.progressBar.show()
                     }
                     result.error.isNotEmpty() -> {
-                        connection.observe(this@PopularFragment) { isConnected ->
-                            if (isConnected) {
-
-                            } else {
-                                DialogHelper.showInternetCheckDialog(requireContext()){
-                                    viewModel.getPopularImages()
-                                }
-                            }
-                        }
+                        checkConnection()
                     }
                     result.popular.isNotEmpty() -> {
                         binding.progressBar.hide()
@@ -86,6 +69,18 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
                     }
                 }
             }.observeInLifecycle(this@PopularFragment)
+        }
+    }
+
+    private fun checkConnection(){
+        connection.observe(this@PopularFragment) { isConnected ->
+            if (isConnected) {
+
+            } else {
+                DialogHelper.showInternetCheckDialog(requireContext()){
+                    viewModel.getPopularImages()
+                }
+            }
         }
     }
 }

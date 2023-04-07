@@ -15,7 +15,8 @@ fun NavController.navigateSafe(@IdRes resId: Int, args: Bundle? = null) {
         if (destinationId != 0) {
             currentNode?.findNode(destinationId)?.let { navigate(resId, args) }
         }
-    }}
+    }
+}
 
 fun Int?.orEmpty(default: Int = 0): Int {
     return this ?: default

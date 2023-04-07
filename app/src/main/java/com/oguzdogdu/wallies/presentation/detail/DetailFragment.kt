@@ -1,32 +1,23 @@
 package com.oguzdogdu.wallies.presentation.detail
 
-import android.graphics.Bitmap
-import android.widget.Toast
-import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import coil.ImageLoader
 import coil.load
 import coil.request.CachePolicy
-import coil.request.ErrorResult
-import coil.request.ImageRequest
-import coil.size.Scale
-import coil.size.Size
 import coil.transform.CircleCropTransformation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.google.android.material.snackbar.Snackbar
 import com.oguzdogdu.domain.model.singlephoto.Photo
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentDetailBinding
-import com.oguzdogdu.wallies.util.*
+import com.oguzdogdu.wallies.util.CheckConnection
+import com.oguzdogdu.wallies.util.DialogHelper
+import com.oguzdogdu.wallies.util.observeInLifecycle
+import com.oguzdogdu.wallies.util.toPrettyString
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
@@ -40,6 +31,13 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
     private val args: DetailFragmentArgs by navArgs()
 
+    override fun initListeners() {
+        super.initListeners()
+        binding.buttonBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
+
     override fun observeData() {
         super.observeData()
         args.id?.let { viewModel.getSinglePhoto(it) }
@@ -52,9 +50,11 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
                     result.error.isNotEmpty() -> {
                         connection.observe(this@DetailFragment) { isConnected ->
                             if (isConnected) {
-                                args.id?.let { viewModel.getSinglePhoto(it) }
+
                             } else {
-                                requireView().showSnackMessage("Check Connectivity")
+                                DialogHelper.showInternetCheckDialog(requireContext()){
+                                    args.id?.let { viewModel.getSinglePhoto(it) }
+                                }
                             }
                         }
                     }
