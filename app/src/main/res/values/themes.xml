@@ -44,7 +44,7 @@
     </style>
 
     <style name="BaseButtonStyle" parent="Widget.AppCompat.ImageButton">
-        <item name="cornerRadius">24dp</item>
+        <item name="cornerRadius">@dimen/dp_24</item>
         <item name="android:background">@color/transparent</item>
         <item name="android:layout_height">@dimen/button_height</item>
         <item name="android:textSize">@dimen/sp_14</item>
@@ -75,7 +75,7 @@
     </style>
 
     <style name="MainText" parent="@android:style/TextAppearance">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">@dimen/sp_16</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:fontFamily">@font/googlesansregular</item>
     </style>

@@ -8,14 +8,14 @@
 
     <ImageView
         android:id="@+id/animationView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="@dimen/dp_200"
+        android:layout_height="@dimen/dp_200"
         android:src="@drawable/logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="TODO">
+        android:contentDescription="@string/app_logo">
 
     </ImageView>
 </androidx.constraintlayout.widget.ConstraintLayout>

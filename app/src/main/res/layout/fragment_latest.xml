@@ -16,7 +16,7 @@
     <ProgressBar
         android:id="@+id/progressBar"
         android:visibility="gone"
-        app:circularflow_defaultRadius="@dimen/corner_medium"
+        app:circularflow_defaultRadius="@dimen/dp_12"
         android:indeterminateTint="@color/purple_03"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
