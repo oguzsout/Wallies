@@ -12,7 +12,8 @@
     <color name="background_app_icon">#F3F3F3</color>
 
 
-
+    <color name="text_gray">#70798C</color>
+    <color name="light_mid_gray">#E3E4E9</color>
     <color name="splash_background">#3490dc</color>
     <color name="background_dark">#24292E</color>
     <color name="light_red">#61FF3C2B</color>

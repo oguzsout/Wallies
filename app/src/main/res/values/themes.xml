@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.Wallies" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
@@ -16,6 +16,25 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="EditTextSearch">
+        <item name="android:background">@drawable/bg_default_edit_text_search</item>
+        <item name="android:textColor">@color/text_gray</item>
+        <item name="android:textColorHint">@color/text_gray</item>
+        <item name="android:drawableLeft">@drawable/search</item>
+        <item name="android:drawablePadding">@dimen/dp_12</item>
+        <item name="drawableTint">@color/text_gray</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="CallOutMedium" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">@font/googlesansregular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/text_gray</item>
+        <item name="android:lineSpacingExtra">2dp</item>
+        <item name="android:letterSpacing">@dimen/letter_spacing_call_out</item>
+        <item name="android:fontFeatureSettings">pnum</item>
+    </style>
+
     <style name="AppBar" parent="Widget.Design.AppBarLayout">
         <item name="android:background">@color/light_gray</item>
     </style>
@@ -28,13 +47,13 @@
         <item name="cornerRadius">24dp</item>
         <item name="android:background">@color/transparent</item>
         <item name="android:layout_height">@dimen/button_height</item>
-        <item name="android:textSize">@dimen/font_medium</item>
+        <item name="android:textSize">@dimen/sp_14</item>
         <item name="textAllCaps">false</item>
         <item name="android:clickable">true</item>
         <item name="android:includeFontPadding">false</item>
         <item name="android:gravity">center</item>
-        <item name="android:paddingStart">@dimen/spacing_medium</item>
-        <item name="android:paddingEnd">@dimen/spacing_medium</item>
+        <item name="android:paddingStart">@dimen/dp_16</item>
+        <item name="android:paddingEnd">@dimen/dp_16</item>
     </style>
 
     <style name="Tab.Background" parent="Widget.MaterialComponents.TabLayout">
@@ -51,8 +70,8 @@
 
     <style name="ActionBarTextAppearance" parent="@android:style/TextAppearance.Medium">
         <item name="android:textSize">32sp</item>
-        <item name="android:textColor">@color/dim_gray</item>
-        <item name="android:fontFamily">@font/cabalw5j3</item>
+        <item name="android:textColor">@color/purple_dark</item>
+        <item name="android:fontFamily">@font/lexenddecaregular</item>
     </style>
 
     <style name="MainText" parent="@android:style/TextAppearance">
@@ -69,19 +88,19 @@
 
     <style name="AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="android:background">@color/background</item>
-        <item name="android:bottomLeftRadius">@dimen/corner_xl</item>
-        <item name="android:bottomRightRadius">@dimen/corner_xl</item>
-        <item name="android:topLeftRadius">@dimen/corner_xl</item>
-        <item name="android:topRightRadius">@dimen/corner_xl</item>
+        <item name="android:bottomLeftRadius">@dimen/dp_20</item>
+        <item name="android:bottomRightRadius">@dimen/dp_20</item>
+        <item name="android:topLeftRadius">@dimen/dp_20</item>
+        <item name="android:topRightRadius">@dimen/dp_20</item>
     </style>
 
     <style name="MainImageStyle" parent="">
         <item name="cornerFamilyTopLeft">rounded</item>
         <item name="cornerFamilyTopRight">rounded</item>
-        <item name="cornerSizeTopLeft">@dimen/corner_small</item>
-        <item name="cornerSizeTopRight">@dimen/corner_small</item>
-        <item name="cornerSizeBottomLeft">@dimen/corner_small</item>
-        <item name="cornerSizeBottomRight">@dimen/corner_small</item>
+        <item name="cornerSizeTopLeft">@dimen/dp_8</item>
+        <item name="cornerSizeTopRight">@dimen/dp_8</item>
+        <item name="cornerSizeBottomLeft">@dimen/dp_8</item>
+        <item name="cornerSizeBottomRight">@dimen/dp_8</item>
     </style>
 
     <style name="Tab">

@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.Wallies" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
@@ -21,10 +21,10 @@
 
     <style name="AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="android:background">@color/background_dark</item>
-        <item name="android:bottomLeftRadius">@dimen/corner_xl</item>
-        <item name="android:bottomRightRadius">@dimen/corner_xl</item>
-        <item name="android:topLeftRadius">@dimen/corner_xl</item>
-        <item name="android:topRightRadius">@dimen/corner_xl</item>
+        <item name="android:bottomLeftRadius">@dimen/dp_20</item>
+        <item name="android:bottomRightRadius">@dimen/dp_20</item>
+        <item name="android:topLeftRadius">@dimen/dp_20</item>
+        <item name="android:topRightRadius">@dimen/dp_20</item>
     </style>
 
     <style name="Tab.Background" parent="Widget.MaterialComponents.TabLayout">
@@ -41,8 +41,8 @@
 
     <style name="ActionBarTextAppearance" parent="@android:style/TextAppearance.Medium">
         <item name="android:textSize">32sp</item>
-        <item name="android:textColor">@color/orange</item>
-        <item name="android:fontFamily">@font/cabalw5j3</item>
+        <item name="android:textColor">@color/light_gray</item>
+        <item name="android:fontFamily">@font/lexenddecaregular</item>
     </style>
 
     <style name="MainText" parent="@android:style/TextAppearance">
