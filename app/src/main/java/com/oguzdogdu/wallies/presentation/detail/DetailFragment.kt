@@ -13,10 +13,7 @@ import com.oguzdogdu.domain.model.singlephoto.Photo
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentDetailBinding
-import com.oguzdogdu.wallies.util.CheckConnection
-import com.oguzdogdu.wallies.util.DialogHelper
-import com.oguzdogdu.wallies.util.observeInLifecycle
-import com.oguzdogdu.wallies.util.toPrettyString
+import com.oguzdogdu.wallies.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -77,6 +74,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
                 placeholder(R.drawable.avatar)
                 allowConversionToBitmap(true)
             }
+            textViewImageDesc.text = photo?.desc ?: ""
             textViewPhotoOwnerName.text = photo?.username ?: ""
             textViewPhotoOwnerPortfolio.text = photo?.portfolio ?: ""
             textViewViewsCount.text = photo?.views?.toPrettyString() ?: ""

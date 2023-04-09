@@ -22,8 +22,8 @@ fun RecyclerView.addItemDivider(context: Context) {
                 )
             )
             setSize(
-                resources.getDimensionPixelSize(R.dimen.spacing_4xs),
-                resources.getDimensionPixelSize(R.dimen.spacing_4xs)
+                resources.getDimensionPixelSize(R.dimen.dp_1),
+                resources.getDimensionPixelSize(R.dimen.dp_1)
             )
         }
     )
