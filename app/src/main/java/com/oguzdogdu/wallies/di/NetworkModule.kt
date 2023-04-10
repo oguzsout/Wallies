@@ -1,5 +1,6 @@
 package com.oguzdogdu.wallies.di
 
+import com.oguzdogdu.data.BuildConfig
 import com.oguzdogdu.data.common.Constants.UNSPLASH_BASE_URL
 import com.oguzdogdu.data.source.WallpaperService
 import dagger.Module
@@ -32,6 +33,16 @@ object NetworkModule {
     ): OkHttpClient {
         val builder = OkHttpClient.Builder().apply {
             addInterceptor(loggingInterceptor)
+            addInterceptor {
+                val originalRequest = it.request()
+                val newHttpUrl = originalRequest.url.newBuilder()
+                    .addQueryParameter("client_id", com.oguzdogdu.wallies.BuildConfig.API_KEY)
+                    .build()
+                val newRequest = originalRequest.newBuilder()
+                    .url(newHttpUrl)
+                    .build()
+                it.proceed(newRequest)
+            }
             connectTimeout(30, TimeUnit.SECONDS)
             readTimeout(30, TimeUnit.SECONDS)
             writeTimeout(30, TimeUnit.SECONDS)
