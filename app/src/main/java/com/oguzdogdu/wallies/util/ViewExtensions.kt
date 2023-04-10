@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.oguzdogdu.wallies.R
 
+
 fun RecyclerView.addItemDivider(context: Context) {
     val itemDivider = DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
     itemDivider.setDrawable(
