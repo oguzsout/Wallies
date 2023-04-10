@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mainFragment"
+        android:title="Wallpapers"
+        android:icon="@drawable/wallpapers"
+        android:enabled="true"
+        app:actionViewClass="com.google.android.material.bottomnavigation.BottomNavigationView" />
+
+    <item
+        android:id="@+id/collectionsFragment"
+        android:title="Collections"
+        android:icon="@drawable/collections"
+        android:enabled="true"
+        app:actionViewClass="com.google.android.material.bottomnavigation.BottomNavigationView"/>
+
+    <item
+        android:id="@+id/favoritesFragment"
+        android:title="Favorites"
+        android:icon="@drawable/favorite"
+        android:enabled="true"
+        app:actionViewClass="com.google.android.material.bottomnavigation.BottomNavigationView"/>
+</menu>
