@@ -31,13 +31,10 @@ fun Result.toDomainSearch() = SearchPhoto(
     url = urls?.regular
 )
 
-fun Flow<PagingData<Result>>.toSearchDomain(): Flow<PagingData<SearchPhoto>> {
-    return map { pagingData ->
-        pagingData.map { search ->
-            SearchPhoto(
-               id = search.id,
-                url = search.urls?.regular
-            )
+fun Flow<PagingData<Result>>.toDomain() : Flow<PagingData<SearchPhoto>> {
+    return map { result ->
+        result.map {
+            SearchPhoto(id = it.id, url = it.urls?.regular)
         }
     }
 }

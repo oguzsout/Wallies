@@ -5,19 +5,21 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.oguzdogdu.data.common.Constants
+import com.oguzdogdu.data.model.collection.toCollectionDomain
 import com.oguzdogdu.data.model.maindto.toDomainModelLatest
 import com.oguzdogdu.data.model.maindto.toDomainModelPhoto
 import com.oguzdogdu.data.model.maindto.toDomainModelPopular
-import com.oguzdogdu.data.model.searchdto.toDomainSearch
+import com.oguzdogdu.data.model.searchdto.toDomain
+import com.oguzdogdu.data.source.CollectionsPagingSource
 import com.oguzdogdu.data.source.SearchPagingSource
-import com.oguzdogdu.data.source.WallpaperService
+import com.oguzdogdu.data.source.remote.WallpaperService
+import com.oguzdogdu.domain.model.collection.Collection
 import com.oguzdogdu.domain.model.latest.LatestImage
 import com.oguzdogdu.domain.model.popular.PopularImage
 import com.oguzdogdu.domain.model.search.SearchPhoto
 import com.oguzdogdu.domain.model.singlephoto.Photo
 import com.oguzdogdu.domain.repository.WallpaperRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class WallpaperRepositoryImpl @Inject constructor(private val service: WallpaperService) :
@@ -45,10 +47,6 @@ class WallpaperRepositoryImpl @Inject constructor(private val service: Wallpaper
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = { SearchPagingSource(service = service, query = query ?: "") }
-        ).flow.map { result ->
-            result.map { search ->
-                search.toDomainSearch()
-            }
-        }
+        ).flow.toDomain()
     }
 }

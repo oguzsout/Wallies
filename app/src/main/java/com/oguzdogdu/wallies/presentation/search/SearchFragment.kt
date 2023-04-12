@@ -41,6 +41,16 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
         }
     }
 
+    override fun observeData() {
+        super.observeData()
+        lifecycleScope.launchWhenCreated {
+            viewModel.getSearchPhotos.collectLatest { result ->
+                searchWallpaperAdapter.submitData(result.search)
+            }
+        }
+    }
+
+
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun initListeners() {
         super.initListeners()
@@ -75,15 +85,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
             }
             buttonBack.setOnClickListener {
                 navigateBack()
-            }
-        }
-    }
-
-    override fun observeData() {
-        super.observeData()
-        lifecycleScope.launchWhenStarted {
-            viewModel.getSearchPhotos.collectLatest { result ->
-               searchWallpaperAdapter.submitData(result.search)
             }
         }
     }

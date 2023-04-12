@@ -2,6 +2,9 @@ package com.oguzdogdu.data.source
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.oguzdogdu.data.model.searchdto.SearchResponseItem
+import com.oguzdogdu.data.model.searchdto.toDomainSearch
+import com.oguzdogdu.data.source.remote.WallpaperService
 
 class SearchPagingSource(
     private val service: WallpaperService,
@@ -25,7 +28,7 @@ class SearchPagingSource(
             LoadResult.Page(
                 data = response.results,
                 prevKey = if (page == 1) null else page - 1,
-                nextKey = page + 1
+                nextKey = if (page < response.total_pages) page + 1 else null
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

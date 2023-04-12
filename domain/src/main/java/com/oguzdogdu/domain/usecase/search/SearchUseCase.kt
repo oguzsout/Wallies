@@ -1,5 +1,6 @@
 package com.oguzdogdu.domain.usecase.search
 
+import androidx.lifecycle.asLiveData
 import androidx.paging.PagingData
 import androidx.paging.filter
 import androidx.paging.flatMap
@@ -13,7 +14,5 @@ import java.io.IOException
 import javax.inject.Inject
 
 class SearchUseCase @Inject constructor(private val repository: WallpaperRepository) {
-    suspend operator fun invoke(query:String) : Flow<PagingData<SearchPhoto>> {
-      return repository.searchPhoto(query).distinctUntilChanged()
-    }
+    suspend operator fun invoke(query:String) : Flow<PagingData<SearchPhoto>> = repository.searchPhoto(query)
 }
