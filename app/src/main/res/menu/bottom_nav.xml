@@ -22,4 +22,11 @@
         android:icon="@drawable/favorite"
         android:enabled="true"
         app:actionViewClass="com.google.android.material.bottomnavigation.BottomNavigationView"/>
+
+    <item
+        android:id="@+id/settingsFragment"
+        android:title="Settings"
+        android:icon="@drawable/settings"
+        android:enabled="true"
+        app:actionViewClass="com.google.android.material.bottomnavigation.BottomNavigationView"/>
 </menu>

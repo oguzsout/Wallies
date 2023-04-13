@@ -22,6 +22,15 @@
         <action
             android:id="@+id/toDetail"
             app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/toSearch"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/toSetting"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_collectionsFragment"
+            app:destination="@id/collectionsFragment" />
 
     </fragment>
 
@@ -71,14 +80,27 @@
     </fragment>
 
     <fragment
-        android:id="@+id/splashFragment"
-        android:name="com.oguzdogdu.wallies.presentation.splash.SplashFragment"
-        android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
+        android:id="@+id/searchFragment"
+        android:name="com.oguzdogdu.wallies.presentation.search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
 
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.oguzdogdu.wallies.presentation.settings.SettingsFragment"
+        android:label="SettingsFragment"/>
+
+    <fragment
+        android:id="@+id/collectionsFragment"
+        android:name="com.oguzdogdu.wallies.presentation.collections.CollectionsFragment"
+        android:label="CollectionsFragment"
+        tools:layout="@layout/fragment_collections">
         <action
             android:id="@+id/toMain"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_collectionsFragment_to_popularFragment"
+            app:destination="@id/popularFragment" />
     </fragment>
 
 </navigation>

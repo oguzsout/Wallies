@@ -12,4 +12,5 @@ interface WallpaperRepository {
     suspend fun getImagesByLatest(page: Int?): List<LatestImage>
     suspend fun getPhoto(id:String) : Photo
     suspend fun searchPhoto(query:String?) : Flow<PagingData<SearchPhoto>>
+    suspend fun getCollectionsList() : Flow<PagingData<com.oguzdogdu.domain.model.collection.WallpaperCollections>>
 }

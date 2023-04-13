@@ -1,7 +1,7 @@
-package com.oguzdogdu.data.source
+package com.oguzdogdu.data.source.remote
 
-import com.oguzdogdu.data.BuildConfig
-import com.oguzdogdu.data.common.Constants
+import com.oguzdogdu.data.model.collection.CollectionResponse
+import com.oguzdogdu.data.model.collection.CollectionResponseItem
 import com.oguzdogdu.data.model.maindto.UnsplashResponseItem
 import com.oguzdogdu.data.model.searchdto.SearchResponseItem
 import retrofit2.http.GET
@@ -27,4 +27,9 @@ interface WallpaperService {
         @Query("page") page: Int?,
         @Query("query") query: String,
     ): SearchResponseItem
+
+    @GET("collections")
+    suspend fun getCollections(
+        @Query("page") page: Int?,
+    ): List<CollectionResponse>
 }
