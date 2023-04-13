@@ -2,6 +2,7 @@ package com.oguzdogdu.wallies.presentation.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.oguzdogdu.domain.usecase.search.SearchUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -21,7 +22,7 @@ class SearchPhotoViewModel @Inject constructor(
 
     fun getSearchPhotos(query: String) {
         viewModelScope.launch {
-            useCase.invoke(query).collectLatest {
+            useCase.invoke(query).cachedIn(viewModelScope).collectLatest {
                 _getSearchPhotos.value = SearchPhotoState(search = it)
             }
         }

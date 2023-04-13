@@ -1,16 +1,9 @@
 package com.oguzdogdu.domain.usecase.search
 
-import androidx.lifecycle.asLiveData
 import androidx.paging.PagingData
-import androidx.paging.filter
-import androidx.paging.flatMap
-import androidx.paging.map
-import com.oguzdogdu.domain.Resource
 import com.oguzdogdu.domain.model.search.SearchPhoto
 import com.oguzdogdu.domain.repository.WallpaperRepository
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.*
-import java.io.IOException
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class SearchUseCase @Inject constructor(private val repository: WallpaperRepository) {

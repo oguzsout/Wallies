@@ -1,8 +1,10 @@
 package com.oguzdogdu.wallies.di
 
-import com.oguzdogdu.data.BuildConfig
 import com.oguzdogdu.data.common.Constants.UNSPLASH_BASE_URL
-import com.oguzdogdu.data.source.WallpaperService
+import com.oguzdogdu.data.source.remote.WallpaperService
+import com.oguzdogdu.wallies.BuildConfig
+import com.oguzdogdu.wallies.BuildConfig.API_KEY
+import com.oguzdogdu.wallies.BuildConfig.BUILD_TYPE
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,7 +38,7 @@ object NetworkModule {
             addInterceptor {
                 val originalRequest = it.request()
                 val newHttpUrl = originalRequest.url.newBuilder()
-                    .addQueryParameter("client_id", com.oguzdogdu.wallies.BuildConfig.API_KEY)
+                    .addQueryParameter("client_id", API_KEY)
                     .build()
                 val newRequest = originalRequest.newBuilder()
                     .url(newHttpUrl)

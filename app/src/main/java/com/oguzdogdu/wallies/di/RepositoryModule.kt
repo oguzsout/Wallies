@@ -1,7 +1,7 @@
 package com.oguzdogdu.wallies.di
 
 import com.oguzdogdu.data.repository.WallpaperRepositoryImpl
-import com.oguzdogdu.data.source.WallpaperService
+import com.oguzdogdu.data.source.remote.WallpaperService
 import com.oguzdogdu.domain.repository.WallpaperRepository
 import dagger.Module
 import dagger.Provides
