@@ -11,4 +11,6 @@
     <string name="download_text">Download</string>
     <string name="like_text">Like</string>
     <string name="walpaper_list_photo">Wallpaper List Photo</string>
+    <string name="edittext_clear">Temizle</string>
+    <string name="collections_screen_title_text">Collections</string>
 </resources>

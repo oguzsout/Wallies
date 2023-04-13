@@ -16,6 +16,10 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="ShapeAppearanceOverlay.App.CornerSize10Percent" parent="">
+        <item name="cornerSize">10%</item>
+    </style>
+
     <style name="Widget.App.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.BottomNavigationView</item>
     </style>
@@ -93,6 +97,12 @@
     <style name="DetailText" parent="@android:style/TextAppearance">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/googlesansmedium</item>
+    </style>
+
+    <style name="CollectionText" parent="@android:style/TextAppearance">
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:textColor">@color/light_gray</item>
         <item name="android:fontFamily">@font/googlesansmedium</item>
     </style>
 

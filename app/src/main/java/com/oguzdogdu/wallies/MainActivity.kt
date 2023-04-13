@@ -9,8 +9,12 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
+import com.google.android.material.shape.CornerFamily
+import com.google.android.material.shape.MaterialShapeDrawable
 import com.oguzdogdu.wallies.databinding.ActivityMainBinding
 import com.oguzdogdu.wallies.presentation.main.MainViewModel
+import com.oguzdogdu.wallies.util.hide
+import com.oguzdogdu.wallies.util.show
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -25,6 +29,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setTheme()
+        setupNavigation()
+        navigationBarCorners()
     }
 
     private fun setTheme() {
@@ -55,14 +61,25 @@ class MainActivity : AppCompatActivity() {
             viewModel.showBottomNavigation.value = when (destination.id) {
                 R.id.mainFragment,
                 R.id.collectionsFragment,
-                R.id.favoritesFragment -> true
+                R.id.favoritesFragment,
+                R.id.settingsFragment -> true
                 else -> false
             }
             if (viewModel.showBottomNavigation.value == true){
-                binding.bottomNavigationView.visibility = View.VISIBLE
+                binding.bottomNavContainer.show()
             } else {
-                binding.bottomNavigationView.visibility = View.GONE
+                binding.bottomNavContainer.hide()
             }
         }
+    }
+
+    private fun navigationBarCorners(){
+        val radius = resources.getDimension(R.dimen.dp_8)
+        val bottomNavigationViewBackground = binding.bottomNavigationView.background as MaterialShapeDrawable
+        bottomNavigationViewBackground.shapeAppearanceModel =
+            bottomNavigationViewBackground.shapeAppearanceModel.toBuilder()
+                .setTopRightCorner(CornerFamily.ROUNDED, radius)
+                .setTopLeftCorner(CornerFamily.ROUNDED, radius)
+                .build()
     }
 }
