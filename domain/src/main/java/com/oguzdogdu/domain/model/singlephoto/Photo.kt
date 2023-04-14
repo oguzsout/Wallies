@@ -5,6 +5,7 @@ data class Photo(
     val username: String?,
     val portfolio: String?,
     val profileimage:String?,
+    val createdAt: String?,
     val desc:String?,
     val urls: String?,
     val views: Double?,

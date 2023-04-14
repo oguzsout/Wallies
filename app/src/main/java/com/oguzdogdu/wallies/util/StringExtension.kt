@@ -12,7 +12,7 @@ fun String.formatDate(
     var d: Date? = null
 
     val inputDateFormat = SimpleDateFormat(inputFormat, Locale.ENGLISH)
-    val outputDateFormat = SimpleDateFormat(outputFormat, Locale("tr"))
+    val outputDateFormat = SimpleDateFormat(outputFormat, Locale("en"))
 
     try {
         d = inputDateFormat.parse(this)

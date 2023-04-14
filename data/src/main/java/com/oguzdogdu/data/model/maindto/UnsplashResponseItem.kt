@@ -55,6 +55,7 @@ fun UnsplashResponseItem.toDomainModelPhoto() = Photo(
     username = user?.username,
     portfolio = user?.portfolioUrl,
     profileimage = user?.profileImage?.medium,
+    createdAt = createdAt,
     desc = altDescription,
     urls = urls?.full,
     views = views,

@@ -78,8 +78,9 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
             textViewPhotoOwnerName.text = photo?.username ?: ""
             textViewPhotoOwnerPortfolio.text = photo?.portfolio ?: ""
             textViewViewsCount.text = photo?.views?.toPrettyString() ?: ""
-            textViewDownloadsCount.text = photo?.downloads?.toString() ?: ""
-            textViewLikeCount.text = photo?.likes.toString() ?: ""
+            textViewDownloadsCount.text = photo?.downloads?.toPrettyString() ?: ""
+            textViewLikeCount.text = photo?.likes?.toPrettyString()
+            textViewCreateTimeValue.text = photo?.createdAt?.formatDate()
         }
     }
 }

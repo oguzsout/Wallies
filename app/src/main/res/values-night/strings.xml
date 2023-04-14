@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_logo">App Logo</string>
-    <string name="internet_error">İnternet bağlantında sorun olabilir. İnternet bağlantını kontrol edip tekrar deneyebilirsin.</string>
-    <string name="retry_button">Tekrar Dene</string>
-    <string name="set_wallpaper_text">Duvar Kağıdı Olarak Ayarla</string>
+    <string name="internet_error">There may be a problem with your internet connection. You can check your internet connection and try again.</string>
+    <string name="retry_button">Try Again</string>
+    <string name="set_wallpaper_text">Set as wallpaper</string>
     <string name="set_wallpaper_image_desc">Set Wallpaper</string>
     <string name="share_button_text">Share</string>
     <string name="download_button_text">Download</string>
@@ -11,6 +11,7 @@
     <string name="download_text">Download</string>
     <string name="like_text">Like</string>
     <string name="walpaper_list_photo">Wallpaper List Photo</string>
-    <string name="edittext_clear">Temizle</string>
+    <string name="edittext_clear">Clear</string>
     <string name="collections_screen_title_text">Collections</string>
+    <string name="created_at">Created At</string>
 </resources>
