@@ -7,23 +7,17 @@
     android:layout_height="match_parent"
     android:visibility="visible">
 
-    <com.otaliastudios.zoom.ZoomImageView
+    <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/imageViewDetail"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="H,5:7"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-        app:oneFingerScrollEnabled="true"
-        app:overPinchable="true"
-        app:overScrollHorizontal="false"
-        app:scrollEnabled="true"
-        app:transformationGravity="center_horizontal"
-        app:verticalPanEnabled="true"
-        app:zoomEnabled="true">
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
 
-    </com.otaliastudios.zoom.ZoomImageView>
+    </com.github.chrisbanes.photoview.PhotoView>
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -54,9 +48,9 @@
                 style="@style/DetailText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="clip_horizontal"
                 android:maxLines="1"
-                android:singleLine="true"
-                android:layout_gravity="clip_horizontal">
+                android:singleLine="true">
 
             </androidx.appcompat.widget.AppCompatTextView>
 
@@ -75,9 +69,6 @@
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_8"
-        android:layout_marginEnd="@dimen/dp_8"
-        android:layout_marginBottom="@dimen/dp_8"
         android:background="@color/background"
         app:cardCornerRadius="@dimen/dp_8"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -85,7 +76,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/buttonContainer"
+            android:id="@+id/dashboardContainer"
             style="@style/BaseButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_200"
@@ -184,6 +175,7 @@
                     android:contentDescription="@string/download_button_text"
                     android:paddingHorizontal="@dimen/dp_16"
                     android:src="@drawable/download" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -210,6 +202,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center" />
+
             </LinearLayout>
 
             <LinearLayout

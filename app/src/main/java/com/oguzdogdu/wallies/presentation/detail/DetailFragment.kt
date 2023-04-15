@@ -1,14 +1,15 @@
 package com.oguzdogdu.wallies.presentation.detail
 
+import android.graphics.Color
+import androidx.core.graphics.toColor
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import coil.load
 import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.oguzdogdu.domain.model.singlephoto.Photo
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
@@ -17,6 +18,7 @@ import com.oguzdogdu.wallies.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding::inflate) {
@@ -62,24 +64,27 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
     }
 
     private fun setItems(photo: Photo?){
-        Glide.with(this)
-            .load(photo?.urls)
-            .placeholder(R.drawable.placeholder)
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .into(binding.imageViewDetail)
         with(binding) {
+
             imageViewPhotoOwner.load(photo?.profileimage ?: "") {
                 diskCachePolicy(CachePolicy.DISABLED)
                 transformations(CircleCropTransformation())
                 placeholder(R.drawable.avatar)
                 allowConversionToBitmap(true)
             }
+
+            imageViewDetail.load(photo?.urls ?: "") {
+                diskCachePolicy(CachePolicy.DISABLED)
+                placeholder(requireContext().itemLoading())
+                allowConversionToBitmap(true)
+            }
+
             textViewImageDesc.text = photo?.desc ?: ""
             textViewPhotoOwnerName.text = photo?.username ?: ""
             textViewPhotoOwnerPortfolio.text = photo?.portfolio ?: ""
-            textViewViewsCount.text = photo?.views?.toPrettyString() ?: ""
-            textViewDownloadsCount.text = photo?.downloads?.toPrettyString() ?: ""
-            textViewLikeCount.text = photo?.likes?.toPrettyString()
+            textViewViewsCount.text = photo?.views?.toFormattedString() ?: ""
+            textViewDownloadsCount.text = photo?.downloads?.toFormattedString() ?: ""
+            textViewLikeCount.text = photo?.likes?.toFormattedString()
             textViewCreateTimeValue.text = photo?.createdAt?.formatDate()
         }
     }
