@@ -1,12 +1,9 @@
 package com.oguzdogdu.wallies.presentation.detail
 
-import android.graphics.Color
-import androidx.core.graphics.toColor
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import coil.load
 import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
@@ -75,7 +72,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
             imageViewDetail.load(photo?.urls ?: "") {
                 diskCachePolicy(CachePolicy.DISABLED)
-                placeholder(requireContext().itemLoading())
+                placeholder(requireContext().itemLoading(resources.getColor(R.color.background_main_icon)))
                 allowConversionToBitmap(true)
             }
 

@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.view.View
+import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -41,6 +42,7 @@ fun View.showSnackMessage(
     message?.let {
         try {
             val snack = Snackbar.make(this, it, length)
+               snack.setAnchorView(R.id.bottomNavigationView)
             snack.show()
         } catch (ex: Exception) {
             print(ex)
@@ -48,11 +50,11 @@ fun View.showSnackMessage(
     }
 }
 
-fun Context.itemLoading() : Drawable {
+fun Context.itemLoading(@ColorInt color: Int?) : Drawable {
     val circularProgressDrawable = CircularProgressDrawable(this).apply {
         strokeWidth = 7f
         centerRadius = 40f
-        setColorSchemeColors(Color.parseColor("#ff8c42"))
+        setColorSchemeColors(color.orEmpty())
         start()
     }
     return circularProgressDrawable
