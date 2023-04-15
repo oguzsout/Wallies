@@ -1,9 +1,12 @@
 package com.oguzdogdu.wallies.presentation.detail
 
+import android.graphics.Color
+import androidx.core.graphics.toColor
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import coil.load
 import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
@@ -48,7 +51,12 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
                             if (isConnected) {
 
                             } else {
-                                DialogHelper.showInternetCheckDialog(requireContext()){
+                                DialogHelper.showInternetCheckDialog(
+                                    context = requireContext(),
+                                    title = "Dikkat!",
+                                    message = R.string.internet_error,
+                                    positiveButtonText = R.string.retry_button,
+                                    icon = R.drawable.no_internet){
                                     args.id?.let { viewModel.getSinglePhoto(it) }
                                 }
                             }

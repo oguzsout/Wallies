@@ -77,7 +77,13 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
             if (isConnected) {
 
             } else {
-                DialogHelper.showInternetCheckDialog(requireContext()){
+                DialogHelper.showInternetCheckDialog(
+                    context = requireContext(),
+                    title = "Dikkat!",
+                    message = R.string.internet_error,
+                    positiveButtonText = R.string.retry_button,
+                    icon = R.drawable.no_internet
+                ) {
                     viewModel.getPopularImages()
                 }
             }
