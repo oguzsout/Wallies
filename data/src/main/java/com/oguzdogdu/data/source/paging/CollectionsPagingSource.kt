@@ -1,10 +1,8 @@
-package com.oguzdogdu.data.source
+package com.oguzdogdu.data.source.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.oguzdogdu.data.model.collection.CollectionResponse
-import com.oguzdogdu.data.model.collection.CollectionResponseItem
-import com.oguzdogdu.data.model.searchdto.Result
 import com.oguzdogdu.data.source.remote.WallpaperService
 
 class CollectionsPagingSource(private val service: WallpaperService,) : PagingSource<Int, CollectionResponse>() {

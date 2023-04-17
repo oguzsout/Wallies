@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName
 import com.oguzdogdu.domain.model.latest.LatestImage
 import com.oguzdogdu.domain.model.popular.PopularImage
 import com.oguzdogdu.domain.model.singlephoto.Photo
-import com.oguzdogdu.wallpaper.data.model.Sponsorship
 
 @kotlinx.parcelize.Parcelize
 data class UnsplashResponseItem(

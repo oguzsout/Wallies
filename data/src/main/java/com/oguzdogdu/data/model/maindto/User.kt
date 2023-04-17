@@ -2,8 +2,6 @@ package com.oguzdogdu.data.model.maindto
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import com.oguzdogdu.wallpaper.data.model.ProfileImage
-import com.oguzdogdu.wallpaper.data.model.Social
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

@@ -2,6 +2,9 @@ package com.oguzdogdu.data.model.searchdto
 
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.oguzdogdu.data.model.maindto.Link
+import com.oguzdogdu.data.model.maindto.Urls
+import com.oguzdogdu.data.model.maindto.User
 import com.oguzdogdu.domain.model.search.SearchPhoto
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -17,12 +20,11 @@ data class Result(
     val id: String?,
     val liked_by_user: Boolean?,
     val likes: Int?,
-    val links: Links?,
+    val links: Link?,
     val promoted_at: String?,
     val sponsorship: Any?,
-    val tags: List<Tag>?,
     val updated_at: String?,
-    val urls: UrlsX?,
+    val urls: Urls?,
     val user: User?,
     val width: Int?
 )

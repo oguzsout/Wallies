@@ -1,4 +1,4 @@
-package com.oguzdogdu.wallpaper.data.model
+package com.oguzdogdu.data.model.maindto
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

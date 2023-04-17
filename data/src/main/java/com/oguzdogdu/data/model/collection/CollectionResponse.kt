@@ -2,10 +2,9 @@ package com.oguzdogdu.data.model.collection
 
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.oguzdogdu.data.model.maindto.Link
 import com.oguzdogdu.data.model.maindto.Photo
 import com.oguzdogdu.data.model.maindto.User
-import com.oguzdogdu.data.model.searchdto.Links
-import com.oguzdogdu.data.model.searchdto.Tag
 import com.oguzdogdu.domain.model.collection.WallpaperCollections
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -21,11 +20,10 @@ data class CollectionResponse(
     val total_photos: Int,
     val private: Boolean?,
     val share_key: String?,
-    val tags: List<Tag>?,
     val cover_photo: Photo?,
     val preview_photos: List<Photo>?,
     val user: User?,
-    val links: Links?
+    val links: Link?
 )
 
 fun CollectionResponse.toCollectionDomain() =
