@@ -1,18 +1,20 @@
 package com.oguzdogdu.wallies.presentation.settings
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.fragment.app.viewModels
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.oguzdogdu.wallies.R
-import com.oguzdogdu.wallies.presentation.main.MainViewModel
+import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
+@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -28,8 +30,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (key == "app_theme"){
-            val choise = sharedPreferences?.getString(key,"1")
-            when(choise){
+            when(sharedPreferences?.getString(key,"3")){
                 "1" -> {
                     AppCompatDelegate.setDefaultNightMode(
                         AppCompatDelegate.MODE_NIGHT_NO
@@ -40,8 +41,42 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                         AppCompatDelegate.MODE_NIGHT_YES
                     )
                 }
+                "3" -> {
+                    AppCompatDelegate.setDefaultNightMode(
+                        AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                    )
+                }
             }
         }
+        if (key == "language_preference"){
+            loadLocale()
+        }
+    }
+
+    override fun onPreferenceTreeClick(preference: Preference): Boolean {
+        when (preference.key) {
+            "clear_cache" -> {
+                context?.cacheDir?.deleteRecursively()
+                requireView().showToast(requireContext(),R.string.cache_state_string)
+            }
+        }
+        return super.onPreferenceTreeClick(preference)
+    }
+    private fun loadLocale() {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val language = prefs.getString("language_preference", "")
+        setLocale(language)
+    }
+
+    // Dil ayarını değiştir
+    private fun setLocale(language: String?) {
+        val locale = language?.let { Locale(it) }
+        if (locale != null) {
+            Locale.setDefault(locale)
+        }
+        val config = Configuration()
+        config.setLocale(locale)
+        requireContext().resources.updateConfiguration(config, requireContext().resources.displayMetrics)
     }
 
     override fun onDestroy() {

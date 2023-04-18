@@ -1,11 +1,13 @@
 package com.oguzdogdu.wallies.util
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.view.View
+import android.widget.Toast
 import androidx.annotation.ColorInt
+import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,19 +37,28 @@ fun RecyclerView.addItemDivider() {
     this.addItemDecoration(itemDivider)
 }
 
+@SuppressLint("SuspiciousIndentation", "ResourceType")
 fun View.showSnackMessage(
-    message: String?,
+    @StringRes buttonText: Int?,
+    @StringRes message: Int?,
     length: Int = Snackbar.LENGTH_SHORT,
 ) {
     message?.let {
         try {
-            val snack = Snackbar.make(this, it, length)
-               snack.setAnchorView(R.id.bottomNavigationView)
+            val snack = Snackbar.make(this.rootView, it, length)
+               snack.setAnchorView(R.id.bottomNavContainer)
+            snack.setAction(buttonText.orEmpty()) {
+                // Butona tıklandığında yapılacak işlemler burada yazılır.
+            }
             snack.show()
         } catch (ex: Exception) {
             print(ex)
         }
     }
+}
+
+fun View.showToast(context: Context, @StringRes message: Int, duration: Int = Toast.LENGTH_SHORT) {
+    Toast.makeText(context, message, duration).show()
 }
 
 fun Context.itemLoading(@ColorInt color: Int?) : Drawable {

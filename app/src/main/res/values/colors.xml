@@ -10,6 +10,7 @@
     <color name="background_icon">#24292E</color>
     <color name="background_main_icon">#27004E</color>
     <color name="background_app_icon">#F3F3F3</color>
+    <color name="background_search">#E3E4E9</color>
 
 
     <color name="text_gray">#70798C</color>

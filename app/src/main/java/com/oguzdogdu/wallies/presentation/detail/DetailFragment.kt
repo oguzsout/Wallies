@@ -1,12 +1,9 @@
 package com.oguzdogdu.wallies.presentation.detail
 
-import android.graphics.Color
-import androidx.core.graphics.toColor
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import coil.load
 import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
@@ -39,6 +36,11 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
     override fun observeData() {
         super.observeData()
+        getDetailItems()
+        checkConnection()
+    }
+
+    private fun getDetailItems() {
         args.id?.let { viewModel.getSinglePhoto(it) }
         lifecycleScope.launchWhenStarted {
             viewModel.photo.onEach { result ->
@@ -47,20 +49,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
                     }
                     result.error.isNotEmpty() -> {
-                        connection.observe(this@DetailFragment) { isConnected ->
-                            if (isConnected) {
 
-                            } else {
-                                DialogHelper.showInternetCheckDialog(
-                                    context = requireContext(),
-                                    title = "Dikkat!",
-                                    message = R.string.internet_error,
-                                    positiveButtonText = R.string.retry_button,
-                                    icon = R.drawable.no_internet){
-                                    args.id?.let { viewModel.getSinglePhoto(it) }
-                                }
-                            }
-                        }
                     }
                     else -> setItems(result.detail)
                 }
@@ -91,6 +80,16 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
             textViewDownloadsCount.text = photo?.downloads?.toFormattedString() ?: ""
             textViewLikeCount.text = photo?.likes?.toFormattedString()
             textViewCreateTimeValue.text = photo?.createdAt?.formatDate()
+        }
+    }
+
+    private fun checkConnection(){
+        connection.observe(this@DetailFragment) { isConnected ->
+            if (isConnected == true) {
+
+            } else {
+                requireView().showToast(requireContext(),R.string.internet_error)
+            }
         }
     }
 }

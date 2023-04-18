@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Wallies</string>
+    <string name="app_logo">Uygulama Logosu</string>
+    <string name="internet_error">İnternet bağlantınızda problem olabilir. İnternet bağlantınızı kontrol edip tekrar deneyebilirsiniz.</string>
+    <string name="retry_button">Tekrar Dene</string>
+    <string name="set_wallpaper_text">Duvar Kağıdı Olarak Ayarla</string>
+    <string name="set_wallpaper_image_desc">Duvar Kağıdı Ayarla</string>
+    <string name="share_button_text">Paylaş</string>
+    <string name="download_button_text">İndir</string>
+    <string name="views_text">Görüntülenme</string>
+    <string name="download_text">İndirilme</string>
+    <string name="like_text">Beğeni</string>
+    <string name="walpaper_list_photo">Duvar Kağıdı Fotoğraf Listesi</string>
+    <string name="attachment_summary_off">Ekleri yalnızca manuel olarak istendiğinde indirin</string>
+    <string name="edittext_clear">Temizle</string>
+    <string name="collections_screen_title_text">Collections</string>
+    <string name="created_at">Oluşturulma</string>
+    <string name="clear_cache_title">Önbelleği Temizle</string>
+    <string name="cache_state_string">Önbellek Temizlendi</string>
+    <string name="internet_check_title">Dikkat!</string>
+    <string name="choice_language_text_title">Tercih Ettiğin Dili Seç</string>
+    <string name="theme_text">Tema</string>
+    <string name="language_title_text">Dil</string>
+</resources>

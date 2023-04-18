@@ -32,17 +32,17 @@
 
     <style name="EditTextSearch">
         <item name="android:background">@drawable/bg_default_edit_text_search</item>
-        <item name="android:textColor">@color/text_gray</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:textColorHint">@color/text_gray</item>
         <item name="android:drawableLeft">@drawable/search</item>
         <item name="android:drawablePadding">@dimen/dp_12</item>
-        <item name="drawableTint">@color/text_gray</item>
+        <item name="drawableTint">@color/purple_dark</item>
         <item name="android:singleLine">true</item>
     </style>
 
     <style name="CallOutMedium" parent="Widget.AppCompat.TextView">
         <item name="android:fontFamily">@font/googlesansregular</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/sp_14</item>
         <item name="android:textColor">@color/text_gray</item>
         <item name="android:lineSpacingExtra">2dp</item>
         <item name="android:letterSpacing">@dimen/letter_spacing_call_out</item>
@@ -83,7 +83,7 @@
     </style>
 
     <style name="ActionBarTextAppearance" parent="@android:style/TextAppearance.Medium">
-        <item name="android:textSize">32sp</item>
+        <item name="android:textSize">@dimen/sp_32</item>
         <item name="android:textColor">@color/purple_dark</item>
         <item name="android:fontFamily">@font/lexenddecaregular</item>
     </style>
@@ -95,7 +95,7 @@
     </style>
 
     <style name="DetailText" parent="@android:style/TextAppearance">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">@dimen/sp_12</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:fontFamily">@font/googlesansmedium</item>
     </style>

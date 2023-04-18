@@ -14,4 +14,7 @@
     <string name="edittext_clear">Clear</string>
     <string name="collections_screen_title_text">Collections</string>
     <string name="created_at">Created At</string>
+    <string name="clear_cache_title">Clear Cache</string>
+    <string name="cache_state_string">Cache Cleared</string>
+    <string name="internet_check_title">Caution!</string>
 </resources>

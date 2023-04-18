@@ -1,14 +1,33 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory app:title="General">
 
         <ListPreference
+            app:icon="@drawable/dark_mode"
             app:key="app_theme"
             app:useSimpleSummaryProvider="true"
             app:defaultValue="1"
             app:entries="@array/app_theme"
             app:entryValues="@array/dark_mode_entries_values"
-            app:title="Dark Mode" />
+            app:title="@string/theme_text" />
+
+        <ListPreference
+            app:icon="@drawable/language"
+            android:key="language_preference"
+            android:title="@string/language_title_text"
+            app:useSimpleSummaryProvider="true"
+            android:summary="@string/choice_language_text_title"
+            android:entries="@array/language_entries"
+            android:entryValues="@array/language_entry_values"
+            android:defaultValue="en" />
+
+        <Preference
+            app:icon="@drawable/cache"
+            app:key="clear_cache"
+            app:title="@string/clear_cache_title">
+
+        </Preference>
 
     </PreferenceCategory>
 

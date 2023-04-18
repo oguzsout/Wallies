@@ -35,6 +35,7 @@
     <dimen name="sp_16">16sp</dimen>
     <dimen name="sp_18">18sp</dimen>
     <dimen name="sp_24">24sp</dimen>
+    <dimen name="sp_32">32sp</dimen>
 
     <!-- widget heights -->
     <dimen name="button_height">56dp</dimen>

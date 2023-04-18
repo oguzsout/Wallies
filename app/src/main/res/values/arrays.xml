@@ -13,9 +13,22 @@
     <string-array name="app_theme">
         <item>Light Mode</item>
         <item>Dark Mode</item>
+        <item>System Default</item>
     </string-array>
+
     <string-array name="dark_mode_entries_values">
         <item>1</item>
         <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="language_entries">
+        <item>English</item>
+        <item>Turkish</item>
+    </string-array>
+
+    <string-array name="language_entry_values">
+        <item>en</item>
+        <item>tr</item>
     </string-array>
 </resources>
