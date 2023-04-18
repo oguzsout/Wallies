@@ -43,8 +43,19 @@ class LatestFragment : BaseFragment<FragmentLatestBinding>(FragmentLatestBinding
         }
     }
 
+    private fun checkConnection(){
+        connection.observe(this@LatestFragment) { isConnected ->
+            if (isConnected == true) {
+
+            } else {
+                requireView().showToast(requireContext(),R.string.internet_error)
+            }
+        }
+    }
+
     override fun observeData() {
         super.observeData()
+        checkConnection()
         lifecycleScope.launch {
             viewModel.getLatest.onEach { result ->
                 when {
@@ -52,7 +63,6 @@ class LatestFragment : BaseFragment<FragmentLatestBinding>(FragmentLatestBinding
                         binding.progressBar.show()
                     }
                     result.error.isNotEmpty() -> {
-                       checkConnection()
                     }
                     result.latest.isNotEmpty() -> {
                         binding.progressBar.hide()
@@ -63,20 +73,5 @@ class LatestFragment : BaseFragment<FragmentLatestBinding>(FragmentLatestBinding
         }
     }
 
-    private fun checkConnection(){
-        connection.observe(this@LatestFragment) { isConnected ->
-            if (isConnected) {
 
-            } else {
-                DialogHelper.showInternetCheckDialog(
-                    context = requireContext(),
-                    title = "Dikkat!",
-                    message = R.string.internet_error,
-                    positiveButtonText = R.string.retry_button,
-                    icon = R.drawable.no_internet){
-                    viewModel.getLatestImages()
-                }
-            }
-        }
-    }
 }

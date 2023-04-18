@@ -1,6 +1,7 @@
 package com.oguzdogdu.wallies.presentation.search
 
 import android.content.Context
+import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
@@ -9,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.map
 import androidx.recyclerview.widget.GridLayoutManager
+import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentSearchBinding
 import com.oguzdogdu.wallies.presentation.detail.DetailViewModel
@@ -38,6 +40,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
             val layoutManager = GridLayoutManager(requireContext(), 2)
             recyclerViewSearch.layoutManager = layoutManager
             recyclerViewSearch.setHasFixedSize(true)
+            searchWallpaperAdapter.setOnItemClickListener {
+                val arguments = Bundle().apply {
+                    putString("id", it?.id)
+                }
+                navigate(R.id.toDetail, arguments)
+            }
         }
     }
 

@@ -10,8 +10,8 @@ import com.oguzdogdu.data.model.maindto.toDomainModelLatest
 import com.oguzdogdu.data.model.maindto.toDomainModelPhoto
 import com.oguzdogdu.data.model.maindto.toDomainModelPopular
 import com.oguzdogdu.data.model.searchdto.toDomainSearch
-import com.oguzdogdu.data.source.CollectionsPagingSource
-import com.oguzdogdu.data.source.SearchPagingSource
+import com.oguzdogdu.data.source.paging.CollectionsPagingSource
+import com.oguzdogdu.data.source.paging.SearchPagingSource
 import com.oguzdogdu.data.source.remote.WallpaperService
 import com.oguzdogdu.domain.model.collection.WallpaperCollections
 import com.oguzdogdu.domain.model.latest.LatestImage

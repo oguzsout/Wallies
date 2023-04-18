@@ -49,8 +49,19 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
 
     override fun observeData() {
         super.observeData()
+        checkConnection()
         viewModel.getPopularImages()
         getImages()
+    }
+
+    private fun checkConnection(){
+        connection.observe(viewLifecycleOwner) { isConnected ->
+            if (isConnected == true) {
+
+            } else {
+                requireView().showToast(requireContext(),R.string.internet_error)
+            }
+        }
     }
 
     private fun getImages(){
@@ -61,7 +72,6 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
                         binding.progressBar.show()
                     }
                     result.error.isNotEmpty() -> {
-                        checkConnection()
                     }
                     result.popular.isNotEmpty() -> {
                         binding.progressBar.hide()
@@ -69,24 +79,6 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
                     }
                 }
             }.observeInLifecycle(this@PopularFragment)
-        }
-    }
-
-    private fun checkConnection(){
-        connection.observe(this@PopularFragment) { isConnected ->
-            if (isConnected) {
-
-            } else {
-                DialogHelper.showInternetCheckDialog(
-                    context = requireContext(),
-                    title = "Dikkat!",
-                    message = R.string.internet_error,
-                    positiveButtonText = R.string.retry_button,
-                    icon = R.drawable.no_internet
-                ) {
-                    viewModel.getPopularImages()
-                }
-            }
         }
     }
 }

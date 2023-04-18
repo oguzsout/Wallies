@@ -1,9 +1,7 @@
-package com.oguzdogdu.data.source
+package com.oguzdogdu.data.source.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.oguzdogdu.data.model.searchdto.SearchResponseItem
-import com.oguzdogdu.data.model.searchdto.toDomainSearch
 import com.oguzdogdu.data.source.remote.WallpaperService
 
 class SearchPagingSource(

@@ -83,7 +83,11 @@
         android:id="@+id/searchFragment"
         android:name="com.oguzdogdu.wallies.presentation.search.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/toDetail"
+            app:destination="@id/detailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/settingsFragment"
