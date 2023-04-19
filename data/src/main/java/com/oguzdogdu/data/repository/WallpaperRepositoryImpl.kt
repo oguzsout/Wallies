@@ -11,6 +11,7 @@ import com.oguzdogdu.data.model.maindto.toDomainModelPhoto
 import com.oguzdogdu.data.model.maindto.toDomainModelPopular
 import com.oguzdogdu.data.model.searchdto.toDomainSearch
 import com.oguzdogdu.data.source.paging.CollectionsPagingSource
+import com.oguzdogdu.data.source.paging.PopularPagingSource
 import com.oguzdogdu.data.source.paging.SearchPagingSource
 import com.oguzdogdu.data.source.remote.WallpaperService
 import com.oguzdogdu.domain.model.collection.WallpaperCollections
@@ -19,16 +20,22 @@ import com.oguzdogdu.domain.model.popular.PopularImage
 import com.oguzdogdu.domain.model.search.SearchPhoto
 import com.oguzdogdu.domain.model.singlephoto.Photo
 import com.oguzdogdu.domain.repository.WallpaperRepository
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
 
 class WallpaperRepositoryImpl @Inject constructor(private val service: WallpaperService) :
     WallpaperRepository {
-    override suspend fun getImagesByPopulars(page: Int?): List<PopularImage> {
-        return service.getImagesByOrders(order = Constants.POPULAR, page = page)
-            .map {
-                it.toDomainModelPopular()
+    override suspend fun getImagesByPopulars(): Flow<PagingData<PopularImage>> {
+        val pagingConfig = PagingConfig(pageSize = Constants.PAGE_ITEM_LIMIT)
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = { PopularPagingSource(service = service) }
+        ).flow.mapNotNull {
+            it.map { popular ->
+                popular.toDomainModelPopular()
             }
+        }
     }
 
     override suspend fun getImagesByLatest(page: Int?): List<LatestImage> {
@@ -43,7 +50,7 @@ class WallpaperRepositoryImpl @Inject constructor(private val service: Wallpaper
     }
 
     override suspend fun searchPhoto(query: String?): Flow<PagingData<SearchPhoto>> {
-        val pagingConfig = PagingConfig(pageSize = 20)
+        val pagingConfig = PagingConfig(pageSize = Constants.PAGE_ITEM_LIMIT)
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = { SearchPagingSource(service = service, query = query ?: "") }
@@ -55,7 +62,7 @@ class WallpaperRepositoryImpl @Inject constructor(private val service: Wallpaper
     }
 
     override suspend fun getCollectionsList(): Flow<PagingData<WallpaperCollections>> {
-        val pagingConfig = PagingConfig(pageSize = 10)
+        val pagingConfig = PagingConfig(pageSize = Constants.PAGE_ITEM_LIMIT)
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = { CollectionsPagingSource(service = service) }

@@ -1,5 +1,6 @@
 package com.oguzdogdu.data.source.remote
 
+import com.oguzdogdu.data.common.Constants.PAGE_ITEM_LIMIT
 import com.oguzdogdu.data.model.collection.CollectionResponse
 import com.oguzdogdu.data.model.collection.CollectionResponseItem
 import com.oguzdogdu.data.model.maindto.UnsplashResponseItem
@@ -12,7 +13,7 @@ interface WallpaperService {
 
     @GET("photos")
     suspend fun getImagesByOrders(
-        @Query("per_page") perPage: Int? = 30,
+        @Query("per_page") perPage: Int? = PAGE_ITEM_LIMIT,
         @Query("page") page: Int?,
         @Query("order_by") order: String?,
     ): List<UnsplashResponseItem>

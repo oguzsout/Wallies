@@ -8,7 +8,7 @@ import com.oguzdogdu.domain.model.singlephoto.Photo
 import kotlinx.coroutines.flow.Flow
 
 interface WallpaperRepository {
-    suspend fun getImagesByPopulars(page: Int?): List<PopularImage>
+    suspend fun getImagesByPopulars(): Flow<PagingData<PopularImage>>
     suspend fun getImagesByLatest(page: Int?): List<LatestImage>
     suspend fun getPhoto(id:String) : Photo
     suspend fun searchPhoto(query:String?) : Flow<PagingData<SearchPhoto>>

@@ -2,6 +2,7 @@ package com.oguzdogdu.wallies.presentation.popular
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +12,7 @@ import com.oguzdogdu.domain.model.popular.PopularImage
 import com.oguzdogdu.wallies.databinding.ItemMainImageBinding
 
 class PopularWallpaperAdapter :
-    ListAdapter<PopularImage, PopularWallpaperAdapter.MainImageViewHolder>(
+    PagingDataAdapter<PopularImage, PopularWallpaperAdapter.MainImageViewHolder>(
         DIFF_CALLBACK
     ) {
 

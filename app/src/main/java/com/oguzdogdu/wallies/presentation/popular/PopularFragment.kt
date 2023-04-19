@@ -73,9 +73,9 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
                     }
                     result.error.isNotEmpty() -> {
                     }
-                    result.popular.isNotEmpty() -> {
+                    else -> {
                         binding.progressBar.hide()
-                        popularWallpaperAdapter.submitList(result.popular)
+                        popularWallpaperAdapter.submitData(result.popular)
                     }
                 }
             }.observeInLifecycle(this@PopularFragment)
