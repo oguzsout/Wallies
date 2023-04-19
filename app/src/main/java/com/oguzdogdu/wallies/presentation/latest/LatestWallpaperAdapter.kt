@@ -2,6 +2,7 @@ package com.oguzdogdu.wallies.presentation.latest
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +12,7 @@ import com.oguzdogdu.domain.model.latest.LatestImage
 import com.oguzdogdu.wallies.databinding.ItemMainImageBinding
 
 class LatestWallpaperAdapter :
-    ListAdapter<LatestImage, LatestWallpaperAdapter.MainImageViewHolder>(
+    PagingDataAdapter<LatestImage, LatestWallpaperAdapter.MainImageViewHolder>(
         DIFF_CALLBACK
     ) {
 

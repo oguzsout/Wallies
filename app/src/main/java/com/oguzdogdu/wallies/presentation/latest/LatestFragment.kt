@@ -64,9 +64,9 @@ class LatestFragment : BaseFragment<FragmentLatestBinding>(FragmentLatestBinding
                     }
                     result.error.isNotEmpty() -> {
                     }
-                    result.latest.isNotEmpty() -> {
+                    else -> {
                         binding.progressBar.hide()
-                        latestWallpaperAdapter.submitList(result.latest)
+                        latestWallpaperAdapter.submitData(result.latest)
                     }
                 }
             }.observeInLifecycle(this@LatestFragment)
