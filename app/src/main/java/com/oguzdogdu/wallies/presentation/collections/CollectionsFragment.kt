@@ -40,6 +40,12 @@ class CollectionsFragment :
             recyclerViewCollections.layoutManager = layoutManager
             recyclerViewCollections.adapter = collectionListAdapter
             recyclerViewCollections.setHasFixedSize(true)
+            collectionListAdapter.setOnItemClickListener {
+                val arguments = Bundle().apply {
+                    putString("id", it?.id)
+                }
+                navigate(R.id.toCollectionsLists, arguments)
+            }
         }
     }
 

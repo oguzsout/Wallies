@@ -2,6 +2,7 @@ package com.oguzdogdu.data.model.maindto
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.oguzdogdu.domain.model.collection.CollectionList
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -41,3 +42,5 @@ data class Photo(
     @SerializedName("user")
     val user: User?,
 ) : Parcelable
+
+fun Photo.toDomain() = CollectionList(id = id, url = urls?.regular)

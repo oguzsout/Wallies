@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.oguzdogdu.data.common.Constants
 import com.oguzdogdu.data.model.collection.toCollectionDomain
+import com.oguzdogdu.data.model.maindto.toDomain
 import com.oguzdogdu.data.model.maindto.toDomainModelLatest
 import com.oguzdogdu.data.model.maindto.toDomainModelPhoto
 import com.oguzdogdu.data.model.maindto.toDomainModelPopular
@@ -15,6 +16,7 @@ import com.oguzdogdu.data.source.paging.LatestPagingSource
 import com.oguzdogdu.data.source.paging.PopularPagingSource
 import com.oguzdogdu.data.source.paging.SearchPagingSource
 import com.oguzdogdu.data.source.remote.WallpaperService
+import com.oguzdogdu.domain.model.collection.CollectionList
 import com.oguzdogdu.domain.model.collection.WallpaperCollections
 import com.oguzdogdu.domain.model.latest.LatestImage
 import com.oguzdogdu.domain.model.popular.PopularImage
@@ -75,6 +77,12 @@ class WallpaperRepositoryImpl @Inject constructor(private val service: Wallpaper
             it.map { collection ->
                 collection.toCollectionDomain()
             }
+        }
+    }
+
+    override suspend fun getCollectionsListById(id: String?): List<CollectionList> {
+        return service.getCollectionsListById(id).mapNotNull {
+            it.toDomain()
         }
     }
 }

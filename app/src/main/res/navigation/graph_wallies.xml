@@ -103,8 +103,21 @@
             android:id="@+id/toMain"
             app:destination="@id/mainFragment" />
         <action
-            android:id="@+id/action_collectionsFragment_to_popularFragment"
+            android:id="@+id/toPopular"
             app:destination="@id/popularFragment" />
+        <action
+            android:id="@+id/toCollectionsLists"
+            app:destination="@id/singleCollectionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/singleCollectionFragment"
+        android:name="com.oguzdogdu.wallies.presentation.collectionslistsbyid.SingleCollectionFragment"
+        android:label="fragment_single_collection"
+        tools:layout="@layout/fragment_single_collection">
+        <argument
+            android:name="id"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 
 </navigation>

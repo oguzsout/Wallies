@@ -5,7 +5,7 @@ import androidx.paging.PagingState
 import com.oguzdogdu.data.model.collection.CollectionResponse
 import com.oguzdogdu.data.source.remote.WallpaperService
 
-class CollectionsPagingSource(private val service: WallpaperService,) : PagingSource<Int, CollectionResponse>() {
+class CollectionsPagingSource(private val service: WallpaperService) : PagingSource<Int, CollectionResponse>() {
     override fun getRefreshKey(state: PagingState<Int, CollectionResponse>): Int? {
         return state.anchorPosition?.let {
             state.closestPageToPosition(it)?.prevKey?.plus(1)
