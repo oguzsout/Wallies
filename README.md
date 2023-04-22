@@ -7,8 +7,6 @@ In this application consisting of multiple screens, you can review popular and r
 
 # Tech Stacks
 This project uses many of the popular libraries, plugins and tools of the android ecosystem.
-
-- [Jetpack](https://developer.android.com/jetpack)
 - [Hilt](https://dagger.dev/hilt/) - Dependency Injection library.
 - [Retrofit](https://square.github.io/retrofit/) - Type-safe http client and supports coroutines out of the box.
 - [OkHttp-Logging-Interceptor](https://github.com/square/okhttp/blob/master/okhttp-logging-interceptor/README.md) - Logs HTTP request and response data.
