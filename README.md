@@ -7,7 +7,7 @@ In this application consisting of multiple screens, you can review popular and r
 
 # Tech Stacks
 This project uses many of the popular libraries, plugins and tools of the android ecosystem.
-- [Clean Architecture](https://dagger.dev/hilt/](https://developer.android.com/topic/architecture) - Clean architecture is a method of software development in which you should be able to identify what a program performs merely by looking at its source code.
+- [Clean Architecture](https://developer.android.com/topic/architecture) - Clean architecture is a method of software development in which you should be able to identify what a program performs merely by looking at its source code.
 - [Hilt](https://dagger.dev/hilt/) - Dependency Injection library.
 - [Retrofit](https://square.github.io/retrofit/) - Type-safe http client and supports coroutines out of the box.
 - [OkHttp-Logging-Interceptor](https://github.com/square/okhttp/blob/master/okhttp-logging-interceptor/README.md) - Logs HTTP request and response data.
