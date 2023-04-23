@@ -22,4 +22,5 @@
     <string name="choice_language_text_title">Tercih Ettiğin Dili Seç</string>
     <string name="theme_text">Tema</string>
     <string name="language_title_text">Dil</string>
+    <string name="no_picture_text">Üzgünüm, burada görüntülenecek bir şey yok…</string>
 </resources>
