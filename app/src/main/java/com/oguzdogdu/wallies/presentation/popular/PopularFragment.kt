@@ -58,7 +58,8 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
 
     private fun checkConnection(){
         connection.observe(viewLifecycleOwner) { isConnected ->
-            if (isConnected == true) {
+            if (isConnected == true
+            ) {
 
             } else {
                 requireView().showToast(requireContext(),R.string.internet_error)

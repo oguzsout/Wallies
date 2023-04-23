@@ -1,17 +1,11 @@
 package com.oguzdogdu.wallies
 
-import android.content.Context
-import android.content.res.Configuration
 import android.os.Bundle
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import androidx.preference.PreferenceManager
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.oguzdogdu.wallies.databinding.ActivityMainBinding
@@ -19,7 +13,6 @@ import com.oguzdogdu.wallies.presentation.main.MainViewModel
 import com.oguzdogdu.wallies.util.hide
 import com.oguzdogdu.wallies.util.show
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 
 @AndroidEntryPoint
@@ -62,6 +55,12 @@ class MainActivity : AppCompatActivity() {
                 binding.bottomNavContainer.show()
             } else {
                 binding.bottomNavContainer.hide()
+            }
+            if (destination.id != R.id.splashFragment && !isStartDestinationChanged) {
+                val navGraph = navController.graph
+                navGraph.setStartDestination(R.id.mainFragment)
+                navGraph.startDestinationId
+                isStartDestinationChanged = true
             }
         }
     }

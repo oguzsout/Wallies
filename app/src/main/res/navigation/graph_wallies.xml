@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/graph_wallies"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/mainFragment"
@@ -29,7 +29,7 @@
             android:id="@+id/toSetting"
             app:destination="@id/settingsFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_collectionsFragment"
+            android:id="@+id/toCollections"
             app:destination="@id/collectionsFragment" />
 
     </fragment>
@@ -118,6 +118,17 @@
             android:name="id"
             app:argType="string"
             app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.oguzdogdu.wallies.presentation.splash.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/toMain"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/graph_wallies"
+            app:popUpToInclusive="true"/>
     </fragment>
 
 </navigation>

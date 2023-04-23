@@ -31,7 +31,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
 
     private val viewModel: SearchPhotoViewModel by viewModels()
 
-    private val searchWallpaperAdapter = SearchWallpaperAdapter()
+    private val searchWallpaperAdapter by lazy { SearchWallpaperAdapter() }
 
     override fun initViews() {
         super.initViews()
@@ -40,21 +40,15 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
             val layoutManager = GridLayoutManager(requireContext(), 2)
             recyclerViewSearch.layoutManager = layoutManager
             recyclerViewSearch.setHasFixedSize(true)
-            searchWallpaperAdapter.setOnItemClickListener {
-                val arguments = Bundle().apply {
-                    putString("id", it?.id)
-                }
-                navigate(R.id.toDetail, arguments)
-            }
         }
     }
 
     override fun observeData() {
         super.observeData()
-        lifecycleScope.launchWhenCreated {
-            viewModel.getSearchPhotos.collectLatest { result ->
+        lifecycleScope.launch {
+            viewModel.getSearchPhotos.onEach { result ->
                 searchWallpaperAdapter.submitData(result.search)
-            }
+            }.observeInLifecycle(this@SearchFragment)
         }
     }
 
@@ -93,6 +87,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
             }
             buttonBack.setOnClickListener {
                 navigateBack()
+            }
+            searchWallpaperAdapter.setOnItemClickListener {
+                val arguments = Bundle().apply {
+                    putString("id", it?.id)
+                }
+                navigate(R.id.toDetail, arguments)
             }
         }
     }

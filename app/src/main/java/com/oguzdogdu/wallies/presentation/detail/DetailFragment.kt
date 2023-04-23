@@ -14,6 +14,7 @@ import com.oguzdogdu.wallies.databinding.FragmentDetailBinding
 import com.oguzdogdu.wallies.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -42,7 +43,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
     private fun getDetailItems() {
         args.id?.let { viewModel.getSinglePhoto(it) }
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launch {
             viewModel.photo.onEach { result ->
                 when {
                     result.isLoading -> {

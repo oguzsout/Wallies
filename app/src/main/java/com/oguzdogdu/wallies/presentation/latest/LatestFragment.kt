@@ -21,7 +21,7 @@ class LatestFragment : BaseFragment<FragmentLatestBinding>(FragmentLatestBinding
 
     private val viewModel: LatestViewModel by viewModels()
 
-    private val latestWallpaperAdapter = LatestWallpaperAdapter()
+    private val latestWallpaperAdapter by lazy { LatestWallpaperAdapter() }
 
     override fun initViews() {
         super.initViews()
@@ -35,6 +35,10 @@ class LatestFragment : BaseFragment<FragmentLatestBinding>(FragmentLatestBinding
 
     override fun initListeners() {
         super.initListeners()
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.getLatestImages()
+            binding.swipeRefresh.isRefreshing = false
+        }
         latestWallpaperAdapter.setOnItemClickListener {
             val arguments = Bundle().apply {
                 putString("id", it?.id)
@@ -72,6 +76,4 @@ class LatestFragment : BaseFragment<FragmentLatestBinding>(FragmentLatestBinding
             }.observeInLifecycle(this@LatestFragment)
         }
     }
-
-
 }

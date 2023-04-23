@@ -4,11 +4,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentSingleCollectionBinding
+import com.oguzdogdu.wallies.util.hide
 import com.oguzdogdu.wallies.util.observeInLifecycle
+import com.oguzdogdu.wallies.util.show
+import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SingleCollectionFragment :
@@ -25,6 +30,7 @@ class SingleCollectionFragment :
         binding.apply {
             val layoutManager =
                 StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
+            layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
             recyclerViewCollectionsList.layoutManager = layoutManager
             recyclerViewCollectionsList.adapter = collectionsListsAdapter
             recyclerViewCollectionsList.setHasFixedSize(true)
@@ -34,19 +40,17 @@ class SingleCollectionFragment :
     override fun observeData() {
         super.observeData()
         args.id?.let { viewModel.getCollectionsLists(it) }
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launch {
             viewModel.photo.onEach { result ->
-                when {
-                    result.isLoading -> {
-
-                    }
-                    result.error.isNotEmpty() -> {
-
-                    }
-                    result.collectionsLists.isNotEmpty() -> {
-                        collectionsListsAdapter.submitList(result.collectionsLists)
-                    }
+                if (result.collectionsLists.isEmpty()) {
+                    binding.recyclerViewCollectionsList.hide()
+                    binding.linearLayoutNoPicture.show()
+                } else {
+                    binding.linearLayoutNoPicture.hide()
+                    binding.recyclerViewCollectionsList.show()
+                    collectionsListsAdapter.submitList(result.collectionsLists)
                 }
+
             }.observeInLifecycle(this@SingleCollectionFragment)
         }
     }

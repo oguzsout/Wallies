@@ -82,7 +82,7 @@
             android:layout_height="@dimen/dp_200"
             android:visibility="visible">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/buttonSetWallpaper"
                 style="@style/DetailText"
                 android:layout_width="wrap_content"
@@ -112,7 +112,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textViewPhotoOwnerName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -121,7 +121,7 @@
                 app:layout_constraintStart_toEndOf="@+id/imageViewPhotoOwner"
                 app:layout_constraintTop_toTopOf="@+id/imageViewPhotoOwner" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textViewPhotoOwnerPortfolio"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -188,7 +188,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/containerDownloads">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textViewViews"
                     style="@style/DetailText"
                     android:layout_width="wrap_content"
@@ -196,7 +196,7 @@
                     android:layout_gravity="center"
                     android:text="@string/views_text" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textViewViewsCount"
                     style="@style/DetailText"
                     android:layout_width="wrap_content"
@@ -217,7 +217,7 @@
                 app:layout_constraintStart_toEndOf="@+id/containerViews"
                 app:layout_constraintTop_toBottomOf="@+id/divider">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textViewDownloads"
                     style="@style/DetailText"
                     android:layout_width="wrap_content"
@@ -225,7 +225,7 @@
                     android:layout_gravity="center"
                     android:text="@string/download_text" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textViewDownloadsCount"
                     style="@style/DetailText"
                     android:layout_width="wrap_content"
@@ -243,7 +243,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/containerCreatedAt">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textViewLike"
                     style="@style/DetailText"
                     android:layout_width="wrap_content"
@@ -251,7 +251,7 @@
                     android:layout_gravity="center"
                     android:text="@string/like_text" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textViewLikeCount"
                     style="@style/DetailText"
                     android:layout_width="wrap_content"
@@ -271,7 +271,7 @@
                 app:layout_constraintStart_toEndOf="@+id/containerDownloads"
                 app:layout_constraintTop_toBottomOf="@+id/divider">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textViewCreateTime"
                     style="@style/DetailText"
                     android:layout_width="wrap_content"
@@ -279,7 +279,7 @@
                     android:layout_gravity="center"
                     android:text="@string/created_at" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textViewCreateTimeValue"
                     style="@style/DetailText"
                     android:layout_width="wrap_content"
