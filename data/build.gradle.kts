@@ -37,7 +37,9 @@ android {
 }
 
 dependencies {
+
     implementation(project(":domain"))
+    implementation(project(":cache"))
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
@@ -47,15 +49,12 @@ dependencies {
     androidTestImplementation(libs.androidx.junit.ext)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    //retrofit
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.converter)
 
-    //Dagger - Hilt
     implementation(libs.google.dagger.hilt)
     kapt(libs.google.dagger.hilt.compiler)
 
-    //paging
     implementation(libs.androidx.paging.runtime)
     testImplementation(libs.androidx.paging.common)
 }

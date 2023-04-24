@@ -2,10 +2,8 @@ package com.oguzdogdu.data.source.remote
 
 import com.oguzdogdu.data.common.Constants.PAGE_ITEM_LIMIT
 import com.oguzdogdu.data.model.collection.CollectionResponse
-import com.oguzdogdu.data.model.collection.CollectionResponseItem
 import com.oguzdogdu.data.model.maindto.UnsplashResponseItem
 import com.oguzdogdu.data.model.searchdto.SearchResponseItem
-import com.oguzdogdu.domain.model.singlephoto.Photo
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -37,6 +35,6 @@ interface WallpaperService {
 
     @GET("collections/{id}/photos")
     suspend fun getCollectionsListById(
-        @Path("id") id: String?
+        @Path("id") id: String?,
     ): List<com.oguzdogdu.data.model.maindto.Photo>
 }
