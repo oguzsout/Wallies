@@ -23,6 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CollectionsFragment :
@@ -40,18 +41,22 @@ class CollectionsFragment :
             recyclerViewCollections.layoutManager = layoutManager
             recyclerViewCollections.adapter = collectionListAdapter
             recyclerViewCollections.setHasFixedSize(true)
-            collectionListAdapter.setOnItemClickListener {
-                val arguments = Bundle().apply {
-                    putString("id", it?.id)
-                }
-                navigate(R.id.toCollectionsLists, arguments)
+        }
+    }
+
+    override fun initListeners() {
+        super.initListeners()
+        collectionListAdapter.setOnItemClickListener {
+            val arguments = Bundle().apply {
+                putString("id", it?.id)
             }
+            navigate(R.id.toCollectionsLists, arguments)
         }
     }
 
     override fun observeData() {
         super.observeData()
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launch {
             viewModel.getCollections.onEach { result ->
                 when {
                     result.isLoading -> {
@@ -61,7 +66,6 @@ class CollectionsFragment :
 
                     }
                     else -> {
-
                         collectionListAdapter.submitData(result.collections)
                     }
                 }

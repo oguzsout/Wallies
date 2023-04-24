@@ -1,5 +1,6 @@
 package com.oguzdogdu.wallies.presentation.collectionslistsbyid
 
+import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -37,20 +38,32 @@ class SingleCollectionFragment :
         }
     }
 
+    override fun initListeners() {
+        super.initListeners()
+        collectionsListsAdapter.setOnItemClickListener {
+            val arguments = Bundle().apply {
+                putString("id", it?.id)
+            }
+            navigate(R.id.toDetail,arguments)
+        }
+    }
+
     override fun observeData() {
         super.observeData()
         args.id?.let { viewModel.getCollectionsLists(it) }
         lifecycleScope.launch {
             viewModel.photo.onEach { result ->
-                if (result.collectionsLists.isEmpty()) {
-                    binding.recyclerViewCollectionsList.hide()
-                    binding.linearLayoutNoPicture.show()
-                } else {
-                    binding.linearLayoutNoPicture.hide()
-                    binding.recyclerViewCollectionsList.show()
-                    collectionsListsAdapter.submitList(result.collectionsLists)
-                }
+                when {
+                    result.isLoading -> {}
+                    result.collectionsLists.isEmpty() -> {
+                        binding.linearLayoutNoPicture.show()
+                    }
 
+                    else -> {
+                        binding.linearLayoutNoPicture.hide()
+                        collectionsListsAdapter.submitList(result.collectionsLists)
+                    }
+                }
             }.observeInLifecycle(this@SingleCollectionFragment)
         }
     }

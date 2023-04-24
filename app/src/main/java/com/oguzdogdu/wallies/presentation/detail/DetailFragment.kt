@@ -7,12 +7,19 @@ import androidx.navigation.fragment.navArgs
 import coil.load
 import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
+import com.oguzdogdu.domain.model.favorites.FavoriteImages
 import com.oguzdogdu.domain.model.singlephoto.Photo
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentDetailBinding
-import com.oguzdogdu.wallies.util.*
+import com.oguzdogdu.wallies.util.CheckConnection
+import com.oguzdogdu.wallies.util.formatDate
+import com.oguzdogdu.wallies.util.itemLoading
+import com.oguzdogdu.wallies.util.observeInLifecycle
+import com.oguzdogdu.wallies.util.showToast
+import com.oguzdogdu.wallies.util.toFormattedString
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -33,16 +40,49 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
         binding.buttonBack.setOnClickListener {
             findNavController().popBackStack()
         }
+        binding.toggleButton.setOnCheckedChangeListener { buttonView, isChecked ->
+            lifecycleScope.launch {
+                viewModel.photo.onEach {result ->
+                    when {
+                        result.isLoading -> {
+
+                        }
+                        else -> {
+                            if (isChecked) {
+                                viewModel.addImagesToFavorites(
+                                    FavoriteImages(
+                                        id = result.detail?.id ?: "",
+                                        url = result.detail?.urls ?: "",
+                                        profileImage = result.detail?.profileimage ?: "",
+                                        portfolioUrl = result.detail?.portfolio ?: "",
+                                        name = result.detail?.username ?: "",
+                                        isChecked = true
+                                    )
+                                )
+                            } else {
+                                viewModel.deleteImagesToFavorites(
+                                    FavoriteImages(
+                                        id = result.detail?.id ?: "",
+                                        url = result.detail?.urls ?: "",
+                                        profileImage = result.detail?.profileimage ?: "",
+                                        portfolioUrl = result.detail?.portfolio ?: "",
+                                        name = result.detail?.username ?: "",
+                                        isChecked = false
+                                    )
+                                )
+                            }
+                        }
+                    }
+
+                }.observeInLifecycle(this@DetailFragment)
+            }
+
+        }
     }
 
     override fun observeData() {
         super.observeData()
-        getDetailItems()
-        checkConnection()
-    }
-
-    private fun getDetailItems() {
-        args.id?.let { viewModel.getSinglePhoto(it) }
+        args.id?.let { viewModel.getSinglePhoto(it)}
         lifecycleScope.launch {
             viewModel.photo.onEach { result ->
                 when {
@@ -52,10 +92,14 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
                     result.error.isNotEmpty() -> {
 
                     }
-                    else -> setItems(result.detail)
+                    else -> {
+                        setItems(result.detail)
+                        favoriteCheck(result.detail?.id)
+                    }
                 }
             }.observeInLifecycle(this@DetailFragment)
         }
+        checkConnection()
     }
 
     private fun setItems(photo: Photo?){
@@ -93,4 +137,21 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
             }
         }
     }
+
+    private fun favoriteCheck(id: String?) {
+        lifecycleScope.launch {
+            viewModel.favorites.collectLatest { result ->
+                result.favorites.forEach {
+                    if (it != null) {
+                        if (it.id == id) {
+                            binding.toggleButton.isChecked = it.isChecked
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
+
+
+

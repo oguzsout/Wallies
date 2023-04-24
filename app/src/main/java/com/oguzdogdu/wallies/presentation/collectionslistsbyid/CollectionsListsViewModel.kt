@@ -2,10 +2,8 @@ package com.oguzdogdu.wallies.presentation.collectionslistsbyid
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.oguzdogdu.domain.Resource
+import com.oguzdogdu.domain.wrapper.Resource
 import com.oguzdogdu.domain.usecase.collection.GetCollectionsListByIdUseCase
-import com.oguzdogdu.wallies.presentation.collections.CollectionState
-import com.oguzdogdu.wallies.presentation.detail.DetailState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

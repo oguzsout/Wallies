@@ -75,6 +75,7 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
                         binding.progressBar.show()
                     }
                     result.error.isNotEmpty() -> {
+
                     }
                     else -> {
                         binding.progressBar.hide()

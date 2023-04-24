@@ -1,6 +1,6 @@
 package com.oguzdogdu.domain.usecase.collection
 
-import com.oguzdogdu.domain.Resource
+import com.oguzdogdu.domain.wrapper.Resource
 import com.oguzdogdu.domain.model.collection.CollectionList
 import com.oguzdogdu.domain.repository.WallpaperRepository
 import kotlinx.coroutines.flow.Flow

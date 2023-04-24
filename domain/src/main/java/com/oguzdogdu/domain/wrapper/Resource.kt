@@ -1,4 +1,4 @@
-package com.oguzdogdu.domain
+package com.oguzdogdu.domain.wrapper
 
 sealed class Resource<out T : Any> {
     object Loading : Resource<Nothing>()
