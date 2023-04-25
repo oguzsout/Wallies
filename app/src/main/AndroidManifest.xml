@@ -17,7 +17,7 @@
         android:theme="@style/Theme.Wallies"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.main.MainActivity"
             android:theme="@style/Theme.Wallies"
             android:exported="true">
 

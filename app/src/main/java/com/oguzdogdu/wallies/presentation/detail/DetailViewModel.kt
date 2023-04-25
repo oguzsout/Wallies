@@ -74,8 +74,26 @@ class DetailViewModel @Inject constructor(
 
     private fun getFavorites() {
         viewModelScope.launch(Dispatchers.IO) {
-            getFavoritesUseCase.invoke().collectLatest {
-                _favorites.value = FavoriteState(favorites = it)
+            getFavoritesUseCase.invoke().collectLatest { result ->
+                when (result) {
+                    is Resource.Loading -> _favorites.value =
+                        FavoriteState(isLoading = true)
+
+                    is Resource.Success -> {
+                        result.data.let {
+                            _favorites.value = FavoriteState (favorites = it)
+                        }
+                    }
+
+                    is Resource.Error -> {
+                        _favorites.value =
+                            FavoriteState(
+                                error = result.errorMessage ?: ""
+                            )
+                    }
+
+                    else -> {}
+                }
             }
         }
     }

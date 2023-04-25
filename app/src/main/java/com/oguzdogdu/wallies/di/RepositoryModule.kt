@@ -3,6 +3,7 @@ package com.oguzdogdu.wallies.di
 import com.oguzdogdu.data.repository.WallpaperRepositoryImpl
 import com.oguzdogdu.data.source.remote.WallpaperService
 import com.oguzdogdu.domain.repository.WallpaperRepository
+import com.oguzdogdu.wallies.cache.dao.FavoriteDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +15,7 @@ import javax.inject.Singleton
 object RepositoryModule {
     @Provides
     @Singleton
-    fun provideRepository(service: WallpaperService): WallpaperRepository {
-        return WallpaperRepositoryImpl(service)
+    fun provideRepository(service: WallpaperService,dao: FavoriteDao): WallpaperRepository {
+        return WallpaperRepositoryImpl(service,dao)
     }
 }
