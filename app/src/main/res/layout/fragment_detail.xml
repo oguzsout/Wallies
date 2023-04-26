@@ -21,11 +21,8 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
-        style="@style/AppBarDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:elevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -33,26 +30,10 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/buttonBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginEnd="@dimen/dp_16"
-                android:src="@drawable/back" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textViewImageDesc"
-                style="@style/DetailText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="clip_horizontal"
-                android:maxLines="1"
-                android:singleLine="true">
-
-            </androidx.appcompat.widget.AppCompatTextView>
+            android:layout_height="?actionBarSize"
+            app:titleCentered="true"
+            app:titleTextAppearance="@style/DetailText"
+            app:navigationIcon="@drawable/back">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/buttonInfo"

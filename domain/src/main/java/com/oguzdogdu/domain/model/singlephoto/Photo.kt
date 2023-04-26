@@ -10,5 +10,9 @@ data class Photo(
     val urls: String?,
     val views: Double?,
     val downloads: Int?,
-    val likes: Int?
+    val unsplashProfile: String?,
+    val likes: Int?,
+    val bio: String?,
+    val name: String?,
+    val location: String?
 )

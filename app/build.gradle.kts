@@ -47,56 +47,46 @@ android {
 }
 
 dependencies {
+
+    implementation(project(":cache"))
     implementation(project(":data"))
     implementation(project(":domain"))
+
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.material)
-    implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation(libs.androidx.contraintlayout)
     implementation(libs.androidx.test.core)
     testImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.junit.ext)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    // Coroutines
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
 
-    // Coroutine Lifecycle Scopes
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.preference)
 
-    //retrofit
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.converter)
 
-    //okhttp
     implementation(libs.okhttp.core)
     implementation(libs.okhttp.logging)
 
-    //navigation
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.fragment.ktx)
 
-    //paging
     implementation(libs.androidx.paging.runtime)
     testImplementation(libs.androidx.paging.common)
 
-    // Activity KTX for viewModels()
     implementation(libs.androidx.activity)
-    implementation (libs.androidx.fragment)
+    implementation(libs.androidx.fragment)
     implementation(libs.kotlin.coil)
 
-    //Dagger - Hilt
     implementation(libs.google.dagger.hilt)
     kapt(libs.google.dagger.hilt.compiler)
-
-    //room
-    implementation(libs.androidx.room.runtime)
-    annotationProcessor(libs.androidx.room.compiler)
-    implementation(libs.androidx.room.ktx)
 
     implementation(libs.androidx.swipe.refresh)
     implementation(libs.glide)

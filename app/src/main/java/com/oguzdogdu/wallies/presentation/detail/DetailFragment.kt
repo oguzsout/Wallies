@@ -1,5 +1,6 @@
 package com.oguzdogdu.wallies.presentation.detail
 
+import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -37,9 +38,6 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
     override fun initListeners() {
         super.initListeners()
-        binding.buttonBack.setOnClickListener {
-            findNavController().popBackStack()
-        }
         binding.toggleButton.setOnCheckedChangeListener { buttonView, isChecked ->
             lifecycleScope.launch {
                 viewModel.photo.onEach {result ->
@@ -95,11 +93,24 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
                     else -> {
                         setItems(result.detail)
                         favoriteCheck(result.detail?.id)
+                        showProfileInfos(result.detail)
                     }
                 }
             }.observeInLifecycle(this@DetailFragment)
         }
         checkConnection()
+    }
+
+    private fun showProfileInfos(photo: Photo?){
+        binding.buttonInfo.setOnClickListener {
+            val arguments = Bundle().apply {
+                putString("imageUrl", photo?.profileimage)
+                putString("name", photo?.name)
+                putString("bio", photo?.bio)
+                putString("location", photo?.location)
+            }
+            navigate(R.id.toProfile, arguments)
+        }
     }
 
     private fun setItems(photo: Photo?){
@@ -117,8 +128,10 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
                 placeholder(requireContext().itemLoading(resources.getColor(R.color.background_main_icon)))
                 allowConversionToBitmap(true)
             }
-
-            textViewImageDesc.text = photo?.desc ?: ""
+            toolbar.title = photo?.desc ?: ""
+            toolbar.setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
             textViewPhotoOwnerName.text = photo?.username ?: ""
             textViewPhotoOwnerPortfolio.text = photo?.portfolio ?: ""
             textViewViewsCount.text = photo?.views?.toFormattedString() ?: ""

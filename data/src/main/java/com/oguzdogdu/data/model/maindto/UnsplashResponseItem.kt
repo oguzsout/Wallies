@@ -53,11 +53,15 @@ fun UnsplashResponseItem.toDomainModelPhoto() = Photo(
     id = id,
     username = user?.username,
     portfolio = user?.portfolioUrl,
-    profileimage = user?.profileImage?.medium,
+    profileimage = user?.profileImage?.large,
     createdAt = createdAt,
     desc = altDescription,
     urls = urls?.full,
     views = views,
     downloads = downloads,
-    likes = likes
+    unsplashProfile = user?.links?.html,
+    likes = likes,
+    bio = user?.bio,
+    name = user?.name,
+    location = user?.location
 )
