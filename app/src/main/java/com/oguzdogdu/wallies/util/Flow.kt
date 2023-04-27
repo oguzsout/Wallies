@@ -39,4 +39,4 @@ class FlowObserver<T>(
 
 inline fun <reified T> Flow<T>.observeInLifecycle(
     lifecycleOwner: LifecycleOwner,
-) = FlowObserver(lifecycleOwner, this, {})
+) = FlowObserver(lifecycleOwner, this) {}

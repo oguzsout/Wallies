@@ -1,4 +1,4 @@
-package com.oguzdogdu.wallies
+package com.oguzdogdu.wallies.presentation.main
 
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -8,8 +8,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
+import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.databinding.ActivityMainBinding
-import com.oguzdogdu.wallies.presentation.main.MainViewModel
 import com.oguzdogdu.wallies.util.hide
 import com.oguzdogdu.wallies.util.show
 import dagger.hilt.android.AndroidEntryPoint

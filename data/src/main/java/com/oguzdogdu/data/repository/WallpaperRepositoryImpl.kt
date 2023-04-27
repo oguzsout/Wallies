@@ -28,6 +28,7 @@ import com.oguzdogdu.wallies.cache.dao.FavoriteDao
 import com.oguzdogdu.wallies.cache.entity.FavoriteImage
 import com.oguzdogdu.wallies.cache.entity.toDomain
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
 
@@ -104,9 +105,11 @@ class WallpaperRepositoryImpl @Inject constructor(private val service: Wallpaper
         )
     }
 
-    override suspend fun getFavorites(): List<FavoriteImages> {
-        return favoriteDao.getFavorites().mapNotNull {
-            it.toDomain()
+    override suspend fun getFavorites(): Flow<List<FavoriteImages>> {
+        return favoriteDao.getFavorites().map { result ->
+            result.map {
+                it.toDomain()
+            }
         }
     }
 

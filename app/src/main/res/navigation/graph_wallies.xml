@@ -13,11 +13,11 @@
 
         <action
             android:id="@+id/toPopular"
-            app:destination="@id/popularFragment"/>
+            app:destination="@id/popularFragment" />
 
         <action
             android:id="@+id/toLatest"
-            app:destination="@id/latestFragment"/>
+            app:destination="@id/latestFragment" />
 
         <action
             android:id="@+id/toDetail"
@@ -31,6 +31,9 @@
         <action
             android:id="@+id/toCollections"
             app:destination="@id/collectionsFragment" />
+        <action
+            android:id="@+id/toFavorites"
+            app:destination="@id/favoritesFragment" />
 
     </fragment>
 
@@ -76,6 +79,12 @@
             android:name="id"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/toUnsplashProfile"
+            app:destination="@id/unsplashProfileFragment" />
+        <action
+            android:id="@+id/toProfile"
+            app:destination="@id/profileFragment" />
 
     </fragment>
 
@@ -83,7 +92,7 @@
         android:id="@+id/searchFragment"
         android:name="com.oguzdogdu.wallies.presentation.search.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" >
+        tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/toDetail"
             app:destination="@id/detailFragment" />
@@ -92,7 +101,7 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.oguzdogdu.wallies.presentation.settings.SettingsFragment"
-        android:label="SettingsFragment"/>
+        android:label="SettingsFragment" />
 
     <fragment
         android:id="@+id/collectionsFragment"
@@ -126,12 +135,51 @@
         android:id="@+id/splashFragment"
         android:name="com.oguzdogdu.wallies.presentation.splash.SplashFragment"
         android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
+        tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/toMain"
             app:destination="@id/mainFragment"
             app:popUpTo="@id/graph_wallies"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.oguzdogdu.wallies.presentation.favorites.FavoritesFragment"
+        android:label="fragment_favorites"
+        tools:layout="@layout/fragment_favorites" />
+    <fragment
+        android:id="@+id/unsplashProfileFragment"
+        android:name="com.oguzdogdu.wallies.presentation.unsplashprofile.UnsplashProfileFragment"
+        android:label="fragment_unsplash_profile"
+        tools:layout="@layout/fragment_unsplash_profile">
+        <argument
+            android:name="url"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/toDetail"
+            app:destination="@id/detailFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/profileFragment"
+        android:name="com.oguzdogdu.wallies.presentation.unsplashprofile.ProfileFragment"
+        android:label="ProfileFragment" >
+        <argument
+            android:name="imageUrl"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="name"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="bio"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="location"
+            app:argType="string"
+            app:nullable="true" />
+    </dialog>
 
 </navigation>

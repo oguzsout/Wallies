@@ -2,13 +2,12 @@ package com.oguzdogdu.wallies.presentation.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.oguzdogdu.domain.wrapper.Resource
 import com.oguzdogdu.domain.model.favorites.FavoriteImages
-import com.oguzdogdu.domain.repository.WallpaperRepository
 import com.oguzdogdu.domain.usecase.favorites.AddFavoritesUseCase
 import com.oguzdogdu.domain.usecase.favorites.DeleteFavoritesUseCase
 import com.oguzdogdu.domain.usecase.favorites.GetFavoritesUseCase
 import com.oguzdogdu.domain.usecase.singlephoto.SinglePhotoUseCase
+import com.oguzdogdu.domain.wrapper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +20,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
-    private val repository: WallpaperRepository,
     private val useCase: SinglePhotoUseCase,
     private val favoritesUseCase: AddFavoritesUseCase,
     private val getFavoritesUseCase: GetFavoritesUseCase,
@@ -52,7 +50,7 @@ class DetailViewModel @Inject constructor(
                 }
 
                 is Resource.Error -> {
-                    _getPhoto.value = DetailState(error = result.errorMessage ?: "")
+                    _getPhoto.value = DetailState(error = result.errorMessage)
                 }
 
                 else -> {}
@@ -75,24 +73,8 @@ class DetailViewModel @Inject constructor(
     private fun getFavorites() {
         viewModelScope.launch(Dispatchers.IO) {
             getFavoritesUseCase.invoke().collectLatest { result ->
-                when (result) {
-                    is Resource.Loading -> _favorites.value =
-                        FavoriteState(isLoading = true)
-
-                    is Resource.Success -> {
-                        result.data.let {
-                            _favorites.value = FavoriteState (favorites = it)
-                        }
-                    }
-
-                    is Resource.Error -> {
-                        _favorites.value =
-                            FavoriteState(
-                                error = result.errorMessage ?: ""
-                            )
-                    }
-
-                    else -> {}
+                result.let {
+                    _favorites.value = FavoriteState(favorites = it)
                 }
             }
         }
