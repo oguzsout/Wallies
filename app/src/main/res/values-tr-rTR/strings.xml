@@ -23,4 +23,5 @@
     <string name="theme_text">Tema</string>
     <string name="language_title_text">Dil</string>
     <string name="no_picture_text">Üzgünüm, burada görüntülenecek bir şey yok…</string>
+    <string name="more">Daha Fazla</string>
 </resources>

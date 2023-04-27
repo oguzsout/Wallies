@@ -40,47 +40,61 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
         super.initListeners()
         binding.toggleButton.setOnCheckedChangeListener { buttonView, isChecked ->
             lifecycleScope.launch {
-                viewModel.photo.onEach {result ->
-                    when {
-                        result.isLoading -> {
-
-                        }
-                        else -> {
-                            if (isChecked) {
-                                viewModel.addImagesToFavorites(
-                                    FavoriteImages(
-                                        id = result.detail?.id ?: "",
-                                        url = result.detail?.urls ?: "",
-                                        profileImage = result.detail?.profileimage ?: "",
-                                        portfolioUrl = result.detail?.portfolio ?: "",
-                                        name = result.detail?.username ?: "",
-                                        isChecked = true
-                                    )
-                                )
-                            } else {
-                                viewModel.deleteImagesToFavorites(
-                                    FavoriteImages(
-                                        id = result.detail?.id ?: "",
-                                        url = result.detail?.urls ?: "",
-                                        profileImage = result.detail?.profileimage ?: "",
-                                        portfolioUrl = result.detail?.portfolio ?: "",
-                                        name = result.detail?.username ?: "",
-                                        isChecked = false
-                                    )
-                                )
-                            }
-                        }
+                viewModel.photo.onEach { result ->
+                    if (isChecked) {
+                        viewModel.addImagesToFavorites(
+                            FavoriteImages(
+                                id = result.detail?.id ?: "",
+                                url = result.detail?.urls ?: "",
+                                profileImage = result.detail?.profileimage ?: "",
+                                portfolioUrl = result.detail?.portfolio ?: "",
+                                name = result.detail?.username ?: "",
+                                isChecked = true
+                            )
+                        )
+                    } else {
+                        viewModel.deleteImagesToFavorites(
+                            FavoriteImages(
+                                id = result.detail?.id ?: "",
+                                url = result.detail?.urls ?: "",
+                                profileImage = result.detail?.profileimage ?: "",
+                                portfolioUrl = result.detail?.portfolio ?: "",
+                                name = result.detail?.username ?: "",
+                                isChecked = false
+                            )
+                        )
                     }
 
                 }.observeInLifecycle(this@DetailFragment)
             }
 
+            binding.toolbar.setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
         }
     }
 
     override fun observeData() {
         super.observeData()
         args.id?.let { viewModel.getSinglePhoto(it)}
+        checkConnection()
+    }
+
+    private fun checkConnection(){
+        connection.observe(this@DetailFragment) { isConnected ->
+            when (isConnected) {
+                true -> {
+                    getDetailScreenData()
+                }
+                false -> {
+                    requireView().showToast(requireContext(), R.string.internet_error)
+                }
+                null -> {}
+            }
+        }
+    }
+
+    private fun getDetailScreenData(){
         lifecycleScope.launch {
             viewModel.photo.onEach { result ->
                 when {
@@ -98,13 +112,13 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
                 }
             }.observeInLifecycle(this@DetailFragment)
         }
-        checkConnection()
     }
 
     private fun showProfileInfos(photo: Photo?){
         binding.buttonInfo.setOnClickListener {
             val arguments = Bundle().apply {
                 putString("imageUrl", photo?.profileimage)
+                putString("profileUrl", photo?.unsplashProfile)
                 putString("name", photo?.name)
                 putString("bio", photo?.bio)
                 putString("location", photo?.location)
@@ -128,26 +142,14 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
                 placeholder(requireContext().itemLoading(resources.getColor(R.color.background_main_icon)))
                 allowConversionToBitmap(true)
             }
+
             toolbar.title = photo?.desc ?: ""
-            toolbar.setNavigationOnClickListener {
-                findNavController().popBackStack()
-            }
             textViewPhotoOwnerName.text = photo?.username ?: ""
             textViewPhotoOwnerPortfolio.text = photo?.portfolio ?: ""
             textViewViewsCount.text = photo?.views?.toFormattedString() ?: ""
             textViewDownloadsCount.text = photo?.downloads?.toFormattedString() ?: ""
             textViewLikeCount.text = photo?.likes?.toFormattedString()
             textViewCreateTimeValue.text = photo?.createdAt?.formatDate()
-        }
-    }
-
-    private fun checkConnection(){
-        connection.observe(this@DetailFragment) { isConnected ->
-            if (isConnected == true) {
-
-            } else {
-                requireView().showToast(requireContext(),R.string.internet_error)
-            }
         }
     }
 

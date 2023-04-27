@@ -84,7 +84,7 @@
             app:destination="@id/unsplashProfileFragment" />
         <action
             android:id="@+id/toProfile"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profileDescriptionFragment" />
 
     </fragment>
 
@@ -149,7 +149,7 @@
         tools:layout="@layout/fragment_favorites" />
     <fragment
         android:id="@+id/unsplashProfileFragment"
-        android:name="com.oguzdogdu.wallies.presentation.unsplashprofile.UnsplashProfileFragment"
+        android:name="com.oguzdogdu.wallies.presentation.unsplashprofile.webProfile.UnsplashProfileFragment"
         android:label="fragment_unsplash_profile"
         tools:layout="@layout/fragment_unsplash_profile">
         <argument
@@ -161,11 +161,16 @@
             app:destination="@id/detailFragment" />
     </fragment>
     <dialog
-        android:id="@+id/profileFragment"
-        android:name="com.oguzdogdu.wallies.presentation.unsplashprofile.ProfileFragment"
-        android:label="ProfileFragment" >
+        android:id="@+id/profileDescriptionFragment"
+        android:name="com.oguzdogdu.wallies.presentation.unsplashprofile.ProfileDescriptionFragment"
+        android:label="ProfileDescriptionFragment"
+        tools:layout="@layout/fragment_profile_description">
         <argument
             android:name="imageUrl"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="profileUrl"
             app:argType="string"
             app:nullable="true" />
         <argument
@@ -180,6 +185,9 @@
             android:name="location"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/toWebProfile"
+            app:destination="@id/unsplashProfileFragment" />
     </dialog>
 
 </navigation>

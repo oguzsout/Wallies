@@ -43,9 +43,7 @@
         android:layout_marginStart="@dimen/dp_8"
         android:layout_marginTop="@dimen/dp_16"
         android:layout_marginEnd="@dimen/dp_8"
-        android:layout_marginBottom="@dimen/dp_8"
         android:gravity="center_horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewLocation" />
@@ -62,5 +60,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewProfileName" />
+
+    <TextView
+        android:id="@+id/textViewMore"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:layout_marginBottom="@dimen/dp_8"
+        android:autoLink="web"
+        android:textColor="@color/orange"
+        android:gravity="center_horizontal"
+        android:text="@string/more"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewBioDesc" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

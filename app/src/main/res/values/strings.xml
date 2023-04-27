@@ -22,4 +22,5 @@
     <string name="theme_text">Theme</string>
     <string name="language_title_text">Language</string>
     <string name="no_picture_text">Sorry, nothing to display here…</string>
+    <string name="more">More</string>
 </resources>
