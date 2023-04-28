@@ -17,10 +17,6 @@ class PopularViewModel @Inject constructor(private val useCase: GetPopularUseCas
     val getPopular: StateFlow<PopularState>
         get() = _getPopular
 
-    init {
-        getPopularImages()
-    }
-
       fun getPopularImages() {
         viewModelScope.launch {
             useCase().cachedIn(viewModelScope).collectLatest { popular ->

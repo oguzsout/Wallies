@@ -17,10 +17,6 @@ class LatestViewModel @Inject constructor(private val useCase: GetLatestUseCase)
     val getLatest: StateFlow<LatestState>
         get() = _getLatest
 
-    init {
-        getLatestImages()
-    }
-
      fun getLatestImages() {
         viewModelScope.launch {
             useCase().cachedIn(viewModelScope).collectLatest { latest ->

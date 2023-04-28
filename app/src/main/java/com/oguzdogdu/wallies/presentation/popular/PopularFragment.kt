@@ -4,12 +4,17 @@ import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentPopularBinding
-import com.oguzdogdu.wallies.util.*
+import com.oguzdogdu.wallies.presentation.main.MainActivity
+import com.oguzdogdu.wallies.util.CheckConnection
+import com.oguzdogdu.wallies.util.hide
+import com.oguzdogdu.wallies.util.observeInLifecycle
+import com.oguzdogdu.wallies.util.setUp
+import com.oguzdogdu.wallies.util.show
+import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -28,10 +33,23 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
     override fun initViews() {
         super.initViews()
         binding.apply {
-            recyclerViewWallpapers.adapter = popularWallpaperAdapter
-            val layoutManager = GridLayoutManager(requireContext(), 2)
-            recyclerViewWallpapers.layoutManager = layoutManager
-            recyclerViewWallpapers.setHasFixedSize(true)
+            recyclerViewWallpapers.setUp(
+                layoutManager = GridLayoutManager(requireContext(), 2),
+                adapter = popularWallpaperAdapter,
+                true,
+                onScroll = {
+                    recyclerViewWallpapers.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                            super.onScrolled(recyclerView, dx, dy)
+                            if (dy > 0) {
+                                (activity as MainActivity).slideDown()
+                            } else if (dy < 0) {
+                                (activity as MainActivity).slideUp()
+                            }
+                        }
+                    })
+                }
+            )
         }
     }
 
@@ -44,7 +62,7 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
             navigate(R.id.toDetail, arguments)
         }
         binding.swipeRefresh.setOnRefreshListener {
-            viewModel.getPopularImages()
+            checkConnection()
             binding.swipeRefresh.isRefreshing = false
         }
     }
@@ -52,22 +70,24 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
     override fun observeData() {
         super.observeData()
         checkConnection()
-        viewModel.getPopularImages()
-        getImages()
+        getPopularImages()
     }
 
     private fun checkConnection(){
         connection.observe(viewLifecycleOwner) { isConnected ->
-            if (isConnected == true
-            ) {
-
-            } else {
-                requireView().showToast(requireContext(),R.string.internet_error)
+            when (isConnected) {
+                true -> {
+                  viewModel.getPopularImages()
+                }
+                false -> {
+                    requireView().showToast(requireContext(), R.string.internet_error)
+                }
+                null -> {}
             }
         }
     }
 
-    private fun getImages(){
+    private fun getPopularImages(){
         lifecycleScope.launch {
             viewModel.getPopular.onEach { result ->
                 when {
@@ -75,7 +95,6 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
                         binding.progressBar.show()
                     }
                     result.error.isNotEmpty() -> {
-
                     }
                     else -> {
                         binding.progressBar.hide()

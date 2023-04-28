@@ -15,8 +15,11 @@ import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentSearchBinding
 import com.oguzdogdu.wallies.presentation.detail.DetailViewModel
 import com.oguzdogdu.wallies.presentation.latest.LatestWallpaperAdapter
+import com.oguzdogdu.wallies.util.CheckConnection
 import com.oguzdogdu.wallies.util.DialogHelper
 import com.oguzdogdu.wallies.util.observeInLifecycle
+import com.oguzdogdu.wallies.util.setUp
+import com.oguzdogdu.wallies.util.showToast
 import com.oguzdogdu.wallies.util.textChanges
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -25,9 +28,13 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding::inflate) {
+
+    @Inject
+    lateinit var connection : CheckConnection
 
     private val viewModel: SearchPhotoViewModel by viewModels()
 
@@ -36,22 +43,40 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
     override fun initViews() {
         super.initViews()
         binding.apply {
-            recyclerViewSearch.adapter = searchWallpaperAdapter
-            val layoutManager = GridLayoutManager(requireContext(), 2)
-            recyclerViewSearch.layoutManager = layoutManager
-            recyclerViewSearch.setHasFixedSize(true)
+            recyclerViewSearch.setUp(
+                layoutManager = GridLayoutManager(requireContext(), 2),
+                adapter = searchWallpaperAdapter,
+                true,
+                onScroll = {})
         }
     }
 
     override fun observeData() {
         super.observeData()
+        checkConnection()
+    }
+
+    private fun checkConnection(){
+        connection.observe(viewLifecycleOwner) { isConnected ->
+            when (isConnected) {
+                true -> {
+                    getSearchImages()
+                }
+                false -> {
+                    requireView().showToast(requireContext(), R.string.internet_error)
+                }
+                null -> {}
+            }
+        }
+    }
+
+    private fun getSearchImages(){
         lifecycleScope.launch {
             viewModel.getSearchPhotos.onEach { result ->
                 searchWallpaperAdapter.submitData(result.search)
             }.observeInLifecycle(this@SearchFragment)
         }
     }
-
 
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun initListeners() {

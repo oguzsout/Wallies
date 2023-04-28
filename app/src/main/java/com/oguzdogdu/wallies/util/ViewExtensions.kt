@@ -37,18 +37,34 @@ fun RecyclerView.addItemDivider() {
     this.addItemDecoration(itemDivider)
 }
 
+ inline fun RecyclerView.setUp(
+    layoutManager: RecyclerView.LayoutManager,
+    adapter: RecyclerView.Adapter<*>,
+    hasFixedSize: Boolean = true,
+    itemAnimator: RecyclerView.ItemAnimator? = null,
+    itemDecoration: RecyclerView.ItemDecoration? = null,
+   crossinline onScroll: () -> Unit
+) {
+    this.layoutManager = layoutManager
+    this.adapter = adapter
+    setHasFixedSize(hasFixedSize)
+    itemAnimator?.let { this.itemAnimator = it }
+    itemDecoration?.let { addItemDecoration(it) }
+     onScroll()
+}
+
 @SuppressLint("SuspiciousIndentation", "ResourceType")
 fun View.showSnackMessage(
     @StringRes buttonText: Int?,
     @StringRes message: Int?,
-    length: Int = Snackbar.LENGTH_SHORT,
+    length: Int = Snackbar.LENGTH_SHORT
 ) {
     message?.let {
         try {
             val snack = Snackbar.make(this.rootView, it, length)
-               snack.setAnchorView(R.id.bottomNavContainer)
+               snack.setAnchorView(R.id.bottomNavigationView)
             snack.setAction(buttonText.orEmpty()) {
-                // Butona tıklandığında yapılacak işlemler burada yazılır.
+                snack.dismiss()
             }
             snack.show()
         } catch (ex: Exception) {

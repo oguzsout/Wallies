@@ -4,9 +4,11 @@ import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentLatestBinding
+import com.oguzdogdu.wallies.presentation.main.MainActivity
 import com.oguzdogdu.wallies.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.onEach
@@ -26,10 +28,23 @@ class LatestFragment : BaseFragment<FragmentLatestBinding>(FragmentLatestBinding
     override fun initViews() {
         super.initViews()
         binding.apply {
-            recyclerViewWallpapers.adapter = latestWallpaperAdapter
-            val layoutManager = GridLayoutManager(requireContext(), 2)
-            recyclerViewWallpapers.layoutManager = layoutManager
-            recyclerViewWallpapers.setHasFixedSize(true)
+            recyclerViewWallpapers.setUp(
+                layoutManager = GridLayoutManager(requireContext(), 2),
+                adapter = latestWallpaperAdapter,
+                true,
+                onScroll = {
+                    recyclerViewWallpapers.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                            super.onScrolled(recyclerView, dx, dy)
+                            if (dy > 0) {
+                                (activity as MainActivity).slideDown()
+                            } else if (dy < 0) {
+                                (activity as MainActivity).slideUp()
+                            }
+                        }
+                    })
+                }
+            )
         }
     }
 
@@ -47,19 +62,27 @@ class LatestFragment : BaseFragment<FragmentLatestBinding>(FragmentLatestBinding
         }
     }
 
+    override fun observeData() {
+        super.observeData()
+        checkConnection()
+        getLatestImages()
+    }
+
     private fun checkConnection(){
         connection.observe(this@LatestFragment) { isConnected ->
-            if (isConnected == true) {
-
-            } else {
-                requireView().showToast(requireContext(),R.string.internet_error)
+            when (isConnected) {
+                true -> {
+                    viewModel.getLatestImages()
+                }
+                false -> {
+                    requireView().showToast(requireContext(), R.string.internet_error)
+                }
+                null -> {}
             }
         }
     }
 
-    override fun observeData() {
-        super.observeData()
-        checkConnection()
+    private fun getLatestImages(){
         lifecycleScope.launch {
             viewModel.getLatest.onEach { result ->
                 when {
