@@ -24,4 +24,10 @@
     <string name="language_title_text">Dil</string>
     <string name="no_picture_text">Üzgünüm, burada görüntülenecek bir şey yok…</string>
     <string name="more">Daha Fazla</string>
+    <string name="set_to_lock_screen_text">Kilit ekranına ayarla</string>
+    <string name="set_to_home_screen_text">Ana ekrana ayarla</string>
+    <string name="set_to_home_amp_lockscreens_text"><![CDATA[Ana ve kilit ekranlarına ayarla]]></string>
+    <string name="set_wallpaper_desc_text">Aşağıdaki seçeneklerden istediğinizi seçerek bu resmi duvar kağıdınız olarak kullanabilirsiniz.</string>
+    <string name="set_wallpaper_applied_time">Ayarlanıyor…</string>
+    <string name="set_wallpaper_applied">Duvar kağıdı ayarlandı.</string>
 </resources>

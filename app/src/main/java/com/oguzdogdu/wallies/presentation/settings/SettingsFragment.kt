@@ -1,6 +1,5 @@
 package com.oguzdogdu.wallies.presentation.settings
 
-import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
@@ -10,6 +9,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.oguzdogdu.wallies.R
+import com.oguzdogdu.wallies.util.ThemeKeys
 import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -30,18 +30,20 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (key == "app_theme"){
-            when(sharedPreferences?.getString(key,"3")){
-                "1" -> {
+            when(sharedPreferences?.getString(key,ThemeKeys.SYSTEM_THEME.value)){
+                ThemeKeys.LIGHT_THEME.value -> {
                     AppCompatDelegate.setDefaultNightMode(
                         AppCompatDelegate.MODE_NIGHT_NO
                     )
                 }
-                "2" -> {
+
+                ThemeKeys.DARK_THEME.value -> {
                     AppCompatDelegate.setDefaultNightMode(
                         AppCompatDelegate.MODE_NIGHT_YES
                     )
                 }
-                "3" -> {
+
+                ThemeKeys.SYSTEM_THEME.value -> {
                     AppCompatDelegate.setDefaultNightMode(
                         AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
                     )
@@ -62,13 +64,13 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         }
         return super.onPreferenceTreeClick(preference)
     }
+
     private fun loadLocale() {
         val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
         val language = prefs.getString("language_preference", "")
         setLocale(language)
     }
 
-    // Dil ayarını değiştir
     private fun setLocale(language: String?) {
         val locale = language?.let { Locale(it) }
         if (locale != null) {

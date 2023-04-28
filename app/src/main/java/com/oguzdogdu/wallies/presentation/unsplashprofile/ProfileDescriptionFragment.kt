@@ -11,27 +11,20 @@ import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.oguzdogdu.wallies.R
+import com.oguzdogdu.wallies.core.BaseBottomSheetDialogFragment
 import com.oguzdogdu.wallies.databinding.FragmentProfileDescriptionBinding
 import com.oguzdogdu.wallies.util.hide
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProfileDescriptionFragment : BottomSheetDialogFragment() {
-
-    private lateinit var binding: FragmentProfileDescriptionBinding
+class ProfileDescriptionFragment : BaseBottomSheetDialogFragment<FragmentProfileDescriptionBinding>(
+    FragmentProfileDescriptionBinding::inflate
+) {
 
     private val args: ProfileDescriptionFragmentArgs by navArgs()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        binding = FragmentProfileDescriptionBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initViews() {
+        super.initViews()
         binding.apply {
             imageViewProfilePhoto.load(args.imageUrl ?: "") {
                 diskCachePolicy(CachePolicy.DISABLED)
@@ -48,14 +41,19 @@ class ProfileDescriptionFragment : BottomSheetDialogFragment() {
                 }
             }
         }
+    }
+
+    override fun initListeners() {
+        super.initListeners()
         navigateWebProfile()
     }
-    private fun navigateWebProfile(){
+
+    private fun navigateWebProfile() {
         binding.textViewMore.setOnClickListener {
             val arguments = Bundle().apply {
                 putString("url", args.profileUrl)
             }
-            findNavController().navigate(R.id.toWebProfile,arguments)
+            findNavController().navigate(R.id.toWebProfile, arguments)
         }
     }
 }

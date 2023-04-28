@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         navigationBarCorners()
 
     }
+
     private fun setupNavigation() {
         val navHostFragment = supportFragmentManager.findFragmentById(
             R.id.nav_host_fragment_content_main
@@ -41,8 +42,6 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
         binding.bottomNavigationView.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            // setup bottom bar visibility
-
             viewModel.showBottomNavigation.value = when (destination.id) {
                 R.id.mainFragment,
                 R.id.collectionsFragment,
@@ -52,9 +51,9 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
             if (viewModel.showBottomNavigation.value == true) {
-                binding.bottomNavContainer.show()
+                binding.bottomNavigationView.show()
             } else {
-                binding.bottomNavContainer.hide()
+                binding.bottomNavigationView.hide()
             }
             if (destination.id != R.id.splashFragment && !isStartDestinationChanged) {
                 val navGraph = navController.graph
@@ -74,5 +73,13 @@ class MainActivity : AppCompatActivity() {
                 .setTopRightCorner(CornerFamily.ROUNDED, radius)
                 .setTopLeftCorner(CornerFamily.ROUNDED, radius)
                 .build()
+    }
+
+     fun slideUp() {
+        binding.bottomNavigationView.show()
+    }
+
+     fun slideDown() {
+        binding.bottomNavigationView.hide()
     }
 }

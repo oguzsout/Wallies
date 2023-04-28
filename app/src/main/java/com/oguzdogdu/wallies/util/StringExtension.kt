@@ -33,3 +33,9 @@ enum class DateFormats(val value: String) {
     OUTPUT_LAST_PAYMENT_DATE_FORMAT("dd MMMM yyyy"),
     OUTPUT_DOTTED_LAST_PAYMENT_DATE_FORMAT("dd.MM.yyyy")
 }
+
+enum class ThemeKeys(val value: String){
+    LIGHT_THEME("1"),
+    DARK_THEME("2"),
+    SYSTEM_THEME("3")
+}

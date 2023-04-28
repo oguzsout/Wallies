@@ -23,6 +23,7 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -50,7 +51,6 @@
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background"
         app:cardCornerRadius="@dimen/dp_8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -58,13 +58,12 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/dashboardContainer"
-            style="@style/BaseButtonStyle"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_200"
+            android:layout_height="wrap_content"
             android:visibility="visible">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/buttonSetWallpaper"
+                android:id="@+id/textViewSetWallpaper"
                 style="@style/DetailText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -155,6 +154,7 @@
                     android:id="@+id/buttonShare"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
                     android:backgroundTint="@color/transparent"
                     android:contentDescription="@string/share_button_text"
                     android:paddingHorizontal="@dimen/dp_16"

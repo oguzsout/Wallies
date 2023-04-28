@@ -22,6 +22,7 @@
     <color name="dark_blue">#00258f</color>
     <color name="dim_gray">#6d6a75</color>
     <color name="orange">#ff8c42</color>
+    <color name="orange_button">#FF9652</color>
     <color name="light_gray">#e7ecef</color>
     <color name="white_opacity_25">#40ffffff</color>
     <color name="transparent">#0fff</color>

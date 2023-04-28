@@ -23,4 +23,10 @@
     <string name="language_title_text">Language</string>
     <string name="no_picture_text">Sorry, nothing to display here…</string>
     <string name="more">More</string>
+    <string name="set_to_lock_screen_text">Set to lock screen</string>
+    <string name="set_to_home_screen_text">Set to home screen</string>
+    <string name="set_to_home_amp_lockscreens_text"><![CDATA[Set to home & lockscreens]]></string>
+    <string name="set_wallpaper_desc_text">You can use this picture as your wallpaper by choosing what you want from the options below.</string>
+    <string name="set_wallpaper_applied_time">Adjusting…</string>
+    <string name="set_wallpaper_applied">Wallpaper adjusted.</string>
 </resources>

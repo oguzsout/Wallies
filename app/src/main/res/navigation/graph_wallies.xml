@@ -32,6 +32,9 @@
             android:id="@+id/toCollections"
             app:destination="@id/collectionsFragment" />
         <action
+            android:id="@+id/toCollectionsDetail"
+            app:destination="@id/singleCollectionFragment" />
+        <action
             android:id="@+id/toFavorites"
             app:destination="@id/favoritesFragment" />
 
@@ -85,6 +88,9 @@
         <action
             android:id="@+id/toProfile"
             app:destination="@id/profileDescriptionFragment" />
+        <action
+            android:id="@+id/toSetWallpaper"
+            app:destination="@id/setWallpaperFragment" />
 
     </fragment>
 
@@ -130,6 +136,9 @@
         <action
             android:id="@+id/toDetail"
             app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/toCollections"
+            app:destination="@id/collectionsFragment" />
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
@@ -188,6 +197,17 @@
         <action
             android:id="@+id/toWebProfile"
             app:destination="@id/unsplashProfileFragment" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/setWallpaperFragment"
+        android:name="com.oguzdogdu.wallies.presentation.setwallpaper.SetWallpaperFragment"
+        android:label="SetWallpaperFragment"
+        tools:layout="@layout/fragment_set_wallpaper">
+        <argument
+            android:name="imageUrl"
+            app:argType="string"
+            app:nullable="true" />
     </dialog>
 
 </navigation>

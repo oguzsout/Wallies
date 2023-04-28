@@ -7,11 +7,9 @@ import java.util.*
 
 object LocaleHelper {
 
-
     fun onAttach(context: Context, defaultLanguage: String): Context {
         return setLocale(context, defaultLanguage)
     }
-
 
     fun setLocale(context: Context, language: String): Context {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -19,7 +17,6 @@ object LocaleHelper {
         } else updateResourcesLegacy(context, language)
 
     }
-
 
     @TargetApi(Build.VERSION_CODES.N)
     private fun updateResources(context: Context, language: String): Context {
