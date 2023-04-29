@@ -67,7 +67,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
     private fun loadLocale() {
         val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        val language = prefs.getString("language_preference", "")
+        val language = prefs.getString("language_preference", "en")
         setLocale(language)
     }
 
@@ -79,6 +79,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         val config = Configuration()
         config.setLocale(locale)
         requireContext().resources.updateConfiguration(config, requireContext().resources.displayMetrics)
+        activity?.recreate()
     }
 
     override fun onDestroy() {

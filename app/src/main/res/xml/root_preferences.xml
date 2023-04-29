@@ -7,7 +7,6 @@
             app:icon="@drawable/dark_mode"
             app:key="app_theme"
             app:useSimpleSummaryProvider="true"
-            app:defaultValue="1"
             app:entries="@array/app_theme"
             app:entryValues="@array/dark_mode_entries_values"
             app:title="@string/theme_text" />
