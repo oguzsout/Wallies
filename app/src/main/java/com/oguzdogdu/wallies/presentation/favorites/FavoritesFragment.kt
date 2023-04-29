@@ -1,23 +1,23 @@
 package com.oguzdogdu.wallies.presentation.favorites
 
+import android.os.Bundle
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentFavoritesBinding
 import com.oguzdogdu.wallies.presentation.main.MainActivity
 import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.setUp
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>(FragmentFavoritesBinding::inflate) {
+class FavoritesFragment :
+    BaseFragment<FragmentFavoritesBinding>(FragmentFavoritesBinding::inflate) {
 
     private val viewModel: FavoritesViewModel by viewModels()
 
@@ -46,6 +46,16 @@ class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>(FragmentFavorit
         }
     }
 
+    override fun initListeners() {
+        super.initListeners()
+        favoritesListAdapter.setOnItemClickListener {
+            val arguments = Bundle().apply {
+                putString("id", it?.id)
+            }
+            navigate(R.id.toDetail, arguments)
+        }
+    }
+
     override fun observeData() {
         super.observeData()
         getFavoritesData()
@@ -60,6 +70,7 @@ class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>(FragmentFavorit
                     result.favorites.isNotEmpty() -> {
                         favoritesListAdapter.submitList(result.favorites)
                     }
+
                     else -> {}
                 }
             }.observeInLifecycle(this@FavoritesFragment)

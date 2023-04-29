@@ -6,7 +6,6 @@ import com.oguzdogdu.domain.usecase.favorites.GetFavoritesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -17,7 +16,7 @@ class FavoritesViewModel @Inject constructor(private val getFavoritesUseCase: Ge
     ViewModel() {
 
     private val _getFavorites = MutableStateFlow(FavoriteUiState())
-    val favorites: StateFlow<FavoriteUiState> = _getFavorites.asStateFlow()
+    val favorites = _getFavorites.asStateFlow()
 
     init {
         getFavoritesList()

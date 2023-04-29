@@ -25,10 +25,18 @@ class FlowObserver<T>(
                             flow.collect { collector(it) }
                         }
                     }
+
+                    Lifecycle.Event.ON_RESUME -> {
+                        job = source.lifecycleScope.launch {
+                            flow.collect { collector(it) }
+                        }
+                    }
+
                     Lifecycle.Event.ON_STOP -> {
                         job?.cancel()
                         job = null
                     }
+
                     else -> {
                     }
                 }

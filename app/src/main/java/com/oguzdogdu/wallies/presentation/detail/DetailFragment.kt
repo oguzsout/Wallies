@@ -3,7 +3,6 @@ package com.oguzdogdu.wallies.presentation.detail
 import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
 import coil.request.CachePolicy
@@ -16,6 +15,7 @@ import com.oguzdogdu.wallies.databinding.FragmentDetailBinding
 import com.oguzdogdu.wallies.util.CheckConnection
 import com.oguzdogdu.wallies.util.formatDate
 import com.oguzdogdu.wallies.util.itemLoading
+import com.oguzdogdu.wallies.util.observe
 import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.showToast
 import com.oguzdogdu.wallies.util.toFormattedString
@@ -38,6 +38,11 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
     override fun initListeners() {
         super.initListeners()
+
+        binding.toolbar.setNavigationOnClickListener {
+            navigateBack()
+        }
+
         binding.toggleButton.setOnCheckedChangeListener { buttonView, isChecked ->
             lifecycleScope.launch {
                 viewModel.photo.onEach { result ->
@@ -67,54 +72,37 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
                 }.observeInLifecycle(this@DetailFragment)
             }
-
-            binding.toolbar.setNavigationOnClickListener {
-                findNavController().popBackStack()
-            }
         }
     }
 
     override fun observeData() {
         super.observeData()
-        args.id?.let { viewModel.getSinglePhoto(it)}
         checkConnection()
     }
 
-    private fun checkConnection(){
+    private fun checkConnection() {
         connection.observe(this@DetailFragment) { isConnected ->
             when (isConnected) {
                 true -> {
-                    getDetailScreenData()
+                    args.id?.let { viewModel.getSinglePhoto(it) }
+                    observe(viewModel.photo, viewLifecycleOwner) {
+                        setItems(it.detail)
+                        favoriteCheck(it.detail?.id)
+                        showProfileInfos(it.detail)
+                        navigateToSetWallpaper(it.detail?.urls)
+                    }
                 }
+
                 false -> {
                     requireView().showToast(requireContext(), R.string.internet_error)
                 }
+
                 null -> {}
             }
         }
     }
 
-    private fun getDetailScreenData(){
-        lifecycleScope.launch {
-            viewModel.photo.onEach { result ->
-                when {
-                    result.isLoading -> {
-
-                    }
-                    result.error.isNotEmpty() -> {
-
-                    }
-                    else -> {
-                        setItems(result.detail)
-                        favoriteCheck(result.detail?.id)
-                        showProfileInfos(result.detail)
-                    }
-                }
-            }.observeInLifecycle(this@DetailFragment)
-        }
-    }
-
-    private fun showProfileInfos(photo: Photo?){
+    private fun showProfileInfos(photo: Photo?) {
         binding.buttonInfo.setOnClickListener {
             val arguments = Bundle().apply {
                 putString("imageUrl", photo?.profileimage)
@@ -127,7 +115,16 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
         }
     }
 
-    private fun setItems(photo: Photo?){
+    private fun navigateToSetWallpaper(imageUrl: String?) {
+        binding.textViewSetWallpaper.setOnClickListener {
+            val arguments = Bundle().apply {
+                putString("imageUrl", imageUrl)
+            }
+            navigate(R.id.toSetWallpaper, arguments)
+        }
+    }
+
+    private fun setItems(photo: Photo?) {
         with(binding) {
 
             imageViewPhotoOwner.load(photo?.profileimage ?: "") {

@@ -91,6 +91,9 @@
         <action
             android:id="@+id/toSetWallpaper"
             app:destination="@id/setWallpaperFragment" />
+        <action
+            android:id="@+id/toFavorites"
+            app:destination="@id/favoritesFragment" />
 
     </fragment>
 
@@ -138,7 +141,13 @@
             app:destination="@id/detailFragment" />
         <action
             android:id="@+id/toCollections"
-            app:destination="@id/collectionsFragment" />
+            app:destination="@id/collectionsFragment"
+            app:popUpTo="@id/toCollections"
+            app:popUpToInclusive="true"/>
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
@@ -155,7 +164,11 @@
         android:id="@+id/favoritesFragment"
         android:name="com.oguzdogdu.wallies.presentation.favorites.FavoritesFragment"
         android:label="fragment_favorites"
-        tools:layout="@layout/fragment_favorites" />
+        tools:layout="@layout/fragment_favorites">
+        <action
+            android:id="@+id/toDetail"
+            app:destination="@id/detailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/unsplashProfileFragment"
         android:name="com.oguzdogdu.wallies.presentation.unsplashprofile.webProfile.UnsplashProfileFragment"

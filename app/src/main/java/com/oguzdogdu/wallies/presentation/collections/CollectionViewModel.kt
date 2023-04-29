@@ -1,11 +1,14 @@
 package com.oguzdogdu.wallies.presentation.collections
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.oguzdogdu.domain.usecase.collection.GetCollectionsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -14,10 +17,9 @@ class CollectionViewModel @Inject constructor(private val useCase: GetCollection
     ViewModel() {
 
     private val _getCollections = MutableStateFlow(CollectionState())
-    val getCollections: StateFlow<CollectionState>
-        get() = _getCollections
+    val getCollections = _getCollections.asStateFlow()
 
-     fun getCollectionsList() {
+    fun getCollectionsList() {
         viewModelScope.launch {
             useCase().cachedIn(viewModelScope).collectLatest { collection ->
                 collection.let {

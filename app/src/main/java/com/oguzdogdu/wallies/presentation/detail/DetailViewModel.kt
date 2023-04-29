@@ -11,7 +11,7 @@ import com.oguzdogdu.domain.wrapper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -27,11 +27,10 @@ class DetailViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _getPhoto = MutableStateFlow(DetailState())
-    val photo: StateFlow<DetailState>
-        get() = _getPhoto
+    val photo = _getPhoto.asStateFlow()
+
     private val _favorites = MutableStateFlow(FavoriteState())
-    val favorites: StateFlow<FavoriteState>
-        get() = _favorites
+    val favorites = _favorites.asStateFlow()
 
 
     init {
@@ -60,13 +59,13 @@ class DetailViewModel @Inject constructor(
 
     fun addImagesToFavorites(favoriteImage: FavoriteImages) {
         viewModelScope.launch {
-           favoritesUseCase.invoke(favoriteImage)
+            favoritesUseCase.invoke(favoriteImage)
         }
     }
 
     fun deleteImagesToFavorites(favoriteImage: FavoriteImages) {
         viewModelScope.launch {
-           deleteFavoritesUseCase.invoke(favoriteImage)
+            deleteFavoritesUseCase.invoke(favoriteImage)
         }
     }
 

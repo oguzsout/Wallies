@@ -7,10 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.oguzdogdu.domain.model.collection.CollectionList
-import com.oguzdogdu.domain.model.collection.WallpaperCollections
-import com.oguzdogdu.wallies.databinding.ItemCollectionsBinding
 import com.oguzdogdu.wallies.databinding.ItemCollectionsListsBinding
-import com.oguzdogdu.wallies.databinding.ItemMainImageBinding
 
 class CollectionsListsAdapter :
     ListAdapter<CollectionList, CollectionsListsAdapter.CollectionsListsViewHolder>(

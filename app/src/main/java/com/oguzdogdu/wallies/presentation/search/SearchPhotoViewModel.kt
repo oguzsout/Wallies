@@ -16,8 +16,7 @@ class SearchPhotoViewModel @Inject constructor(
     ViewModel() {
 
     private val _getSearchPhotos = MutableStateFlow(SearchPhotoState())
-    val getSearchPhotos: StateFlow<SearchPhotoState>
-        get() = _getSearchPhotos
+    val getSearchPhotos = _getSearchPhotos.asStateFlow()
 
 
     fun getSearchPhotos(query: String) {
