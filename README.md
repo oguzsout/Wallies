@@ -47,11 +47,11 @@ Clean architecture was proposed by [Robert C. Martin](https://en.wikipedia.org/w
 
 The circles represent different layers of your app. Note that:
 
-- The center circle is the most abstract, and the outer circle is the most concrete. This is called the [Abstraction Principle](https://en.wikipedia.org/wiki/Abstraction_principle_(computer_programming)). The Abstraction Principle specifies that inner circles should contain business logic, and outer circles should contain implementation details.
+- The center circle is the most abstract, and the outer circle is the most concrete. This is called the [Abstraction Principle](https://en.wikipedia.org/wiki/Abstraction_principle_computer_programming). The Abstraction Principle specifies that inner circles should contain business logic, and outer circles should contain implementation details.
 
 - Another principle of Clean Architecture is the [Dependency Inversion](https://en.wikipedia.org/wiki/Dependency_inversion_principle). This rule specifies that each circle can depend only on the nearest inward circle ie. low-level modules do not depend on high-level modules but the other way around.
 
-<p align="center"><img src="art/architecture.png" alt="Clean Architecture Diagram"></p>
+<p align="center"><img src="![0_5eJUx2N-5IKoIJNO](https://user-images.githubusercontent.com/73955284/235376390-e2ab1adc-0569-4601-9995-ddac08c27a5e.png)" alt="Clean Architecture Diagram"></p>
 
 # Todos
 - [ ] Jetpack Compose Migration
