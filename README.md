@@ -20,7 +20,10 @@ This project uses many of the popular libraries, plugins and tools of the androi
 - [Retrofit](https://square.github.io/retrofit/) - Type-safe http client and supports coroutines out of the box.
 - [OkHttp-Logging-Interceptor](https://github.com/square/okhttp/blob/master/okhttp-logging-interceptor/README.md) - Logs HTTP request and response data.
 - [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) - Library Support for coroutines.
-- [Flow](https://developer.android.com/kotlin/flow) - Flows are built on top of coroutines and can provide multiple values. A flow is conceptually a stream of data that can be computed asynchronously.
+- [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/) - A cold asynchronous data stream that sequentially emits values and completes normally or with an exception.
+- [StateFlow](https://developer.android.com/kotlin/flow/stateflow-and-sharedflow) - StateFlow is a
+  state-holder observable flow that emits the current and new state updates to its collectors.
+- [Android Architecture Components](https://developer.android.com/topic/libraries/architecture) - Collection of libraries that help you design robust, testable, and maintainable apps.
 - [Material Design](https://material.io/develop/android/docs/getting-started/) - Build awesome beautiful UIs.
 - [Navigation](https://developer.android.com/guide/navigation/navigation-getting-started) - Android Jetpack's Navigation component helps you implement navigation, from simple button clicks to more complex patterns, such as app bars and the navigation drawer.
 - [Pagination](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) - The Paging library helps you load and display pages of data from a larger dataset from local storage or over network.
@@ -35,9 +38,22 @@ This project uses many of the popular libraries, plugins and tools of the androi
 |![](https://user-images.githubusercontent.com/73955284/235375106-85b5679b-d68e-4394-8f19-0da2609bf7df.png)| ![](https://user-images.githubusercontent.com/73955284/235375132-9dbc1819-c2e9-461e-9079-ce6097a9d5a7.png)
 |![](https://user-images.githubusercontent.com/73955284/235375157-15c13532-2896-4d22-aaf5-49f6ebd8ba3b.png)| ![](https://user-images.githubusercontent.com/73955284/235375256-c17e525f-0709-4b29-b978-e4ed25b1d212.png)|
 
+## Architecture
+A well planned architecture is extremely important for an app to scale and all architectures have one common goal- to manage complexity of your app. This isn't something to be worried about in smaller apps however it may prove very useful when working on apps with longer development lifecycle and a bigger team.
+
+Clean architecture was proposed by [Robert C. Martin](https://en.wikipedia.org/wiki/Robert_C._Martin) in 2012 in the [Clean Code Blog](http://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) and it follow the SOLID principle.
+
+<p align="center"><img src="art/clean_arch.jpeg" alt="Clean Architecture"></p>
+
+The circles represent different layers of your app. Note that:
+
+- The center circle is the most abstract, and the outer circle is the most concrete. This is called the [Abstraction Principle](https://en.wikipedia.org/wiki/Abstraction_principle_(computer_programming)). The Abstraction Principle specifies that inner circles should contain business logic, and outer circles should contain implementation details.
+
+- Another principle of Clean Architecture is the [Dependency Inversion](https://en.wikipedia.org/wiki/Dependency_inversion_principle). This rule specifies that each circle can depend only on the nearest inward circle ie. low-level modules do not depend on high-level modules but the other way around.
+
+<p align="center"><img src="art/architecture.png" alt="Clean Architecture Diagram"></p>
 
 # Todos
-- Jetpack Compose Migration
-- Unit Tests
-- More Spesific Screens
-
+- [ ] Jetpack Compose Migration
+- [ ] Unit Tests
+- [ ] More Spesific Screens
