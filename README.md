@@ -13,7 +13,6 @@ In this application consisting of multiple screens, you can review popular and r
 API_KEY=""
 ```
 
-
 # Tech Stacks
 This project uses many of the popular libraries, plugins and tools of the android ecosystem.
 - [Clean Architecture](https://developer.android.com/topic/architecture) - Clean architecture is a method of software development in which you should be able to identify what a program performs merely by looking at its source code.
@@ -27,6 +26,16 @@ This project uses many of the popular libraries, plugins and tools of the androi
 - [Pagination](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) - The Paging library helps you load and display pages of data from a larger dataset from local storage or over network.
 - [Room](https://developer.android.com/training/data-storage/room) - The room persistence library it is an abstraction layer over SQLite.
 - [Coil](https://github.com/coil-kt/coil) - Image loading for Android backed by Kotlin Coroutines.
+
+## 📸 Screenshots
+
+|   |   |   |
+|---|---|---|
+|![](https://user-images.githubusercontent.com/73955284/235374976-869f35d8-8646-4c58-8cd5-9f38a3620fec.png) |![](https://user-images.githubusercontent.com/73955284/235375011-d6f71965-1039-43a1-afd1-0b264bba5e7a.png) |![](https://user-images.githubusercontent.com/73955284/235375049-fad3712d-adb0-489d-99a7-cee5ce0111b9.png)
+|![screenshot](https://user-images.githubusercontent.com/73955284/235375072-d9089ca2-4524-4ce9-b8cc-2d0e0ae65a6b.png) |![](https://user-images.githubusercontent.com/73955284/235375106-85b5679b-d68e-4394-8f19-0da2609bf7df.png) |![](art/positive-chart.png)
+|![](https://user-images.githubusercontent.com/73955284/235375132-9dbc1819-c2e9-461e-9079-ce6097a9d5a7.png)
+ |![](https://user-images.githubusercontent.com/73955284/235375157-15c13532-2896-4d22-aaf5-49f6ebd8ba3b.png) 
+
 
 # Todos
 - Jetpack Compose Migration
