@@ -43,4 +43,4 @@ data class Photo(
     val user: User?,
 ) : Parcelable
 
-fun Photo.toDomain() = CollectionList(id = id, url = urls?.regular)
+fun Photo.toDomain() = CollectionList(id = id, url = urls?.regular,desc = description)

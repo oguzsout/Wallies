@@ -11,10 +11,6 @@ class ViewPagerAdapter(container: FragmentActivity, private val fragmentList: Li
     FragmentStateAdapter(container) {
     override fun getItemCount() = fragmentList.size
 
-    override fun getItemViewType(position: Int): Int {
-        return super.getItemViewType(position)
-    }
-
     override fun createFragment(position: Int) : Fragment {
         return when(position){
             0 -> {PopularFragment()}

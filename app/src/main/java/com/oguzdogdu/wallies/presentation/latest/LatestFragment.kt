@@ -93,6 +93,7 @@ class LatestFragment : BaseFragment<FragmentLatestBinding>(FragmentLatestBinding
                                 }
                             }
                         }
+
                     }
                 }
 

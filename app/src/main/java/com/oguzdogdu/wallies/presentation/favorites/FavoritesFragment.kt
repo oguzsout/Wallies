@@ -9,8 +9,11 @@ import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentFavoritesBinding
 import com.oguzdogdu.wallies.presentation.main.MainActivity
+import com.oguzdogdu.wallies.util.hide
+import com.oguzdogdu.wallies.util.observe
 import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.setUp
+import com.oguzdogdu.wallies.util.show
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -62,18 +65,18 @@ class FavoritesFragment :
     }
 
     private fun getFavoritesData() {
-        lifecycleScope.launch {
-            viewModel.favorites.onEach { result ->
-                when {
-                    result.isLoading -> {}
-                    result.error.isNotEmpty() -> {}
-                    result.favorites.isNotEmpty() -> {
-                        favoritesListAdapter.submitList(result.favorites)
-                    }
-
-                    else -> {}
+        observe(viewModel.favorites, viewLifecycleOwner) {
+            when {
+                it.isLoading -> {}
+                it.error.isNotEmpty() -> {}
+                it.favorites.isEmpty() -> {
+                    binding.linearLayoutNoPicture.show()
                 }
-            }.observeInLifecycle(this@FavoritesFragment)
+                else -> {
+                    binding.linearLayoutNoPicture.hide()
+                    favoritesListAdapter.submitList(it.favorites)
+                }
+            }
         }
     }
 }

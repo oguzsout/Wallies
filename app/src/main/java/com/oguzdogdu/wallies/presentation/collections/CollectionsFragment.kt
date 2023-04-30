@@ -10,11 +10,11 @@ import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentCollectionsBinding
 import com.oguzdogdu.wallies.presentation.main.MainActivity
 import com.oguzdogdu.wallies.util.CheckConnection
-import com.oguzdogdu.wallies.util.observeInLifecycle
+import com.oguzdogdu.wallies.util.observe
 import com.oguzdogdu.wallies.util.setUp
 import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -57,6 +57,7 @@ class CollectionsFragment :
         collectionListAdapter.setOnItemClickListener {
             val arguments = Bundle().apply {
                 putString("id", it?.id)
+                putString("title", it?.desc)
             }
             navigate(R.id.toCollectionsLists, arguments)
         }
@@ -64,39 +65,35 @@ class CollectionsFragment :
 
     override fun observeData() {
         super.observeData()
+        viewModel.getCollectionsList()
         checkConnection()
-        getCollectionListData()
     }
 
-    private fun checkConnection(){
+    private fun checkConnection() {
         connection.observe(this@CollectionsFragment) { isConnected ->
             when (isConnected) {
                 true -> {
-                    viewModel.getCollectionsList()
+                    observe(viewModel.getCollections, viewLifecycleOwner) {
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            when {
+                                it.isLoading -> {}
+
+                                it.error.isNotEmpty() -> {}
+
+                                else -> {
+                                    collectionListAdapter.submitData(it.collections)
+                                }
+                            }
+                        }
+                    }
                 }
+
                 false -> {
                     requireView().showToast(requireContext(), R.string.internet_error)
                 }
+
                 null -> {}
             }
-        }
-    }
-
-    private fun getCollectionListData(){
-        lifecycleScope.launch {
-            viewModel.getCollections.onEach { result ->
-                when {
-                    result.isLoading -> {
-
-                    }
-                    result.error.isNotEmpty() -> {
-
-                    }
-                    else -> {
-                        collectionListAdapter.submitData(result.collections)
-                    }
-                }
-            }.observeInLifecycle(this@CollectionsFragment)
         }
     }
 }
