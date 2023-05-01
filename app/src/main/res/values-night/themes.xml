@@ -27,7 +27,7 @@
     </style>
 
     <style name="AppBar" parent="Widget.Design.AppBarLayout">
-        <item name="android:background">@color/background_dark</item>
+        <item name="android:background">@color/background_tab</item>
     </style>
 
     <style name="AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
@@ -72,7 +72,7 @@
     </style>
 
     <style name="Tab.Background" parent="Widget.MaterialComponents.TabLayout">
-        <item name="android:background">@color/background_dark</item>
+        <item name="android:background">@drawable/bg_tab</item>
         <item name="tabIndicator">@drawable/tab_indicator</item>
         <item name="tabIndicatorColor">@color/orange</item>
         <item name="tabIndicatorGravity">center</item>

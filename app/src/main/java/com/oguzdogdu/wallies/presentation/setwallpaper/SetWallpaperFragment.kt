@@ -74,12 +74,19 @@ class SetWallpaperFragment :
                     model: Any?,
                     target: com.bumptech.glide.request.target.Target<Bitmap>?,
                     dataSource: DataSource?,
-                    isFirstResource: Boolean
+                    isFirstResource: Boolean,
                 ): Boolean {
 
                     val wallpaperManager = WallpaperManager.getInstance(requireContext())
+                    /*    TODO This field adjusts an image with a high size again according to the size of the phone.
+                    val displayMetrics = DisplayMetrics()
+                        val windowManager = context?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+                        windowManager.defaultDisplay.getMetrics(displayMetrics)
+                        val width = displayMetrics.widthPixels
+                        val height = displayMetrics.heightPixels
+                        val bitmap = Bitmap.createScaledBitmap(resource!!, width, height, true)*/
                     try {
-                        resource?.let {
+                        resource.let {
                             when (isLockScreen) {
                                 false -> wallpaperManager.setBitmap(
                                     it,
@@ -87,8 +94,9 @@ class SetWallpaperFragment :
                                     true,
                                     WallpaperManager.FLAG_LOCK
                                 )
+
                                 null -> wallpaperManager.setBitmap(it)
-                                else -> wallpaperManager.setBitmap(
+                                true -> wallpaperManager.setBitmap(
                                     it,
                                     null,
                                     true,

@@ -1,5 +1,6 @@
 package com.oguzdogdu.wallies.presentation.detail
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -90,6 +91,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
                         favoriteCheck(it.detail?.id)
                         showProfileInfos(it.detail)
                         navigateToSetWallpaper(it.detail?.urls)
+                        sharePhoto(it.detail)
                     }
                 }
 
@@ -147,6 +149,17 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
             textViewDownloadsCount.text = photo?.downloads?.toFormattedString() ?: ""
             textViewLikeCount.text = photo?.likes?.toFormattedString()
             textViewCreateTimeValue.text = photo?.createdAt?.formatDate()
+        }
+    }
+
+    private fun sharePhoto(photo: Photo?) {
+        binding.buttonShare.setOnClickListener {
+            val share = Intent.createChooser(Intent().apply {
+                action = Intent.ACTION_SEND
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, photo?.urls)
+            }, null)
+            startActivity(share)
         }
     }
 

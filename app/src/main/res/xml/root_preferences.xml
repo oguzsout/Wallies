@@ -8,6 +8,7 @@
             app:key="app_theme"
             app:useSimpleSummaryProvider="true"
             app:entries="@array/app_theme"
+            android:defaultValue="3"
             app:entryValues="@array/dark_mode_entries_values"
             app:title="@string/theme_text" />
 

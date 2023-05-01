@@ -4,4 +4,5 @@
     <color name="background_main_icon">#e7ecef</color>
     <color name="background_app_icon">#24292E</color>
     <color name="background_search">#66ffffff</color>
+    <color name="background_tab">#292130</color>
 </resources>

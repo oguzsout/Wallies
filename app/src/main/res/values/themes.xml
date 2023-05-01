@@ -22,6 +22,7 @@
 
     <style name="Widget.App.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.BottomNavigationView</item>
+        <item name="layout_behavior">com.oguzdogdu.wallies.util.BottomNavigationBehavior</item>
     </style>
 
     <style name="ThemeOverlay.App.BottomNavigationView" parent="">
@@ -85,7 +86,7 @@
     </style>
 
     <style name="Tab.Background" parent="Widget.MaterialComponents.TabLayout">
-        <item name="android:background">@color/light_gray</item>
+        <item name="android:background">@drawable/bg_tab</item>
         <item name="tabIndicator">@drawable/tab_indicator</item>
         <item name="tabIndicatorColor">@color/orange</item>
         <item name="tabIndicatorGravity">center</item>

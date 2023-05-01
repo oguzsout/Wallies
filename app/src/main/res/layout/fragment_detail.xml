@@ -110,6 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"
                 android:fontFamily="@font/googlesansmedium"
+                app:layout_constraintEnd_toStartOf="@+id/toggleButton"
                 app:layout_constraintStart_toEndOf="@+id/imageViewPhotoOwner"
                 app:layout_constraintTop_toTopOf="@+id/imageViewPhotoOwner" />
 
@@ -122,6 +123,7 @@
                 android:fontFamily="@font/googlesansregular"
                 android:maxLines="1"
                 android:singleLine="true"
+                app:layout_constraintEnd_toStartOf="@+id/toggleButton"
                 app:layout_constraintStart_toStartOf="@+id/textViewPhotoOwnerName"
                 app:layout_constraintTop_toBottomOf="@+id/textViewPhotoOwnerName" />
 
@@ -154,7 +156,6 @@
                     android:id="@+id/buttonShare"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
                     android:backgroundTint="@color/transparent"
                     android:contentDescription="@string/share_button_text"
                     android:paddingHorizontal="@dimen/dp_16"
