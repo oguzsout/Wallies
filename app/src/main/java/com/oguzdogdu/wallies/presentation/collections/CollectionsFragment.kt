@@ -11,7 +11,7 @@ import com.oguzdogdu.wallies.databinding.FragmentCollectionsBinding
 import com.oguzdogdu.wallies.presentation.main.MainActivity
 import com.oguzdogdu.wallies.util.CheckConnection
 import com.oguzdogdu.wallies.util.observe
-import com.oguzdogdu.wallies.util.setUp
+import com.oguzdogdu.wallies.util.setupRecyclerView
 import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -32,7 +32,7 @@ class CollectionsFragment :
     override fun initViews() {
         super.initViews()
         binding.apply {
-            recyclerViewCollections.setUp(
+            recyclerViewCollections.setupRecyclerView(
                 layoutManager = GridLayoutManager(requireContext(), 2),
                 adapter = collectionListAdapter,
                 true,

@@ -14,5 +14,9 @@ data class Photo(
     val likes: Int?,
     val bio: String?,
     val name: String?,
-    val location: String?
+    val location: String?,
+    val rawQuality: String?,
+    val highQuality: String?,
+    val mediumQuality: String?,
+    val lowQuality: String?
 )

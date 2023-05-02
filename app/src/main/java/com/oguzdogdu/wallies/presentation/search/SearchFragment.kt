@@ -14,7 +14,7 @@ import com.oguzdogdu.wallies.databinding.FragmentSearchBinding
 import com.oguzdogdu.wallies.util.CheckConnection
 import com.oguzdogdu.wallies.util.observe
 import com.oguzdogdu.wallies.util.observeInLifecycle
-import com.oguzdogdu.wallies.util.setUp
+import com.oguzdogdu.wallies.util.setupRecyclerView
 import com.oguzdogdu.wallies.util.showToast
 import com.oguzdogdu.wallies.util.textChanges
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,7 +37,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
     override fun initViews() {
         super.initViews()
         binding.apply {
-            recyclerViewSearch.setUp(
+            recyclerViewSearch.setupRecyclerView(
                 layoutManager = GridLayoutManager(requireContext(), 2),
                 adapter = searchWallpaperAdapter,
                 true,

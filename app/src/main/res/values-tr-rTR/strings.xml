@@ -30,4 +30,11 @@
     <string name="set_wallpaper_desc_text">Aşağıdaki seçeneklerden istediğinizi seçerek bu resmi duvar kağıdınız olarak kullanabilirsiniz.</string>
     <string name="set_wallpaper_applied_time">Ayarlanıyor…</string>
     <string name="set_wallpaper_applied">Duvar kağıdı ayarlandı.</string>
+    <string name="download_photo_desc_text">Fotoğrafın boyutuna göre aşağıda indirme seçenekleri mevcut istediğin boyuta göre indirme yapabilirsin.</string>
+    <string name="low_quality_text">Düşük Kalite</string>
+    <string name="medium_quality_text">Orta Kalite</string>
+    <string name="full_high_quality_text">Full (Yüksek Kalite)</string>
+    <string name="raw_very_high_quality_text">Raw (Çok Yüksek Kalite)</string>
+    <string name="downloading_text">İndiriliyor…</string>
+    <string name="image_download_failed_text">Resim İndirme Başarısız</string>
 </resources>

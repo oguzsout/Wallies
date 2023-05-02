@@ -11,33 +11,43 @@
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonLockScreen"
+        android:id="@+id/buttonRawQuality"
         style="@style/DialogButtonStyle"
-        android:text="@string/set_to_lock_screen_text"
+        android:text="@string/raw_very_high_quality_text"
         android:layout_width="0dp"
         android:layout_marginHorizontal="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_16"
         android:layout_marginBottom="@dimen/dp_8"
-        app:layout_constraintBottom_toTopOf="@+id/buttonHomeScreen"
+        app:layout_constraintBottom_toTopOf="@+id/buttonFullQuality"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewSetWallpaperDesc" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonHomeScreen"
+        android:id="@+id/buttonFullQuality"
         style="@style/DialogButtonStyle"
-        android:text="@string/set_to_home_screen_text"
+        android:text="@string/full_high_quality_text"
         android:layout_width="0dp"
         android:layout_marginHorizontal="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLockScreen" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonRawQuality" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonHomeAndLockScreen"
+        android:id="@+id/buttonMediumQuality"
         style="@style/DialogButtonStyle"
-        android:text="@string/set_to_home_amp_lockscreens_text"
+        android:layout_width="0dp"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_8"
+        android:text="@string/medium_quality_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonFullQuality" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonLowQuality"
+        style="@style/DialogButtonStyle"
+        android:text="@string/low_quality_text"
         android:layout_width="0dp"
         android:layout_marginHorizontal="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_8"
@@ -45,17 +55,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonHomeScreen" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonMediumQuality" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imageViewWallpaper"
+        android:id="@+id/imageViewDownload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/wallpaper" />
+        app:srcCompat="@drawable/download" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewSetWallpaperDesc"
@@ -65,9 +75,9 @@
         android:gravity="center_horizontal"
         android:layout_marginHorizontal="@dimen/dp_24"
         android:layout_marginTop="@dimen/dp_16"
-        android:text="@string/set_wallpaper_desc_text"
+        android:text="@string/download_photo_desc_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewWallpaper" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewDownload" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

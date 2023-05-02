@@ -2,7 +2,6 @@ package com.oguzdogdu.wallies.presentation.favorites
 
 import android.os.Bundle
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.oguzdogdu.wallies.R
@@ -11,12 +10,9 @@ import com.oguzdogdu.wallies.databinding.FragmentFavoritesBinding
 import com.oguzdogdu.wallies.presentation.main.MainActivity
 import com.oguzdogdu.wallies.util.hide
 import com.oguzdogdu.wallies.util.observe
-import com.oguzdogdu.wallies.util.observeInLifecycle
-import com.oguzdogdu.wallies.util.setUp
+import com.oguzdogdu.wallies.util.setupRecyclerView
 import com.oguzdogdu.wallies.util.show
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class FavoritesFragment :
@@ -29,7 +25,7 @@ class FavoritesFragment :
     override fun initViews() {
         super.initViews()
         binding.apply {
-            recyclerViewFavorites.setUp(
+            recyclerViewFavorites.setupRecyclerView(
                 layoutManager = GridLayoutManager(requireContext(), 2),
                 adapter = favoritesListAdapter,
                 true, onScroll = {

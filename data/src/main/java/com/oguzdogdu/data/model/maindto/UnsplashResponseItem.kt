@@ -63,5 +63,9 @@ fun UnsplashResponseItem.toDomainModelPhoto() = Photo(
     likes = likes,
     bio = user?.bio,
     name = user?.name,
-    location = user?.location
+    location = user?.location,
+    rawQuality = urls?.raw,
+    highQuality = urls?.full,
+    mediumQuality = urls?.regular,
+    lowQuality = urls?.small
 )

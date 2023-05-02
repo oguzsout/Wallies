@@ -12,6 +12,7 @@
     <color name="background_app_icon">#F3F3F3</color>
     <color name="background_search">#E3E4E9</color>
     <color name="background_tab">#e7ecef</color>
+    <color name="background_button">#9575CD</color>
 
 
     <color name="text_gray">#220E2E</color>

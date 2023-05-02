@@ -37,7 +37,7 @@ fun RecyclerView.addItemDivider() {
     this.addItemDecoration(itemDivider)
 }
 
- inline fun RecyclerView.setUp(
+ inline fun RecyclerView.setupRecyclerView(
     layoutManager: RecyclerView.LayoutManager,
     adapter: RecyclerView.Adapter<*>,
     hasFixedSize: Boolean = true,
@@ -74,6 +74,8 @@ fun View.showSnackMessage(
 }
 
 fun View.showToast(context: Context, @StringRes message: Int, duration: Int = Toast.LENGTH_SHORT) {
+    Toast.makeText(context, message, duration).show()
+}fun View.showToast(context: Context, message: String, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(context, message, duration).show()
 }
 

@@ -12,7 +12,7 @@ import com.oguzdogdu.wallies.presentation.main.MainActivity
 import com.oguzdogdu.wallies.util.CheckConnection
 import com.oguzdogdu.wallies.util.hide
 import com.oguzdogdu.wallies.util.observe
-import com.oguzdogdu.wallies.util.setUp
+import com.oguzdogdu.wallies.util.setupRecyclerView
 import com.oguzdogdu.wallies.util.show
 import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +33,7 @@ class LatestFragment : BaseFragment<FragmentLatestBinding>(FragmentLatestBinding
     override fun initViews() {
         super.initViews()
         binding.apply {
-            recyclerViewWallpapers.setUp(
+            recyclerViewWallpapers.setupRecyclerView(
                 layoutManager = GridLayoutManager(requireContext(), 2),
                 adapter = latestWallpaperAdapter,
                 true,

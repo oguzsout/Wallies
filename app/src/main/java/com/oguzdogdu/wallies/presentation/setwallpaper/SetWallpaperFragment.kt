@@ -2,9 +2,14 @@ package com.oguzdogdu.wallies.presentation.setwallpaper
 
 import android.app.WallpaperManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Build
+import android.util.Base64
 import androidx.annotation.RequiresApi
+import androidx.core.net.toUri
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import coil.Coil
 import coil.executeBlocking
@@ -18,7 +23,13 @@ import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseBottomSheetDialogFragment
 import com.oguzdogdu.wallies.databinding.FragmentSetWallpaperBinding
 import com.oguzdogdu.wallies.util.showToast
+import com.oguzdogdu.wallies.util.toBitmap
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
+import java.net.HttpURLConnection
+import java.net.URL
 
 
 @AndroidEntryPoint
@@ -32,6 +43,7 @@ class SetWallpaperFragment :
         super.initListeners()
             setWallpaperOptions(args.imageUrl)
         }
+
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun setWallpaperOptions(url: String?) {
@@ -56,60 +68,39 @@ class SetWallpaperFragment :
 
     @RequiresApi(Build.VERSION_CODES.N)
     fun setWallpaperFromUrl(imageUrl: String?, isLockScreen: Boolean?) {
-        Glide.with(requireContext())
-            .asBitmap().load(imageUrl)
-            .listener(object : RequestListener<Bitmap> {
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: com.bumptech.glide.request.target.Target<Bitmap>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    return false
+        lifecycleScope.launch(Dispatchers.IO) {
+            val bitmap = imageUrl?.toBitmap()
+            val wallpaperManager = WallpaperManager.getInstance(requireContext())
+            /*    TODO This field adjusts an image with a high size again according to the size of the phone.
+            val displayMetrics = DisplayMetrics()
+                val windowManager = context?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+                windowManager.defaultDisplay.getMetrics(displayMetrics)
+                val width = displayMetrics.widthPixels
+                val height = displayMetrics.heightPixels
+                val bitmap = Bitmap.createScaledBitmap(resource!!, width, height, true)*/
+            try {
+
+                when (isLockScreen) {
+                    false -> wallpaperManager.setBitmap(
+                        bitmap,
+                        null,
+                        true,
+                        WallpaperManager.FLAG_LOCK
+                    )
+
+                    null -> wallpaperManager.setBitmap(bitmap)
+                    true -> wallpaperManager.setBitmap(
+                        bitmap,
+                        null,
+                        true,
+                        WallpaperManager.FLAG_SYSTEM
+                    )
+
                 }
 
-                @RequiresApi(Build.VERSION_CODES.N)
-                override fun onResourceReady(
-                    resource: Bitmap?,
-                    model: Any?,
-                    target: com.bumptech.glide.request.target.Target<Bitmap>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean,
-                ): Boolean {
-
-                    val wallpaperManager = WallpaperManager.getInstance(requireContext())
-                    /*    TODO This field adjusts an image with a high size again according to the size of the phone.
-                    val displayMetrics = DisplayMetrics()
-                        val windowManager = context?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-                        windowManager.defaultDisplay.getMetrics(displayMetrics)
-                        val width = displayMetrics.widthPixels
-                        val height = displayMetrics.heightPixels
-                        val bitmap = Bitmap.createScaledBitmap(resource!!, width, height, true)*/
-                    try {
-                        resource.let {
-                            when (isLockScreen) {
-                                false -> wallpaperManager.setBitmap(
-                                    it,
-                                    null,
-                                    true,
-                                    WallpaperManager.FLAG_LOCK
-                                )
-
-                                null -> wallpaperManager.setBitmap(it)
-                                true -> wallpaperManager.setBitmap(
-                                    it,
-                                    null,
-                                    true,
-                                    WallpaperManager.FLAG_SYSTEM
-                                )
-                            }
-                        }
-
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                    return false
-                }
-            }).submit()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 }

@@ -70,6 +70,11 @@
         android:label="DetailFragment"
         tools:layout="@layout/fragment_detail">
 
+        <argument
+        android:name="id"
+        app:argType="string"
+        app:nullable="true" />
+
         <action
             android:id="@+id/toPopular"
             app:destination="@id/popularFragment" />
@@ -78,22 +83,25 @@
             android:id="@+id/toLatest"
             app:destination="@id/latestFragment" />
 
-        <argument
-            android:name="id"
-            app:argType="string"
-            app:nullable="true" />
         <action
             android:id="@+id/toUnsplashProfile"
             app:destination="@id/unsplashProfileFragment" />
+
         <action
             android:id="@+id/toProfile"
             app:destination="@id/profileDescriptionFragment" />
+
         <action
             android:id="@+id/toSetWallpaper"
             app:destination="@id/setWallpaperFragment" />
+
         <action
             android:id="@+id/toFavorites"
             app:destination="@id/favoritesFragment" />
+
+        <action
+            android:id="@+id/toDownload"
+            app:destination="@id/downloadPhotoFragment" />
 
     </fragment>
 
@@ -219,6 +227,31 @@
         tools:layout="@layout/fragment_set_wallpaper">
         <argument
             android:name="imageUrl"
+            app:argType="string"
+            app:nullable="true" />
+    </dialog>
+    <dialog
+        android:id="@+id/downloadPhotoFragment"
+        android:name="com.oguzdogdu.wallies.presentation.downloadphoto.DownloadPhotoFragment"
+        android:label="DownloadPhotoFragment">
+        <argument
+            android:name="raw"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="high"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="medium"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="low"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="imageTitle"
             app:argType="string"
             app:nullable="true" />
     </dialog>

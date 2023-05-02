@@ -29,4 +29,11 @@
     <string name="set_wallpaper_desc_text">You can use this picture as your wallpaper by choosing what you want from the options below.</string>
     <string name="set_wallpaper_applied_time">Adjusting…</string>
     <string name="set_wallpaper_applied">Wallpaper adjusted.</string>
+    <string name="download_photo_desc_text">According to the size of the photo, there are download options below, you can download according to the size you want.</string>
+    <string name="low_quality_text">Low Quality</string>
+    <string name="medium_quality_text">Medium Quality</string>
+    <string name="full_high_quality_text">Full (High Quality)</string>
+    <string name="raw_very_high_quality_text">Raw (Very High Quality)</string>
+    <string name="downloading_text">Downloading…</string>
+    <string name="image_download_failed_text">Image Download Failed</string>
 </resources>

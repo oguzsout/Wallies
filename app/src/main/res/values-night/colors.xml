@@ -5,4 +5,5 @@
     <color name="background_app_icon">#24292E</color>
     <color name="background_search">#66ffffff</color>
     <color name="background_tab">#292130</color>
+    <color name="background_button">#ff8c42</color>
 </resources>

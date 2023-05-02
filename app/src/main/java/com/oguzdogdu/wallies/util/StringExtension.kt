@@ -1,6 +1,10 @@
 package com.oguzdogdu.wallies.util
 
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import java.net.HttpURLConnection
+import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -25,6 +29,15 @@ fun String.formatDate(
     } else {
         outputDateFormat.format(d)
     }
+}
+
+fun String.toBitmap(): Bitmap {
+    val imageUrl = URL(this)
+    val connection = imageUrl.openConnection() as HttpURLConnection
+    connection.doInput = true
+    connection.connect()
+    val input = connection.inputStream
+    return BitmapFactory.decodeStream(input)
 }
 
 enum class DateFormats(val value: String) {
