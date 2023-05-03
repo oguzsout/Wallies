@@ -32,7 +32,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
 
-class WallpaperRepositoryImpl @Inject constructor(private val service: WallpaperService,private val favoriteDao: FavoriteDao) :
+class WallpaperRepositoryImpl @Inject constructor(
+    private val service: WallpaperService,
+    private val favoriteDao: FavoriteDao,
+) :
     WallpaperRepository {
     override suspend fun getImagesByPopulars(): Flow<PagingData<PopularImage>> {
         val pagingConfig = PagingConfig(pageSize = Constants.PAGE_ITEM_LIMIT)

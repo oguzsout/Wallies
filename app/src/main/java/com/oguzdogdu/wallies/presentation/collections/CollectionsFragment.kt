@@ -23,7 +23,7 @@ class CollectionsFragment :
     BaseFragment<FragmentCollectionsBinding>(FragmentCollectionsBinding::inflate) {
 
     @Inject
-    lateinit var connection : CheckConnection
+    lateinit var connection: CheckConnection
 
     private val viewModel: CollectionViewModel by viewModels()
 
@@ -37,7 +37,8 @@ class CollectionsFragment :
                 adapter = collectionListAdapter,
                 true,
                 onScroll = {
-                    recyclerViewCollections.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    recyclerViewCollections.addOnScrollListener(object :
+                        RecyclerView.OnScrollListener() {
                         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                             super.onScrolled(recyclerView, dx, dy)
                             if (dy > 0) {

@@ -7,8 +7,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import javax.inject.Inject
 
 class GetCollectionsUseCase @Inject constructor(private val repository: WallpaperRepository) {
-         suspend operator fun invoke(): Flow<PagingData<com.oguzdogdu.domain.model.collection.WallpaperCollections>> {
-             return repository.getCollectionsList().distinctUntilChanged()
-         }
+    suspend operator fun invoke(): Flow<PagingData<com.oguzdogdu.domain.model.collection.WallpaperCollections>> {
+        return repository.getCollectionsList().distinctUntilChanged()
+    }
 }
-

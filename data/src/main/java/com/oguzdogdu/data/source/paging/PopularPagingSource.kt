@@ -6,7 +6,8 @@ import com.oguzdogdu.data.common.Constants
 import com.oguzdogdu.data.model.maindto.UnsplashResponseItem
 import com.oguzdogdu.data.source.remote.WallpaperService
 
-class PopularPagingSource (private val service: WallpaperService) : PagingSource<Int, UnsplashResponseItem>()  {
+class PopularPagingSource(private val service: WallpaperService) :
+    PagingSource<Int, UnsplashResponseItem>() {
     override fun getRefreshKey(state: PagingState<Int, UnsplashResponseItem>): Int? {
         return state.anchorPosition?.let {
             state.closestPageToPosition(it)?.prevKey?.plus(1)

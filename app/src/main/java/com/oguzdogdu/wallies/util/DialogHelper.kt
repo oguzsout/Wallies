@@ -14,7 +14,7 @@ object DialogHelper {
         @DrawableRes icon: Int?,
         handler: () -> Unit,
     ) {
-       val dialogBuilder = MaterialAlertDialogBuilder(context)
+        val dialogBuilder = MaterialAlertDialogBuilder(context)
             .setTitle(title)
             .setMessage(message.orEmpty())
             .setPositiveButton(positiveButtonText.orEmpty()) { dialog, which ->

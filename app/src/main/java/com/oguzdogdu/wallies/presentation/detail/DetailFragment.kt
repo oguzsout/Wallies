@@ -8,7 +8,6 @@ import androidx.navigation.fragment.navArgs
 import coil.load
 import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
-import com.oguzdogdu.data.model.maindto.Urls
 import com.oguzdogdu.domain.model.favorites.FavoriteImages
 import com.oguzdogdu.domain.model.singlephoto.Photo
 import com.oguzdogdu.wallies.R
@@ -32,7 +31,7 @@ import javax.inject.Inject
 class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding::inflate) {
 
     @Inject
-    lateinit var connection : CheckConnection
+    lateinit var connection: CheckConnection
 
     private val viewModel: DetailViewModel by viewModels()
 
@@ -134,7 +133,13 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
         }
     }
 
-    private fun navigateToDownloadWallpaper(raw:String?,high:String?,medium:String?,low:String?,imageTitle:String?){
+    private fun navigateToDownloadWallpaper(
+        raw: String?,
+        high: String?,
+        medium: String?,
+        low: String?,
+        imageTitle: String?,
+    ) {
         binding.buttonDownload.setOnClickListener {
             val arguments = Bundle().apply {
                 putString("raw", raw)
@@ -198,6 +203,3 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
         }
     }
 }
-
-
-

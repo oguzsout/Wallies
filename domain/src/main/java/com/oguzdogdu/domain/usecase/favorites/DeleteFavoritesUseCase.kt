@@ -5,5 +5,6 @@ import com.oguzdogdu.domain.repository.WallpaperRepository
 import javax.inject.Inject
 
 class DeleteFavoritesUseCase @Inject constructor(private val repository: WallpaperRepository) {
-    suspend operator fun invoke(favoriteImage: FavoriteImages) = repository.deleteFavorites(favoriteImage)
+    suspend operator fun invoke(favoriteImage: FavoriteImages) =
+        repository.deleteFavorites(favoriteImage)
 }

@@ -1,24 +1,10 @@
 package com.oguzdogdu.wallies.presentation.setwallpaper
 
 import android.app.WallpaperManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
-import android.net.Uri
 import android.os.Build
-import android.util.Base64
 import androidx.annotation.RequiresApi
-import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
-import coil.Coil
-import coil.executeBlocking
-import coil.request.CachePolicy
-import coil.request.ImageRequest
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseBottomSheetDialogFragment
 import com.oguzdogdu.wallies.databinding.FragmentSetWallpaperBinding
@@ -27,9 +13,6 @@ import com.oguzdogdu.wallies.util.toBitmap
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.ByteArrayOutputStream
-import java.net.HttpURLConnection
-import java.net.URL
 
 
 @AndroidEntryPoint
@@ -41,8 +24,8 @@ class SetWallpaperFragment :
     @RequiresApi(Build.VERSION_CODES.N)
     override fun initListeners() {
         super.initListeners()
-            setWallpaperOptions(args.imageUrl)
-        }
+        setWallpaperOptions(args.imageUrl)
+    }
 
 
     @RequiresApi(Build.VERSION_CODES.N)

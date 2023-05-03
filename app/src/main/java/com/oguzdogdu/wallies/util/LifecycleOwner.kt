@@ -2,11 +2,7 @@ package com.oguzdogdu.wallies.util
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
-import androidx.paging.PagingDataAdapter
-import androidx.paging.map
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 

@@ -8,7 +8,6 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import javax.inject.Inject
 
@@ -27,14 +26,15 @@ class CheckConnection @Inject constructor(private val context: Context) :
                 val connectivityManager =
                     context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-                val allNetworks = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+                val allNetworks =
+                    connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
 
-                value = allNetworks != null && allNetworks.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                value =
+                    allNetworks != null && allNetworks.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
             }
         }
         context.registerReceiver(broadcastReceiver, intentFilter)
     }
-
 
     override fun onActive() {
         prepareNetwork(context)

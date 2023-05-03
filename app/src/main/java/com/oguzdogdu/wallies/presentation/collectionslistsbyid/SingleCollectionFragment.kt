@@ -32,7 +32,7 @@ class SingleCollectionFragment :
         super.initViews()
         binding.apply {
             val layoutManager =
-                StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
+                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
             recyclerViewCollectionsList.layoutManager = layoutManager
             recyclerViewCollectionsList.adapter = collectionsListsAdapter
@@ -76,18 +76,19 @@ class SingleCollectionFragment :
         }
     }
 
-    private fun getListByCategory(){
+    private fun getListByCategory() {
         args.id?.let { viewModel.getCollectionsLists(it) }
         observe(viewModel.photo, viewLifecycleOwner) {
-                when {
-                    it.isLoading -> {}
-                    it.error.isNotEmpty() -> {}
-                    it.collectionsLists.isEmpty() -> {
-                        binding.linearLayoutNoPicture.show()
-                    }
-                    else -> {
-                        binding.linearLayoutNoPicture.hide()
-                        collectionsListsAdapter.submitList(it.collectionsLists)
+            when {
+                it.isLoading -> {}
+                it.error.isNotEmpty() -> {}
+                it.collectionsLists.isEmpty() -> {
+                    binding.linearLayoutNoPicture.show()
+                }
+
+                else -> {
+                    binding.linearLayoutNoPicture.hide()
+                    collectionsListsAdapter.submitList(it.collectionsLists)
                 }
             }
         }

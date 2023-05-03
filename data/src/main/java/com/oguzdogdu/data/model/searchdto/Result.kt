@@ -1,13 +1,9 @@
 package com.oguzdogdu.data.model.searchdto
 
-import androidx.paging.PagingData
-import androidx.paging.map
 import com.oguzdogdu.data.model.maindto.Link
 import com.oguzdogdu.data.model.maindto.Urls
 import com.oguzdogdu.data.model.maindto.User
 import com.oguzdogdu.domain.model.search.SearchPhoto
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 data class Result(
     val alt_description: String?,
@@ -28,15 +24,8 @@ data class Result(
     val user: User?,
     val width: Int?
 )
+
 fun Result.toDomainSearch() = SearchPhoto(
     id = id,
     url = urls?.regular
 )
-
-fun Flow<PagingData<Result>>.toDomain() : Flow<PagingData<SearchPhoto>> {
-    return map { result ->
-        result.map {
-            SearchPhoto(id = it.id, url = it.urls?.regular)
-        }
-    }
-}

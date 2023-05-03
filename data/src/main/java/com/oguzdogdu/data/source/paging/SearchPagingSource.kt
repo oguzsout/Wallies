@@ -6,11 +6,11 @@ import com.oguzdogdu.data.source.remote.WallpaperService
 
 class SearchPagingSource(
     private val service: WallpaperService,
-    private val query: String
+    private val query: String,
 ) : PagingSource<Int, com.oguzdogdu.data.model.searchdto.Result>() {
 
     override fun getRefreshKey(
-        state: PagingState<Int, com.oguzdogdu.data.model.searchdto.Result>
+        state: PagingState<Int, com.oguzdogdu.data.model.searchdto.Result>,
     ): Int? {
         return state.anchorPosition?.let {
             state.closestPageToPosition(it)?.prevKey?.plus(1)

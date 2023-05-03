@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.request.CachePolicy
@@ -26,7 +25,7 @@ class PopularWallpaperAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(wallpaper: PopularImage?) {
             binding.apply {
-                imageViewItemWallpaper.load(wallpaper?.url){
+                imageViewItemWallpaper.load(wallpaper?.url) {
                     diskCachePolicy(CachePolicy.DISABLED)
                 }
                 binding.root.setOnClickListener {

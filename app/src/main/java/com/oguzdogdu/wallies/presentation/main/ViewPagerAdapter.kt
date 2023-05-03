@@ -11,11 +11,19 @@ class ViewPagerAdapter(container: FragmentActivity, private val fragmentList: Li
     FragmentStateAdapter(container) {
     override fun getItemCount() = fragmentList.size
 
-    override fun createFragment(position: Int) : Fragment {
-        return when(position){
-            0 -> {PopularFragment()}
-            1 -> {LatestFragment()}
-            else -> {throw Resources.NotFoundException("Position Not Found")}
+    override fun createFragment(position: Int): Fragment {
+        return when (position) {
+            0 -> {
+                PopularFragment()
+            }
+
+            1 -> {
+                LatestFragment()
+            }
+
+            else -> {
+                throw Resources.NotFoundException("Position Not Found")
+            }
         }
     }
 }

@@ -37,32 +37,32 @@ fun RecyclerView.addItemDivider() {
     this.addItemDecoration(itemDivider)
 }
 
- inline fun RecyclerView.setupRecyclerView(
+inline fun RecyclerView.setupRecyclerView(
     layoutManager: RecyclerView.LayoutManager,
     adapter: RecyclerView.Adapter<*>,
     hasFixedSize: Boolean = true,
     itemAnimator: RecyclerView.ItemAnimator? = null,
     itemDecoration: RecyclerView.ItemDecoration? = null,
-   crossinline onScroll: () -> Unit
+    crossinline onScroll: () -> Unit,
 ) {
     this.layoutManager = layoutManager
     this.adapter = adapter
     setHasFixedSize(hasFixedSize)
     itemAnimator?.let { this.itemAnimator = it }
     itemDecoration?.let { addItemDecoration(it) }
-     onScroll()
+    onScroll()
 }
 
 @SuppressLint("SuspiciousIndentation", "ResourceType")
 fun View.showSnackMessage(
     @StringRes buttonText: Int?,
     @StringRes message: Int?,
-    length: Int = Snackbar.LENGTH_SHORT
+    length: Int = Snackbar.LENGTH_SHORT,
 ) {
     message?.let {
         try {
             val snack = Snackbar.make(this.rootView, it, length)
-               snack.setAnchorView(R.id.bottomNavigationView)
+            snack.setAnchorView(R.id.bottomNavigationView)
             snack.setAction(buttonText.orEmpty()) {
                 snack.dismiss()
             }
@@ -75,11 +75,13 @@ fun View.showSnackMessage(
 
 fun View.showToast(context: Context, @StringRes message: Int, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(context, message, duration).show()
-}fun View.showToast(context: Context, message: String, duration: Int = Toast.LENGTH_SHORT) {
+}
+
+fun View.showToast(context: Context, message: String, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(context, message, duration).show()
 }
 
-fun Context.itemLoading(@ColorInt color: Int?) : Drawable {
+fun Context.itemLoading(@ColorInt color: Int?): Drawable {
     val circularProgressDrawable = CircularProgressDrawable(this).apply {
         strokeWidth = 7f
         centerRadius = 40f

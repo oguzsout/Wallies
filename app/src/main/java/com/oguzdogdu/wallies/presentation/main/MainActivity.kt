@@ -82,6 +82,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.favoritesFragment,
                 R.id.settingsFragment,
                 -> true
+
                 else -> false
             }
             if (viewModel.showBottomNavigation.value == true) {
@@ -109,11 +110,11 @@ class MainActivity : AppCompatActivity() {
                 .build()
     }
 
-     fun slideUp() {
+    fun slideUp() {
         binding.bottomNavigationView.show()
     }
 
-     fun slideDown() {
+    fun slideDown() {
         binding.bottomNavigationView.hide()
     }
 }

@@ -12,9 +12,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::inflate) {
 
     private val fragments =
-        listOf(PopularFragment(),LatestFragment())
+        listOf(PopularFragment(), LatestFragment())
 
-    private val tabTitles = listOf("POPULAR","LATEST")
+    private val tabTitles = listOf("POPULAR", "LATEST")
     override fun initViews() {
         super.initViews()
         initViewPager()
@@ -24,7 +24,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
     override fun initListeners() {
         super.initListeners()
         binding.imageViewSearchWalpapers.setOnClickListener {
-            navigate(R.id.toSearch,null)
+            navigate(R.id.toSearch, null)
         }
     }
 

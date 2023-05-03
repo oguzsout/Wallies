@@ -16,7 +16,8 @@ import java.util.*
 
 @Suppress("DEPRECATION")
 @AndroidEntryPoint
-class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
+class SettingsFragment : PreferenceFragmentCompat(),
+    SharedPreferences.OnSharedPreferenceChangeListener {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
@@ -29,8 +30,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        if (key == "app_theme"){
-            when(sharedPreferences?.getString(key,ThemeKeys.SYSTEM_THEME.value)){
+        if (key == "app_theme") {
+            when (sharedPreferences?.getString(key, ThemeKeys.SYSTEM_THEME.value)) {
                 ThemeKeys.LIGHT_THEME.value -> {
                     AppCompatDelegate.setDefaultNightMode(
                         AppCompatDelegate.MODE_NIGHT_NO
@@ -50,7 +51,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 }
             }
         }
-        if (key == "language_preference"){
+        if (key == "language_preference") {
             loadLocale()
         }
     }
@@ -59,7 +60,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         when (preference.key) {
             "clear_cache" -> {
                 context?.cacheDir?.deleteRecursively()
-                requireView().showToast(requireContext(),R.string.cache_state_string)
+                requireView().showToast(requireContext(), R.string.cache_state_string)
             }
         }
         return super.onPreferenceTreeClick(preference)
@@ -78,7 +79,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         }
         val config = Configuration()
         config.setLocale(locale)
-        requireContext().resources.updateConfiguration(config, requireContext().resources.displayMetrics)
+        requireContext().resources.updateConfiguration(
+            config,
+            requireContext().resources.displayMetrics
+        )
         activity?.recreate()
     }
 

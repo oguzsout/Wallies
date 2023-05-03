@@ -15,7 +15,7 @@ import javax.inject.Singleton
 object RepositoryModule {
     @Provides
     @Singleton
-    fun provideRepository(service: WallpaperService,dao: FavoriteDao): WallpaperRepository {
-        return WallpaperRepositoryImpl(service,dao)
+    fun provideRepository(service: WallpaperService, dao: FavoriteDao): WallpaperRepository {
+        return WallpaperRepositoryImpl(service, dao)
     }
 }

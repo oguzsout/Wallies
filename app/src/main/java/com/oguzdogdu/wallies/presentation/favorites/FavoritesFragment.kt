@@ -68,6 +68,7 @@ class FavoritesFragment :
                 it.favorites.isEmpty() -> {
                     binding.linearLayoutNoPicture.show()
                 }
+
                 else -> {
                     binding.linearLayoutNoPicture.hide()
                     favoritesListAdapter.submitList(it.favorites)

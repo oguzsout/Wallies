@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class GetCollectionsListByIdUseCase @Inject constructor(private val repository: WallpaperRepository) {
 
-    operator fun invoke(id:String?): Flow<Resource<List<CollectionList>>> = flow {
+    operator fun invoke(id: String?): Flow<Resource<List<CollectionList>>> = flow {
 
         try {
             emit(Resource.Loading)

@@ -5,6 +5,4 @@ import dagger.hilt.android.HiltAndroidApp
 
 
 @HiltAndroidApp
-class WalliesApp : Application() {
-
-}
+class WalliesApp : Application()

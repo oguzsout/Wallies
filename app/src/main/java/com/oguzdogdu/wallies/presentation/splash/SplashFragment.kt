@@ -1,7 +1,6 @@
 package com.oguzdogdu.wallies.presentation.splash
 
 import android.annotation.SuppressLint
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.oguzdogdu.wallies.R
@@ -24,7 +23,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding
 
     private suspend fun goToMainFragment() {
         delay(2000)
-        navigate(R.id.toMain,null)
+        navigate(R.id.toMain, null)
         findNavController().clearBackStack(R.id.splashFragment)
     }
 }

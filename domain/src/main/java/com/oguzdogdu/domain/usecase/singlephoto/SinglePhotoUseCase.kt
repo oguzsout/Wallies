@@ -8,17 +8,18 @@ import java.io.IOException
 import javax.inject.Inject
 
 class SinglePhotoUseCase @Inject constructor(
-    private val repository: WallpaperRepository
+    private val repository: WallpaperRepository,
 ) {
-    operator fun invoke(id: String?): Flow<Resource<com.oguzdogdu.domain.model.singlephoto.Photo>?> = flow {
+    operator fun invoke(id: String?): Flow<Resource<com.oguzdogdu.domain.model.singlephoto.Photo>?> =
+        flow {
 
-        try {
-            emit(Resource.Loading)
-            id?.let { id ->
-                emit(Resource.Success(repository.getPhoto(id)))
+            try {
+                emit(Resource.Loading)
+                id?.let { id ->
+                    emit(Resource.Success(repository.getPhoto(id)))
+                }
+            } catch (e: IOException) {
+                emit(Resource.Error(e.localizedMessage.orEmpty()))
             }
-        } catch (e: IOException) {
-            emit(Resource.Error(e.localizedMessage.orEmpty()))
         }
-    }
 }

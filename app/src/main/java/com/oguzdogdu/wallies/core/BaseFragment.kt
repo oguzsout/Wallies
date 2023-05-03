@@ -11,7 +11,7 @@ import androidx.viewbinding.ViewBinding
 import com.oguzdogdu.wallies.util.navigateSafe
 
 abstract class BaseFragment<VB : ViewBinding>(
-    private val bindingInflater: (inflater: LayoutInflater) -> VB
+    private val bindingInflater: (inflater: LayoutInflater) -> VB,
 ) : Fragment(), Presenters {
 
     private var _binding: VB? = null
@@ -19,7 +19,7 @@ abstract class BaseFragment<VB : ViewBinding>(
         get() = _binding as VB
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View? {
         _binding = bindingInflater.invoke(inflater)
         if (_binding == null) throw IllegalArgumentException("Binding cannot be null")
@@ -32,6 +32,7 @@ abstract class BaseFragment<VB : ViewBinding>(
         initViews()
         initListeners()
     }
+
     override fun observeData() {
     }
 
@@ -42,7 +43,7 @@ abstract class BaseFragment<VB : ViewBinding>(
     }
 
     fun navigate(@IdRes id: Int, extras: Bundle?) {
-        findNavController().navigateSafe(id,extras)
+        findNavController().navigateSafe(id, extras)
     }
 
     fun navigateBack(@IdRes destination: Int? = null) {

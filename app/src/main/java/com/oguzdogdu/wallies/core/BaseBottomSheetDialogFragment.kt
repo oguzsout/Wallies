@@ -42,7 +42,7 @@ abstract class BaseBottomSheetDialogFragment<VB : ViewBinding>(private val bindi
     }
 
     fun navigate(@IdRes id: Int, extras: Bundle?) {
-        findNavController().navigateSafe(id,extras)
+        findNavController().navigateSafe(id, extras)
     }
 
     fun navigateBack(@IdRes destination: Int? = null) {

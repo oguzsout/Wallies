@@ -46,8 +46,8 @@ data class UnsplashResponseItem(
     val downloads: Int?
 ) : Parcelable
 
-fun UnsplashResponseItem.toDomainModelPopular() = PopularImage(id = id,url = urls?.regular)
-fun UnsplashResponseItem.toDomainModelLatest() = LatestImage(id = id,url = urls?.regular)
+fun UnsplashResponseItem.toDomainModelPopular() = PopularImage(id = id, url = urls?.regular)
+fun UnsplashResponseItem.toDomainModelLatest() = LatestImage(id = id, url = urls?.regular)
 
 fun UnsplashResponseItem.toDomainModelPhoto() = Photo(
     id = id,

@@ -11,6 +11,6 @@ class GetPopularUseCase @Inject constructor(
     private val repository: WallpaperRepository
 ) {
     suspend operator fun invoke(): Flow<PagingData<PopularImage>> {
-        return repository.getImagesByPopulars().distinctUntilChanged()
+        return repository.getImagesByPopulars()
     }
 }

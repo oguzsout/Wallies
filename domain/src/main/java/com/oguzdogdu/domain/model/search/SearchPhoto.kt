@@ -4,5 +4,5 @@ import androidx.annotation.IdRes
 
 data class SearchPhoto(
     val id: String?,
-    val url: String?,
+    val url: String?
 )

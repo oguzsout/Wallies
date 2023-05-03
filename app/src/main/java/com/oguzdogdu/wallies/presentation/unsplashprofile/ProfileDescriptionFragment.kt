@@ -1,15 +1,11 @@
 package com.oguzdogdu.wallies.presentation.unsplashprofile
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
 import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseBottomSheetDialogFragment
 import com.oguzdogdu.wallies.databinding.FragmentProfileDescriptionBinding

@@ -14,11 +14,22 @@ import java.io.File
 
 fun Context.downloadImage(url: String, directoryName: String, fileName: String) {
     when {
-        ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED -> {
-            ActivityCompat.requestPermissions(this as Activity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 123)
+        ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) != PackageManager.PERMISSION_GRANTED -> {
+            ActivityCompat.requestPermissions(
+                this as Activity,
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                123
+            )
         }
+
         else -> {
-            val directory = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), directoryName)
+            val directory = File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                directoryName
+            )
             if (!directory.exists()) {
                 directory.mkdirs()
             }
@@ -37,7 +48,8 @@ fun Context.downloadImage(url: String, directoryName: String, fileName: String) 
                 }
                 downloadManager.enqueue(request)
             } catch (e: Exception) {
-                Toast.makeText(this, "Image download failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Image download failed: ${e.message}", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }

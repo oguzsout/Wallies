@@ -1,6 +1,5 @@
 package com.oguzdogdu.wallies.presentation.collections
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn

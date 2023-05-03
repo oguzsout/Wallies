@@ -25,7 +25,7 @@ class CollectionListAdapter :
         fun bind(wallpaper: WallpaperCollections) {
             binding.apply {
                 textViewAuthorName.text = wallpaper.title
-              imageViewPost.load(wallpaper.photo)
+                imageViewPost.load(wallpaper.photo)
                 binding.root.setOnClickListener {
                     onItemClickListener?.let {
                         it(wallpaper)
@@ -54,7 +54,7 @@ class CollectionListAdapter :
             object : DiffUtil.ItemCallback<WallpaperCollections>() {
                 override fun areItemsTheSame(
                     oldItem: WallpaperCollections,
-                    newItem: WallpaperCollections
+                    newItem: WallpaperCollections,
                 ) =
                     oldItem.id == newItem.id
 
