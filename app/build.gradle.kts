@@ -8,6 +8,7 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
+    id ("com.google.gms.google-services")
 }
 val apiKey: String = gradleLocalProperties(rootDir).getProperty("API_KEY")
 android {
@@ -59,12 +60,15 @@ dependencies {
     implementation(libs.androidx.material)
     implementation(libs.androidx.contraintlayout)
     implementation(libs.androidx.test.core)
+    implementation("com.google.firebase:firebase-messaging-ktx:23.1.2")
     testImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.junit.ext)
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
+
+    implementation(libs.google.firebase.bom)
 
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.lifecycle.runtime)

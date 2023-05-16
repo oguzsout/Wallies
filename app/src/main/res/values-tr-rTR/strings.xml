@@ -37,4 +37,6 @@
     <string name="raw_very_high_quality_text">Raw (Çok Yüksek Kalite)</string>
     <string name="downloading_text">İndiriliyor…</string>
     <string name="image_download_failed_text">Resim İndirme Başarısız</string>
+    <string name="title_notification">Başlık</string>
+    <string name="message_notification">Mesaj</string>
 </resources>

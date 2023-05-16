@@ -36,4 +36,6 @@
     <string name="raw_very_high_quality_text">Raw (Very High Quality)</string>
     <string name="downloading_text">Downloading…</string>
     <string name="image_download_failed_text">Image Download Failed</string>
+    <string name="title_notification">Title</string>
+    <string name="message_notification">Message</string>
 </resources>
