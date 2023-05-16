@@ -6,6 +6,7 @@ import com.oguzdogdu.domain.model.singlephoto.Photo
 
 data class SearchPhotoState(
     val isLoading: Boolean = false,
+    val query:String? = null,
     val search: PagingData<SearchPhoto> = PagingData.empty(),
     val error: String = ""
 )

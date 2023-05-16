@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -15,11 +16,14 @@ import com.oguzdogdu.wallies.util.CheckConnection
 import com.oguzdogdu.wallies.util.observe
 import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.setupRecyclerView
+import com.oguzdogdu.wallies.util.show
 import com.oguzdogdu.wallies.util.showToast
 import com.oguzdogdu.wallies.util.textChanges
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -70,15 +74,15 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
         connection.observe(viewLifecycleOwner) { isConnected ->
             when (isConnected) {
                 true -> {
-                    observe(viewModel.getSearchPhotos, viewLifecycleOwner) {
-                        lifecycleScope.launch(Dispatchers.IO) {
-                            when {
-                                it.isLoading -> {}
-                                it.error.isNotEmpty() -> {}
-                                else -> {
-                                    searchWallpaperAdapter.submitData(it.search)
+                    lifecycleScope.launch {
+                        viewModel.eventFlow.collectLatest { event ->
+                            when (event) {
+                                is SearchEvent.Success -> {
+                                  searchWallpaperAdapter.submitData(viewModel.getSearchPhotos.value.search)
                                 }
+                                else -> {}
                             }
+
                         }
                     }
                 }
@@ -103,14 +107,14 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
             editTextSearchWalpaper.textChanges()
                 .onEach {
                     if (it?.isNotEmpty() == true) {
-                        viewModel.getSearchPhotos(it.toString())
+                        viewModel.handleUIEvent(SearchEvent.EnteredSearchQuery(it.toString()))
                     }
                 }
                 .observeInLifecycle(this@SearchFragment)
 
             editTextSearchWalpaper.setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    viewModel.getSearchPhotos(editTextSearchWalpaper.text.toString())
+                    viewModel.handleUIEvent(SearchEvent.EnteredSearchQuery(editTextSearchWalpaper.text.toString()))
                 }
                 true
             }
