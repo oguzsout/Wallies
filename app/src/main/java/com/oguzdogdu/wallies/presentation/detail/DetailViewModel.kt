@@ -3,18 +3,24 @@ package com.oguzdogdu.wallies.presentation.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oguzdogdu.domain.model.favorites.FavoriteImages
+import com.oguzdogdu.domain.model.singlephoto.Photo
 import com.oguzdogdu.domain.usecase.favorites.AddFavoritesUseCase
 import com.oguzdogdu.domain.usecase.favorites.DeleteFavoritesUseCase
 import com.oguzdogdu.domain.usecase.favorites.GetFavoritesUseCase
 import com.oguzdogdu.domain.usecase.singlephoto.SinglePhotoUseCase
 import com.oguzdogdu.domain.wrapper.Resource
+import com.oguzdogdu.wallies.presentation.search.SearchEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,9 +38,37 @@ class DetailViewModel @Inject constructor(
     private val _favorites = MutableStateFlow(FavoriteState())
     val favorites = _favorites.asStateFlow()
 
+    private val _eventChannel = Channel<DetailScreenEvent>()
+    val eventFlow = _eventChannel.receiveAsFlow()
 
     init {
         getFavorites()
+    }
+
+    fun handleUIEvent(event: DetailScreenEvent) {
+        when (event) {
+            is DetailScreenEvent.AddFavorites -> {
+                addImagesToFavorites( FavoriteImages(
+                    id = photo.value.detail?.id ?: "",
+                    url = photo.value.detail?.urls ?: "",
+                    profileImage = photo.value.detail?.profileimage ?: "",
+                    portfolioUrl = photo.value.detail?.portfolio ?: "",
+                    name = photo.value.detail?.username ?: "",
+                    isChecked = true
+                ))
+            }
+
+            is DetailScreenEvent.DeleteFavorites -> {
+                deleteImagesToFavorites(FavoriteImages(
+                    id = photo.value.detail?.id ?: "",
+                    url = photo.value.detail?.urls ?: "",
+                    profileImage = photo.value.detail?.profileimage ?: "",
+                    portfolioUrl = photo.value.detail?.portfolio ?: "",
+                    name = photo.value.detail?.username ?: "",
+                    isChecked = false
+                ))
+            }
+        }
     }
 
     fun getSinglePhoto(id: String) {
@@ -57,13 +91,13 @@ class DetailViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun addImagesToFavorites(favoriteImage: FavoriteImages) {
+    private fun addImagesToFavorites(favoriteImage: FavoriteImages) {
         viewModelScope.launch {
             favoritesUseCase.invoke(favoriteImage)
         }
     }
 
-    fun deleteImagesToFavorites(favoriteImage: FavoriteImages) {
+    private fun deleteImagesToFavorites(favoriteImage: FavoriteImages) {
         viewModelScope.launch {
             deleteFavoritesUseCase.invoke(favoriteImage)
         }

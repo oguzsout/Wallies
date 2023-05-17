@@ -17,12 +17,10 @@ import com.oguzdogdu.wallies.util.CheckConnection
 import com.oguzdogdu.wallies.util.formatDate
 import com.oguzdogdu.wallies.util.itemLoading
 import com.oguzdogdu.wallies.util.observe
-import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.showToast
 import com.oguzdogdu.wallies.util.toFormattedString
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -42,37 +40,6 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
         binding.toolbar.setNavigationOnClickListener {
             navigateBack()
-        }
-
-        binding.toggleButton.setOnCheckedChangeListener { buttonView, isChecked ->
-            lifecycleScope.launch {
-                viewModel.photo.onEach { result ->
-                    if (isChecked) {
-                        viewModel.addImagesToFavorites(
-                            FavoriteImages(
-                                id = result.detail?.id ?: "",
-                                url = result.detail?.urls ?: "",
-                                profileImage = result.detail?.profileimage ?: "",
-                                portfolioUrl = result.detail?.portfolio ?: "",
-                                name = result.detail?.username ?: "",
-                                isChecked = true
-                            )
-                        )
-                    } else {
-                        viewModel.deleteImagesToFavorites(
-                            FavoriteImages(
-                                id = result.detail?.id ?: "",
-                                url = result.detail?.urls ?: "",
-                                profileImage = result.detail?.profileimage ?: "",
-                                portfolioUrl = result.detail?.portfolio ?: "",
-                                name = result.detail?.username ?: "",
-                                isChecked = false
-                            )
-                        )
-                    }
-
-                }.observeInLifecycle(this@DetailFragment)
-            }
         }
     }
 
@@ -99,6 +66,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
                             low = it.detail?.lowQuality,
                             imageTitle = it.detail?.desc
                         )
+                        addOrDeleteFavorites(it.detail)
                     }
                 }
 
@@ -107,6 +75,20 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
                 }
 
                 null -> {}
+            }
+        }
+    }
+
+    private fun addOrDeleteFavorites(photo: Photo?) {
+        binding.toggleButton.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                viewModel.handleUIEvent(
+                    DetailScreenEvent.AddFavorites(photo)
+                )
+            } else {
+                viewModel.handleUIEvent(
+                    DetailScreenEvent.DeleteFavorites(photo)
+                )
             }
         }
     }
