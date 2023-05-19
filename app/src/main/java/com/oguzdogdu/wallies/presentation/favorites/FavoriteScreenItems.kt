@@ -1,10 +1,7 @@
 package com.oguzdogdu.wallies.presentation.favorites
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -18,16 +15,14 @@ import com.oguzdogdu.domain.model.favorites.FavoriteImages
 @Composable
 fun FavoriteItem(
     favoriteImages: FavoriteImages,
-    onItemClick: (String) -> Unit
+    onItemClick: (String) -> Unit,
 ) {
 
-    Card(
-        shape = RoundedCornerShape(12.dp),
+    Card(shape = RoundedCornerShape(12.dp),
         modifier = Modifier
             .height(220.dp)
             .width(140.dp)
-            .clickable { onItemClick(favoriteImages.id) }
-    ) {
+            .clickable { onItemClick(favoriteImages.id) }) {
         AsyncImage(
             model = favoriteImages.url,
             contentDescription = null,
