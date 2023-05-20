@@ -82,6 +82,7 @@ dependencies {
 
     implementation ("androidx.paging:paging-runtime:3.1.1")
     implementation ("androidx.paging:paging-compose:1.0.0-alpha19")
+    implementation ("com.google.accompanist:accompanist-swiperefresh:0.26.3-beta")
 
     implementation ("androidx.compose.material:material:1.4.3")
     implementation ("androidx.compose.ui:ui-tooling-preview:1.4.3")
