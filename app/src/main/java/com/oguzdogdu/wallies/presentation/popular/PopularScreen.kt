@@ -24,10 +24,11 @@ fun PopularScreen(
     viewmodel: PopularViewModel = hiltViewModel(),
     navigateToDetail: (String) -> Unit,
 ) {
-    val state = viewmodel.getPopular.value.popular.collectAsLazyPagingItems()
+    val stateOfList = viewmodel.getPopular.value.popular.collectAsLazyPagingItems()
     val isLoading by viewmodel.isLoading.collectAsState()
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = isLoading)
     val listState = rememberLazyGridState()
+
 
     SwipeRefresh(state = swipeRefreshState, onRefresh = viewmodel::loadList) {
         Box {
@@ -38,11 +39,10 @@ fun PopularScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                itemsPaging(items = state) { popular ->
+                itemsPaging(items = stateOfList) { popular ->
                     PopularScreenItem(popularImage = popular!!, onItemClick = {
                         popular.id?.let { id -> navigateToDetail.invoke(id) }
                     })
-
                 }
             }
         }
