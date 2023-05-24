@@ -9,7 +9,6 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.util.CheckConnection
 import com.oguzdogdu.wallies.util.observe
@@ -43,15 +42,6 @@ class PopularFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         checkConnection()
-        composeView.setContent {
-
-                PopularScreen(navigateToDetail = {
-                    val arguments = Bundle().apply {
-                        putString("id", it)
-                    }
-                    findNavController().navigate(R.id.toDetail, args = arguments)
-                })
-        }
     }
 
 

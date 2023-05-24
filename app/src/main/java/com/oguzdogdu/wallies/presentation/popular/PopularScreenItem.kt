@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.oguzdogdu.domain.model.favorites.FavoriteImages
 import com.oguzdogdu.domain.model.popular.PopularImage
 
 @Composable
