@@ -5,4 +5,6 @@ object Constants {
     const val PAGE_ITEM_LIMIT = 20
     const val POPULAR = "popular"
     const val LATEST = "latest"
+    const val TAB_POPULAR = "Popular"
+    const val TAB_LATEST = "Latest"
 }

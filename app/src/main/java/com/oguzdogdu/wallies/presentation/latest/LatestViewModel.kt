@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.oguzdogdu.domain.usecase.latest.GetLatestUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -17,13 +18,26 @@ class LatestViewModel @Inject constructor(private val useCase: GetLatestUseCase)
     private val _getLatest = MutableStateFlow(LatestState())
     val getLatest = _getLatest.asStateFlow()
 
-    fun getLatestImages() {
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading = _isLoading.asStateFlow()
+
+    init {
+        getLatestImages()
+    }
+
+    fun loadList() {
         viewModelScope.launch {
-            useCase().cachedIn(viewModelScope).collectLatest { latest ->
-                latest.let {
-                    _getLatest.value = LatestState(latest = it)
-                }
-            }
+            _isLoading.value = true
+            delay(1000L)
+            getLatestImages()
+            _isLoading.value = false
+        }
+    }
+
+    private fun getLatestImages() {
+        viewModelScope.launch {
+            val result = useCase().cachedIn(viewModelScope)
+            _getLatest.value = LatestState(latest = result)
         }
     }
 }
