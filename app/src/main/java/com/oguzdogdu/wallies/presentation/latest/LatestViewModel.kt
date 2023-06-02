@@ -34,10 +34,13 @@ class LatestViewModel @Inject constructor(private val useCase: GetLatestUseCase)
         }
     }
 
-    private fun getLatestImages() {
+    fun getLatestImages() {
         viewModelScope.launch {
-            val result = useCase().cachedIn(viewModelScope)
-            _getLatest.value = LatestState(latest = result)
+            useCase().cachedIn(viewModelScope).collectLatest { latest ->
+                latest.let {
+                    _getLatest.value = LatestState(latest = it)
+                }
+            }
         }
     }
 }

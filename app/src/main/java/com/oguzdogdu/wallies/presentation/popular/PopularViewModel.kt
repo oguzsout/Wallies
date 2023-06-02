@@ -8,6 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,10 +35,13 @@ class PopularViewModel @Inject constructor(
             _isLoading.value = false
         }
     }
-    private fun getPopularImages() {
+    fun getPopularImages() {
         viewModelScope.launch {
-          val result = useCase().cachedIn(viewModelScope)
-            _getPopular.value = PopularState(popular = result)
+            useCase().cachedIn(viewModelScope).collectLatest { popular ->
+                popular.let {
+                    _getPopular.value = PopularState(popular = it)
+                }
+            }
         }
     }
 }

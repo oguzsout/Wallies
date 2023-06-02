@@ -8,7 +8,6 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
@@ -17,12 +16,13 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.oguzdogdu.data.common.Constants
 import com.oguzdogdu.wallies.R
-import com.oguzdogdu.wallies.presentation.latest.LatestScreen
-import com.oguzdogdu.wallies.presentation.popular.PopularScreen
+import com.oguzdogdu.wallies.ui.theme.Typography
 import kotlinx.coroutines.launch
 
 val pages = listOf(
@@ -35,13 +35,17 @@ val pages = listOf(
 fun ContainerScreen(
     navigateToPopularDetail: (String) -> Unit,
     navigateToLatestDetail: (String) -> Unit,
+    navigateToSearch: () -> Unit
 ) {
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
     val tabIndex = pagerState.currentPage
     Scaffold(topBar = {
-        TopAppBar(title = { Text(text = stringResource(R.string.app_name)) }, actions = {
-            IconButton(onClick = { /* Search action */ }) {
+        TopAppBar(
+            backgroundColor = colorResource(id = R.color.background_tab),
+            elevation = 0.dp
+            ,title = { Text(text = stringResource(R.string.app_name),style = Typography.body2,) }, actions = {
+            IconButton(onClick = { navigateToSearch.invoke() }) {
                 Icon(
                     painter = painterResource(id = R.drawable.search), contentDescription = "Search"
                 )
@@ -50,7 +54,7 @@ fun ContainerScreen(
     }, content = {
         Column(modifier = Modifier.fillMaxSize()) {
             TabRow(selectedTabIndex = pages.size,
-                backgroundColor = MaterialTheme.colors.surface,
+                backgroundColor = colorResource(id = R.color.background_tab),
                 indicator = {}) {
                 pages.forEachIndexed { index, title ->
                     Tab(selected = tabIndex == index, onClick = {
@@ -65,17 +69,17 @@ fun ContainerScreen(
                 modifier = Modifier.fillMaxSize(), pageCount = pages.size, state = pagerState
             ) { pager ->
                 when (pager) {
-                    0 -> {
-                        PopularScreen(navigateToDetail = {
-                            navigateToPopularDetail.invoke(it)
-                        })
-                    }
-
-                    1 -> {
-                        LatestScreen(navigateToDetail = {
-                            navigateToLatestDetail.invoke(it)
-                        })
-                    }
+//                    0 -> {
+//                        PopularScreen(navigateToDetail = {
+//                            navigateToPopularDetail.invoke(it)
+//                        })
+//                    }
+//
+//                    1 -> {
+//                        LatestScreen(navigateToDetail = {
+//                            navigateToLatestDetail.invoke(it)
+//                        })
+//                    }
                 }
             }
         }

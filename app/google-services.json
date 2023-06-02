@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "225181955346",
+    "project_id": "wallies-d029e",
+    "storage_bucket": "wallies-d029e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:225181955346:android:7d086f0dff42a49584efcb",
+        "android_client_info": {
+          "package_name": "com.oguzdogdu.wallies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "225181955346-fe24mqoaiu3lon9gt5ud0rds0dubrpjp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDtMdM70JfeBXp2_r3Iigz4Hj3e2pr1Xo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "225181955346-fe24mqoaiu3lon9gt5ud0rds0dubrpjp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

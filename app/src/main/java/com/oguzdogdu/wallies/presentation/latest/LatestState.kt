@@ -7,6 +7,6 @@ import kotlinx.coroutines.flow.emptyFlow
 
 data class LatestState(
     val isLoading: Boolean = false,
-    val latest: Flow<PagingData<LatestImage>> = emptyFlow(),
+    val latest: PagingData<LatestImage> = PagingData.empty(),
     val error: String = ""
 )
