@@ -7,6 +7,6 @@ import kotlinx.coroutines.flow.emptyFlow
 
 data class PopularState(
     val isLoading: Boolean = false,
-    val popular: PagingData<PopularImage> = PagingData.empty(),
+    val popular: Flow<PagingData<PopularImage>> = emptyFlow(),
     val error: String = ""
 )

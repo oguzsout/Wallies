@@ -35,13 +35,10 @@ class PopularViewModel @Inject constructor(
             _isLoading.value = false
         }
     }
-    fun getPopularImages() {
+    private fun getPopularImages() {
         viewModelScope.launch {
-            useCase().cachedIn(viewModelScope).collectLatest { popular ->
-                popular.let {
-                    _getPopular.value = PopularState(popular = it)
-                }
-            }
+            val result = useCase().cachedIn(viewModelScope)
+            _getPopular.value = PopularState(popular = result)
         }
     }
 }
