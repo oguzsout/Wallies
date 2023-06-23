@@ -1,15 +1,8 @@
 package com.oguzdogdu.wallies.presentation.popular
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.compose.ui.platform.ComposeView
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.oguzdogdu.wallies.R
@@ -28,53 +21,75 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class PopularFragment : Fragment() {
-
-    private lateinit var composeView: ComposeView
+class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBinding::inflate) {
 
     @Inject
     lateinit var connection: CheckConnection
 
     private val viewModel: PopularViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        return ComposeView(requireContext()).also {
-            composeView = it
-        }
-    }
+    private val popularWallpaperAdapter by lazy { PopularWallpaperAdapter() }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        checkConnection()
-        composeView.setContent {
-            PopularScreen( navigateToDetail = {
-                val arguments = Bundle().apply {
-                    putString("id", it)
+    override fun initViews() {
+        super.initViews()
+        binding.apply {
+            recyclerViewWallpapers.setupRecyclerView(
+                layoutManager = GridLayoutManager(requireContext(), 2),
+                adapter = popularWallpaperAdapter,
+                true,
+                onScroll = {
+                    recyclerViewWallpapers.addOnScrollListener(object :
+                        RecyclerView.OnScrollListener() {
+                        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                            super.onScrolled(recyclerView, dx, dy)
+                            if (dy > 0) {
+                                (activity as MainActivity).slideDown()
+                            } else if (dy < 0) {
+                                (activity as MainActivity).slideUp()
+                            }
+                        }
+                    })
                 }
-                findNavController().navigate(R.id.toDetail,args = arguments)
-            })
+            )
         }
     }
 
+    override fun initListeners() {
+        super.initListeners()
+        popularWallpaperAdapter.setOnItemClickListener {
+            val arguments = Bundle().apply {
+                putString("id", it?.id)
+            }
+            navigate(R.id.toDetail, arguments)
+        }
+        binding.swipeRefresh.setOnRefreshListener {
+            checkConnection()
+            binding.swipeRefresh.isRefreshing = false
+        }
+    }
+
+    override fun observeData() {
+        super.observeData()
+        checkConnection()
+    }
 
     private fun checkConnection() {
         connection.observe(viewLifecycleOwner) { isConnected ->
             when (isConnected) {
                 true -> {
+                    viewModel.getPopularImages()
                     observe(viewModel.getPopular, viewLifecycleOwner) {
                         lifecycleScope.launch(Dispatchers.IO) {
                             when {
                                 it.isLoading -> {
-
+                                    binding.progressBar.show()
                                 }
 
                                 it.error.isNotEmpty() -> {}
 
                                 else -> {
+                                    binding.progressBar.hide()
+                                    popularWallpaperAdapter.submitData(it.popular)
                                 }
                             }
                         }

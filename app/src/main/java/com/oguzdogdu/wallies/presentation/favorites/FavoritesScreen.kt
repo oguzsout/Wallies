@@ -64,13 +64,13 @@ fun FavoritesScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(state.favorites) { favorites ->
-                    if (favorites != null) {
-                        FavoriteItem(favoriteImages = favorites, onItemClick = {
-                            favorites.id.let { navigateToDetail.invoke(it) }
-                        })
+                    items(state.favorites) { favorites ->
+                        if (favorites != null) {
+                            FavoriteItem(favoriteImages = favorites, onItemClick = {
+                                favorites.id.let { navigateToDetail.invoke(it) }
+                            })
+                        }
                     }
-                }
             }
         }
     })
