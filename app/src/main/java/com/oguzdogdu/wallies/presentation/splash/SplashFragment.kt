@@ -23,7 +23,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding
 
     private suspend fun goToMainFragment() {
         delay(2000)
-        navigate(R.id.toMain, null)
+        navigate(R.id.toLogin, null)
         findNavController().clearBackStack(R.id.splashFragment)
     }
 }

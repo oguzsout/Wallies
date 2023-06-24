@@ -35,6 +35,8 @@
         <activity
             android:name=".presentation.main.MainActivity"
             android:theme="@style/Theme.Wallies"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            android:launchMode="singleInstance"
             android:exported="true">
 
             <intent-filter>

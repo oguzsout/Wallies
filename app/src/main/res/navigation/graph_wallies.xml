@@ -167,6 +167,9 @@
             app:destination="@id/mainFragment"
             app:popUpTo="@id/graph_wallies"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/toLogin"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
@@ -255,5 +258,14 @@
             app:argType="string"
             app:nullable="true" />
     </dialog>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.oguzdogdu.wallies.presentation.login.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/toMain"
+            app:destination="@id/mainFragment" />
+    </fragment>
 
 </navigation>

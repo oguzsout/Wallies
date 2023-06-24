@@ -49,6 +49,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit.ext)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    implementation ("com.google.firebase:firebase-auth-ktx:22.0.0")
+
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.converter)
 
