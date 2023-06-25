@@ -41,9 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dp_16"
-            android:gravity="center"
-            app:boxStrokeColor="@color/yellow"
-            app:hintTextColor="@color/yellow">
+            android:gravity="center">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/emailEt"
@@ -60,8 +58,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            app:boxStrokeColor="@color/yellow"
-            app:hintTextColor="@color/yellow"
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
