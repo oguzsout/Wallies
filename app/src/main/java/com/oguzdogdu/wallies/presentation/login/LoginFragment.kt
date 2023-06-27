@@ -3,6 +3,9 @@ package com.oguzdogdu.wallies.presentation.login
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentLoginBinding
@@ -10,14 +13,21 @@ import com.oguzdogdu.wallies.util.FieldValidators.isStringContainNumber
 import com.oguzdogdu.wallies.util.FieldValidators.isStringContainSpecialCharacter
 import com.oguzdogdu.wallies.util.FieldValidators.isStringLowerAndUpperCase
 import com.oguzdogdu.wallies.util.FieldValidators.isValidEmail
+import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::inflate) {
+
+    private val viewModel: LoginViewModel by viewModels()
     override fun initViews() {
         super.initViews()
         binding.button.setOnClickListener {
-            navigate(R.id.toMain, null)
+            viewModel.signIn(
+                userEmail = binding.emailEt.text.toString(),
+                password = binding.passET.text.toString()
+            )
         }
     }
 
@@ -25,6 +35,40 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         super.initListeners()
         binding.emailEt.addTextChangedListener(TextFieldValidation(binding.emailEt))
         binding.passET.addTextChangedListener(TextFieldValidation(binding.passET))
+    }
+
+    override fun observeData() {
+        super.observeData()
+        lifecycleScope.launch {
+            viewModel.loginState.collect { state ->
+                when (state) {
+                    is LoginState.UserNotSignIn -> {
+                        requireView().showToast(
+                            context = requireContext(),
+                            message = "Lütfen giriş yap",
+                            duration = Toast.LENGTH_LONG
+                        )
+                    }
+
+                    is LoginState.Loading -> {
+                    }
+
+                    is LoginState.ErrorSignIn -> {
+                        requireView().showToast(
+                            context = requireContext(),
+                            message = state.errorMessage,
+                            duration = Toast.LENGTH_LONG
+                        )
+                    }
+
+                    is LoginState.UserSignIn -> {
+                        navigate(R.id.toMain, null)
+                    }
+
+                    else -> {}
+                }
+            }
+        }
     }
 
     inner class TextFieldValidation(private val view: View) : TextWatcher {
