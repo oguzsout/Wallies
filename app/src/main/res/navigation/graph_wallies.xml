@@ -118,7 +118,11 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.oguzdogdu.wallies.presentation.settings.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:label="SettingsFragment" >
+        <action
+            android:id="@+id/toLogin"
+            app:destination="@id/loginFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/collectionsFragment"

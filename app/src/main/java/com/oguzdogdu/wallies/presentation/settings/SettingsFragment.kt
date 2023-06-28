@@ -5,6 +5,8 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
@@ -18,9 +20,24 @@ import java.util.*
 @AndroidEntryPoint
 class SettingsFragment : PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener {
+    private val viewModel: SettingsViewModel by viewModels()
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
+        val buttonPreference = Preference(requireContext()).apply {
+            key = "button_preference"
+            title = "Çıkış Yap"
+        }
+        preferenceScreen.addPreference(buttonPreference)
+        buttonPreference.setOnPreferenceClickListener {
+            when(viewModel.loginState.value){
+                SettingsState.SignOut -> {
+                    viewModel.signOut()
+                    findNavController().navigate(R.id.toLogin)
+                }
+            }
+            true
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

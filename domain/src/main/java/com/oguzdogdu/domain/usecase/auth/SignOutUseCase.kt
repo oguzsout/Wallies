@@ -10,9 +10,5 @@ import javax.inject.Inject
 class SignOutUseCase @Inject constructor(
     private val repository: Authenticator
 ) {
-    operator fun invoke(): Flow<Resource<Unit>> {
-        return flow {
-            emit(repository.signOut())
-        }.toResult()
-    }
+    suspend operator fun invoke() = repository.signOut()
 }
