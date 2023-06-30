@@ -23,8 +23,8 @@
     <style name="LoginTextInputOuterFieldStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">@dimen/dp_16</item>
-        <item name="android:layout_marginBottom">@dimen/dp_16</item>
+        <item name="android:layout_marginTop">@dimen/dp_8</item>
+        <item name="android:layout_marginBottom">@dimen/dp_8</item>
     </style>
 
     <style name="LoginTextInputInnerFieldStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">

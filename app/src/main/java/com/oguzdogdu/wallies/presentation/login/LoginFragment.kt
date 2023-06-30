@@ -1,9 +1,12 @@
 package com.oguzdogdu.wallies.presentation.login
 
 import android.text.Editable
+import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
+import androidx.core.text.bold
+import androidx.core.text.scale
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.oguzdogdu.wallies.R
@@ -23,6 +26,23 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     private val viewModel: LoginViewModel by viewModels()
     override fun initViews() {
         super.initViews()
+        val s = SpannableStringBuilder()
+            .append("Not Registered Yet")
+            .bold { run { append(", Sign Up !  ") } }
+        binding.textViewSignUp.text = s
+    }
+
+    override fun initListeners() {
+        super.initListeners()
+        sendLoginRequest()
+        binding.textViewSignUp.setOnClickListener {
+            navigate(R.id.toSignUp,null)
+        }
+    }
+
+    private fun sendLoginRequest(){
+        binding.emailEt.addTextChangedListener(TextFieldValidation(binding.emailEt))
+        binding.passET.addTextChangedListener(TextFieldValidation(binding.passET))
         binding.button.setOnClickListener {
             viewModel.signIn(
                 userEmail = binding.emailEt.text.toString(),
@@ -31,39 +51,18 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         }
     }
 
-    override fun initListeners() {
-        super.initListeners()
-        binding.emailEt.addTextChangedListener(TextFieldValidation(binding.emailEt))
-        binding.passET.addTextChangedListener(TextFieldValidation(binding.passET))
-    }
-
     override fun observeData() {
         super.observeData()
         lifecycleScope.launch {
             viewModel.loginState.collect { state ->
                 when (state) {
-                    is LoginState.UserNotSignIn -> {
-                        requireView().showToast(
-                            context = requireContext(),
-                            message = "Lütfen giriş yap",
-                            duration = Toast.LENGTH_LONG
-                        )
-                    }
+                    is LoginState.UserNotSignIn -> {}
 
-                    is LoginState.Loading -> {
-                    }
+                    is LoginState.Loading -> {}
 
-                    is LoginState.ErrorSignIn -> {
-                        requireView().showToast(
-                            context = requireContext(),
-                            message = state.errorMessage,
-                            duration = Toast.LENGTH_LONG
-                        )
-                    }
+                    is LoginState.ErrorSignIn -> requireView().showToast(context = requireContext(), message = state.errorMessage, duration = Toast.LENGTH_LONG)
 
-                    is LoginState.UserSignIn -> {
-                        navigate(R.id.toMain, null)
-                    }
+                    is LoginState.UserSignIn ->  navigate(R.id.toMain, null)
 
                     else -> {}
                 }
@@ -76,57 +75,69 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             when (view.id) {
-                R.id.emailEt -> {
-                    validateEmail()
-                }
+                R.id.emailEt -> validateEmail()
 
-                R.id.passET -> {
-                    validatePassword()
-                }
+                R.id.passET -> validatePassword()
             }
         }
     }
 
     private fun validateEmail(): Boolean {
-        if (binding.emailEt.text.toString().trim().isEmpty()) {
-            binding.emailLayout.error = "Required Field!"
-            binding.emailEt.requestFocus()
-            return false
-        } else if (!isValidEmail(binding.emailEt.text.toString())) {
-            binding.emailLayout.error = "Invalid Email!"
-            binding.emailEt.requestFocus()
-            return false
-        } else {
-            binding.emailLayout.isErrorEnabled = false
+        val email = binding.emailEt.text.toString().trim()
+        val emailLayout = binding.emailLayout
+
+        return when {
+            email.isEmpty() -> {
+                emailLayout.error = "Required Field!"
+                emailLayout.requestFocus()
+                false
+            }
+            !isValidEmail(email) -> {
+                emailLayout.error = "Invalid Email!"
+                emailLayout.requestFocus()
+                false
+            }
+            else -> {
+                emailLayout.isErrorEnabled = false
+                true
+            }
         }
-        return true
     }
 
     private fun validatePassword(): Boolean {
-        if (binding.passET.text.toString().trim().isEmpty()) {
-            binding.passwordLayout.error = "Required Field!"
-            binding.passET.requestFocus()
-            return false
-        } else if (binding.passET.text.toString().length < 6) {
-            binding.passwordLayout.error = "Password can't be less than 6"
-            binding.passET.requestFocus()
-            return false
-        } else if (!isStringContainNumber(binding.passET.text.toString())) {
-            binding.passwordLayout.error = "Required at least 1 digit"
-            binding.passET.requestFocus()
-            return false
-        } else if (!isStringLowerAndUpperCase(binding.passET.text.toString())) {
-            binding.passwordLayout.error =
-                "Password must contain upper and lower case letters"
-            binding.passET.requestFocus()
-            return false
-        } else if (!isStringContainSpecialCharacter(binding.passET.text.toString())) {
-            binding.passwordLayout.error = "One special character required"
-            binding.passET.requestFocus()
-            return false
-        } else {
-            binding.passwordLayout.isErrorEnabled = false
+        val password = binding.passET.text.toString().trim()
+        val passwordLayout = binding.passwordLayout
+
+        return when {
+            password.isEmpty() -> {
+                passwordLayout.error = "Required Field!"
+                binding.passET.requestFocus()
+                false
+            }
+            password.length < 6 -> {
+                passwordLayout.error = "Password can't be less than 6"
+                binding.passET.requestFocus()
+                false
+            }
+            !isStringContainNumber(password) -> {
+                passwordLayout.error = "Required at least 1 digit"
+                binding.passET.requestFocus()
+                false
+            }
+            !isStringLowerAndUpperCase(password) -> {
+                passwordLayout.error = "Password must contain upper and lower case letters"
+                binding.passET.requestFocus()
+                false
+            }
+            !isStringContainSpecialCharacter(password) -> {
+                passwordLayout.error = "One special character required"
+                binding.passET.requestFocus()
+                false
+            }
+            else -> {
+                passwordLayout.isErrorEnabled = false
+                true
+            }
         }
-        return true
     }
 }
