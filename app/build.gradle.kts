@@ -72,6 +72,7 @@ dependencies {
     implementation("com.google.firebase:firebase-messaging-ktx:23.1.2")
     implementation ("com.google.firebase:firebase-auth-ktx:22.0.0")
     implementation ("com.google.firebase:firebase-bom:32.1.1")
+    implementation ("com.google.firebase:firebase-firestore-ktx:24.6.1")
     testImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.junit.ext)
     androidTestImplementation(libs.androidx.espresso.core)
