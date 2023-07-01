@@ -1,6 +1,7 @@
 package com.oguzdogdu.wallies.di
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.oguzdogdu.data.repository.AuthenticatorImpl
 import com.oguzdogdu.data.repository.WallpaperRepositoryImpl
 import com.oguzdogdu.data.source.remote.WallpaperService
@@ -27,7 +28,7 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideAuthRepository(auth: FirebaseAuth): Authenticator {
-        return AuthenticatorImpl(auth)
+    fun provideAuthRepository(auth: FirebaseAuth,firestore: FirebaseFirestore): Authenticator {
+        return AuthenticatorImpl(auth,firestore)
     }
 }
