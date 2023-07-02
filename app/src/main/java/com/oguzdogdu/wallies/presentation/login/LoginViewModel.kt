@@ -2,10 +2,12 @@ package com.oguzdogdu.wallies.presentation.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.oguzdogdu.domain.model.favorites.FavoriteImages
 import com.oguzdogdu.domain.usecase.auth.CheckUserAuthenticatedUseCase
 import com.oguzdogdu.domain.usecase.auth.SignInUseCase
 import com.oguzdogdu.domain.usecase.auth.SignOutUseCase
 import com.oguzdogdu.domain.wrapper.Resource
+import com.oguzdogdu.wallies.presentation.detail.DetailScreenEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -29,6 +31,14 @@ class LoginViewModel @Inject constructor(
         checkSignIn()
     }
 
+    fun handleUIEvent(event: LoginScreenEvent) {
+        when (event) {
+            is LoginScreenEvent.UserSignIn -> {
+                signIn(userEmail = event.email, password = event.password)
+            }
+        }
+    }
+
     private fun checkSignIn() {
         viewModelScope.launch {
             checkUserAuthenticatedUseCase.invoke().collect { status ->
@@ -47,7 +57,7 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun signIn(userEmail: String, password: String) = viewModelScope.launch {
+    private fun signIn(userEmail: String, password: String) = viewModelScope.launch {
         signInUseCase(userEmail, password).collect { response ->
             when (response) {
                 is Resource.Success -> {

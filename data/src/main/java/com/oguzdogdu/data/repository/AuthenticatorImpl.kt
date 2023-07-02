@@ -4,7 +4,9 @@ import android.os.Build
 import android.provider.ContactsContract.DisplayNameSources.NICKNAME
 import android.provider.SimPhonebookContract.SimRecords.PHONE_NUMBER
 import androidx.annotation.RequiresApi
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.oguzdogdu.data.common.Constants.COLLECTION_PATH
 import com.oguzdogdu.data.common.Constants.EMAIL
@@ -48,8 +50,8 @@ class AuthenticatorImpl @Inject constructor(
     }
 
 
-    override suspend fun signIn(userEmail: String, password: String) {
-        auth.signInWithEmailAndPassword(userEmail, password)
+    override suspend fun signIn(userEmail: String, password: String):AuthResult {
+      return  auth.signInWithEmailAndPassword(userEmail, password).await()
     }
 
     override suspend fun signOut() = auth.signOut()

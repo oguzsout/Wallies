@@ -1,5 +1,6 @@
 package com.oguzdogdu.wallies.presentation.settings
 
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
@@ -22,11 +23,13 @@ class SettingsFragment : PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener {
     private val viewModel: SettingsViewModel by viewModels()
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
         val buttonPreference = Preference(requireContext()).apply {
             key = "button_preference"
             title = "Çıkış Yap"
+            icon = resources.getDrawable(R.drawable.ic_log_out)
         }
         preferenceScreen.addPreference(buttonPreference)
         buttonPreference.setOnPreferenceClickListener {

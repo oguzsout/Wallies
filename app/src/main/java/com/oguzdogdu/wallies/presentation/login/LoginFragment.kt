@@ -44,9 +44,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         binding.emailEt.addTextChangedListener(TextFieldValidation(binding.emailEt))
         binding.passET.addTextChangedListener(TextFieldValidation(binding.passET))
         binding.button.setOnClickListener {
-            viewModel.signIn(
-                userEmail = binding.emailEt.text.toString(),
-                password = binding.passET.text.toString()
+            viewModel.handleUIEvent(
+                LoginScreenEvent.UserSignIn(
+                    email = binding.emailEt.text.toString(),
+                    password = binding.passET.text.toString()
+                )
             )
         }
     }
