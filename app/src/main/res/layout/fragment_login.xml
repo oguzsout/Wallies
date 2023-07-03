@@ -38,6 +38,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailLayout"
             style="@style/LoginTextInputOuterFieldStyle"
+            app:endIconMode="clear_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dp_16"
@@ -71,11 +72,11 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button"
+            style="@style/BaseButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="24dp"
-            android:background="@drawable/bg_button"
             android:text="Giriş Yap"
             android:textColor="@color/black"
             android:textStyle="bold" />

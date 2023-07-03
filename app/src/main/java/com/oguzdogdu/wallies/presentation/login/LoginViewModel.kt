@@ -2,12 +2,9 @@ package com.oguzdogdu.wallies.presentation.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.oguzdogdu.domain.model.favorites.FavoriteImages
 import com.oguzdogdu.domain.usecase.auth.CheckUserAuthenticatedUseCase
 import com.oguzdogdu.domain.usecase.auth.SignInUseCase
-import com.oguzdogdu.domain.usecase.auth.SignOutUseCase
 import com.oguzdogdu.domain.wrapper.Resource
-import com.oguzdogdu.wallies.presentation.detail.DetailScreenEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,7 +16,6 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val signInUseCase: SignInUseCase,
     private val checkUserAuthenticatedUseCase: CheckUserAuthenticatedUseCase,
-    private val signOutUseCase: SignOutUseCase,
 ) : ViewModel() {
     private val _loginState: MutableStateFlow<LoginState> = MutableStateFlow(LoginState.Start)
     val loginState = _loginState.asStateFlow()

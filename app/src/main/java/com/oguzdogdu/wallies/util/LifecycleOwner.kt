@@ -14,6 +14,6 @@ inline fun <reified T : Any> LifecycleOwner.observe(
     lifecycleOwner.lifecycle.coroutineScope.launch {
         stateFlow.onEach { t ->
             observer(t)
-        }.observeInLifecycle(lifecycleOwner)
+        }
     }
 }

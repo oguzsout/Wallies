@@ -9,6 +9,7 @@ import androidx.core.text.bold
 import androidx.core.text.scale
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.textfield.TextInputLayout
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentLoginBinding
@@ -30,6 +31,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
             .append("Not Registered Yet")
             .bold { run { append(", Sign Up !  ") } }
         binding.textViewSignUp.text = s
+        binding.emailEt.addTextChangedListener(TextFieldValidation(binding.emailEt))
+        binding.passET.addTextChangedListener(TextFieldValidation(binding.passET))
+        binding.emailLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM // may be set in xml
+        binding.emailLayout.setEndIconDrawable(R.drawable.ic_clear_text)
+        binding.emailLayout.setEndIconOnClickListener {
+            binding.emailEt.text?.clear()
+        }
     }
 
     override fun initListeners() {
@@ -41,8 +49,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     }
 
     private fun sendLoginRequest(){
-        binding.emailEt.addTextChangedListener(TextFieldValidation(binding.emailEt))
-        binding.passET.addTextChangedListener(TextFieldValidation(binding.passET))
         binding.button.setOnClickListener {
             viewModel.handleUIEvent(
                 LoginScreenEvent.UserSignIn(
@@ -73,7 +79,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     }
 
     inner class TextFieldValidation(private val view: View) : TextWatcher {
-        override fun afterTextChanged(s: Editable?) {}
+        override fun afterTextChanged(s: Editable?) {
+            if (s?.isBlank() == true){
+              binding.button.isEnabled = false
+            }
+        }
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             when (view.id) {
