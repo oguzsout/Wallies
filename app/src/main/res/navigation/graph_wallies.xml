@@ -270,6 +270,15 @@
         <action
             android:id="@+id/toMain"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/toSignUp"
+            app:destination="@id/signupFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/signupFragment"
+        android:name="com.oguzdogdu.wallies.presentation.signup.SignupFragment"
+        android:label="SignupFragment" >
+
+    </dialog>
 
 </navigation>
