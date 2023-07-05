@@ -42,7 +42,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                 }
             }
         }
-
     }
 
     override fun initListeners() {

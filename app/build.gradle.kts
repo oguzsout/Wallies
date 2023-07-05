@@ -9,6 +9,7 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
     id ("com.google.gms.google-services")
+    id ("org.jlleitschuh.gradle.ktlint") version "11.3.2"
 }
 val apiKey: String = gradleLocalProperties(rootDir).getProperty("API_KEY")
 android {
@@ -56,6 +57,18 @@ android {
     }
 }
 
+tasks.getByPath("preBuild").dependsOn("ktlintFormat")
+
+ktlint {
+    android.set(true)
+    ignoreFailures.set(true)
+    reporters {
+        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.PLAIN)
+        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.CHECKSTYLE)
+        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.SARIF)
+    }
+    outputToConsole.set(true)
+}
 
 dependencies {
 
