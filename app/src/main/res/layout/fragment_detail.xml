@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/containerDetailScreen"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:visibility="visible">
+    android:layout_height="match_parent">
 
     <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/imageViewDetail"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
+        app:layout_constraintCircleRadius="@dimen/dp_8"
         app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
