@@ -10,7 +10,9 @@ import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.oguzdogdu.wallies.util.navigateSafe
 
-abstract class BaseBottomSheetDialogFragment<VB : ViewBinding>(private val bindingInflater: (inflater: LayoutInflater) -> VB) :
+abstract class BaseBottomSheetDialogFragment<VB : ViewBinding>(
+    private val bindingInflater: (inflater: LayoutInflater) -> VB
+) :
     BottomSheetDialogFragment(), Presenters {
 
     private var _binding: VB? = null
@@ -18,7 +20,9 @@ abstract class BaseBottomSheetDialogFragment<VB : ViewBinding>(private val bindi
         get() = _binding as VB
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         _binding = bindingInflater.invoke(inflater)
         if (_binding == null) throw IllegalArgumentException("Binding cannot be null")

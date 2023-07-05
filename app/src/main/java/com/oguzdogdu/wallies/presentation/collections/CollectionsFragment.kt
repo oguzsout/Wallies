@@ -14,9 +14,9 @@ import com.oguzdogdu.wallies.util.observe
 import com.oguzdogdu.wallies.util.setupRecyclerView
 import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class CollectionsFragment :
@@ -38,16 +38,16 @@ class CollectionsFragment :
                 true,
                 onScroll = {
                     recyclerViewCollections.addOnScrollListener(object :
-                        RecyclerView.OnScrollListener() {
-                        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                            super.onScrolled(recyclerView, dx, dy)
-                            if (dy > 0) {
-                                (activity as MainActivity).slideDown()
-                            } else if (dy < 0) {
-                                (activity as MainActivity).slideUp()
+                            RecyclerView.OnScrollListener() {
+                            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                                super.onScrolled(recyclerView, dx, dy)
+                                if (dy > 0) {
+                                    (activity as MainActivity).slideDown()
+                                } else if (dy < 0) {
+                                    (activity as MainActivity).slideUp()
+                                }
                             }
-                        }
-                    })
+                        })
                 }
             )
         }

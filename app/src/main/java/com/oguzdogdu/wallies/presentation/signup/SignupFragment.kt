@@ -15,12 +15,16 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SignupFragment : BaseBottomSheetDialogFragment<FragmentSignupBinding>(FragmentSignupBinding::inflate) {
+class SignupFragment : BaseBottomSheetDialogFragment<FragmentSignupBinding>(
+    FragmentSignupBinding::inflate
+) {
     private val viewModel: SignUpViewModel by viewModels()
     override fun initViews() {
         super.initViews()
         binding.editTextEmail.addTextChangedListener(TextFieldValidation(binding.editTextEmail))
-        binding.editTextPassword.addTextChangedListener(TextFieldValidation(binding.editTextPassword))
+        binding.editTextPassword.addTextChangedListener(
+            TextFieldValidation(binding.editTextPassword)
+        )
     }
 
     override fun initListeners() {
@@ -38,10 +42,9 @@ class SignupFragment : BaseBottomSheetDialogFragment<FragmentSignupBinding>(Frag
     override fun observeData() {
         super.observeData()
         lifecycleScope.launch {
-            viewModel.signUpState.collect {state ->
-                when(state){
+            viewModel.signUpState.collect { state ->
+                when (state) {
                     is SignUpState.Loading -> {
-
                     }
                     is SignUpState.ErrorSignUp -> {
                         requireView().showToast(

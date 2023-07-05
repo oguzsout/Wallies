@@ -51,19 +51,18 @@ class LatestWallpaperAdapter :
         getItem(position)?.let { holder.bind(it) }
     }
 
-
     companion object {
         val DIFF_CALLBACK: DiffUtil.ItemCallback<LatestImage> =
             object : DiffUtil.ItemCallback<LatestImage>() {
                 override fun areItemsTheSame(
                     oldItem: LatestImage,
-                    newItem: LatestImage,
+                    newItem: LatestImage
                 ) =
                     oldItem.id == newItem.id
 
                 override fun areContentsTheSame(
                     oldItem: LatestImage,
-                    newItem: LatestImage,
+                    newItem: LatestImage
                 ) = oldItem == newItem
             }
     }

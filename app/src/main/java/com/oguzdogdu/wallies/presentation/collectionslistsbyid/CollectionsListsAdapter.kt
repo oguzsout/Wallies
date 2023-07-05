@@ -53,13 +53,13 @@ class CollectionsListsAdapter :
             object : DiffUtil.ItemCallback<CollectionList>() {
                 override fun areItemsTheSame(
                     oldItem: CollectionList,
-                    newItem: CollectionList,
+                    newItem: CollectionList
                 ) =
                     oldItem.id == newItem.id
 
                 override fun areContentsTheSame(
                     oldItem: CollectionList,
-                    newItem: CollectionList,
+                    newItem: CollectionList
                 ) = oldItem == newItem
             }
     }

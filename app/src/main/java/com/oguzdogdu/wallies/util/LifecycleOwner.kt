@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 inline fun <reified T : Any> LifecycleOwner.observe(
     stateFlow: StateFlow<T>,
     lifecycleOwner: LifecycleOwner,
-    crossinline observer: (T) -> Unit,
+    crossinline observer: (T) -> Unit
 ) {
     lifecycleOwner.lifecycle.coroutineScope.launch {
         stateFlow.onEach { t ->

@@ -13,7 +13,7 @@ import dagger.hilt.components.SingletonComponent
 object AppModule {
     @Provides
     fun provideCheckConnection(
-        @ApplicationContext context: Context,
+        @ApplicationContext context: Context
     ): CheckConnection {
         return CheckConnection(context)
     }

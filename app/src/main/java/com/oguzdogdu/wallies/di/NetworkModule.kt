@@ -2,19 +2,17 @@ package com.oguzdogdu.wallies.di
 
 import com.oguzdogdu.data.common.Constants.UNSPLASH_BASE_URL
 import com.oguzdogdu.data.source.remote.WallpaperService
-import com.oguzdogdu.wallies.BuildConfig
 import com.oguzdogdu.wallies.BuildConfig.API_KEY
-import com.oguzdogdu.wallies.BuildConfig.BUILD_TYPE
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -31,7 +29,7 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(
-        loggingInterceptor: HttpLoggingInterceptor,
+        loggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient {
         val builder = OkHttpClient.Builder().apply {
             addInterceptor(loggingInterceptor)

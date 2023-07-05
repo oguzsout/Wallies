@@ -52,15 +52,14 @@ class FavoritesListAdapter : ListAdapter<FavoriteImages, FavoritesListAdapter.Fa
             object : DiffUtil.ItemCallback<FavoriteImages>() {
                 override fun areItemsTheSame(
                     oldItem: FavoriteImages,
-                    newItem: FavoriteImages,
+                    newItem: FavoriteImages
                 ) =
                     oldItem.id == newItem.id
 
                 override fun areContentsTheSame(
                     oldItem: FavoriteImages,
-                    newItem: FavoriteImages,
+                    newItem: FavoriteImages
                 ) = oldItem == newItem
             }
     }
-
 }

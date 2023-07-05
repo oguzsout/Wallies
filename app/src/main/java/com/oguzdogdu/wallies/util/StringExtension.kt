@@ -11,7 +11,7 @@ import java.util.*
 @SuppressLint("SimpleDateFormat")
 fun String.formatDate(
     outputFormat: String = DateFormats.OUTPUT_DOTTED_LAST_PAYMENT_DATE_FORMAT.value,
-    inputFormat: String = DateFormats.INPUT_DATE_FORMAT.value,
+    inputFormat: String = DateFormats.INPUT_DATE_FORMAT.value
 ): String {
     var d: Date? = null
 

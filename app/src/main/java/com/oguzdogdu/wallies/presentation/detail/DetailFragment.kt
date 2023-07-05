@@ -8,7 +8,6 @@ import androidx.navigation.fragment.navArgs
 import coil.load
 import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
-import com.oguzdogdu.domain.model.favorites.FavoriteImages
 import com.oguzdogdu.domain.model.singlephoto.Photo
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
@@ -20,10 +19,9 @@ import com.oguzdogdu.wallies.util.observe
 import com.oguzdogdu.wallies.util.showToast
 import com.oguzdogdu.wallies.util.toFormattedString
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-
 
 @AndroidEntryPoint
 class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding::inflate) {
@@ -120,7 +118,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
         high: String?,
         medium: String?,
         low: String?,
-        imageTitle: String?,
+        imageTitle: String?
     ) {
         binding.buttonDownload.setOnClickListener {
             val arguments = Bundle().apply {
@@ -136,7 +134,6 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
     private fun setItems(photo: Photo?) {
         with(binding) {
-
             imageViewPhotoOwner.load(photo?.profileimage ?: "") {
                 diskCachePolicy(CachePolicy.DISABLED)
                 transformations(CircleCropTransformation())
@@ -146,7 +143,9 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
             imageViewDetail.load(photo?.urls ?: "") {
                 diskCachePolicy(CachePolicy.DISABLED)
-                placeholder(requireContext().itemLoading(resources.getColor(R.color.background_main_icon)))
+                placeholder(
+                    requireContext().itemLoading(resources.getColor(R.color.background_main_icon))
+                )
                 allowConversionToBitmap(true)
             }
 
@@ -162,11 +161,14 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
     private fun sharePhoto(photo: Photo?) {
         binding.buttonShare.setOnClickListener {
-            val share = Intent.createChooser(Intent().apply {
-                action = Intent.ACTION_SEND
-                type = "text/plain"
-                putExtra(Intent.EXTRA_TEXT, photo?.urls)
-            }, null)
+            val share = Intent.createChooser(
+                Intent().apply {
+                    action = Intent.ACTION_SEND
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_TEXT, photo?.urls)
+                },
+                null
+            )
             startActivity(share)
         }
     }

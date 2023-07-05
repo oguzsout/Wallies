@@ -1,12 +1,5 @@
 package com.oguzdogdu.wallies.presentation.main
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.compose.ui.platform.ComposeView
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
@@ -40,7 +33,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
             tab.text = tabTitles[position]
         }.attach()
     }
-
 
     private fun initViewPager() {
         val pagerAdapter = ViewPagerAdapter(requireParentFragment().requireActivity(), fragments)

@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
@@ -18,7 +17,6 @@ fun PopularScreenItem(
     popularImage: PopularImage,
     onItemClick: (String) -> Unit
 ) {
-
     Card(
         shape = RoundedCornerShape(12.dp),
         modifier = Modifier

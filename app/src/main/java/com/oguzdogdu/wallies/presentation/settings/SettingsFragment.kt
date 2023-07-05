@@ -19,7 +19,8 @@ import java.util.*
 
 @Suppress("DEPRECATION")
 @AndroidEntryPoint
-class SettingsFragment : PreferenceFragmentCompat(),
+class SettingsFragment :
+    PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener {
     private val viewModel: SettingsViewModel by viewModels()
 
@@ -33,7 +34,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         }
         preferenceScreen.addPreference(buttonPreference)
         buttonPreference.setOnPreferenceClickListener {
-            when(viewModel.loginState.value){
+            when (viewModel.loginState.value) {
                 SettingsState.SignOut -> {
                     viewModel.signOut()
                     findNavController().navigate(R.id.toLogin)

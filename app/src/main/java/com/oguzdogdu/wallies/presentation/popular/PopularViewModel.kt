@@ -5,16 +5,16 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.oguzdogdu.domain.usecase.popular.GetPopularUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class PopularViewModel @Inject constructor(
-    private val useCase: GetPopularUseCase,
+    private val useCase: GetPopularUseCase
 ) : ViewModel() {
 
     private val _getPopular = MutableStateFlow(PopularState())
@@ -27,7 +27,7 @@ class PopularViewModel @Inject constructor(
         getPopularImages()
     }
 
-     fun loadList() {
+    fun loadList() {
         viewModelScope.launch {
             _isLoading.value = true
             delay(1000L)

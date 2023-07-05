@@ -1,6 +1,5 @@
 package com.oguzdogdu.wallies.presentation.detail
 
-import com.oguzdogdu.domain.model.favorites.FavoriteImages
 import com.oguzdogdu.domain.model.singlephoto.Photo
 
 sealed class DetailScreenEvent {

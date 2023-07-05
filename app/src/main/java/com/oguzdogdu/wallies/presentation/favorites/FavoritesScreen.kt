@@ -25,30 +25,29 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.oguzdogdu.wallies.ui.theme.Typography
 
-
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun FavoritesScreen(
     viewModel: FavoritesViewModel = hiltViewModel(),
-    navigateToDetail: (String) -> Unit,
+    navigateToDetail: (String) -> Unit
 ) {
-
     val state by viewModel.favorites.collectAsStateWithLifecycle()
     val scaffoldState = rememberScaffoldState()
-
 
     Scaffold(scaffoldState = scaffoldState, topBar = {
         TopAppBar(
             title = {
                 Box(
-                    modifier = Modifier.fillMaxWidth(), Alignment.Center
+                    modifier = Modifier.fillMaxWidth(),
+                    Alignment.Center
                 ) {
                     Text(text = "Favorites", style = Typography.body1)
                 }
             },
             modifier = Modifier.clip(
                 shape = RoundedCornerShape(
-                    bottomEnd = 16.dp, bottomStart = 16.dp
+                    bottomEnd = 16.dp,
+                    bottomStart = 16.dp
                 )
             ),
             backgroundColor = Color(0xFFFEDBD0),
@@ -56,14 +55,13 @@ fun FavoritesScreen(
             elevation = 8.dp
         )
     }, content = {
-        Box(modifier = Modifier.padding(12.dp)) {
-
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                state = rememberLazyGridState(),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
+            Box(modifier = Modifier.padding(12.dp)) {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    state = rememberLazyGridState(),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
                     items(state.favorites) { favorites ->
                         if (favorites != null) {
                             FavoriteItem(favoriteImages = favorites, onItemClick = {
@@ -71,7 +69,7 @@ fun FavoritesScreen(
                             })
                         }
                     }
+                }
             }
-        }
-    })
+        })
 }

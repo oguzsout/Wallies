@@ -30,7 +30,9 @@ class CheckConnection @Inject constructor(private val context: Context) :
                     connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
 
                 value =
-                    allNetworks != null && allNetworks.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                    allNetworks != null && allNetworks.hasCapability(
+                    NetworkCapabilities.NET_CAPABILITY_INTERNET
+                )
             }
         }
         context.registerReceiver(broadcastReceiver, intentFilter)

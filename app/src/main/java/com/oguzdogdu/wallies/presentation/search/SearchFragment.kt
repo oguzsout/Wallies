@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -16,17 +15,14 @@ import com.oguzdogdu.wallies.util.CheckConnection
 import com.oguzdogdu.wallies.util.observe
 import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.setupRecyclerView
-import com.oguzdogdu.wallies.util.show
 import com.oguzdogdu.wallies.util.showToast
 import com.oguzdogdu.wallies.util.textChanges
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
+import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding::inflate) {
@@ -45,7 +41,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
                 layoutManager = GridLayoutManager(requireContext(), 2),
                 adapter = searchWallpaperAdapter,
                 true,
-                onScroll = {})
+                onScroll = {}
+            )
         }
     }
 
@@ -78,11 +75,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
                         viewModel.eventFlow.collectLatest { event ->
                             when (event) {
                                 is SearchEvent.Success -> {
-                                  searchWallpaperAdapter.submitData(viewModel.getSearchPhotos.value.search)
+                                    searchWallpaperAdapter.submitData(
+                                        viewModel.getSearchPhotos.value.search
+                                    )
                                 }
                                 else -> {}
                             }
-
                         }
                     }
                 }
@@ -99,7 +97,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun searchToImages() {
         binding.apply {
-
             editTextSearchWalpaper.setOnFocusChangeListener { _, hasFocus ->
                 tvCancel.isVisible = hasFocus
             }
@@ -114,7 +111,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
 
             editTextSearchWalpaper.setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    viewModel.handleUIEvent(SearchEvent.EnteredSearchQuery(editTextSearchWalpaper.text.toString()))
+                    viewModel.handleUIEvent(
+                        SearchEvent.EnteredSearchQuery(editTextSearchWalpaper.text.toString())
+                    )
                 }
                 true
             }

@@ -5,12 +5,12 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.oguzdogdu.domain.usecase.latest.GetLatestUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class LatestViewModel @Inject constructor(private val useCase: GetLatestUseCase) : ViewModel() {

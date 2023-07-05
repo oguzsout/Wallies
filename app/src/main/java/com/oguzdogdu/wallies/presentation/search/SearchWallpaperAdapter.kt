@@ -51,19 +51,18 @@ class SearchWallpaperAdapter :
         getItem(position)?.let { holder.bind(it) }
     }
 
-
     companion object {
         val DIFF_CALLBACK: DiffUtil.ItemCallback<SearchPhoto> =
             object : DiffUtil.ItemCallback<SearchPhoto>() {
                 override fun areItemsTheSame(
                     oldItem: SearchPhoto,
-                    newItem: SearchPhoto,
+                    newItem: SearchPhoto
                 ) =
                     oldItem.id == newItem.id
 
                 override fun areContentsTheSame(
                     oldItem: SearchPhoto,
-                    newItem: SearchPhoto,
+                    newItem: SearchPhoto
                 ) = oldItem == newItem
             }
     }

@@ -3,33 +3,29 @@ package com.oguzdogdu.wallies.presentation.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oguzdogdu.domain.model.favorites.FavoriteImages
-import com.oguzdogdu.domain.model.singlephoto.Photo
 import com.oguzdogdu.domain.usecase.favorites.AddFavoritesUseCase
 import com.oguzdogdu.domain.usecase.favorites.DeleteFavoritesUseCase
 import com.oguzdogdu.domain.usecase.favorites.GetFavoritesUseCase
 import com.oguzdogdu.domain.usecase.singlephoto.SinglePhotoUseCase
 import com.oguzdogdu.domain.wrapper.Resource
-import com.oguzdogdu.wallies.presentation.search.SearchEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val useCase: SinglePhotoUseCase,
     private val favoritesUseCase: AddFavoritesUseCase,
     private val getFavoritesUseCase: GetFavoritesUseCase,
-    private val deleteFavoritesUseCase: DeleteFavoritesUseCase,
+    private val deleteFavoritesUseCase: DeleteFavoritesUseCase
 ) : ViewModel() {
 
     private val _getPhoto = MutableStateFlow(DetailState())
@@ -48,25 +44,29 @@ class DetailViewModel @Inject constructor(
     fun handleUIEvent(event: DetailScreenEvent) {
         when (event) {
             is DetailScreenEvent.AddFavorites -> {
-                addImagesToFavorites( FavoriteImages(
-                    id = photo.value.detail?.id ?: "",
-                    url = photo.value.detail?.urls ?: "",
-                    profileImage = photo.value.detail?.profileimage ?: "",
-                    portfolioUrl = photo.value.detail?.portfolio ?: "",
-                    name = photo.value.detail?.username ?: "",
-                    isChecked = true
-                ))
+                addImagesToFavorites(
+                    FavoriteImages(
+                        id = photo.value.detail?.id ?: "",
+                        url = photo.value.detail?.urls ?: "",
+                        profileImage = photo.value.detail?.profileimage ?: "",
+                        portfolioUrl = photo.value.detail?.portfolio ?: "",
+                        name = photo.value.detail?.username ?: "",
+                        isChecked = true
+                    )
+                )
             }
 
             is DetailScreenEvent.DeleteFavorites -> {
-                deleteImagesToFavorites(FavoriteImages(
-                    id = photo.value.detail?.id ?: "",
-                    url = photo.value.detail?.urls ?: "",
-                    profileImage = photo.value.detail?.profileimage ?: "",
-                    portfolioUrl = photo.value.detail?.portfolio ?: "",
-                    name = photo.value.detail?.username ?: "",
-                    isChecked = false
-                ))
+                deleteImagesToFavorites(
+                    FavoriteImages(
+                        id = photo.value.detail?.id ?: "",
+                        url = photo.value.detail?.urls ?: "",
+                        profileImage = photo.value.detail?.profileimage ?: "",
+                        portfolioUrl = photo.value.detail?.portfolio ?: "",
+                        name = photo.value.detail?.username ?: "",
+                        isChecked = false
+                    )
+                )
             }
         }
     }

@@ -7,7 +7,9 @@ import com.oguzdogdu.wallies.databinding.FragmentDownloadPhotoBinding
 import com.oguzdogdu.wallies.util.downloadImage
 
 class DownloadPhotoFragment :
-    BaseBottomSheetDialogFragment<FragmentDownloadPhotoBinding>(FragmentDownloadPhotoBinding::inflate) {
+    BaseBottomSheetDialogFragment<FragmentDownloadPhotoBinding>(
+        FragmentDownloadPhotoBinding::inflate
+    ) {
 
     private val args: DownloadPhotoFragmentArgs by navArgs()
 
@@ -28,7 +30,6 @@ class DownloadPhotoFragment :
             }
         }
     }
-
 
     private fun downloadImageFromWeb(url: String?) {
         val directory: String = requireContext().getString(R.string.app_name)

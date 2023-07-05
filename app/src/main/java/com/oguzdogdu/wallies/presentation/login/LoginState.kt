@@ -7,5 +7,3 @@ sealed class LoginState {
     object UserSignIn : LoginState()
     object UserNotSignIn : LoginState()
 }
-
-

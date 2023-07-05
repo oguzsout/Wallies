@@ -21,14 +21,14 @@ object RepositoryModule {
     @Singleton
     fun provideWallpaperRepository(
         service: WallpaperService,
-        dao: FavoriteDao,
+        dao: FavoriteDao
     ): WallpaperRepository {
         return WallpaperRepositoryImpl(service, dao)
     }
 
     @Provides
     @Singleton
-    fun provideAuthRepository(auth: FirebaseAuth,firestore: FirebaseFirestore): Authenticator {
-        return AuthenticatorImpl(auth,firestore)
+    fun provideAuthRepository(auth: FirebaseAuth, firestore: FirebaseFirestore): Authenticator {
+        return AuthenticatorImpl(auth, firestore)
     }
 }

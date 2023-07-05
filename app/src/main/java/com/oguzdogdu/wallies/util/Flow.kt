@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 class FlowObserver<T>(
     lifecycleOwner: LifecycleOwner,
     private val flow: Flow<T>,
-    private val collector: suspend (T) -> Unit,
+    private val collector: suspend (T) -> Unit
 ) {
 
     private var job: Job? = null
@@ -46,5 +46,5 @@ class FlowObserver<T>(
 }
 
 inline fun <reified T> Flow<T>.observeInLifecycle(
-    lifecycleOwner: LifecycleOwner,
+    lifecycleOwner: LifecycleOwner
 ) = FlowObserver(lifecycleOwner, this) {}

@@ -51,19 +51,18 @@ class PopularWallpaperAdapter :
         getItem(position)?.let { holder.bind(it) }
     }
 
-
     companion object {
         val DIFF_CALLBACK: DiffUtil.ItemCallback<PopularImage> =
             object : DiffUtil.ItemCallback<PopularImage>() {
                 override fun areItemsTheSame(
                     oldItem: PopularImage,
-                    newItem: PopularImage,
+                    newItem: PopularImage
                 ) =
                     oldItem.id == newItem.id
 
                 override fun areContentsTheSame(
                     oldItem: PopularImage,
-                    newItem: PopularImage,
+                    newItem: PopularImage
                 ) = oldItem == newItem
             }
     }

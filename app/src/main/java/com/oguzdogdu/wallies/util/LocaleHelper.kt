@@ -14,8 +14,9 @@ object LocaleHelper {
     fun setLocale(context: Context, language: String): Context {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             updateResources(context, language)
-        } else updateResourcesLegacy(context, language)
-
+        } else {
+            updateResourcesLegacy(context, language)
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.N)

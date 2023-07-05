@@ -5,5 +5,4 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SetWallpaperViewModel @Inject constructor() : ViewModel() {
-}
+class SetWallpaperViewModel @Inject constructor() : ViewModel()

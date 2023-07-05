@@ -6,16 +6,16 @@ import com.oguzdogdu.domain.usecase.auth.CheckUserAuthenticatedUseCase
 import com.oguzdogdu.domain.usecase.auth.SignInUseCase
 import com.oguzdogdu.domain.wrapper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val signInUseCase: SignInUseCase,
-    private val checkUserAuthenticatedUseCase: CheckUserAuthenticatedUseCase,
+    private val checkUserAuthenticatedUseCase: CheckUserAuthenticatedUseCase
 ) : ViewModel() {
     private val _loginState: MutableStateFlow<LoginState> = MutableStateFlow(LoginState.Start)
     val loginState = _loginState.asStateFlow()
@@ -60,7 +60,11 @@ class LoginViewModel @Inject constructor(
                     _loginState.update { LoginState.UserSignIn }
                 }
                 is Resource.Error -> {
-                    _loginState.update { LoginState.ErrorSignIn(errorMessage = response.errorMessage) }
+                    _loginState.update {
+                        LoginState.ErrorSignIn(
+                            errorMessage = response.errorMessage
+                        )
+                    }
                 }
                 else -> {
                     _loginState.update { LoginState.Loading }

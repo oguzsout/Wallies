@@ -16,7 +16,6 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.google.android.material.snackbar.Snackbar
 import com.oguzdogdu.wallies.R
 
-
 fun RecyclerView.addItemDivider() {
     val itemDivider = DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
     itemDivider.setDrawable(
@@ -43,7 +42,7 @@ inline fun RecyclerView.setupRecyclerView(
     hasFixedSize: Boolean = true,
     itemAnimator: RecyclerView.ItemAnimator? = null,
     itemDecoration: RecyclerView.ItemDecoration? = null,
-    crossinline onScroll: () -> Unit,
+    crossinline onScroll: () -> Unit
 ) {
     this.layoutManager = layoutManager
     this.adapter = adapter
@@ -57,7 +56,7 @@ inline fun RecyclerView.setupRecyclerView(
 fun View.showSnackMessage(
     @StringRes buttonText: Int?,
     @StringRes message: Int?,
-    length: Int = Snackbar.LENGTH_SHORT,
+    length: Int = Snackbar.LENGTH_SHORT
 ) {
     message?.let {
         try {

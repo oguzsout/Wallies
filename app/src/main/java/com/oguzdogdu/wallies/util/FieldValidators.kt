@@ -22,7 +22,9 @@ object FieldValidators {
         val upperCasePatterMatcher = upperCasePattern.matcher(text)
         return if (!lowerCasePatterMatcher.matches()) {
             false
-        } else upperCasePatterMatcher.matches()
+        } else {
+            upperCasePatterMatcher.matches()
+        }
     }
 
     fun isStringContainSpecialCharacter(text: String): Boolean {

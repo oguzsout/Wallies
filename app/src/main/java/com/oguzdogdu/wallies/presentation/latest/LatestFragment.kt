@@ -1,14 +1,8 @@
 package com.oguzdogdu.wallies.presentation.latest
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.compose.ui.platform.ComposeView
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.oguzdogdu.wallies.R
@@ -22,9 +16,9 @@ import com.oguzdogdu.wallies.util.setupRecyclerView
 import com.oguzdogdu.wallies.util.show
 import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class LatestFragment : BaseFragment<FragmentLatestBinding>(FragmentLatestBinding::inflate) {
@@ -45,16 +39,16 @@ class LatestFragment : BaseFragment<FragmentLatestBinding>(FragmentLatestBinding
                 true,
                 onScroll = {
                     recyclerViewWallpapers.addOnScrollListener(object :
-                        RecyclerView.OnScrollListener() {
-                        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                            super.onScrolled(recyclerView, dx, dy)
-                            if (dy > 0) {
-                                (activity as MainActivity).slideDown()
-                            } else if (dy < 0) {
-                                (activity as MainActivity).slideUp()
+                            RecyclerView.OnScrollListener() {
+                            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                                super.onScrolled(recyclerView, dx, dy)
+                                if (dy > 0) {
+                                    (activity as MainActivity).slideDown()
+                                } else if (dy < 0) {
+                                    (activity as MainActivity).slideUp()
+                                }
                             }
-                        }
-                    })
+                        })
                 }
             )
         }
@@ -99,7 +93,6 @@ class LatestFragment : BaseFragment<FragmentLatestBinding>(FragmentLatestBinding
                                 }
                             }
                         }
-
                     }
                 }
 

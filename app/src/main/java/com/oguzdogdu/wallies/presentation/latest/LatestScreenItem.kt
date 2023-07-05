@@ -17,7 +17,6 @@ fun LatestScreenItem(
     latestImage: LatestImage,
     onItemClick: (String) -> Unit
 ) {
-
     Card(
         shape = RoundedCornerShape(12.dp),
         modifier = Modifier

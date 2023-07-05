@@ -12,7 +12,7 @@ object DialogHelper {
         @StringRes message: Int?,
         @StringRes positiveButtonText: Int?,
         @DrawableRes icon: Int?,
-        handler: () -> Unit,
+        handler: () -> Unit
     ) {
         val dialogBuilder = MaterialAlertDialogBuilder(context)
             .setTitle(title)

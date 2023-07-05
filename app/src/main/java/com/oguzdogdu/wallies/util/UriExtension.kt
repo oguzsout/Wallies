@@ -39,10 +39,14 @@ fun Context.downloadImage(url: String, directoryName: String, fileName: String) 
                     this.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
                 val downloadUri = Uri.parse(url)
                 val request = DownloadManager.Request(downloadUri).apply {
-                    setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
+                    setAllowedNetworkTypes(
+                        DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE
+                    )
                         .setMimeType("image/*")
                         .setAllowedOverRoaming(false)
-                        .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                        .setNotificationVisibility(
+                            DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
+                        )
                         .setTitle("Wallies")
                         .setDestinationUri(Uri.fromFile(file))
                 }

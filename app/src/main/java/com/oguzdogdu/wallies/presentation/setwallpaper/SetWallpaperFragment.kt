@@ -14,7 +14,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
 @AndroidEntryPoint
 class SetWallpaperFragment :
     BaseBottomSheetDialogFragment<FragmentSetWallpaperBinding>(FragmentSetWallpaperBinding::inflate) {
@@ -26,7 +25,6 @@ class SetWallpaperFragment :
         super.initListeners()
         setWallpaperOptions(args.imageUrl)
     }
-
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun setWallpaperOptions(url: String?) {
@@ -62,7 +60,6 @@ class SetWallpaperFragment :
                 val height = displayMetrics.heightPixels
                 val bitmap = Bitmap.createScaledBitmap(resource!!, width, height, true)*/
             try {
-
                 when (isLockScreen) {
                     false -> wallpaperManager.setBitmap(
                         bitmap,
@@ -78,9 +75,7 @@ class SetWallpaperFragment :
                         true,
                         WallpaperManager.FLAG_SYSTEM
                     )
-
                 }
-
             } catch (e: Exception) {
                 e.printStackTrace()
             }

@@ -8,8 +8,8 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
-    id ("com.google.gms.google-services")
-    id ("org.jlleitschuh.gradle.ktlint") version "11.3.2"
+    id("com.google.gms.google-services")
+    id("org.jlleitschuh.gradle.ktlint") version "11.3.2"
 }
 val apiKey: String = gradleLocalProperties(rootDir).getProperty("API_KEY")
 android {
@@ -46,7 +46,6 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
-
     }
     buildFeatures {
         compose = true
@@ -76,37 +75,36 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":domain"))
 
-
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.material)
     implementation(libs.androidx.contraintlayout)
     implementation(libs.androidx.test.core)
     implementation("com.google.firebase:firebase-messaging-ktx:23.1.2")
-    implementation ("com.google.firebase:firebase-auth-ktx:22.0.0")
-    implementation ("com.google.firebase:firebase-bom:32.1.1")
-    implementation ("com.google.firebase:firebase-firestore-ktx:24.6.1")
+    implementation("com.google.firebase:firebase-auth-ktx:22.0.0")
+    implementation("com.google.firebase:firebase-bom:32.1.1")
+    implementation("com.google.firebase:firebase-firestore-ktx:24.6.1")
     testImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.junit.ext)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation ("androidx.compose.ui:ui:1.4.3")
-    implementation ("androidx.compose.runtime:runtime:1.4.3")
+    implementation("androidx.compose.ui:ui:1.4.3")
+    implementation("androidx.compose.runtime:runtime:1.4.3")
 
-    implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
 
-    implementation ("androidx.paging:paging-runtime:3.1.1")
-    implementation ("androidx.paging:paging-compose:1.0.0-alpha19")
-    implementation ("com.google.accompanist:accompanist-swiperefresh:0.26.3-beta")
+    implementation("androidx.paging:paging-runtime:3.1.1")
+    implementation("androidx.paging:paging-compose:1.0.0-alpha19")
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.26.3-beta")
 
-    implementation ("androidx.compose.material:material:1.4.3")
-    implementation ("androidx.compose.ui:ui-tooling-preview:1.4.3")
-    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation ("androidx.activity:activity-compose:1.7.1")
-    implementation ("io.coil-kt:coil-compose:2.3.0")
-    implementation ("androidx.hilt:hilt-navigation-compose:1.0.0")
-    implementation ("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+    implementation("androidx.compose.material:material:1.4.3")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.4.3")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    implementation("androidx.activity:activity-compose:1.7.1")
+    implementation("io.coil-kt:coil-compose:2.3.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
 
     implementation(libs.android.compose.bom)
 

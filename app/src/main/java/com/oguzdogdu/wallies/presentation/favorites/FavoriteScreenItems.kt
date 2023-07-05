@@ -15,14 +15,15 @@ import com.oguzdogdu.domain.model.favorites.FavoriteImages
 @Composable
 fun FavoriteItem(
     favoriteImages: FavoriteImages,
-    onItemClick: (String) -> Unit,
+    onItemClick: (String) -> Unit
 ) {
-
-    Card(shape = RoundedCornerShape(12.dp),
+    Card(
+        shape = RoundedCornerShape(12.dp),
         modifier = Modifier
             .height(220.dp)
             .width(140.dp)
-            .clickable { onItemClick(favoriteImages.id) }) {
+            .clickable { onItemClick(favoriteImages.id) }
+    ) {
         AsyncImage(
             model = favoriteImages.url,
             contentDescription = null,

@@ -28,18 +28,19 @@ class FavoritesFragment :
             recyclerViewFavorites.setupRecyclerView(
                 layoutManager = GridLayoutManager(requireContext(), 2),
                 adapter = favoritesListAdapter,
-                true, onScroll = {
+                true,
+                onScroll = {
                     recyclerViewFavorites.addOnScrollListener(object :
-                        RecyclerView.OnScrollListener() {
-                        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                            super.onScrolled(recyclerView, dx, dy)
-                            if (dy > 0) {
-                                (activity as MainActivity).slideDown()
-                            } else if (dy < 0) {
-                                (activity as MainActivity).slideUp()
+                            RecyclerView.OnScrollListener() {
+                            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                                super.onScrolled(recyclerView, dx, dy)
+                                if (dy > 0) {
+                                    (activity as MainActivity).slideDown()
+                                } else if (dy < 0) {
+                                    (activity as MainActivity).slideUp()
+                                }
                             }
-                        }
-                    })
+                        })
                 }
             )
         }

@@ -19,7 +19,6 @@ import com.oguzdogdu.wallies.util.hide
 import com.oguzdogdu.wallies.util.show
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
@@ -80,7 +79,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.mainFragment,
                 R.id.collectionsFragment,
                 R.id.favoritesFragment,
-                R.id.settingsFragment,
+                R.id.settingsFragment
                 -> true
 
                 else -> false

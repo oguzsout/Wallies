@@ -26,7 +26,8 @@ import com.oguzdogdu.wallies.ui.theme.Typography
 import kotlinx.coroutines.launch
 
 val pages = listOf(
-    Constants.TAB_POPULAR, Constants.TAB_LATEST
+    Constants.TAB_POPULAR,
+    Constants.TAB_LATEST
 )
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -43,32 +44,39 @@ fun ContainerScreen(
     Scaffold(topBar = {
         TopAppBar(
             backgroundColor = colorResource(id = R.color.background_tab),
-            elevation = 0.dp
-            ,title = { Text(text = stringResource(R.string.app_name),style = Typography.body2,) }, actions = {
-            IconButton(onClick = { navigateToSearch.invoke() }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.search), contentDescription = "Search"
-                )
-            }
-        })
-    }, content = {
-        Column(modifier = Modifier.fillMaxSize()) {
-            TabRow(selectedTabIndex = pages.size,
-                backgroundColor = colorResource(id = R.color.background_tab),
-                indicator = {}) {
-                pages.forEachIndexed { index, title ->
-                    Tab(selected = tabIndex == index, onClick = {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(page = index)
-                        }
-                    }, text = { Text(text = title) })
+            elevation = 0.dp,
+            title = { Text(text = stringResource(R.string.app_name), style = Typography.body2) },
+            actions = {
+                IconButton(onClick = { navigateToSearch.invoke() }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.search),
+                        contentDescription = "Search"
+                    )
                 }
             }
+        )
+    }, content = {
+            Column(modifier = Modifier.fillMaxSize()) {
+                TabRow(
+                    selectedTabIndex = pages.size,
+                    backgroundColor = colorResource(id = R.color.background_tab),
+                    indicator = {}
+                ) {
+                    pages.forEachIndexed { index, title ->
+                        Tab(selected = tabIndex == index, onClick = {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(page = index)
+                            }
+                        }, text = { Text(text = title) })
+                    }
+                }
 
-            HorizontalPager(
-                modifier = Modifier.fillMaxSize(), pageCount = pages.size, state = pagerState
-            ) { pager ->
-                when (pager) {
+                HorizontalPager(
+                    modifier = Modifier.fillMaxSize(),
+                    pageCount = pages.size,
+                    state = pagerState
+                ) { pager ->
+                    when (pager) {
 //                    0 -> {
 //                        PopularScreen(navigateToDetail = {
 //                            navigateToPopularDetail.invoke(it)
@@ -80,8 +88,8 @@ fun ContainerScreen(
 //                            navigateToLatestDetail.invoke(it)
 //                        })
 //                    }
+                    }
                 }
             }
-        }
-    })
+        })
 }

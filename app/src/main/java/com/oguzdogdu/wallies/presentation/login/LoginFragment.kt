@@ -6,7 +6,6 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
 import androidx.core.text.bold
-import androidx.core.text.scale
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.textfield.TextInputLayout
@@ -27,14 +26,14 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     private val viewModel: LoginViewModel by viewModels()
     override fun initViews() {
         super.initViews()
-        with(binding){
+        with(binding) {
             val s = SpannableStringBuilder()
                 .append("Not Registered Yet")
                 .bold { run { append(", Sign Up !  ") } }
             textViewSignUp.text = s
             emailEt.addTextChangedListener(TextFieldValidation(binding.emailEt))
             passET.addTextChangedListener(TextFieldValidation(binding.passET))
-            if (emailEt.text.toString().isNotEmpty()){
+            if (emailEt.text.toString().isNotEmpty()) {
                 emailLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM // may be set in xml
                 emailLayout.setEndIconDrawable(R.drawable.ic_clear_text)
                 emailLayout.setEndIconOnClickListener {
@@ -48,11 +47,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         super.initListeners()
         sendLoginRequest()
         binding.textViewSignUp.setOnClickListener {
-            navigate(R.id.toSignUp,null)
+            navigate(R.id.toSignUp, null)
         }
     }
 
-    private fun sendLoginRequest(){
+    private fun sendLoginRequest() {
         binding.button.setOnClickListener {
             viewModel.handleUIEvent(
                 LoginScreenEvent.UserSignIn(
@@ -72,9 +71,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
                     is LoginState.Loading -> {}
 
-                    is LoginState.ErrorSignIn -> requireView().showToast(context = requireContext(), message = state.errorMessage, duration = Toast.LENGTH_LONG)
+                    is LoginState.ErrorSignIn -> requireView().showToast(
+                        context = requireContext(),
+                        message = state.errorMessage,
+                        duration = Toast.LENGTH_LONG
+                    )
 
-                    is LoginState.UserSignIn ->  navigate(R.id.toMain, null)
+                    is LoginState.UserSignIn -> navigate(R.id.toMain, null)
 
                     else -> {}
                 }

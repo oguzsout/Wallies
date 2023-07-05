@@ -54,13 +54,13 @@ class CollectionListAdapter :
             object : DiffUtil.ItemCallback<WallpaperCollections>() {
                 override fun areItemsTheSame(
                     oldItem: WallpaperCollections,
-                    newItem: WallpaperCollections,
+                    newItem: WallpaperCollections
                 ) =
                     oldItem.id == newItem.id
 
                 override fun areContentsTheSame(
                     oldItem: WallpaperCollections,
-                    newItem: WallpaperCollections,
+                    newItem: WallpaperCollections
                 ) = oldItem == newItem
             }
     }
