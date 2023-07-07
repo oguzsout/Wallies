@@ -52,6 +52,8 @@ dependencies {
     implementation ("com.google.firebase:firebase-auth-ktx:22.0.0")
     implementation ("com.google.firebase:firebase-firestore-ktx:24.6.1")
 
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.converter)
 
