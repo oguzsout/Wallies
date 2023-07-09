@@ -37,6 +37,9 @@
         <action
             android:id="@+id/toFavorites"
             app:destination="@id/favoritesFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_newSettings"
+            app:destination="@id/newSettings" />
 
     </fragment>
 
@@ -280,5 +283,9 @@
         android:label="SignupFragment" >
 
     </dialog>
+    <fragment
+        android:id="@+id/newSettings"
+        android:name="com.oguzdogdu.wallies.presentation.settings.NewSettings"
+        android:label="NewSettings" />
 
 </navigation>
