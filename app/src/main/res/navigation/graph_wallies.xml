@@ -74,9 +74,9 @@
         tools:layout="@layout/fragment_detail">
 
         <argument
-        android:name="id"
-        app:argType="string"
-        app:nullable="true" />
+            android:name="id"
+            app:argType="string"
+            app:nullable="true" />
 
         <action
             android:id="@+id/toPopular"
@@ -105,6 +105,9 @@
         <action
             android:id="@+id/toDownload"
             app:destination="@id/downloadPhotoFragment" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="https://unsplash.com/photos/{id}" />
 
     </fragment>
 
