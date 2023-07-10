@@ -15,7 +15,7 @@ import com.oguzdogdu.wallies.databinding.FragmentDetailBinding
 import com.oguzdogdu.wallies.util.CheckConnection
 import com.oguzdogdu.wallies.util.formatDate
 import com.oguzdogdu.wallies.util.itemLoading
-import com.oguzdogdu.wallies.util.observe
+import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.showToast
 import com.oguzdogdu.wallies.util.toFormattedString
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,26 +51,24 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
             when (isConnected) {
                 true -> {
                     args.id?.let { viewModel.getSinglePhoto(it) }
-                    observe(viewModel.photo, viewLifecycleOwner) {
-                        setItems(it.detail)
-                        favoriteCheck(it.detail?.id)
-                        showProfileInfos(it.detail)
-                        navigateToSetWallpaper(it.detail?.urls)
-                        sharePhoto(it.detail)
+                    viewModel.photo.observeInLifecycle(viewLifecycleOwner, observer = { state ->
+                        setItems(state.detail)
+                        favoriteCheck(state.detail?.id)
+                        showProfileInfos(state.detail)
+                        navigateToSetWallpaper(state.detail?.urls)
+                        sharePhoto(state.detail)
                         navigateToDownloadWallpaper(
-                            raw = it.detail?.rawQuality,
-                            high = it.detail?.highQuality,
-                            medium = it.detail?.mediumQuality,
-                            low = it.detail?.lowQuality,
-                            imageTitle = it.detail?.desc
+                            raw = state.detail?.rawQuality,
+                            high = state.detail?.highQuality,
+                            medium = state.detail?.mediumQuality,
+                            low = state.detail?.lowQuality,
+                            imageTitle = state.detail?.desc
                         )
-                        addOrDeleteFavorites(it.detail)
-                    }
+                        addOrDeleteFavorites(state.detail)
+                    })
                 }
 
-                false -> {
-                    requireView().showToast(requireContext(), R.string.internet_error)
-                }
+                false -> requireView().showToast(requireContext(), R.string.internet_error)
 
                 null -> {}
             }

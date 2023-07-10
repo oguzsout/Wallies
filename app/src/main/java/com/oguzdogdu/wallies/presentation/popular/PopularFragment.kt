@@ -2,7 +2,6 @@ package com.oguzdogdu.wallies.presentation.popular
 
 import android.os.Bundle
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.oguzdogdu.wallies.R
@@ -11,14 +10,12 @@ import com.oguzdogdu.wallies.databinding.FragmentPopularBinding
 import com.oguzdogdu.wallies.presentation.main.MainActivity
 import com.oguzdogdu.wallies.util.CheckConnection
 import com.oguzdogdu.wallies.util.hide
-import com.oguzdogdu.wallies.util.observe
+import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.setupRecyclerView
 import com.oguzdogdu.wallies.util.show
 import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBinding::inflate) {
@@ -78,29 +75,25 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
             when (isConnected) {
                 true -> {
                     viewModel.getPopularImages()
-                    observe(viewModel.getPopular, viewLifecycleOwner) {
-                        lifecycleScope.launch(Dispatchers.IO) {
-                            when {
-                                it.isLoading -> {
-                                    binding.progressBar.show()
-                                }
+                    viewModel.getPopular.observeInLifecycle(viewLifecycleOwner, observer = { state ->
+                        when {
+                            state.isLoading -> binding.progressBar.show()
 
-                                it.error.isNotEmpty() -> {}
+                            state.error.isNotEmpty() -> {}
 
-                                else -> {
-                                    binding.progressBar.hide()
-                                    popularWallpaperAdapter.submitData(it.popular)
-                                }
+                            else -> {
+                                binding.progressBar.hide()
+                                popularWallpaperAdapter.submitData(state.popular)
                             }
                         }
-                    }
+                    })
                 }
 
                 false -> {
                     requireView().showToast(requireContext(), R.string.internet_error)
                 }
 
-                null -> {}
+                null -> TODO()
             }
         }
     }

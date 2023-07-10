@@ -9,7 +9,7 @@ import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentFavoritesBinding
 import com.oguzdogdu.wallies.presentation.main.MainActivity
 import com.oguzdogdu.wallies.util.hide
-import com.oguzdogdu.wallies.util.observe
+import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.setupRecyclerView
 import com.oguzdogdu.wallies.util.show
 import dagger.hilt.android.AndroidEntryPoint
@@ -62,19 +62,17 @@ class FavoritesFragment :
     }
 
     private fun getFavoritesData() {
-        observe(viewModel.favorites, viewLifecycleOwner) {
+        viewModel.favorites.observeInLifecycle(viewLifecycleOwner, observer = { state ->
             when {
-                it.isLoading -> {}
-                it.error.isNotEmpty() -> {}
-                it.favorites.isEmpty() -> {
-                    binding.linearLayoutNoPicture.show()
-                }
+                state.isLoading -> {}
+                state.error.isNotEmpty() -> {}
+                state.favorites.isEmpty() -> binding.linearLayoutNoPicture.show()
 
                 else -> {
                     binding.linearLayoutNoPicture.hide()
-                    favoritesListAdapter.submitList(it.favorites)
+                    favoritesListAdapter.submitList(state.favorites)
                 }
             }
-        }
+        })
     }
 }

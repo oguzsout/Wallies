@@ -11,7 +11,6 @@ import com.oguzdogdu.wallies.databinding.FragmentLatestBinding
 import com.oguzdogdu.wallies.presentation.main.MainActivity
 import com.oguzdogdu.wallies.util.CheckConnection
 import com.oguzdogdu.wallies.util.hide
-import com.oguzdogdu.wallies.util.observe
 import com.oguzdogdu.wallies.util.setupRecyclerView
 import com.oguzdogdu.wallies.util.show
 import com.oguzdogdu.wallies.util.showToast
@@ -78,8 +77,8 @@ class LatestFragment : BaseFragment<FragmentLatestBinding>(FragmentLatestBinding
             when (isConnected) {
                 true -> {
                     viewModel.getLatestImages()
-                    observe(viewModel.getLatest, viewLifecycleOwner) {
-                        lifecycleScope.launch(Dispatchers.IO) {
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        viewModel.getLatest.collect {
                             when {
                                 it.isLoading -> {
                                     binding.progressBar.show()

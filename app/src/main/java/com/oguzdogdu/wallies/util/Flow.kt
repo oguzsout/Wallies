@@ -1,6 +1,7 @@
 package com.oguzdogdu.wallies.util
 
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Lifecycle.Event.*
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -20,25 +21,24 @@ class FlowObserver<T>(
         lifecycleOwner.lifecycle.addObserver(
             LifecycleEventObserver { source: LifecycleOwner, event: Lifecycle.Event ->
                 when (event) {
-                    Lifecycle.Event.ON_START -> {
+                    ON_START -> {
                         job = source.lifecycleScope.launch {
                             flow.collect { collector(it) }
                         }
                     }
 
-                    Lifecycle.Event.ON_RESUME -> {
+                    ON_RESUME -> {
                         job = source.lifecycleScope.launch {
                             flow.collect { collector(it) }
                         }
                     }
 
-                    Lifecycle.Event.ON_STOP -> {
+                    ON_STOP -> {
                         job?.cancel()
                         job = null
                     }
 
-                    else -> {
-                    }
+                    else -> {}
                 }
             }
         )
@@ -46,5 +46,10 @@ class FlowObserver<T>(
 }
 
 inline fun <reified T> Flow<T>.observeInLifecycle(
-    lifecycleOwner: LifecycleOwner
-) = FlowObserver(lifecycleOwner, this) {}
+    lifecycleOwner: LifecycleOwner,
+    crossinline observer: suspend (T) -> Unit
+) = FlowObserver(lifecycleOwner, flow = this, collector = {
+    this.collect { t ->
+        observer(t)
+    }
+})

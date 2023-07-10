@@ -9,7 +9,7 @@ import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentSingleCollectionBinding
 import com.oguzdogdu.wallies.util.CheckConnection
 import com.oguzdogdu.wallies.util.hide
-import com.oguzdogdu.wallies.util.observe
+import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.show
 import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -78,19 +78,17 @@ class SingleCollectionFragment :
 
     private fun getListByCategory() {
         args.id?.let { viewModel.getCollectionsLists(it) }
-        observe(viewModel.photo, viewLifecycleOwner) {
+        viewModel.photo.observeInLifecycle(viewLifecycleOwner, observer = { state ->
             when {
-                it.isLoading -> {}
-                it.error.isNotEmpty() -> {}
-                it.collectionsLists.isEmpty() -> {
-                    binding.linearLayoutNoPicture.show()
-                }
+                state.isLoading -> {}
+                state.error.isNotEmpty() -> {}
+                state.collectionsLists.isEmpty() -> binding.linearLayoutNoPicture.show()
 
                 else -> {
                     binding.linearLayoutNoPicture.hide()
-                    collectionsListsAdapter.submitList(it.collectionsLists)
+                    collectionsListsAdapter.submitList(state.collectionsLists)
                 }
             }
-        }
+        })
     }
 }

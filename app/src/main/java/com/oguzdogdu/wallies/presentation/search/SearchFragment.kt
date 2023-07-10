@@ -6,23 +6,18 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentSearchBinding
 import com.oguzdogdu.wallies.util.CheckConnection
-import com.oguzdogdu.wallies.util.observe
 import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.setupRecyclerView
 import com.oguzdogdu.wallies.util.showToast
 import com.oguzdogdu.wallies.util.textChanges
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding::inflate) {
@@ -71,30 +66,24 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
         connection.observe(viewLifecycleOwner) { isConnected ->
             when (isConnected) {
                 true -> {
-                    lifecycleScope.launch {
-                        viewModel.eventFlow.collectLatest { event ->
-                            when (event) {
-                                is SearchEvent.Success -> {
-                                    searchWallpaperAdapter.submitData(
-                                        viewModel.getSearchPhotos.value.search
-                                    )
-                                }
-                                else -> {}
-                            }
+                    viewModel.eventFlow.observeInLifecycle(viewLifecycleOwner, observer = { event ->
+                        when (event) {
+                            is SearchEvent.Success -> searchWallpaperAdapter.submitData(
+                                viewModel.getSearchPhotos.value.search
+                            )
+
+                            else -> {}
                         }
-                    }
+                    })
                 }
 
-                false -> {
-                    requireView().showToast(requireContext(), R.string.internet_error)
-                }
+                false -> requireView().showToast(requireContext(), R.string.internet_error)
 
                 null -> {}
             }
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     private fun searchToImages() {
         binding.apply {
             editTextSearchWalpaper.setOnFocusChangeListener { _, hasFocus ->
@@ -107,7 +96,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
                         viewModel.handleUIEvent(SearchEvent.EnteredSearchQuery(it.toString()))
                     }
                 }
-                .observeInLifecycle(this@SearchFragment)
+                .observeInLifecycle(lifecycleOwner = viewLifecycleOwner, observer = {})
 
             editTextSearchWalpaper.setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {

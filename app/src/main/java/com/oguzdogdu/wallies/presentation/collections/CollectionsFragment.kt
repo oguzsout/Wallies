@@ -2,7 +2,6 @@ package com.oguzdogdu.wallies.presentation.collections
 
 import android.os.Bundle
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.oguzdogdu.wallies.R
@@ -11,12 +10,11 @@ import com.oguzdogdu.wallies.databinding.FragmentCollectionsBinding
 import com.oguzdogdu.wallies.presentation.main.MainActivity
 import com.oguzdogdu.wallies.util.CheckConnection
 import com.oguzdogdu.wallies.util.observe
+import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.setupRecyclerView
 import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CollectionsFragment :
@@ -74,19 +72,19 @@ class CollectionsFragment :
         connection.observe(this@CollectionsFragment) { isConnected ->
             when (isConnected) {
                 true -> {
-                    observe(viewModel.getCollections, viewLifecycleOwner) {
-                        lifecycleScope.launch(Dispatchers.IO) {
+                    viewModel.getCollections.observeInLifecycle(
+                        viewLifecycleOwner,
+                        observer = { state ->
+
                             when {
-                                it.isLoading -> {}
+                                state.isLoading -> {}
 
-                                it.error.isNotEmpty() -> {}
+                                state.error.isNotEmpty() -> {}
 
-                                else -> {
-                                    collectionListAdapter.submitData(it.collections)
-                                }
+                                else -> collectionListAdapter.submitData(state.collections)
                             }
                         }
-                    }
+                    )
                 }
 
                 false -> {
