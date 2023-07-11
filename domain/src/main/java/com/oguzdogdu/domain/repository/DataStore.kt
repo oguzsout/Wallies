@@ -4,8 +4,9 @@ import com.oguzdogdu.domain.wrapper.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface DataStore {
-    suspend fun putString(key:String,value:String)
-    suspend fun putBoolean(key:String,value:Boolean)
-    suspend fun getString(key: String):Flow<Resource<String?>>
+    suspend fun putThemeStrings(key:String, value:String)
+    suspend fun getThemeStrings(key: String):Flow<Resource<String?>>
+    suspend fun putLanguageStrings(key:String, value:String)
+    suspend fun getLanguageStrings(key: String):Flow<Resource<String?>>
     suspend fun clearPReferences(key: String)
 }

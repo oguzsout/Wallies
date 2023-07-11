@@ -14,38 +14,50 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-private val Context.dataStore: androidx.datastore.core.DataStore<Preferences> by preferencesDataStore(
+private val Context.themeDataStore: androidx.datastore.core.DataStore<Preferences> by preferencesDataStore(
     name = "THEME_KEYS"
+)
+
+private val Context.languageDataStore: androidx.datastore.core.DataStore<Preferences> by preferencesDataStore(
+    name = "language_preference"
 )
 
 class DataStoreImpl @Inject constructor(
     private val context: Context,
 ) : DataStore {
-    override suspend fun putString(key: String, value: String) {
+    override suspend fun putThemeStrings(key: String, value: String) {
         val preferencesKey = stringPreferencesKey(key)
-        context.dataStore.edit {
+        context.themeDataStore.edit {
             it[preferencesKey] = value
         }
     }
 
-    override suspend fun putBoolean(key: String, value: Boolean) {
-        val preferencesKey = booleanPreferencesKey(key)
-        context.dataStore.edit {
-            it[preferencesKey] = value
-        }
-    }
-
-    override suspend fun getString(key: String): Flow<Resource<String?>> {
+    override suspend fun getThemeStrings(key: String): Flow<Resource<String?>> {
         return flow {
             val preferencesKey = stringPreferencesKey(key)
-            val preference = context.dataStore.data.first()
+            val preference = context.themeDataStore.data.first()
+            emit(preference[preferencesKey])
+        }.toResource()
+    }
+
+    override suspend fun putLanguageStrings(key: String, value: String) {
+        val preferencesKey = stringPreferencesKey(key)
+        context.languageDataStore.edit {
+            it[preferencesKey] = value
+        }
+    }
+
+    override suspend fun getLanguageStrings(key: String): Flow<Resource<String?>> {
+        return flow {
+            val preferencesKey = stringPreferencesKey(key)
+            val preference = context.languageDataStore.data.first()
             emit(preference[preferencesKey])
         }.toResource()
     }
 
     override suspend fun clearPReferences(key: String) {
         val preferencesKey = stringPreferencesKey(key)
-        context.dataStore.edit {
+        context.themeDataStore.edit {
             if (it.contains(preferencesKey)) {
                 it.remove(preferencesKey)
             }
