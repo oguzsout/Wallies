@@ -26,9 +26,6 @@
             android:id="@+id/toSearch"
             app:destination="@id/searchFragment" />
         <action
-            android:id="@+id/toSetting"
-            app:destination="@id/settingsFragment" />
-        <action
             android:id="@+id/toCollections"
             app:destination="@id/collectionsFragment" />
         <action
@@ -38,8 +35,8 @@
             android:id="@+id/toFavorites"
             app:destination="@id/favoritesFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_newSettings"
-            app:destination="@id/newSettings" />
+            android:id="@+id/toSettings"
+            app:destination="@id/settings" />
 
     </fragment>
 
@@ -119,15 +116,6 @@
         <action
             android:id="@+id/toDetail"
             app:destination="@id/detailFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.oguzdogdu.wallies.presentation.settings.SettingsFragment"
-        android:label="SettingsFragment" >
-        <action
-            android:id="@+id/toLogin"
-            app:destination="@id/loginFragment" />
     </fragment>
 
     <fragment
@@ -287,8 +275,12 @@
 
     </dialog>
     <fragment
-        android:id="@+id/newSettings"
-        android:name="com.oguzdogdu.wallies.presentation.settings.NewSettings"
-        android:label="NewSettings" />
+        android:id="@+id/settings"
+        android:name="com.oguzdogdu.wallies.presentation.settings.SettingsFragment"
+        android:label="NewSettings" >
+        <action
+            android:id="@+id/toLogin"
+            app:destination="@id/loginFragment" />
+    </fragment>
 
 </navigation>

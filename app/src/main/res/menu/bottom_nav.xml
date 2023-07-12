@@ -24,7 +24,7 @@
         app:actionViewClass="com.google.android.material.bottomnavigation.BottomNavigationView"/>
 
     <item
-        android:id="@+id/newSettings"
+        android:id="@+id/settings"
         android:title="Settings"
         android:icon="@drawable/settings"
         android:enabled="true"
