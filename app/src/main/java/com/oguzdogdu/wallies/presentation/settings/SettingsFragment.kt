@@ -3,10 +3,13 @@ package com.oguzdogdu.wallies.presentation.settings
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.oguzdogdu.wallies.BuildConfig
+import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentSettingsBinding
+import com.oguzdogdu.wallies.util.observeInLifecycle
+import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -29,6 +32,11 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
     )
     private val language = arrayOf(LanguageValues.English.title, LanguageValues.Turkish.title)
 
+    override fun initViews() {
+        super.initViews()
+        binding.textViewBuildVersion.text = "Version ${BuildConfig.VERSION_NAME} ${BuildConfig.VERSION_CODE}"
+    }
+
     override fun initListeners() {
         super.initListeners()
         binding.cardViewThemeContainer.setOnClickListener {
@@ -37,8 +45,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
         binding.cardViewLanguageContainer.setOnClickListener {
             showLanguageConfirmationDialog()
         }
-        binding.imageViewBackArrow.setOnClickListener {
-            navigateBack()
+        binding.cardViewCacheContainer.setOnClickListener {
+            requireContext().filesDir.deleteRecursively()
+            requireView().showToast(requireContext(), R.string.cache_state_string)
         }
     }
 
@@ -87,17 +96,29 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
 
     private fun observeThemeState() {
         lifecycleScope.launch {
-            viewModel.themeState.collect { theme ->
-                selectedTheme = theme.value.ifBlank { themes[selectedThemeIndex] }
-            }
+            viewModel.themeState.observeInLifecycle(viewLifecycleOwner, observer = { theme ->
+                selectedTheme = theme?.value?.ifBlank { themes[selectedThemeIndex] }.toString()
+                binding.textViewChoisedTheme.text = selectedTheme
+            })
         }
     }
 
     private fun observeLanguageState() {
         lifecycleScope.launch {
-            viewModel.languageState.collectLatest { lang ->
-                selectedLanguages = lang.value.ifBlank { language[selectedLanguageIndex] }
-            }
+            viewModel.languageState.observeInLifecycle(viewLifecycleOwner, observer = { lang ->
+                selectedLanguages = lang?.value?.ifBlank { language[selectedLanguageIndex] }.toString()
+                if (lang?.value?.isNotEmpty() == true) {
+                    when (lang.value) {
+                        LanguageValues.English.title -> {
+                            binding.textViewChoisedLanguage.text = "English"
+                        }
+
+                        LanguageValues.Turkish.title -> {
+                            binding.textViewChoisedLanguage.text = "Turkish"
+                        }
+                    }
+                }
+            })
         }
     }
 }

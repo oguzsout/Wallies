@@ -20,9 +20,9 @@
             android:id="@+id/cardViewThemeContainer"
             android:layout_width="match_parent"
             android:layout_height="64dp"
+            android:layout_marginHorizontal="@dimen/dp_16"
             android:layout_marginTop="@dimen/dp_16"
             android:layout_marginBottom="@dimen/dp_16"
-            android:layout_marginHorizontal="@dimen/dp_16"
             app:cardCornerRadius="@dimen/dp_16"
             app:layout_constraintBottom_toTopOf="@+id/cardViewLanguageContainer"
             app:layout_constraintEnd_toEndOf="parent"
@@ -44,6 +44,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewThemeTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
@@ -54,6 +55,16 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                 </androidx.appcompat.widget.AppCompatTextView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewChoisedTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/sp_10"
+                    android:fontFamily="@font/googlesansregular"
+                    app:layout_constraintEnd_toEndOf="@+id/textViewThemeTitle"
+                    app:layout_constraintStart_toStartOf="@+id/textViewThemeTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewThemeTitle" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
@@ -71,7 +82,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="@dimen/dp_16">
+                android:paddingStart="@dimen/dp_16">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imageViewLanguage"
@@ -84,6 +95,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewLanguageTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
@@ -94,8 +106,19 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                 </androidx.appcompat.widget.AppCompatTextView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewChoisedLanguage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/googlesansregular"
+                    android:textSize="@dimen/sp_10"
+                    app:layout_constraintEnd_toEndOf="@+id/textViewLanguageTitle"
+                    app:layout_constraintStart_toStartOf="@+id/textViewLanguageTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewLanguageTitle" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewCacheContainer"
             android:layout_width="match_parent"
@@ -141,7 +164,7 @@
         android:id="@+id/textViewSettingsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/googlesansmedium"
         android:text="Ayarlar"
@@ -149,14 +172,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imageViewBackArrow"
-        android:layout_width="@dimen/dp_24"
-        android:layout_height="@dimen/dp_24"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewSettingsTitle"
-        app:layout_constraintEnd_toStartOf="@+id/textViewSettingsTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textViewSettingsTitle"
-        app:srcCompat="@drawable/back" />
+    <TextView
+        android:id="@+id/textViewBuildVersion"
+        style="@style/MainText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

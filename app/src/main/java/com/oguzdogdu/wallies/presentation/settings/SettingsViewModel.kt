@@ -7,13 +7,10 @@ import com.oguzdogdu.domain.repository.DataStore
 import com.oguzdogdu.domain.usecase.auth.SignOutUseCase
 import com.oguzdogdu.domain.wrapper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.Timer
-import java.util.TimerTask
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -31,69 +28,16 @@ class SettingsViewModel @Inject constructor(
     val eventFlow = _eventChannel.receiveAsFlow()
 
     private val _themeState = MutableStateFlow<SettingsState.ThemeValue?>(null)
-    val themeState = _themeState.filterNotNull()
+    val themeState = _themeState.asStateFlow()
 
     private val _languageState = MutableStateFlow<SettingsState.LanguageValue?>(null)
-    val languageState = _languageState.filterNotNull()
-
-    // Oturum sonlandırma işlemini başlatmak için gerekli zaman (30 dakika)
-    private val LOGOUT_DELAY = TimeUnit.MINUTES.toMillis(1)
-
-    // Oturum sonlandırma işlemi için zamanlayıcı
-    private var logoutTimer: Timer? = null
-
-    // Kullanıcının oturum açtığı zamanı saklamak için kullanılacak değişken
-    private var lastSignInTime: Long? = null
+    val languageState = _languageState.asStateFlow()
 
     init {
         getThemeValue()
         getLanguageValue()
     }
 
-    // Kullanıcı oturum açtığında bu fonksiyonu çağırın ve lastSignInTime değerini güncelleyin
-    private fun setLastSignInTime() {
-        lastSignInTime = System.currentTimeMillis()
-        startLogoutTimer()
-    }
-
-    // Oturumu sonlandırmak için zamanlayıcıyı başlatır
-    private fun startLogoutTimer() {
-        // Eğer zamanlayıcı zaten çalışıyorsa, durdur ve yeniden başlat
-        stopLogoutTimer()
-
-        logoutTimer = Timer()
-        logoutTimer?.schedule(
-            object : TimerTask() {
-                override fun run() {
-                    logoutUser()
-                }
-            },
-            LOGOUT_DELAY
-        )
-    }
-
-    // Oturumu sonlandırmak için çağırılacak fonksiyon
-    private fun logoutUser() {
-        viewModelScope.launch {
-            signOutUseCase.invoke()
-        } // Diğer temizleme işlemlerini gerçekleştirin (ör. verileri sıfırlama)
-    }
-
-    // Zamanlayıcıyı durdurur
-    private fun stopLogoutTimer() {
-        logoutTimer?.cancel()
-        logoutTimer = null
-    }
-
-    // Uygulama başlatıldığında veya kullanıcı oturum açtığında bu fonksiyonu çağırın
-    private fun checkLogoutStatus() {
-        val currentTime = System.currentTimeMillis()
-        if (lastSignInTime != null && currentTime - lastSignInTime!! >= LOGOUT_DELAY) {
-            logoutUser()
-        } else {
-            startLogoutTimer()
-        }
-    }
     fun handleUIEvent(event: SettingsEvent) {
         when (event) {
             is SettingsEvent.SetNewTheme -> {
