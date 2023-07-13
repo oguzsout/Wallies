@@ -24,15 +24,18 @@ import kotlinx.coroutines.launch
 class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::inflate) {
 
     private val viewModel: LoginViewModel by viewModels()
+
     override fun initViews() {
         super.initViews()
         with(binding) {
-            val s = SpannableStringBuilder()
+            val editedString = SpannableStringBuilder()
                 .append("Not Registered Yet")
                 .bold { run { append(", Sign Up !  ") } }
-            textViewSignUp.text = s
+            textViewSignUp.text = editedString
+
             emailEt.addTextChangedListener(TextFieldValidation(binding.emailEt))
             passET.addTextChangedListener(TextFieldValidation(binding.passET))
+
             if (emailEt.text.toString().isNotEmpty()) {
                 emailLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM // may be set in xml
                 emailLayout.setEndIconDrawable(R.drawable.ic_clear_text)
@@ -53,12 +56,14 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
     private fun sendLoginRequest() {
         binding.button.setOnClickListener {
-            viewModel.handleUIEvent(
-                LoginScreenEvent.UserSignIn(
-                    email = binding.emailEt.text.toString(),
-                    password = binding.passET.text.toString()
+            if (validateEmail() && validatePassword()) {
+                viewModel.handleUIEvent(
+                    LoginScreenEvent.UserSignIn(
+                        email = binding.emailEt.text.toString(),
+                        password = binding.passET.text.toString()
+                    )
                 )
-            )
+            }
         }
     }
 

@@ -73,7 +73,6 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="24dp"
             android:text="Giriş Yap"
-            android:textColor="@color/black"
             android:textStyle="bold" />
 
         <TextView
@@ -82,7 +81,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Not Registered Yet, Sign Up !"
-            android:textColor="@color/black" />
+            android:text="Not Registered Yet, Sign Up !" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.constraintlayout.widget.ConstraintLayout>

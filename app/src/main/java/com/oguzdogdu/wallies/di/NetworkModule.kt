@@ -1,11 +1,14 @@
 package com.oguzdogdu.wallies.di
 
+import android.content.Context
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.oguzdogdu.data.common.Constants.UNSPLASH_BASE_URL
 import com.oguzdogdu.data.source.remote.WallpaperService
 import com.oguzdogdu.wallies.BuildConfig.API_KEY
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -29,10 +32,12 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(
-        loggingInterceptor: HttpLoggingInterceptor
+        loggingInterceptor: HttpLoggingInterceptor,
+        @ApplicationContext context: Context
     ): OkHttpClient {
         val builder = OkHttpClient.Builder().apply {
             addInterceptor(loggingInterceptor)
+            addInterceptor(ChuckerInterceptor(context))
             addInterceptor {
                 val originalRequest = it.request()
                 val newHttpUrl = originalRequest.url.newBuilder()

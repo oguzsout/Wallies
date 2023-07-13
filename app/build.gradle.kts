@@ -88,6 +88,9 @@ dependencies {
     androidTestImplementation(libs.androidx.junit.ext)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    debugImplementation("com.github.chuckerteam.chucker:library:4.0.0")
+    releaseImplementation("com.github.chuckerteam.chucker:library-no-op:4.0.0")
+
     implementation("androidx.compose.ui:ui:1.4.3")
     implementation("androidx.compose.runtime:runtime:1.4.3")
 
