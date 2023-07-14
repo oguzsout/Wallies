@@ -13,7 +13,7 @@ import com.oguzdogdu.wallies.util.navigateSafe
 abstract class BaseBottomSheetDialogFragment<VB : ViewBinding>(
     private val bindingInflater: (inflater: LayoutInflater) -> VB
 ) :
-    BottomSheetDialogFragment(), Presenters {
+    BottomSheetDialogFragment() {
 
     private var _binding: VB? = null
     val binding: VB
@@ -36,13 +36,13 @@ abstract class BaseBottomSheetDialogFragment<VB : ViewBinding>(
         initListeners()
     }
 
-    override fun observeData() {
+    open fun observeData() {
     }
 
-    override fun initViews() {
+    open fun initViews() {
     }
 
-    override fun initListeners() {
+    open fun initListeners() {
     }
 
     fun navigate(@IdRes id: Int, extras: Bundle?) {

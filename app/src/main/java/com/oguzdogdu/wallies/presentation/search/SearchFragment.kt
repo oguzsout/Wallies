@@ -1,7 +1,6 @@
 package com.oguzdogdu.wallies.presentation.search
 
 import android.content.Context
-import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
@@ -48,10 +47,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
                 navigateBack()
             }
             searchWallpaperAdapter.setOnItemClickListener {
-                val arguments = Bundle().apply {
-                    putString("id", it?.id)
-                }
-                navigate(R.id.toDetail, arguments)
+                navigateWithDirection(SearchFragmentDirections.toDetail(id = it?.id))
             }
         }
         searchToImages()

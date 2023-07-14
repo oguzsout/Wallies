@@ -50,7 +50,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         super.initListeners()
         sendLoginRequest()
         binding.textViewSignUp.setOnClickListener {
-            navigate(R.id.toSignUp, null)
+            navigateWithDirection(LoginFragmentDirections.toSignUp())
         }
     }
 
@@ -82,7 +82,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                         duration = Toast.LENGTH_LONG
                     )
 
-                    is LoginState.UserSignIn -> navigate(R.id.toMain, null)
+                    is LoginState.UserSignIn -> navigateWithDirection(
+                        LoginFragmentDirections.toMain()
+                    )
 
                     else -> {}
                 }

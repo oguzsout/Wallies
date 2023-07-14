@@ -1,6 +1,5 @@
 package com.oguzdogdu.wallies.presentation.popular
 
-import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -54,10 +53,7 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
     override fun initListeners() {
         super.initListeners()
         popularWallpaperAdapter.setOnItemClickListener {
-            val arguments = Bundle().apply {
-                putString("id", it?.id)
-            }
-            navigate(R.id.toDetail, arguments)
+            navigateWithDirection(PopularFragmentDirections.toDetail(id = it?.id))
         }
         binding.swipeRefresh.setOnRefreshListener {
             checkConnection()

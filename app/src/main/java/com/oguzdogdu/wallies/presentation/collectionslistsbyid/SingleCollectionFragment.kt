@@ -1,6 +1,5 @@
 package com.oguzdogdu.wallies.presentation.collectionslistsbyid
 
-import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -44,10 +43,7 @@ class SingleCollectionFragment :
     override fun initListeners() {
         super.initListeners()
         collectionsListsAdapter.setOnItemClickListener {
-            val arguments = Bundle().apply {
-                putString("id", it?.id)
-            }
-            navigate(R.id.toDetail, arguments)
+            navigateWithDirection(SingleCollectionFragmentDirections.toDetail(id = it?.id))
         }
 
         binding.toolbar.setNavigationOnClickListener {

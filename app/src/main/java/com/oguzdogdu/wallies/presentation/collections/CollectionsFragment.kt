@@ -1,6 +1,5 @@
 package com.oguzdogdu.wallies.presentation.collections
 
-import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -54,11 +53,12 @@ class CollectionsFragment :
     override fun initListeners() {
         super.initListeners()
         collectionListAdapter.setOnItemClickListener {
-            val arguments = Bundle().apply {
-                putString("id", it?.id)
-                putString("title", it?.desc)
-            }
-            navigate(R.id.toCollectionsLists, arguments)
+            navigateWithDirection(
+                CollectionsFragmentDirections.toCollectionsLists(
+                    id = it?.id,
+                    title = it?.title
+                )
+            )
         }
     }
 

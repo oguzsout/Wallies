@@ -1,7 +1,6 @@
 package com.oguzdogdu.wallies.presentation.detail
 
 import android.content.Intent
-import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -105,10 +104,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
     private fun navigateToSetWallpaper(imageUrl: String?) {
         binding.textViewSetWallpaper.setOnClickListener {
-            val arguments = Bundle().apply {
-                putString("imageUrl", imageUrl)
-            }
-            navigate(R.id.toSetWallpaper, arguments)
+            navigateWithDirection(DetailFragmentDirections.toSetWallpaper(imageUrl = imageUrl))
         }
     }
 
@@ -120,14 +116,15 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
         imageTitle: String?
     ) {
         binding.buttonDownload.setOnClickListener {
-            val arguments = Bundle().apply {
-                putString("raw", raw)
-                putString("high", high)
-                putString("medium", medium)
-                putString("low", low)
-                putString("imageTitle", imageTitle)
-            }
-            navigate(R.id.toDownload, arguments)
+            navigateWithDirection(
+                DetailFragmentDirections.toDownload(
+                    raw = raw,
+                    high = high,
+                    medium = medium,
+                    low = low,
+                    imageTitle = imageTitle
+                )
+            )
         }
     }
 

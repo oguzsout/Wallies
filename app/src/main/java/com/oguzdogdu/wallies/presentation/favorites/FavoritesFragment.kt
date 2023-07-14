@@ -1,10 +1,8 @@
 package com.oguzdogdu.wallies.presentation.favorites
 
-import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentFavoritesBinding
 import com.oguzdogdu.wallies.presentation.main.MainActivity
@@ -49,10 +47,7 @@ class FavoritesFragment :
     override fun initListeners() {
         super.initListeners()
         favoritesListAdapter.setOnItemClickListener {
-            val arguments = Bundle().apply {
-                putString("id", it?.id)
-            }
-            navigate(R.id.toDetail, arguments)
+            navigateWithDirection(FavoritesFragmentDirections.toDetail(id = it?.id))
         }
     }
 

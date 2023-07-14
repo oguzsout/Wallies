@@ -1,6 +1,5 @@
 package com.oguzdogdu.wallies.presentation.latest
 
-import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -60,10 +59,7 @@ class LatestFragment : BaseFragment<FragmentLatestBinding>(FragmentLatestBinding
             binding.swipeRefresh.isRefreshing = false
         }
         latestWallpaperAdapter.setOnItemClickListener {
-            val arguments = Bundle().apply {
-                putString("id", it?.id)
-            }
-            navigate(R.id.toDetail, arguments)
+            navigateWithDirection(LatestFragmentDirections.toDetail(id = it?.id))
         }
     }
 

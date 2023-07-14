@@ -14,7 +14,7 @@ import com.oguzdogdu.wallies.util.navigateSafeWithDirection
 
 abstract class BaseFragment<VB : ViewBinding>(
     private val bindingInflater: (inflater: LayoutInflater) -> VB
-) : Fragment(), Presenters {
+) : Fragment() {
 
     private var _binding: VB? = null
     val binding: VB
@@ -37,13 +37,13 @@ abstract class BaseFragment<VB : ViewBinding>(
         initListeners()
     }
 
-    override fun observeData() {
+    open fun observeData() {
     }
 
-    override fun initViews() {
+    open fun initViews() {
     }
 
-    override fun initListeners() {
+    open fun initListeners() {
     }
 
     fun navigateWithDirection(navDirections: NavDirections) {
