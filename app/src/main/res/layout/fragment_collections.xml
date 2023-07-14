@@ -23,7 +23,7 @@
         android:layout_marginTop="@dimen/dp_16"
         android:fontFamily="@font/googlesansmedium"
         android:text="@string/collections_screen_title_text"
-        android:textSize="@dimen/sp_32"
+        android:textSize="@dimen/sp_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

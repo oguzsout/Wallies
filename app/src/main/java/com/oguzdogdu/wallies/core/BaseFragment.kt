@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.oguzdogdu.wallies.util.navigateSafe
+import com.oguzdogdu.wallies.util.navigateSafeWithDirection
 
 abstract class BaseFragment<VB : ViewBinding>(
     private val bindingInflater: (inflater: LayoutInflater) -> VB
@@ -42,6 +44,10 @@ abstract class BaseFragment<VB : ViewBinding>(
     }
 
     override fun initListeners() {
+    }
+
+    fun navigateWithDirection(navDirections: NavDirections) {
+        findNavController().navigateSafeWithDirection(directions = navDirections)
     }
 
     fun navigate(@IdRes id: Int, extras: Bundle?) {

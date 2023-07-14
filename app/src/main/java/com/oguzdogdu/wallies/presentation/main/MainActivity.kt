@@ -1,23 +1,28 @@
 package com.oguzdogdu.wallies.presentation.main
 
-import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import androidx.preference.PreferenceManager
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.databinding.ActivityMainBinding
+import com.oguzdogdu.wallies.presentation.settings.LanguageValues
+import com.oguzdogdu.wallies.presentation.settings.SettingsViewModel
+import com.oguzdogdu.wallies.presentation.settings.ThemeValues
 import com.oguzdogdu.wallies.util.LocaleHelper
-import com.oguzdogdu.wallies.util.ThemeKeys
 import com.oguzdogdu.wallies.util.hide
 import com.oguzdogdu.wallies.util.show
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Locale
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -26,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var navController: NavController
 
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: SettingsViewModel by viewModels()
 
     private var isStartDestinationChanged = false
 
@@ -34,36 +39,68 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        getLanguage()
         setTheme()
         setupNavigation()
         navigationBarCorners()
     }
 
-    override fun attachBaseContext(base: Context?) {
-        val prefs = base?.let { PreferenceManager.getDefaultSharedPreferences(it) }
-        val language = prefs?.getString("language_preference", "en")
-        super.attachBaseContext(base?.let { LocaleHelper.setLocale(it, language!!) })
+    private fun getLanguage() {
+        lifecycleScope.launch {
+            viewModel.languageState.collectLatest { lang ->
+                if (lang != null) {
+                    when (lang.value) {
+                        LanguageValues.English.title -> {
+                            setLocale(LanguageValues.English.title)
+                        }
+
+                        LanguageValues.Turkish.title -> {
+                            setLocale(LanguageValues.Turkish.title)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setLocale(language: String?) {
+        val locale = language?.let { Locale(it) }
+        if (locale != null) {
+            Locale.setDefault(locale)
+        }
+        val config = Configuration()
+        config.setLocale(locale)
+        this.resources.updateConfiguration(
+            config,
+            this.resources.displayMetrics
+        )
+        LocaleHelper.setLocale(context = this@MainActivity, language.orEmpty())
     }
 
     private fun setTheme() {
-        val sp = PreferenceManager.getDefaultSharedPreferences(this)
-        when (sp.getString("app_theme", ThemeKeys.SYSTEM_THEME.value)) {
-            ThemeKeys.LIGHT_THEME.value -> {
-                AppCompatDelegate.setDefaultNightMode(
-                    AppCompatDelegate.MODE_NIGHT_NO
-                )
-            }
+        lifecycleScope.launch {
+            viewModel.themeState.collectLatest { theme ->
+                if (theme != null) {
+                    when (theme.value) {
+                        ThemeValues.LIGHT_MODE.title -> {
+                            AppCompatDelegate.setDefaultNightMode(
+                                AppCompatDelegate.MODE_NIGHT_NO
+                            )
+                        }
 
-            ThemeKeys.DARK_THEME.value -> {
-                AppCompatDelegate.setDefaultNightMode(
-                    AppCompatDelegate.MODE_NIGHT_YES
-                )
-            }
+                        ThemeValues.DARK_MODE.title -> {
+                            AppCompatDelegate.setDefaultNightMode(
+                                AppCompatDelegate.MODE_NIGHT_YES
+                            )
+                        }
 
-            ThemeKeys.SYSTEM_THEME.value -> {
-                AppCompatDelegate.setDefaultNightMode(
-                    AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-                )
+                        ThemeValues.SYSTEM_DEFAULT.title -> {
+                            AppCompatDelegate.setDefaultNightMode(
+                                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                            )
+                        }
+                    }
+                }
             }
         }
     }
@@ -79,7 +116,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.mainFragment,
                 R.id.collectionsFragment,
                 R.id.favoritesFragment,
-                R.id.settingsFragment
+                R.id.settings
                 -> true
 
                 else -> false

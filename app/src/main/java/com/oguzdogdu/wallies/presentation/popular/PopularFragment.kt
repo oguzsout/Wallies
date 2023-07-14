@@ -31,7 +31,7 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
         super.initViews()
         binding.apply {
             recyclerViewWallpapers.setupRecyclerView(
-                layoutManager = GridLayoutManager(requireContext(), 2),
+                layoutManager = GridLayoutManager(requireContext(), 3),
                 adapter = popularWallpaperAdapter,
                 true,
                 onScroll = {

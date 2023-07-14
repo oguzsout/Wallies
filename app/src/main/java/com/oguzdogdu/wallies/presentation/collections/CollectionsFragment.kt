@@ -31,7 +31,7 @@ class CollectionsFragment :
         super.initViews()
         binding.apply {
             recyclerViewCollections.setupRecyclerView(
-                layoutManager = GridLayoutManager(requireContext(), 2),
+                layoutManager = GridLayoutManager(requireContext(), 3),
                 adapter = collectionListAdapter,
                 true,
                 onScroll = {

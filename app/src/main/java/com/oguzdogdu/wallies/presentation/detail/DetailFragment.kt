@@ -91,14 +91,15 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
     private fun showProfileInfos(photo: Photo?) {
         binding.buttonInfo.setOnClickListener {
-            val arguments = Bundle().apply {
-                putString("imageUrl", photo?.profileimage)
-                putString("profileUrl", photo?.unsplashProfile)
-                putString("name", photo?.name)
-                putString("bio", photo?.bio)
-                putString("location", photo?.location)
-            }
-            navigate(R.id.toProfile, arguments)
+            navigateWithDirection(
+                DetailFragmentDirections.toProfile(
+                    imageUrl = photo?.profileimage,
+                    profileUrl = photo?.unsplashProfile,
+                    name = photo?.name,
+                    bio = photo?.bio,
+                    location = photo?.location
+                )
+            )
         }
     }
 

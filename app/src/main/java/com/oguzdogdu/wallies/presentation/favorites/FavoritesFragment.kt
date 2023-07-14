@@ -66,7 +66,10 @@ class FavoritesFragment :
             when {
                 state.isLoading -> {}
                 state.error.isNotEmpty() -> {}
-                state.favorites.isEmpty() -> binding.linearLayoutNoPicture.show()
+                state.favorites.isEmpty() -> {
+                    binding.recyclerViewFavorites.hide()
+                    binding.linearLayoutNoPicture.show()
+                }
 
                 else -> {
                     binding.linearLayoutNoPicture.hide()
