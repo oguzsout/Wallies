@@ -2,7 +2,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
+    kotlin("kapt")
     id("kotlin-parcelize")
 }
 
@@ -37,9 +37,10 @@ android {
 }
 
 dependencies {
-
     implementation(project(":domain"))
     implementation(project(":cache"))
+    implementation(project(":network"))
+
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
@@ -49,13 +50,25 @@ dependencies {
     androidTestImplementation(libs.androidx.junit.ext)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation ("com.google.firebase:firebase-auth-ktx:22.0.0")
-    implementation ("com.google.firebase:firebase-firestore-ktx:24.6.1")
+    implementation("com.google.firebase:firebase-messaging-ktx:23.2.0")
+    implementation("com.google.firebase:firebase-auth-ktx:22.1.0")
+    implementation("com.google.firebase:firebase-bom:32.2.0")
+    implementation("com.google.firebase:firebase-firestore-ktx:24.7.0")
+    implementation(libs.google.firebase.bom)
+
+    debugImplementation("com.github.chuckerteam.chucker:library:4.0.0")
+    releaseImplementation("com.github.chuckerteam.chucker:library-no-op:4.0.0")
 
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.converter)
+
+    implementation(libs.coroutines.core)
+    implementation(libs.coroutines.android)
+
+    implementation(libs.okhttp.core)
+    implementation(libs.okhttp.logging)
 
     implementation(libs.google.dagger.hilt)
     kapt(libs.google.dagger.hilt.compiler)

@@ -13,8 +13,8 @@ import com.oguzdogdu.data.common.Constants.EMAIL
 import com.oguzdogdu.data.common.Constants.ID
 import com.oguzdogdu.data.common.Constants.NAME
 import com.oguzdogdu.data.common.Constants.SURNAME
-import com.oguzdogdu.data.model.auth.User
-import com.oguzdogdu.data.model.auth.toUserDomain
+import com.oguzdogdu.network.model.auth.User
+import com.oguzdogdu.network.model.auth.toUserDomain
 import com.oguzdogdu.domain.repository.Authenticator
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject

@@ -3,8 +3,8 @@ package com.oguzdogdu.data.source.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.oguzdogdu.data.common.Constants
-import com.oguzdogdu.data.model.maindto.UnsplashResponseItem
-import com.oguzdogdu.data.source.remote.WallpaperService
+import com.oguzdogdu.network.model.maindto.UnsplashResponseItem
+import com.oguzdogdu.network.service.WallpaperService
 
 class LatestPagingSource(private val service: WallpaperService) :
     PagingSource<Int, UnsplashResponseItem>() {

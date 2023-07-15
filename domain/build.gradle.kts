@@ -38,9 +38,11 @@ dependencies {
 
     implementation(libs.google.dagger.hilt)
     kapt(libs.google.dagger.hilt.compiler)
-    implementation ("com.google.firebase:firebase-auth-ktx:22.0.0")
-    implementation ("com.google.firebase:firebase-bom:32.1.1")
-    implementation ("com.google.firebase:firebase-firestore-ktx:24.6.1")
+    implementation ("com.google.firebase:firebase-auth-ktx:22.1.0")
+    implementation ("com.google.firebase:firebase-bom:32.2.0")
+    implementation ("com.google.firebase:firebase-firestore-ktx:24.7.0")
     implementation(libs.androidx.paging.runtime)
     testImplementation(libs.androidx.paging.common)
+    implementation(libs.coroutines.core)
+    implementation(libs.coroutines.android)
 }

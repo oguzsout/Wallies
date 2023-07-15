@@ -70,26 +70,24 @@ ktlint {
 }
 
 dependencies {
-
-    implementation(project(":cache"))
     implementation(project(":data"))
     implementation(project(":domain"))
+    implementation(project(":cache"))
+    implementation(project(":network"))
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.material)
     implementation(libs.androidx.contraintlayout)
     implementation(libs.androidx.test.core)
-    implementation("com.google.firebase:firebase-messaging-ktx:23.1.2")
-    implementation("com.google.firebase:firebase-auth-ktx:22.0.0")
-    implementation("com.google.firebase:firebase-bom:32.1.1")
-    implementation("com.google.firebase:firebase-firestore-ktx:24.6.1")
+    implementation("com.google.firebase:firebase-messaging-ktx:23.2.0")
+    implementation("com.google.firebase:firebase-auth-ktx:22.1.0")
+    implementation("com.google.firebase:firebase-bom:32.2.0")
+    implementation("com.google.firebase:firebase-firestore-ktx:24.7.0")
+
     testImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.junit.ext)
     androidTestImplementation(libs.androidx.espresso.core)
-
-    debugImplementation("com.github.chuckerteam.chucker:library:4.0.0")
-    releaseImplementation("com.github.chuckerteam.chucker:library-no-op:4.0.0")
 
     implementation("androidx.compose.ui:ui:1.4.3")
     implementation("androidx.compose.runtime:runtime:1.4.3")
@@ -143,4 +141,7 @@ dependencies {
     implementation(libs.androidx.swipe.refresh)
     implementation(libs.glide)
     implementation(libs.photo.view)
+}
+kapt {
+    correctErrorTypes = true
 }

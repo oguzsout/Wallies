@@ -8,7 +8,6 @@ import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentCollectionsBinding
 import com.oguzdogdu.wallies.presentation.main.MainActivity
 import com.oguzdogdu.wallies.util.CheckConnection
-import com.oguzdogdu.wallies.util.observe
 import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.setupRecyclerView
 import com.oguzdogdu.wallies.util.showToast

@@ -2,15 +2,16 @@ package com.oguzdogdu.data.source.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.oguzdogdu.data.source.remote.WallpaperService
+import com.oguzdogdu.network.model.searchdto.Result
+import com.oguzdogdu.network.service.WallpaperService
 
 class SearchPagingSource(
     private val service: WallpaperService,
     private val query: String,
-) : PagingSource<Int, com.oguzdogdu.data.model.searchdto.Result>() {
+) : PagingSource<Int, Result>() {
 
     override fun getRefreshKey(
-        state: PagingState<Int, com.oguzdogdu.data.model.searchdto.Result>,
+        state: PagingState<Int, Result>,
     ): Int? {
         return state.anchorPosition?.let {
             state.closestPageToPosition(it)?.prevKey?.plus(1)
@@ -19,7 +20,7 @@ class SearchPagingSource(
     }
 
     override suspend fun load(params: LoadParams<Int>)
-            : LoadResult<Int, com.oguzdogdu.data.model.searchdto.Result> {
+            : LoadResult<Int, Result> {
         return try {
             val page = params.key ?: 1
             val response = service.searchPhotos(page = page, query = query)
