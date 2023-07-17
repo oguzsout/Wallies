@@ -8,6 +8,6 @@ import retrofit2.http.Path
 interface UnsplashUserService {
     @GET("users/{username}")
     suspend fun getUserDetailInfos(
-        @Path("username") id: String?,
+        @Path("username") username: String?,
     ): UserDetailResponse
 }

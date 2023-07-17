@@ -1,5 +1,7 @@
 package com.oguzdogdu.network.model.userdetail
 
+import com.oguzdogdu.domain.model.userdetail.UserDetails
+
 data class UserDetailResponse(
     val accepted_tos: Boolean,
     val allow_messages: Boolean,
@@ -30,4 +32,14 @@ data class UserDetailResponse(
     val twitter_username: String,
     val updated_at: String,
     val username: String
+)
+
+fun UserDetailResponse.toDomain() = UserDetails(
+    name = name,
+    bio = bio,
+    profileImage = profile_image.large,
+    postCount = total_photos,
+    followersCount = followers_count,
+    followingCount = following_count,
+    portfolioUrl = portfolio_url
 )
