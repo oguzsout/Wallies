@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.oguzdogdu.wallies.util.navigateSafe
+import com.oguzdogdu.wallies.util.navigateSafeWithDirection
 
 abstract class BaseBottomSheetDialogFragment<VB : ViewBinding>(
     private val bindingInflater: (inflater: LayoutInflater) -> VB
@@ -43,6 +45,10 @@ abstract class BaseBottomSheetDialogFragment<VB : ViewBinding>(
     }
 
     open fun initListeners() {
+    }
+
+    fun navigateWithDirection(navDirections: NavDirections) {
+        findNavController().navigateSafeWithDirection(directions = navDirections)
     }
 
     fun navigate(@IdRes id: Int, extras: Bundle?) {

@@ -39,4 +39,7 @@
     <string name="image_download_failed_text">Resim İndirme Başarısız</string>
     <string name="title_notification">Başlık</string>
     <string name="message_notification">Mesaj</string>
+    <string name="posts_text">Gönderi</string>
+    <string name="followers_text">Takipçi</string>
+    <string name="following_text">Takip</string>
 </resources>

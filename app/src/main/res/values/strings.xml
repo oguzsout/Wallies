@@ -38,4 +38,7 @@
     <string name="image_download_failed_text">Image Download Failed</string>
     <string name="title_notification">Title</string>
     <string name="message_notification">Message</string>
+    <string name="posts_text">Posts</string>
+    <string name="followers_text">Followers</string>
+    <string name="following_text">Following</string>
 </resources>

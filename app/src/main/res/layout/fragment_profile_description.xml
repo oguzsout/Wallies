@@ -35,19 +35,6 @@
 
     </androidx.appcompat.widget.AppCompatTextView>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textViewBioDesc"
-        style="@style/DialogText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_8"
-        android:layout_marginTop="@dimen/dp_16"
-        android:layout_marginEnd="@dimen/dp_8"
-        android:gravity="center_horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewLocation" />
-
     <TextView
         android:id="@+id/textViewLocation"
         style="@style/DialogText"
@@ -76,6 +63,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewBioDesc" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewLocation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

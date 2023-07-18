@@ -1,12 +1,9 @@
 package com.oguzdogdu.wallies.presentation.unsplashprofile
 
-import android.os.Bundle
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
 import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
-import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseBottomSheetDialogFragment
 import com.oguzdogdu.wallies.databinding.FragmentProfileDescriptionBinding
 import com.oguzdogdu.wallies.util.hide
@@ -27,12 +24,10 @@ class ProfileDescriptionFragment : BaseBottomSheetDialogFragment<FragmentProfile
                 transformations(CircleCropTransformation())
                 allowConversionToBitmap(true)
                 textViewProfileName.text = args.name
-                textViewBioDesc.text = args.bio
                 textViewLocation.text = args.location
                 when {
                     args.location.isNullOrBlank() -> textViewLocation.hide()
                     args.imageUrl.isNullOrBlank() -> imageViewProfilePhoto.hide()
-                    args.bio.isNullOrBlank() -> textViewBioDesc.hide()
                     args.name.isNullOrBlank() -> textViewProfileName.hide()
                 }
             }
@@ -46,10 +41,9 @@ class ProfileDescriptionFragment : BaseBottomSheetDialogFragment<FragmentProfile
 
     private fun navigateWebProfile() {
         binding.textViewMore.setOnClickListener {
-            val arguments = Bundle().apply {
-                putString("url", args.profileUrl)
-            }
-            findNavController().navigate(R.id.toWebProfile, arguments)
+            navigateWithDirection(
+                ProfileDescriptionFragmentDirections.toProfileDetail(args.username)
+            )
         }
     }
 }
