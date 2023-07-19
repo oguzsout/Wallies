@@ -10,4 +10,9 @@ interface UnsplashUserService {
     suspend fun getUserDetailInfos(
         @Path("username") username: String?,
     ): UserDetailResponse
+
+    @GET("users/{username}/photos")
+    suspend fun getUserPhotos(
+        @Path("username") username: String?,
+    ): List<Photo>
 }

@@ -46,10 +46,7 @@
                 android:id="@+id/textViewNumberOfPosts"
                 style="@style/DialogTitleText"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/textViewPosts"
@@ -57,10 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_8"
-                android:text="@string/posts_text"
-                app:layout_constraintEnd_toEndOf="@+id/textViewNumberOfPosts"
-                app:layout_constraintStart_toStartOf="@+id/textViewNumberOfPosts"
-                app:layout_constraintTop_toBottomOf="@+id/textViewNumberOfPosts" />
+                android:text="@string/posts_text" />
         </LinearLayout>
 
         <LinearLayout
@@ -82,11 +76,7 @@
                 android:id="@+id/textViewNumberOfFollowers"
                 style="@style/DialogTitleText"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                app:layout_constraintEnd_toStartOf="@+id/textViewNumberOfFollowing"
-                app:layout_constraintStart_toEndOf="@+id/textViewNumberOfPosts"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/textViewFollowers"
@@ -94,10 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_8"
-                android:text="@string/followers_text"
-                app:layout_constraintEnd_toEndOf="@+id/textViewNumberOfFollowers"
-                app:layout_constraintStart_toStartOf="@+id/textViewNumberOfFollowers"
-                app:layout_constraintTop_toBottomOf="@+id/textViewNumberOfFollowers" />
+                android:text="@string/followers_text" />
         </LinearLayout>
 
         <LinearLayout
@@ -117,10 +104,7 @@
                 android:id="@+id/textViewNumberOfFollowing"
                 style="@style/DialogTitleText"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/textViewFollowing"
@@ -128,10 +112,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_8"
-                android:text="@string/following_text"
-                app:layout_constraintEnd_toEndOf="@+id/textViewNumberOfFollowing"
-                app:layout_constraintStart_toStartOf="@+id/textViewNumberOfFollowing"
-                app:layout_constraintTop_toBottomOf="@+id/textViewNumberOfFollowing" />
+                android:text="@string/following_text" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -167,9 +148,6 @@
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginEnd="@dimen/dp_8"
         android:layout_marginBottom="@dimen/dp_8"
-        tools:listitem="@layout/item_user_collection_photos"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
