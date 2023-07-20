@@ -40,6 +40,10 @@ This project uses many of the popular libraries, plugins and tools of the androi
 |![](https://user-images.githubusercontent.com/73955284/235375106-85b5679b-d68e-4394-8f19-0da2609bf7df.png)| ![](https://user-images.githubusercontent.com/73955284/235375132-9dbc1819-c2e9-461e-9079-ce6097a9d5a7.png)
 |![](https://user-images.githubusercontent.com/73955284/235375157-15c13532-2896-4d22-aaf5-49f6ebd8ba3b.png)| ![](https://user-images.githubusercontent.com/73955284/235375256-c17e525f-0709-4b29-b978-e4ed25b1d212.png)|
 
+## 🎥 Screenrecord
+
+https://github.com/oguzsout/Wallies/assets/73955284/6f71a894-c58f-4dbd-a9ae-6d112b9955bd
+
 ## 📐 Architecture
 A well planned architecture is extremely important for an app to scale and all architectures have one common goal- to manage complexity of your app. This isn't something to be worried about in smaller apps however it may prove very useful when working on apps with longer development lifecycle and a bigger team.
 
