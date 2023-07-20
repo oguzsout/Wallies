@@ -34,7 +34,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
 
     override fun initViews() {
         super.initViews()
-        binding.textViewBuildVersion.text = "Version ${BuildConfig.VERSION_NAME} ${BuildConfig.VERSION_CODE}"
+        binding.textViewBuildVersion.text = "${resources.getString(R.string.version)} ${BuildConfig.VERSION_NAME}"
     }
 
     override fun initListeners() {

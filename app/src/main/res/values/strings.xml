@@ -41,4 +41,7 @@
     <string name="posts_text">Posts</string>
     <string name="followers_text">Followers</string>
     <string name="following_text">Following</string>
+    <string name="favoriler">Favorites</string>
+    <string name="ayarlar">Settings</string>
+    <string name="version">Version</string>
 </resources>

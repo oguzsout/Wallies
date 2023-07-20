@@ -14,7 +14,7 @@
     <string name="walpaper_list_photo">Duvar Kağıdı Fotoğraf Listesi</string>
     <string name="attachment_summary_off">Ekleri yalnızca manuel olarak istendiğinde indirin</string>
     <string name="edittext_clear">Temizle</string>
-    <string name="collections_screen_title_text">Collections</string>
+    <string name="collections_screen_title_text">Koleksiyonlar</string>
     <string name="created_at">Oluşturulma</string>
     <string name="clear_cache_title">Önbelleği Temizle</string>
     <string name="cache_state_string">Önbellek Temizlendi</string>
@@ -42,4 +42,7 @@
     <string name="posts_text">Gönderi</string>
     <string name="followers_text">Takipçi</string>
     <string name="following_text">Takip</string>
+    <string name="favoriler">Favoriler</string>
+    <string name="ayarlar">Ayarlar</string>
+    <string name="version">Versiyon</string>
 </resources>
