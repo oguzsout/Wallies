@@ -16,13 +16,20 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
     private val _signUpState: MutableStateFlow<SignUpState> = MutableStateFlow(SignUpState.Start)
     val signUpState = _signUpState.asStateFlow()
 
-    fun userSignUp(name: String, surname: String, email: String, password: String) {
+    fun userSignUp(
+        name: String,
+        surname: String,
+        email: String,
+        password: String,
+        image: String?
+    ) {
         viewModelScope.launch {
             signUpUseCase.invoke(
                 user = com.oguzdogdu.domain.model.auth.User(
                     name = name,
                     surname = surname,
-                    email = email
+                    email = email,
+                    image = image
                 ),
                 password = password
             ).collect { result ->

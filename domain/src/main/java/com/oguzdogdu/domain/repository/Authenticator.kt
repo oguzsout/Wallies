@@ -10,4 +10,5 @@ interface Authenticator {
     suspend fun signIn(userEmail: String, password: String):AuthResult
     suspend fun signOut()
     fun getCurrentUserEmail(): String
+    suspend fun fetchUserInfos(userId:String?):User
 }

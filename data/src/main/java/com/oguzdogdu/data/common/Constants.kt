@@ -11,4 +11,5 @@ object Constants {
     const val NAME = "name"
     const val SURNAME = "surname"
     const val COLLECTION_PATH = "users"
+    const val IMAGE = "image"
 }

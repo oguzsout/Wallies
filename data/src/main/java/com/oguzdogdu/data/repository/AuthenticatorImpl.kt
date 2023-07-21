@@ -11,6 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.oguzdogdu.data.common.Constants.COLLECTION_PATH
 import com.oguzdogdu.data.common.Constants.EMAIL
 import com.oguzdogdu.data.common.Constants.ID
+import com.oguzdogdu.data.common.Constants.IMAGE
 import com.oguzdogdu.data.common.Constants.NAME
 import com.oguzdogdu.data.common.Constants.SURNAME
 import com.oguzdogdu.network.model.auth.User
@@ -30,21 +31,23 @@ class AuthenticatorImpl @Inject constructor(
         user: com.oguzdogdu.domain.model.auth.User,
         password: String,
     ): com.oguzdogdu.domain.model.auth.User {
-        auth.createUserWithEmailAndPassword(user.email, password)
+        user.email?.let { auth.createUserWithEmailAndPassword(it, password).await() }
         val userModel = hashMapOf(
             ID to auth.currentUser?.uid,
             EMAIL to user.email,
             NAME to user.name,
-            SURNAME to user.surname
+            SURNAME to user.surname,
+            IMAGE to user.image
         )
         auth.currentUser?.uid?.let {
             firebaseFirestore.collection(COLLECTION_PATH).document(it)
                 .set(userModel)
-        }
+        }?.await()
         val result = User(
             name = userModel.getOrDefault(key = NAME, defaultValue = null).toString(),
             surname = userModel.getOrDefault(key = SURNAME, defaultValue = null).toString(),
-            email = userModel.getOrDefault(key = EMAIL, defaultValue = null).toString()
+            email = userModel.getOrDefault(key = EMAIL, defaultValue = null).toString(),
+            image = userModel.getOrDefault(key = IMAGE,defaultValue = null).toString()
         )
         return result.toUserDomain()
     }
@@ -58,4 +61,19 @@ class AuthenticatorImpl @Inject constructor(
 
     override fun getCurrentUserEmail() = auth.currentUser?.email ?: ""
 
+    override suspend fun fetchUserInfos(userId: String?): com.oguzdogdu.domain.model.auth.User {
+        val user = FirebaseAuth.getInstance().currentUser
+        val id = user?.uid ?: ""
+
+        val db = FirebaseFirestore.getInstance()
+        val userDocument = userId?.let { db.collection(COLLECTION_PATH).document(it).get().await() }
+
+        val name = userDocument?.getString(NAME)
+        val email = userDocument?.getString(EMAIL)
+        val profileImageUrl = userDocument?.getString(IMAGE)
+        val surname = userDocument?.getString(SURNAME)
+
+        val result = User(name = name, surname = surname, email = email, image = profileImageUrl)
+        return result.toUserDomain()
+    }
 }

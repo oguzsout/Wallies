@@ -278,12 +278,16 @@
             android:id="@+id/toSignUp"
             app:destination="@id/signupFragment" />
     </fragment>
-    <dialog
+    <fragment
         android:id="@+id/signupFragment"
         android:name="com.oguzdogdu.wallies.presentation.signup.SignupFragment"
-        android:label="SignupFragment" >
+        android:label="SignupFragment"
+        tools:layout="@layout/fragment_signup">
 
-    </dialog>
+        <action
+            android:id="@+id/toLogin"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settings"
         android:name="com.oguzdogdu.wallies.presentation.settings.SettingsFragment"
