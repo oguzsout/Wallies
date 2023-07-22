@@ -61,12 +61,12 @@ class AuthenticatorImpl @Inject constructor(
 
     override fun getCurrentUserEmail() = auth.currentUser?.email ?: ""
 
-    override suspend fun fetchUserInfos(userId: String?): com.oguzdogdu.domain.model.auth.User {
+    override suspend fun fetchUserInfos(): com.oguzdogdu.domain.model.auth.User {
         val user = FirebaseAuth.getInstance().currentUser
         val id = user?.uid ?: ""
 
         val db = FirebaseFirestore.getInstance()
-        val userDocument = userId?.let { db.collection(COLLECTION_PATH).document(it).get().await() }
+        val userDocument = db.collection(COLLECTION_PATH).document(id).get().await()
 
         val name = userDocument?.getString(NAME)
         val email = userDocument?.getString(EMAIL)
