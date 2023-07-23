@@ -91,12 +91,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
     private fun showProfileInfos(photo: Photo?) {
         binding.buttonInfo.setOnClickListener {
             navigateWithDirection(
-                DetailFragmentDirections.toProfile(
-                    imageUrl = photo?.profileimage,
-                    profileUrl = photo?.unsplashProfile,
-                    name = photo?.name,
-                    bio = photo?.bio,
-                    location = photo?.location,
+                DetailFragmentDirections.toProfileDetail(
                     username = photo?.username
                 )
             )
