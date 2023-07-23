@@ -1,24 +1,49 @@
 package com.oguzdogdu.wallies.presentation.signup
 
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import coil.load
+import coil.request.CachePolicy
+import coil.transform.CircleCropTransformation
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.oguzdogdu.wallies.R
-import com.oguzdogdu.wallies.core.BaseBottomSheetDialogFragment
+import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentSignupBinding
 import com.oguzdogdu.wallies.util.FieldValidators
+import com.oguzdogdu.wallies.util.Toolbar
 import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SignupFragment : BaseBottomSheetDialogFragment<FragmentSignupBinding>(
+class SignupFragment : BaseFragment<FragmentSignupBinding>(
     FragmentSignupBinding::inflate
 ) {
     private val viewModel: SignUpViewModel by viewModels()
+
+    private val REQUEST_CODE_PERMISSIONS = 1001
+    private val REQUIRED_PERMISSIONS = arrayOf(
+        android.Manifest.permission.READ_EXTERNAL_STORAGE,
+        android.Manifest.permission.CAMERA
+    )
+
+    @Inject
+    lateinit var firebaseFirestore: FirebaseFirestore
+
+    @Inject
+    lateinit var firebaseAuth: FirebaseAuth
+
     override fun initViews() {
         super.initViews()
         binding.editTextEmail.addTextChangedListener(TextFieldValidation(binding.editTextEmail))
@@ -27,8 +52,65 @@ class SignupFragment : BaseBottomSheetDialogFragment<FragmentSignupBinding>(
         )
     }
 
+    private fun checkPermissions() {
+        val missingPermissions = REQUIRED_PERMISSIONS.filter {
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                it
+            ) == PackageManager.PERMISSION_DENIED
+        }
+
+        if (missingPermissions.isNotEmpty()) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                missingPermissions.toTypedArray(),
+                REQUEST_CODE_PERMISSIONS
+            )
+        } else {
+            pickImageFromGallery()
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+                pickImageFromGallery()
+            }
+        }
+    }
+
+    private val getContent =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            if (uri != null) {
+                viewModel.setUri(uri)
+                binding.imageViewAddUserPhoto.load(uri) {
+                    diskCachePolicy(CachePolicy.DISABLED)
+                    transformations(CircleCropTransformation())
+                    allowConversionToBitmap(true)
+                }
+            }
+        }
+
+    private fun pickImageFromGallery() {
+        getContent.launch("image/*")
+    }
+
     override fun initListeners() {
         super.initListeners()
+        binding.toolbarSignUp.onLeftClickListener = object : Toolbar.OnLeftClickListener {
+            override fun onLeftButtonClick() {
+                navigateBack()
+            }
+        }
+        binding.imageViewEditPhoto.setOnClickListener {
+            checkPermissions()
+        }
+
         binding.buttonSignUp.setOnClickListener {
             viewModel.userSignUp(
                 name = binding.editTextName.text.toString(),
@@ -46,6 +128,7 @@ class SignupFragment : BaseBottomSheetDialogFragment<FragmentSignupBinding>(
                 when (state) {
                     is SignUpState.Loading -> {
                     }
+
                     is SignUpState.ErrorSignUp -> {
                         requireView().showToast(
                             context = requireContext(),
@@ -53,13 +136,14 @@ class SignupFragment : BaseBottomSheetDialogFragment<FragmentSignupBinding>(
                             duration = Toast.LENGTH_LONG
                         )
                     }
+
                     is SignUpState.UserSignUp -> {
                         requireView().showToast(
                             context = requireContext(),
                             message = "Kayıt Başarılı",
                             duration = Toast.LENGTH_LONG
                         )
-                        this@SignupFragment.dismiss()
+                        navigateBack()
                     }
 
                     else -> {}
@@ -67,6 +151,7 @@ class SignupFragment : BaseBottomSheetDialogFragment<FragmentSignupBinding>(
             }
         }
     }
+
     inner class TextFieldValidation(private val view: View) : TextWatcher {
         override fun afterTextChanged(s: Editable?) {}
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -89,11 +174,13 @@ class SignupFragment : BaseBottomSheetDialogFragment<FragmentSignupBinding>(
                 emailLayout.requestFocus()
                 false
             }
+
             !FieldValidators.isValidEmail(email) -> {
                 emailLayout.error = "Invalid Email!"
                 emailLayout.requestFocus()
                 false
             }
+
             else -> {
                 emailLayout.isErrorEnabled = false
                 true
@@ -111,26 +198,31 @@ class SignupFragment : BaseBottomSheetDialogFragment<FragmentSignupBinding>(
                 binding.editTextPassword.requestFocus()
                 false
             }
+
             password.length < 6 -> {
                 passwordLayout.error = "Password can't be less than 6"
                 binding.editTextPassword.requestFocus()
                 false
             }
+
             !FieldValidators.isStringContainNumber(password) -> {
                 passwordLayout.error = "Required at least 1 digit"
                 binding.editTextPassword.requestFocus()
                 false
             }
+
             !FieldValidators.isStringLowerAndUpperCase(password) -> {
                 passwordLayout.error = "Password must contain upper and lower case letters"
                 binding.editTextPassword.requestFocus()
                 false
             }
+
             !FieldValidators.isStringContainSpecialCharacter(password) -> {
                 passwordLayout.error = "One special character required"
                 binding.editTextPassword.requestFocus()
                 false
             }
+
             else -> {
                 passwordLayout.isErrorEnabled = false
                 true

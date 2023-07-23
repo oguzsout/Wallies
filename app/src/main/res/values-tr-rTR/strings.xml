@@ -45,4 +45,9 @@
     <string name="favoriler">Favoriler</string>
     <string name="ayarlar">Ayarlar</string>
     <string name="version">Versiyon</string>
+    <string name="sign_up_title">Kayıt Ol</string>
+    <string name="name">Ad</string>
+    <string name="surname">Soyad</string>
+    <string name="email">Email</string>
+    <string name="password">Şifre</string>
 </resources>

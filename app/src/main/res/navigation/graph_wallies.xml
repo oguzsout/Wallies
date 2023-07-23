@@ -84,14 +84,6 @@
             app:destination="@id/latestFragment" />
 
         <action
-            android:id="@+id/toUnsplashProfile"
-            app:destination="@id/unsplashProfileFragment" />
-
-        <action
-            android:id="@+id/toProfile"
-            app:destination="@id/profileDescriptionFragment" />
-
-        <action
             android:id="@+id/toSetWallpaper"
             app:destination="@id/setWallpaperFragment" />
 
@@ -181,55 +173,6 @@
             android:id="@+id/toDetail"
             app:destination="@id/detailFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/unsplashProfileFragment"
-        android:name="com.oguzdogdu.wallies.presentation.unsplashprofile.webProfile.UnsplashProfileFragment"
-        android:label="fragment_unsplash_profile"
-        tools:layout="@layout/fragment_unsplash_profile">
-        <argument
-            android:name="url"
-            app:argType="string"
-            app:nullable="true" />
-        <action
-            android:id="@+id/toDetail"
-            app:destination="@id/detailFragment" />
-    </fragment>
-    <dialog
-        android:id="@+id/profileDescriptionFragment"
-        android:name="com.oguzdogdu.wallies.presentation.unsplashprofile.ProfileDescriptionFragment"
-        android:label="ProfileDescriptionFragment"
-        tools:layout="@layout/fragment_profile_description">
-        <argument
-            android:name="imageUrl"
-            app:argType="string"
-            app:nullable="true" />
-        <argument
-            android:name="profileUrl"
-            app:argType="string"
-            app:nullable="true" />
-        <argument
-            android:name="name"
-            app:argType="string"
-            app:nullable="true" />
-        <argument
-            android:name="bio"
-            app:argType="string"
-            app:nullable="true" />
-        <argument
-            android:name="location"
-            app:argType="string"
-            app:nullable="true" />
-        <argument
-            android:name="username"
-            app:argType="string"
-            app:nullable="true" />
-        <action
-            android:id="@+id/toProfileDetail"
-            app:destination="@id/profileDetailFragment" />
-        <action
-            android:id="@+id/toWebProfile"
-            app:destination="@id/unsplashProfileFragment" />
-    </dialog>
 
     <dialog
         android:id="@+id/setWallpaperFragment"
@@ -305,6 +248,9 @@
             android:name="username"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/toDetail"
+            app:destination="@id/detailFragment" />
     </fragment>
 
 </navigation>

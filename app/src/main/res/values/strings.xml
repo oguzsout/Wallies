@@ -44,4 +44,9 @@
     <string name="favoriler">Favorites</string>
     <string name="ayarlar">Settings</string>
     <string name="version">Version</string>
+    <string name="sign_up_title">Sign Up</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
 </resources>

@@ -30,6 +30,20 @@
         <item name="android:background">@color/background_tab</item>
     </style>
 
+    <style name="ToolbarTitleText" parent="@android:style/TextAppearance">
+        <item name="android:textSize">@dimen/sp_24</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/googlesansmedium</item>
+    </style>
+
+
+    <style name="Title1Medium" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">@font/googlesansmedium</item>
+        <item name="android:textSize">@dimen/sp_24</item>
+        <item name="android:lineSpacingExtra">@dimen/dp_4</item>
+        <item name="android:fontFeatureSettings">pnum</item>
+    </style>
+
     <style name="AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="android:background">@color/background_dark</item>
         <item name="android:bottomLeftRadius">@dimen/dp_20</item>
