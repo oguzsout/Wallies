@@ -24,20 +24,12 @@ class Toolbar @JvmOverloads constructor(
     @ColorRes
     private var leftIconTint: Int? = null
 
-    @DrawableRes
-    private var rightIcon: Int? = null
-
-    @ColorRes
-    private var rightIconTint: Int? = null
-
     private var title: String? = null
 
     @ColorRes
     private var titleColor: Int? = null
 
     var onLeftClickListener: OnLeftClickListener? = null
-
-    var onRightClickListener: OnRightClickListener? = null
 
     init {
         initializeLayout()
@@ -59,14 +51,6 @@ class Toolbar @JvmOverloads constructor(
 
             if (attrs.hasValue(R.styleable.Toolbar_toolbar_left_icon_tint)) {
                 leftIconTint = attrs.getResourceId(R.styleable.Toolbar_toolbar_left_icon_tint, -1)
-            }
-
-            if (attrs.hasValue(R.styleable.Toolbar_toolbar_right_icon)) {
-                rightIcon = attrs.getResourceId(R.styleable.Toolbar_toolbar_right_icon, -1)
-            }
-
-            if (attrs.hasValue(R.styleable.Toolbar_toolbar_right_icon_tint)) {
-                rightIconTint = attrs.getResourceId(R.styleable.Toolbar_toolbar_right_icon_tint, -1)
             }
 
             if (attrs.hasValue(R.styleable.Toolbar_toolbar_title)) {
@@ -142,7 +126,7 @@ class Toolbar @JvmOverloads constructor(
             minimumWidth = 0
             minimumHeight = 0
             minHeight = 0
-            val padding = resources.getDimensionPixelSize(R.dimen.dp_12)
+            val padding = resources.getDimensionPixelSize(R.dimen.dp_8)
             setPadding(padding, padding, padding, padding)
         }
     }
@@ -159,7 +143,7 @@ class Toolbar @JvmOverloads constructor(
             maxLines = 2
             ellipsize = TextUtils.TruncateAt.END
             tag = TAG_TEXT_VIEW_TITLE
-            val padding = resources.getDimensionPixelSize(R.dimen.dp_12)
+            val padding = resources.getDimensionPixelSize(R.dimen.dp_8)
             setPadding(padding, padding, 0, 0)
         }
     }
@@ -201,10 +185,6 @@ class Toolbar @JvmOverloads constructor(
 
     interface OnLeftClickListener {
         fun onLeftButtonClick()
-    }
-
-    interface OnRightClickListener {
-        fun onRightButtonClick()
     }
 
     companion object {

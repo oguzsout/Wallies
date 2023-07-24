@@ -3,8 +3,6 @@
     <declare-styleable name="Toolbar">
         <attr name="toolbar_left_icon" format="reference" />
         <attr name="toolbar_left_icon_tint" format="color" />
-        <attr name="toolbar_right_icon" format="reference" />
-        <attr name="toolbar_right_icon_tint" format="color" />
         <attr name="toolbar_title" format="string" />
         <attr name="toolbar_subtitle" format="string" />
         <attr name="toolbar_title_color" format="color" />
