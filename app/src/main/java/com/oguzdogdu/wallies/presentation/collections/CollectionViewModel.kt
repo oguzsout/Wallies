@@ -18,7 +18,11 @@ class CollectionViewModel @Inject constructor(private val useCase: GetCollection
     private val _getCollections = MutableStateFlow(CollectionState())
     val getCollections = _getCollections.asStateFlow()
 
-    fun getCollectionsList() {
+    init {
+        getCollectionsList()
+    }
+
+    private fun getCollectionsList() {
         viewModelScope.launch {
             useCase().cachedIn(viewModelScope).collectLatest { collection ->
                 collection.let {

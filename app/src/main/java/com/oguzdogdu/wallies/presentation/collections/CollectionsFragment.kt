@@ -63,7 +63,6 @@ class CollectionsFragment :
 
     override fun observeData() {
         super.observeData()
-        viewModel.getCollectionsList()
         checkConnection()
     }
 

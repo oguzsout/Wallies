@@ -1,10 +1,11 @@
 package com.oguzdogdu.network.model.collection
 
+import android.os.Parcelable
 import com.oguzdogdu.network.model.maindto.Link
 import com.oguzdogdu.network.model.maindto.Photo
 import com.oguzdogdu.network.model.maindto.User
 import com.oguzdogdu.domain.model.collection.WallpaperCollections
-
+@kotlinx.parcelize.Parcelize
 data class CollectionResponse(
     val id: String?,
     val title: String?,
@@ -20,7 +21,7 @@ data class CollectionResponse(
     val preview_photos: List<Photo>?,
     val user: User?,
     val links: Link?
-)
+) : Parcelable
 
 fun CollectionResponse.toCollectionDomain() =
     WallpaperCollections(
