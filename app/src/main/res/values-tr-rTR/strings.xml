@@ -50,4 +50,6 @@
     <string name="surname">Soyad</string>
     <string name="email">Email</string>
     <string name="password">Şifre</string>
+    <string name="login">Giriş Yap</string>
+    <string name="not_registered">Henüz Kayıt Olmadıysan, Kayıt Ol!</string>
 </resources>

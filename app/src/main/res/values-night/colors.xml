@@ -7,4 +7,5 @@
     <color name="background_search">#66ffffff</color>
     <color name="background_tab">#292130</color>
     <color name="background_button">#ff8c42</color>
+    <color name="avatar">#40ffffff</color>
 </resources>

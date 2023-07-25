@@ -23,9 +23,9 @@ import com.oguzdogdu.wallies.util.LocaleHelper
 import com.oguzdogdu.wallies.util.hide
 import com.oguzdogdu.wallies.util.show
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Locale
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {

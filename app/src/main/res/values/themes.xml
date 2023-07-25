@@ -113,9 +113,9 @@
     </style>
 
     <style name="ActionBarTextAppearance" parent="@android:style/TextAppearance.Medium">
-        <item name="android:textSize">@dimen/sp_32</item>
+        <item name="android:textSize">@dimen/sp_16</item>
         <item name="android:textColor">@color/purple_dark</item>
-        <item name="android:fontFamily">@font/lexenddecaregular</item>
+        <item name="android:fontFamily">@font/googlesansmedium</item>
     </style>
 
     <style name="MainText" parent="@android:style/TextAppearance">

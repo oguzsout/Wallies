@@ -49,4 +49,7 @@
     <string name="surname">Surname</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="login_title">Login</string>
+    <string name="not_registered">Not Registered Yet, Sign Up !</string>
 </resources>

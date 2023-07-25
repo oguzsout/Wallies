@@ -14,6 +14,7 @@
     <color name="background_tab">#e7ecef</color>
     <color name="background_button">#9575CD</color>
     <color name="appbar_title_color" tools:ignore="MissingDefaultResource">#000000</color>
+    <color name="avatar">#7539c6</color>
 
     <color name="text_gray">#220E2E</color>
     <color name="light_mid_gray">#E3E4E9</color>

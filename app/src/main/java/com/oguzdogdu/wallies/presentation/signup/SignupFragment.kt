@@ -171,13 +171,11 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
         return when {
             email.isEmpty() -> {
                 emailLayout.error = "Required Field!"
-                emailLayout.requestFocus()
                 false
             }
 
             !FieldValidators.isValidEmail(email) -> {
                 emailLayout.error = "Invalid Email!"
-                emailLayout.requestFocus()
                 false
             }
 
@@ -195,31 +193,26 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
         return when {
             password.isEmpty() -> {
                 passwordLayout.error = "Required Field!"
-                binding.editTextPassword.requestFocus()
                 false
             }
 
             password.length < 6 -> {
                 passwordLayout.error = "Password can't be less than 6"
-                binding.editTextPassword.requestFocus()
                 false
             }
 
             !FieldValidators.isStringContainNumber(password) -> {
                 passwordLayout.error = "Required at least 1 digit"
-                binding.editTextPassword.requestFocus()
                 false
             }
 
             !FieldValidators.isStringLowerAndUpperCase(password) -> {
                 passwordLayout.error = "Password must contain upper and lower case letters"
-                binding.editTextPassword.requestFocus()
                 false
             }
 
             !FieldValidators.isStringContainSpecialCharacter(password) -> {
                 passwordLayout.error = "One special character required"
-                binding.editTextPassword.requestFocus()
                 false
             }
 
