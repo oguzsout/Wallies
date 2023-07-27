@@ -3,23 +3,16 @@ package com.oguzdogdu.wallies.presentation.collections
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentCollectionsBinding
 import com.oguzdogdu.wallies.presentation.main.MainActivity
-import com.oguzdogdu.wallies.util.CheckConnection
 import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.setupRecyclerView
-import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class CollectionsFragment :
     BaseFragment<FragmentCollectionsBinding>(FragmentCollectionsBinding::inflate) {
-
-    @Inject
-    lateinit var connection: CheckConnection
 
     private val viewModel: CollectionViewModel by viewModels()
 
@@ -63,34 +56,22 @@ class CollectionsFragment :
 
     override fun observeData() {
         super.observeData()
-        checkConnection()
+        showCollectionsDatas()
     }
 
-    private fun checkConnection() {
-        connection.observe(this@CollectionsFragment) { isConnected ->
-            when (isConnected) {
-                true -> {
-                    viewModel.getCollections.observeInLifecycle(
-                        viewLifecycleOwner,
-                        observer = { state ->
+    private fun showCollectionsDatas() {
+        viewModel.getCollectionsList()
+        viewModel.getCollections.observeInLifecycle(
+            viewLifecycleOwner,
+            observer = { state ->
+                when {
+                    state.isLoading -> {}
 
-                            when {
-                                state.isLoading -> {}
+                    state.error.isNotEmpty() -> {}
 
-                                state.error.isNotEmpty() -> {}
-
-                                else -> collectionListAdapter.submitData(state.collections)
-                            }
-                        }
-                    )
+                    else -> collectionListAdapter.submitData(state.collections)
                 }
-
-                false -> {
-                    requireView().showToast(requireContext(), R.string.internet_error)
-                }
-
-                null -> {}
             }
-        }
+        )
     }
 }

@@ -11,22 +11,16 @@ import com.oguzdogdu.domain.model.singlephoto.Photo
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentDetailBinding
-import com.oguzdogdu.wallies.util.CheckConnection
 import com.oguzdogdu.wallies.util.formatDate
 import com.oguzdogdu.wallies.util.itemLoading
 import com.oguzdogdu.wallies.util.observeInLifecycle
-import com.oguzdogdu.wallies.util.showToast
 import com.oguzdogdu.wallies.util.toFormattedString
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding::inflate) {
-
-    @Inject
-    lateinit var connection: CheckConnection
 
     private val viewModel: DetailViewModel by viewModels()
 
@@ -42,36 +36,26 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
     override fun observeData() {
         super.observeData()
-        checkConnection()
+        showDetailScreenDatas()
     }
 
-    private fun checkConnection() {
-        connection.observe(this@DetailFragment) { isConnected ->
-            when (isConnected) {
-                true -> {
-                    args.id?.let { viewModel.getSinglePhoto(it) }
-                    viewModel.photo.observeInLifecycle(viewLifecycleOwner, observer = { state ->
-                        setItems(state.detail)
-                        favoriteCheck(state.detail?.id)
-                        showProfileInfos(state.detail)
-                        navigateToSetWallpaper(state.detail?.urls)
-                        sharePhoto(state.detail)
-                        navigateToDownloadWallpaper(
-                            raw = state.detail?.rawQuality,
-                            high = state.detail?.highQuality,
-                            medium = state.detail?.mediumQuality,
-                            low = state.detail?.lowQuality,
-                            imageTitle = state.detail?.desc
-                        )
-                        addOrDeleteFavorites(state.detail)
-                    })
-                }
-
-                false -> requireView().showToast(requireContext(), R.string.internet_error)
-
-                null -> {}
-            }
-        }
+    private fun showDetailScreenDatas() {
+        args.id?.let { viewModel.getSinglePhoto(it) }
+        viewModel.photo.observeInLifecycle(viewLifecycleOwner, observer = { state ->
+            setItems(state.detail)
+            favoriteCheck(state.detail?.id)
+            showProfileInfos(state.detail)
+            navigateToSetWallpaper(state.detail?.urls)
+            sharePhoto(state.detail)
+            navigateToDownloadWallpaper(
+                raw = state.detail?.rawQuality,
+                high = state.detail?.highQuality,
+                medium = state.detail?.mediumQuality,
+                low = state.detail?.lowQuality,
+                imageTitle = state.detail?.desc
+            )
+            addOrDeleteFavorites(state.detail)
+        })
     }
 
     private fun addOrDeleteFavorites(photo: Photo?) {

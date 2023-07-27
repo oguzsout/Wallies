@@ -16,6 +16,7 @@ import com.oguzdogdu.wallies.util.FieldValidators.isStringContainNumber
 import com.oguzdogdu.wallies.util.FieldValidators.isStringContainSpecialCharacter
 import com.oguzdogdu.wallies.util.FieldValidators.isStringLowerAndUpperCase
 import com.oguzdogdu.wallies.util.FieldValidators.isValidEmail
+import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -70,25 +71,20 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     override fun observeData() {
         super.observeData()
         lifecycleScope.launch {
-            viewModel.loginState.collect { state ->
+            viewModel.loginState.observeInLifecycle(viewLifecycleOwner, observer = { state ->
                 when (state) {
-                    is LoginState.UserNotSignIn -> {}
-
-                    is LoginState.Loading -> {}
-
                     is LoginState.ErrorSignIn -> requireView().showToast(
                         context = requireContext(),
                         message = state.errorMessage,
                         duration = Toast.LENGTH_LONG
                     )
-
                     is LoginState.UserSignIn -> navigateWithDirection(
                         LoginFragmentDirections.toMain()
                     )
 
                     else -> {}
                 }
-            }
+            })
         }
     }
 

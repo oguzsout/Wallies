@@ -4,25 +4,18 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentLatestBinding
 import com.oguzdogdu.wallies.presentation.main.MainActivity
-import com.oguzdogdu.wallies.util.CheckConnection
 import com.oguzdogdu.wallies.util.hide
 import com.oguzdogdu.wallies.util.setupRecyclerView
 import com.oguzdogdu.wallies.util.show
-import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LatestFragment : BaseFragment<FragmentLatestBinding>(FragmentLatestBinding::inflate) {
-
-    @Inject
-    lateinit var connection: CheckConnection
 
     private val viewModel: LatestViewModel by viewModels()
 
@@ -69,33 +62,21 @@ class LatestFragment : BaseFragment<FragmentLatestBinding>(FragmentLatestBinding
     }
 
     private fun checkConnection() {
-        connection.observe(this@LatestFragment) { isConnected ->
-            when (isConnected) {
-                true -> {
-                    viewModel.getLatestImages()
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        viewModel.getLatest.collect {
-                            when {
-                                it.isLoading -> {
-                                    binding.progressBar.show()
-                                }
+        viewModel.getLatestImages()
+        lifecycleScope.launch(Dispatchers.IO) {
+            viewModel.getLatest.collect {
+                when {
+                    it.isLoading -> {
+                        binding.progressBar.show()
+                    }
 
-                                it.error.isNotEmpty() -> {}
+                    it.error.isNotEmpty() -> {}
 
-                                else -> {
-                                    binding.progressBar.hide()
-                                    latestWallpaperAdapter.submitData(it.latest)
-                                }
-                            }
-                        }
+                    else -> {
+                        binding.progressBar.hide()
+                        latestWallpaperAdapter.submitData(it.latest)
                     }
                 }
-
-                false -> {
-                    requireView().showToast(requireContext(), R.string.internet_error)
-                }
-
-                null -> {}
             }
         }
     }

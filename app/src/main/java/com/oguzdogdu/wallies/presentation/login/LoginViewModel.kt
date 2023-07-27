@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -37,7 +38,7 @@ class LoginViewModel @Inject constructor(
 
     private fun checkSignIn() {
         viewModelScope.launch {
-            checkUserAuthenticatedUseCase.invoke().collect { status ->
+            checkUserAuthenticatedUseCase.invoke().collectLatest { status ->
                 when (status) {
                     is Resource.Success -> {
                         if (status.data) {

@@ -6,23 +6,16 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentSearchBinding
-import com.oguzdogdu.wallies.util.CheckConnection
 import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.setupRecyclerView
-import com.oguzdogdu.wallies.util.showToast
 import com.oguzdogdu.wallies.util.textChanges
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding::inflate) {
-
-    @Inject
-    lateinit var connection: CheckConnection
 
     private val viewModel: SearchPhotoViewModel by viewModels()
 
@@ -55,29 +48,19 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
 
     override fun observeData() {
         super.observeData()
-        checkConnection()
+        showSearchDatas()
     }
 
-    private fun checkConnection() {
-        connection.observe(viewLifecycleOwner) { isConnected ->
-            when (isConnected) {
-                true -> {
-                    viewModel.eventFlow.observeInLifecycle(viewLifecycleOwner, observer = { event ->
-                        when (event) {
-                            is SearchEvent.Success -> searchWallpaperAdapter.submitData(
-                                viewModel.getSearchPhotos.value.search
-                            )
+    private fun showSearchDatas() {
+        viewModel.eventFlow.observeInLifecycle(viewLifecycleOwner, observer = { event ->
+            when (event) {
+                is SearchEvent.Success -> searchWallpaperAdapter.submitData(
+                    viewModel.getSearchPhotos.value.search
+                )
 
-                            else -> {}
-                        }
-                    })
-                }
-
-                false -> requireView().showToast(requireContext(), R.string.internet_error)
-
-                null -> {}
+                else -> {}
             }
-        }
+        })
     }
 
     private fun searchToImages() {

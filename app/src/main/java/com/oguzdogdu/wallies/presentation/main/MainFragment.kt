@@ -28,6 +28,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         super.initViews()
         initViewPager()
         initTabLayout()
+    }
+
+    override fun observeData() {
+        super.observeData()
         getAuthenticatedUserInfos()
     }
 

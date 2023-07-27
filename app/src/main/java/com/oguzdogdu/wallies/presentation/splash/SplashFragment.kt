@@ -17,11 +17,11 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding
     override fun initViews() {
         super.initViews()
         lifecycleScope.launch {
-            goToMainFragment()
+            goToLoginFragment()
         }
     }
 
-    private suspend fun goToMainFragment() {
+    private suspend fun goToLoginFragment() {
         delay(2000)
         navigate(R.id.toLogin, null)
         findNavController().clearBackStack(R.id.splashFragment)
