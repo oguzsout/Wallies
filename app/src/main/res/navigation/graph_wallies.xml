@@ -37,6 +37,9 @@
         <action
             android:id="@+id/toSettings"
             app:destination="@id/settings" />
+        <action
+            android:id="@+id/toAuthUser"
+            app:destination="@id/authenticedUserFragment" />
 
     </fragment>
 
@@ -234,7 +237,8 @@
     <fragment
         android:id="@+id/settings"
         android:name="com.oguzdogdu.wallies.presentation.settings.SettingsFragment"
-        android:label="NewSettings" >
+        android:label="NewSettings"
+        tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/toLogin"
             app:destination="@id/loginFragment" />
@@ -251,6 +255,18 @@
         <action
             android:id="@+id/toDetail"
             app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/authenticedUserFragment"
+        android:name="com.oguzdogdu.wallies.presentation.authenticateduser.AuthenticedUserFragment"
+        android:label="AuthenticedUserFragment"
+        tools:layout="@layout/fragment_authenticed_user">
+        <action
+            android:id="@+id/toMain"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/toLogin"
+            app:destination="@id/loginFragment" />
     </fragment>
 
 </navigation>

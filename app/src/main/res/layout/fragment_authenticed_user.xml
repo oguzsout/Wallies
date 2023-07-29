@@ -1,6 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="@dimen/dp_8"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.oguzdogdu.wallies.util.Toolbar
+        android:id="@+id/toolbarProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:toolbar_left_icon="@drawable/back"
+        app:toolbar_left_icon_tint="@color/appbar_title_color"
+        app:toolbar_title="Profile"
+        app:toolbar_title_color="@color/appbar_title_color"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+    </com.oguzdogdu.wallies.util.Toolbar>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonSignOut"
+        style="@style/BaseButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginBottom="16dp"
+        android:text="Çıkış Yap"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        app:cardCornerRadius="@dimen/dp_8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarProfile" >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/dp_8">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textViewSurname"
+                style="@style/DialogTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:text="TextView"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/textViewUserName"
+                app:layout_constraintStart_toStartOf="@+id/textViewUserName"
+                app:layout_constraintTop_toBottomOf="@+id/textViewUserName" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageViewProfileImage"
+                android:layout_width="@dimen/dp_48"
+                android:layout_height="@dimen/dp_48"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_default_avatar" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textViewUserName"
+                style="@style/DialogTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="TextView"
+                app:layout_constraintStart_toEndOf="@+id/imageViewProfileImage"
+                app:layout_constraintTop_toTopOf="@+id/imageViewProfileImage" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
