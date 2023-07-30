@@ -52,6 +52,33 @@ class AuthenticatorImpl @Inject constructor(
         return result.toUserDomain()
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
+    override suspend fun changeUserInfos(
+        name: String?,
+        surname: String?,
+        email: String?,
+        image: String?
+    ): com.oguzdogdu.domain.model.auth.User {
+        val userModel = hashMapOf(
+            ID to auth.currentUser?.uid,
+            EMAIL to email,
+            NAME to name,
+            SURNAME to surname,
+            IMAGE to image
+        )
+        auth.currentUser?.uid?.let {
+            firebaseFirestore.collection(COLLECTION_PATH).document(it)
+                .set(userModel)
+        }?.await()
+        val result = User(
+            name = userModel.getOrDefault(key = NAME, defaultValue = null).toString(),
+            surname = userModel.getOrDefault(key = SURNAME, defaultValue = null).toString(),
+            email = userModel.getOrDefault(key = EMAIL, defaultValue = null).toString(),
+            image = userModel.getOrDefault(key = IMAGE,defaultValue = null).toString()
+        )
+        return result.toUserDomain()
+    }
+
 
     override suspend fun signIn(userEmail: String, password: String):AuthResult {
       return  auth.signInWithEmailAndPassword(userEmail, password).await()
