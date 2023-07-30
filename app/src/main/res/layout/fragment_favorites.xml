@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <com.oguzdogdu.wallies.util.Toolbar
+        android:id="@+id/toolbarFavorites"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:toolbar_title="@string/favorites"
+        app:toolbar_title_color="@color/appbar_title_color">
+
+    </com.oguzdogdu.wallies.util.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewFavorites"
@@ -17,7 +31,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewFavoritesTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarFavorites" />
 
     <LinearLayout
         android:id="@+id/linearLayoutNoPicture"
@@ -51,15 +65,4 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/textViewFavoritesTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/googlesansmedium"
-        android:text="@string/favoriler"
-        android:textSize="@dimen/sp_24"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -42,8 +42,8 @@
     <string name="posts_text">Gönderi</string>
     <string name="followers_text">Takipçi</string>
     <string name="following_text">Takip</string>
-    <string name="favoriler">Favoriler</string>
-    <string name="ayarlar">Ayarlar</string>
+    <string name="favorites">Favoriler</string>
+    <string name="settings">Ayarlar</string>
     <string name="version">Versiyon</string>
     <string name="sign_up_title">Kayıt Ol</string>
     <string name="name">Ad</string>
@@ -52,4 +52,7 @@
     <string name="password">Şifre</string>
     <string name="login">Giriş Yap</string>
     <string name="not_registered">Henüz Kayıt Olmadıysan, Kayıt Ol!</string>
+    <string name="profile_title">Profil</string>
+    <string name="sign_out">Çıkış Yap</string>
+    <string name="welcome_profile">Hoşgeldin</string>
 </resources>

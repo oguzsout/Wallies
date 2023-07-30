@@ -1,9 +1,12 @@
 package com.oguzdogdu.wallies.presentation.authenticateduser
 
+import android.text.SpannableStringBuilder
+import androidx.core.text.bold
 import androidx.fragment.app.viewModels
 import coil.load
 import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
+import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentAuthenticedUserBinding
 import com.oguzdogdu.wallies.util.Toolbar
@@ -68,8 +71,13 @@ class AuthenticedUserFragment : BaseFragment<FragmentAuthenticedUserBinding>(
             imageViewProfileImage.load(profileImage) {
                 diskCachePolicy(CachePolicy.DISABLED)
                 transformations(CircleCropTransformation())
+                placeholder(R.drawable.ic_default_avatar)
                 allowConversionToBitmap(true)
             }
+            val editedString = SpannableStringBuilder()
+                .append(getString(R.string.welcome_profile))
+                .bold { run { append(", $name ") } }
+            textViewWelcome.text = editedString
             textViewUserName.text = "Name: $name"
             textViewSurname.text = "Surname: $surname"
         }

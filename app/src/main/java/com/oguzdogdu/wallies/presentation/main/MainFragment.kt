@@ -58,6 +58,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         binding.imageViewSearchWalpapers.setOnClickListener {
             navigate(R.id.toSearch, null)
         }
+        binding.imageViewProfileAvatar.setOnClickListener {
+            navigateWithDirection(MainFragmentDirections.toAuthUser())
+        }
     }
 
     private fun initTabLayout() {

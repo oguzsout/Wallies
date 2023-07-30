@@ -1,16 +1,17 @@
 package com.oguzdogdu.wallies.presentation.popular
 
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentPopularBinding
 import com.oguzdogdu.wallies.presentation.main.MainActivity
-import com.oguzdogdu.wallies.util.hide
 import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.setupRecyclerView
-import com.oguzdogdu.wallies.util.show
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBinding::inflate) {
@@ -56,20 +57,20 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
 
     override fun observeData() {
         super.observeData()
-        viewModel.getPopularImages()
         checkConnection()
     }
 
     private fun checkConnection() {
+        viewModel.getPopularImages()
         viewModel.getPopular.observeInLifecycle(viewLifecycleOwner, observer = { state ->
             when {
-                state.isLoading -> binding.progressBar.show()
-
                 state.error.isNotEmpty() -> {}
 
                 else -> {
-                    binding.progressBar.hide()
                     popularWallpaperAdapter.submitData(state.popular)
+                    popularWallpaperAdapter.loadStateFlow.collectLatest { loadStates ->
+                        binding.progressBar.isVisible = loadStates.refresh is LoadState.Loading
+                    }
                 }
             }
         })
