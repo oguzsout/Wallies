@@ -1,12 +1,11 @@
 package com.oguzdogdu.data.repository
 
+import android.R.attr.password
 import android.os.Build
-import android.provider.ContactsContract.DisplayNameSources.NICKNAME
-import android.provider.SimPhonebookContract.SimRecords.PHONE_NUMBER
 import androidx.annotation.RequiresApi
 import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.oguzdogdu.data.common.Constants.COLLECTION_PATH
 import com.oguzdogdu.data.common.Constants.EMAIL
@@ -14,11 +13,12 @@ import com.oguzdogdu.data.common.Constants.ID
 import com.oguzdogdu.data.common.Constants.IMAGE
 import com.oguzdogdu.data.common.Constants.NAME
 import com.oguzdogdu.data.common.Constants.SURNAME
+import com.oguzdogdu.domain.repository.Authenticator
 import com.oguzdogdu.network.model.auth.User
 import com.oguzdogdu.network.model.auth.toUserDomain
-import com.oguzdogdu.domain.repository.Authenticator
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
+
 
 class AuthenticatorImpl @Inject constructor(
     private val auth: FirebaseAuth,
@@ -52,31 +52,29 @@ class AuthenticatorImpl @Inject constructor(
         return result.toUserDomain()
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    override suspend fun changeUserInfos(
-        name: String?,
-        surname: String?,
-        email: String?,
-        image: String?
-    ): com.oguzdogdu.domain.model.auth.User {
-        val userModel = hashMapOf(
-            ID to auth.currentUser?.uid,
-            EMAIL to email,
-            NAME to name,
-            SURNAME to surname,
-            IMAGE to image
-        )
+    override suspend fun changeUsername(name: String?) {
         auth.currentUser?.uid?.let {
-            firebaseFirestore.collection(COLLECTION_PATH).document(it)
-                .set(userModel)
+            firebaseFirestore.collection(COLLECTION_PATH).document(it).update(NAME, name)
         }?.await()
-        val result = User(
-            name = userModel.getOrDefault(key = NAME, defaultValue = null).toString(),
-            surname = userModel.getOrDefault(key = SURNAME, defaultValue = null).toString(),
-            email = userModel.getOrDefault(key = EMAIL, defaultValue = null).toString(),
-            image = userModel.getOrDefault(key = IMAGE,defaultValue = null).toString()
-        )
-        return result.toUserDomain()
+    }
+
+    override suspend fun changeSurname(surname: String?) {
+        auth.currentUser?.uid?.let {
+            firebaseFirestore.collection(COLLECTION_PATH).document(it).update(SURNAME, surname)
+        }?.await()
+    }
+
+    override suspend fun changeEmail(email: String?) {
+        auth.currentUser?.updateEmail(email.orEmpty())?.await()
+        auth.currentUser?.uid?.let {
+            firebaseFirestore.collection(COLLECTION_PATH).document(it).update(EMAIL, email)
+        }?.await()
+    }
+
+    override suspend fun changeProfilePhoto(photo: String?) {
+        auth.currentUser?.uid?.let {
+            firebaseFirestore.collection(COLLECTION_PATH).document(it).update(IMAGE, photo)
+        }?.await()
     }
 
 

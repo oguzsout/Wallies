@@ -5,9 +5,9 @@ sealed class AuthenticatedUserScreenState {
     data class UserInfoError(val errorMessage: String?) : AuthenticatedUserScreenState()
     data class CheckUserAuthStatus(val isAuthenticated: Boolean) : AuthenticatedUserScreenState()
     data class UserInfos(
-        val name: String?,
-        val surname: String?,
-        val email: String?,
-        val profileImage: String?
+        val name: String? = null,
+        val surname: String? = null,
+        val email: String? = null,
+        val profileImage: String? = null
     ) : AuthenticatedUserScreenState()
 }
