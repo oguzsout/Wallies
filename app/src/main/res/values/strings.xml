@@ -54,4 +54,8 @@
     <string name="profile_title">Profile</string>
     <string name="sign_out">Sign Out</string>
     <string name="welcome_profile">Welcome</string>
+    <string name="name_text">Name: %1$s</string>
+    <string name="surname_text">Surname: %1$s</string>
+    <string name="edit_user_info_title">Edit Personal Information</string>
+    <string name="edit_email_title">Edit Email</string>
 </resources>

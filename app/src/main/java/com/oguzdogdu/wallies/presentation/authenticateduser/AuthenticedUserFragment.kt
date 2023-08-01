@@ -1,8 +1,10 @@
 package com.oguzdogdu.wallies.presentation.authenticateduser
 
 import android.text.SpannableStringBuilder
+import android.widget.Toast
 import androidx.core.text.bold
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
@@ -11,6 +13,8 @@ import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentAuthenticedUserBinding
 import com.oguzdogdu.wallies.util.Toolbar
 import com.oguzdogdu.wallies.util.observeInLifecycle
+import com.oguzdogdu.wallies.util.setupRecyclerView
+import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -18,10 +22,28 @@ class AuthenticedUserFragment : BaseFragment<FragmentAuthenticedUserBinding>(
     FragmentAuthenticedUserBinding::inflate
 ) {
 
+    private val profileOptionsList = listOf(
+        ProfileMenu(
+            iconRes = R.drawable.ic_person, titleRes = R.string.edit_user_info_title
+        ), ProfileMenu(
+            iconRes = R.drawable.ic_email, titleRes = R.string.edit_email_title
+        )
+    )
+
+    private val userOptionsAdapter by lazy { ProfileOptionsAdapter() }
+
     private val viewModel: AuthenticedUserViewModel by viewModels()
 
     override fun initViews() {
         super.initViews()
+        binding.rvUserOptions.setupRecyclerView(layoutManager = LinearLayoutManager(
+            requireContext(), LinearLayoutManager.VERTICAL, false
+        ), adapter = userOptionsAdapter, hasFixedSize = true, onScroll = {})
+        setDataIntoRV()
+    }
+
+    private fun setDataIntoRV() {
+        userOptionsAdapter.submitList(profileOptionsList)
     }
 
     override fun initListeners() {
@@ -33,6 +55,21 @@ class AuthenticedUserFragment : BaseFragment<FragmentAuthenticedUserBinding>(
         }
         binding.buttonSignOut.setOnClickListener {
             viewModel.handleUiEvents(AuthenticatedUserEvent.SignOut)
+        }
+        userOptionsAdapter.setOnItemClickListener { option ->
+            when (option?.titleRes) {
+                R.string.edit_user_info_title -> {
+                    requireView().showToast(
+                        requireContext(), R.string.edit_user_info_title, Toast.LENGTH_LONG
+                    )
+                }
+
+                R.string.edit_email_title -> {
+                    requireView().showToast(
+                        requireContext(), R.string.edit_email_title, Toast.LENGTH_LONG
+                    )
+                }
+            }
         }
     }
 
@@ -74,12 +111,11 @@ class AuthenticedUserFragment : BaseFragment<FragmentAuthenticedUserBinding>(
                 placeholder(R.drawable.ic_default_avatar)
                 allowConversionToBitmap(true)
             }
-            val editedString = SpannableStringBuilder()
-                .append(getString(R.string.welcome_profile))
+            val editedString = SpannableStringBuilder().append(getString(R.string.welcome_profile))
                 .bold { run { append(", $name ") } }
             textViewWelcome.text = editedString
-            textViewUserName.text = "Name: $name"
-            textViewSurname.text = "Surname: $surname"
+            textViewUserName.text = getString(R.string.name_text, name)
+            textViewSurname.text = getString(R.string.surname_text, surname)
         }
     }
 }

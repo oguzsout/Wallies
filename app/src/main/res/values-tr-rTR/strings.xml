@@ -55,4 +55,8 @@
     <string name="profile_title">Profil</string>
     <string name="sign_out">Çıkış Yap</string>
     <string name="welcome_profile">Hoşgeldin</string>
+    <string name="name_text">İsim: %1$s</string>
+    <string name="surname_text">Soyisim: %1$s</string>
+    <string name="edit_user_info_title">Kişisel Bilgileri Düzenle</string>
+    <string name="edit_email_title">Emaili Düzenle</string>
 </resources>

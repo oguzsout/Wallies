@@ -81,7 +81,7 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
             imageViewDetailProfilePhoto.load(userDetails?.profileImage) {
                 diskCachePolicy(CachePolicy.DISABLED)
                 transformations(CircleCropTransformation())
-                placeholder(R.drawable.ic_not_found_user_image)
+                placeholder(R.drawable.ic_default_avatar)
                 allowConversionToBitmap(true)
             }
             toolbar.title = userDetails?.name

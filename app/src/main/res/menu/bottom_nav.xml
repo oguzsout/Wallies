@@ -5,7 +5,7 @@
     <item
         android:id="@+id/mainFragment"
         android:title="Wallpapers"
-        android:icon="@drawable/wallpapers"
+        android:icon="@drawable/wallpaper"
         android:enabled="true"
         app:actionViewClass="com.google.android.material.bottomnavigation.BottomNavigationView" />
 

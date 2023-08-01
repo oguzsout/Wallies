@@ -136,6 +136,18 @@
         <item name="android:fontFamily">@font/googlesansregular</item>
     </style>
 
+    <style name="EditText" parent="Widget.AppCompat.EditText">
+        <item name="android:fontFamily">@font/googlesansmedium</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+        <item name="android:lineSpacingExtra">@dimen/dp_2</item>
+        <item name="android:letterSpacing">@dimen/letter_spacing_call_out</item>
+        <item name="android:paddingStart">@dimen/dp_16</item>
+        <item name="android:paddingEnd">@dimen/dp_16</item>
+        <item name="android:paddingTop">@dimen/dp_14</item>
+        <item name="android:paddingBottom">@dimen/dp_14</item>
+        <item name="android:textColorHint">@color/text_gray</item>
+    </style>
+
     <style name="DialogTitleText" parent="@android:style/TextAppearance">
         <item name="android:textSize">@dimen/sp_16</item>
         <item name="android:textColor">@color/black</item>
