@@ -267,6 +267,18 @@
         <action
             android:id="@+id/toLogin"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/toEditUserName"
+            app:destination="@id/editUserNameSurnameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editUserNameSurnameFragment"
+        android:name="com.oguzdogdu.wallies.presentation.authenticateduser.editnameandsurname.EditUserNameSurnameFragment"
+        android:label="EditUserNameSurnameFragment"
+        tools:layout="@layout/fragment_edit_user_name_surname">
+        <action
+            android:id="@+id/toAuthUser"
+            app:destination="@id/authenticedUserFragment" />
     </fragment>
 
 </navigation>

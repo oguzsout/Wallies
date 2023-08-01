@@ -59,4 +59,5 @@
     <string name="surname_text">Soyisim: %1$s</string>
     <string name="edit_user_info_title">Kişisel Bilgileri Düzenle</string>
     <string name="edit_email_title">Emaili Düzenle</string>
+    <string name="show_info_edit_infos">Düzenlemek istediğin bir bilgi varsa aşağıdaki seçenekleri kullanabilirsin.</string>
 </resources>

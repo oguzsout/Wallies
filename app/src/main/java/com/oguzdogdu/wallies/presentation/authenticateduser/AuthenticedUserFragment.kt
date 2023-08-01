@@ -11,11 +11,15 @@ import coil.transform.CircleCropTransformation
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentAuthenticedUserBinding
+import com.oguzdogdu.wallies.util.ITooltipUtils
 import com.oguzdogdu.wallies.util.Toolbar
+import com.oguzdogdu.wallies.util.TooltipDirection
+import com.oguzdogdu.wallies.util.information
 import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.setupRecyclerView
 import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class AuthenticedUserFragment : BaseFragment<FragmentAuthenticedUserBinding>(
@@ -24,11 +28,17 @@ class AuthenticedUserFragment : BaseFragment<FragmentAuthenticedUserBinding>(
 
     private val profileOptionsList = listOf(
         ProfileMenu(
-            iconRes = R.drawable.ic_person, titleRes = R.string.edit_user_info_title
-        ), ProfileMenu(
-            iconRes = R.drawable.ic_email, titleRes = R.string.edit_email_title
+            iconRes = R.drawable.ic_person,
+            titleRes = R.string.edit_user_info_title
+        ),
+        ProfileMenu(
+            iconRes = R.drawable.ic_email,
+            titleRes = R.string.edit_email_title
         )
     )
+
+    @Inject
+    lateinit var tooltip: ITooltipUtils
 
     private val userOptionsAdapter by lazy { ProfileOptionsAdapter() }
 
@@ -36,9 +46,16 @@ class AuthenticedUserFragment : BaseFragment<FragmentAuthenticedUserBinding>(
 
     override fun initViews() {
         super.initViews()
-        binding.rvUserOptions.setupRecyclerView(layoutManager = LinearLayoutManager(
-            requireContext(), LinearLayoutManager.VERTICAL, false
-        ), adapter = userOptionsAdapter, hasFixedSize = true, onScroll = {})
+        binding.rvUserOptions.setupRecyclerView(
+            layoutManager = LinearLayoutManager(
+                requireContext(),
+                LinearLayoutManager.VERTICAL,
+                false
+            ),
+            adapter = userOptionsAdapter,
+            hasFixedSize = true,
+            onScroll = {}
+        )
         setDataIntoRV()
     }
 
@@ -53,20 +70,28 @@ class AuthenticedUserFragment : BaseFragment<FragmentAuthenticedUserBinding>(
                 navigateBack()
             }
         }
+        binding.imageViewShowInfo.setOnClickListener {
+            tooltip.information(
+                getString(R.string.show_info_edit_infos),
+                it,
+                viewLifecycleOwner,
+                TooltipDirection.TOP
+            )
+        }
         binding.buttonSignOut.setOnClickListener {
             viewModel.handleUiEvents(AuthenticatedUserEvent.SignOut)
         }
         userOptionsAdapter.setOnItemClickListener { option ->
             when (option?.titleRes) {
                 R.string.edit_user_info_title -> {
-                    requireView().showToast(
-                        requireContext(), R.string.edit_user_info_title, Toast.LENGTH_LONG
-                    )
+                    navigateWithDirection(AuthenticedUserFragmentDirections.toEditUserName())
                 }
 
                 R.string.edit_email_title -> {
                     requireView().showToast(
-                        requireContext(), R.string.edit_email_title, Toast.LENGTH_LONG
+                        requireContext(),
+                        R.string.edit_email_title,
+                        Toast.LENGTH_LONG
                     )
                 }
             }

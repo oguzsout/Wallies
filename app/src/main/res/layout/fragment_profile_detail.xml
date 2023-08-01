@@ -11,7 +11,6 @@
         android:layout_height="@dimen/dp_72"
         android:layout_marginStart="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_16"
-        android:src="@mipmap/app_logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
         tools:srcCompat="@tools:sample/avatars" />

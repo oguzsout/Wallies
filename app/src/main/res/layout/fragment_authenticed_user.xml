@@ -15,6 +15,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:toolbar_left_icon="@drawable/back"
         app:toolbar_left_icon_tint="@color/appbar_title_color"
+        app:toolbar_right_icon="@drawable/wallpaper"
+        app:toolbar_right_icon_tint="@color/appbar_title_color"
         app:toolbar_title="@string/profile_title"
         app:toolbar_title_color="@color/appbar_title_color" />
 
@@ -32,7 +34,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewUserInfoContainer"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_16"
         android:backgroundTint="@color/background_main_icon"
@@ -53,8 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_8"
-                android:layout_marginEnd="@dimen/dp_16"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imageViewShowInfo"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -89,6 +90,16 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageViewProfileImage"
                 app:layout_constraintTop_toTopOf="@+id/imageViewProfileImage" />
+
+            <ImageView
+                android:id="@+id/imageViewShowInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_user_card_info" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

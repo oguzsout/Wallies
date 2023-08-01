@@ -2,8 +2,6 @@ package com.oguzdogdu.wallies.presentation.authenticateduser
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.oguzdogdu.domain.usecase.auth.ChangeEmailUseCase
-import com.oguzdogdu.domain.usecase.auth.ChangeUserNameUseCase
 import com.oguzdogdu.domain.usecase.auth.CheckUserAuthenticatedUseCase
 import com.oguzdogdu.domain.usecase.auth.GetCurrentUserDatasUseCase
 import com.oguzdogdu.domain.usecase.auth.SignOutUseCase
@@ -20,7 +18,6 @@ import kotlinx.coroutines.launch
 class AuthenticedUserViewModel @Inject constructor(
     private val getCurrentUserDatasUseCase: GetCurrentUserDatasUseCase,
     private val signOutUseCase: SignOutUseCase,
-    private val checkUserAuthenticatedUseCase: CheckUserAuthenticatedUseCase,
 ) : ViewModel() {
 
     private val _userState: MutableStateFlow<AuthenticatedUserScreenState?> = MutableStateFlow(null)
@@ -68,22 +65,6 @@ class AuthenticedUserViewModel @Inject constructor(
     private fun signOut() {
         viewModelScope.launch {
             signOutUseCase.invoke()
-        }
-    }
-
-    private fun checkAuthStatus() {
-        viewModelScope.launch {
-            checkUserAuthenticatedUseCase.invoke().collectLatest { result ->
-                when (result) {
-                    is Resource.Success -> _userState.update {
-                        AuthenticatedUserScreenState.CheckUserAuthStatus(
-                            isAuthenticated = result.data
-                        )
-                    }
-
-                    else -> {}
-                }
-            }
         }
     }
 }

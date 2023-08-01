@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewCacheContainer"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="@dimen/dp_64"
         app:cardCornerRadius="@dimen/dp_16"
         android:layout_margin="@dimen/dp_8"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,15 +17,13 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingHorizontal="@dimen/dp_8">
+            android:layout_height="match_parent">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imageViewOptionalIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:src="@drawable/cache"
+                android:layout_marginStart="@dimen/dp_16"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -35,8 +32,7 @@
                 android:id="@+id/textViewOptionalDesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:text=""
+                android:layout_marginStart="@dimen/dp_24"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/imageViewOptionalIcon"
                 app:layout_constraintStart_toEndOf="@+id/imageViewOptionalIcon"
@@ -45,8 +41,7 @@
             </androidx.appcompat.widget.AppCompatTextView>
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/image_view_right"
-                visible='@{item.rightChevron == true}'
+                android:id="@+id/imageViewRight"
                 android:layout_width="@dimen/dp_8"
                 android:layout_height="@dimen/dp_12"
                 android:layout_marginVertical="@dimen/dp_16"
