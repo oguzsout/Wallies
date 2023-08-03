@@ -20,7 +20,6 @@ import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentSignupBinding
 import com.oguzdogdu.wallies.util.FieldValidators
-import com.oguzdogdu.wallies.util.Toolbar
 import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -46,10 +45,18 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
 
     override fun initViews() {
         super.initViews()
-        binding.editTextEmail.addTextChangedListener(TextFieldValidation(binding.editTextEmail))
-        binding.editTextPassword.addTextChangedListener(
-            TextFieldValidation(binding.editTextPassword)
-        )
+        with(binding) {
+            toolbarSignUp.setTitle(
+                title = getString(R.string.sign_up_title),
+                titleStyleRes = R.style.DialogTitleText
+            )
+            toolbarSignUp.setLeftIcon(R.drawable.back)
+            editTextEmail.addTextChangedListener(TextFieldValidation(binding.editTextEmail))
+            editTextPassword.addTextChangedListener(
+                TextFieldValidation(binding.editTextPassword)
+            )
+        }
+
     }
 
     private fun checkPermissions() {
@@ -102,10 +109,8 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
 
     override fun initListeners() {
         super.initListeners()
-        binding.toolbarSignUp.onLeftClickListener = object : Toolbar.OnLeftClickListener {
-            override fun onLeftButtonClick() {
-                navigateBack()
-            }
+        binding.toolbarSignUp.setLeftIconClickListener {
+            navigateWithDirection(SignupFragmentDirections.toLogin())
         }
         binding.imageViewEditPhoto.setOnClickListener {
             checkPermissions()

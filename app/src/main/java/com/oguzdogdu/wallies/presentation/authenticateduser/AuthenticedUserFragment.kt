@@ -12,7 +12,6 @@ import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentAuthenticedUserBinding
 import com.oguzdogdu.wallies.util.ITooltipUtils
-import com.oguzdogdu.wallies.util.Toolbar
 import com.oguzdogdu.wallies.util.TooltipDirection
 import com.oguzdogdu.wallies.util.information
 import com.oguzdogdu.wallies.util.observeInLifecycle
@@ -57,6 +56,11 @@ class AuthenticedUserFragment : BaseFragment<FragmentAuthenticedUserBinding>(
             onScroll = {}
         )
         setDataIntoRV()
+        binding.toolbarProfile.setTitle(
+            title = getString(R.string.profile_title),
+            titleStyleRes = R.style.ToolbarTitleText
+        )
+        binding.toolbarProfile.setLeftIcon(R.drawable.back)
     }
 
     private fun setDataIntoRV() {
@@ -65,11 +69,6 @@ class AuthenticedUserFragment : BaseFragment<FragmentAuthenticedUserBinding>(
 
     override fun initListeners() {
         super.initListeners()
-        binding.toolbarProfile.onLeftClickListener = object : Toolbar.OnLeftClickListener {
-            override fun onLeftButtonClick() {
-                navigateBack()
-            }
-        }
         binding.imageViewShowInfo.setOnClickListener {
             tooltip.information(
                 getString(R.string.show_info_edit_infos),
@@ -78,8 +77,12 @@ class AuthenticedUserFragment : BaseFragment<FragmentAuthenticedUserBinding>(
                 TooltipDirection.TOP
             )
         }
+        binding.toolbarProfile.setLeftIconClickListener {
+            navigateWithDirection(AuthenticedUserFragmentDirections.toMain())
+        }
         binding.buttonSignOut.setOnClickListener {
             viewModel.handleUiEvents(AuthenticatedUserEvent.SignOut)
+            navigateWithDirection(AuthenticedUserFragmentDirections.toLogin())
         }
         userOptionsAdapter.setOnItemClickListener { option ->
             when (option?.titleRes) {

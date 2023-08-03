@@ -34,6 +34,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
 
     override fun initViews() {
         super.initViews()
+        binding.toolbarSettings.setTitle(
+            title = getString(R.string.settings),
+            titleStyleRes = R.style.ToolbarTitleText
+        )
         binding.textViewBuildVersion.text = "${resources.getString(R.string.version)} ${BuildConfig.VERSION_NAME}"
     }
 

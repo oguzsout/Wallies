@@ -4,20 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.oguzdogdu.wallies.util.Toolbar
+    <com.oguzdogdu.wallies.util.CustomToolbar
         android:id="@+id/toolbarFavorites"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_8"
-        android:layout_marginTop="@dimen/dp_8"
-        android:layout_marginEnd="@dimen/dp_8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:toolbar_title="@string/favorites"
-        app:toolbar_title_color="@color/appbar_title_color">
+        app:layout_constraintTop_toTopOf="parent">
 
-    </com.oguzdogdu.wallies.util.Toolbar>
+    </com.oguzdogdu.wallies.util.CustomToolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewFavorites"

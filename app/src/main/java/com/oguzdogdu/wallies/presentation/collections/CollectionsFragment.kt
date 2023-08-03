@@ -3,6 +3,7 @@ package com.oguzdogdu.wallies.presentation.collections
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentCollectionsBinding
 import com.oguzdogdu.wallies.presentation.main.MainActivity
@@ -20,7 +21,7 @@ class CollectionsFragment :
 
     override fun initViews() {
         super.initViews()
-        binding.apply {
+        with(binding) {
             recyclerViewCollections.setupRecyclerView(
                 layoutManager = GridLayoutManager(requireContext(), 3),
                 adapter = collectionListAdapter,
@@ -38,6 +39,10 @@ class CollectionsFragment :
                             }
                         })
                 }
+            )
+            toolbarCollection.setTitle(
+                title = getString(R.string.collections_screen_title_text),
+                titleStyleRes = R.style.ToolbarTitleText
             )
         }
     }

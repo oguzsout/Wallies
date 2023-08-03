@@ -12,19 +12,14 @@
         android:layout_height="match_parent"
         android:padding="@dimen/dp_8">
 
-        <com.oguzdogdu.wallies.util.Toolbar
+        <com.oguzdogdu.wallies.util.CustomToolbar
             android:id="@+id/toolbarSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:toolbar_left_icon="@drawable/back"
-            app:toolbar_left_icon_tint="@color/appbar_title_color"
-            app:toolbar_title="@string/sign_up_title"
-            app:toolbar_title_color="@color/appbar_title_color">
-
-        </com.oguzdogdu.wallies.util.Toolbar>
+            app:layout_constraintTop_toTopOf="parent">
+        </com.oguzdogdu.wallies.util.CustomToolbar>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"

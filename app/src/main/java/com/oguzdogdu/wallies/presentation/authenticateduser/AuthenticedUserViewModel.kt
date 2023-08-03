@@ -2,7 +2,6 @@ package com.oguzdogdu.wallies.presentation.authenticateduser
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.oguzdogdu.domain.usecase.auth.CheckUserAuthenticatedUseCase
 import com.oguzdogdu.domain.usecase.auth.GetCurrentUserDatasUseCase
 import com.oguzdogdu.domain.usecase.auth.SignOutUseCase
 import com.oguzdogdu.domain.wrapper.Resource
@@ -17,7 +16,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class AuthenticedUserViewModel @Inject constructor(
     private val getCurrentUserDatasUseCase: GetCurrentUserDatasUseCase,
-    private val signOutUseCase: SignOutUseCase,
+    private val signOutUseCase: SignOutUseCase
 ) : ViewModel() {
 
     private val _userState: MutableStateFlow<AuthenticatedUserScreenState?> = MutableStateFlow(null)

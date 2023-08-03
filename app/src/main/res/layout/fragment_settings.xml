@@ -5,20 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.oguzdogdu.wallies.util.Toolbar
+    <com.oguzdogdu.wallies.util.CustomToolbar
         android:id="@+id/toolbarSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:toolbar_title="@string/settings"
-        app:toolbar_title_color="@color/appbar_title_color">
+        app:layout_constraintTop_toTopOf="parent">
 
-    </com.oguzdogdu.wallies.util.Toolbar>
+    </com.oguzdogdu.wallies.util.CustomToolbar>
 
     <LinearLayout
         android:layout_width="match_parent"

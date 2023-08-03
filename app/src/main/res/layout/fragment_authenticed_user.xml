@@ -3,22 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/dp_8">
+    android:layout_height="match_parent">
 
-    <com.oguzdogdu.wallies.util.Toolbar
+    <com.oguzdogdu.wallies.util.CustomToolbar
         android:id="@+id/toolbarProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:toolbar_left_icon="@drawable/back"
-        app:toolbar_left_icon_tint="@color/appbar_title_color"
-        app:toolbar_right_icon="@drawable/wallpaper"
-        app:toolbar_right_icon_tint="@color/appbar_title_color"
-        app:toolbar_title="@string/profile_title"
-        app:toolbar_title_color="@color/appbar_title_color" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonSignOut"
@@ -36,7 +29,9 @@
         android:id="@+id/cardViewUserInfoContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginEnd="8dp"
         android:backgroundTint="@color/background_main_icon"
         app:cardCornerRadius="@dimen/dp_8"
         app:layout_constraintEnd_toEndOf="parent"
@@ -107,7 +102,9 @@
         android:id="@+id/rvUserOptions"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/buttonSignOut"
         app:layout_constraintEnd_toEndOf="parent"

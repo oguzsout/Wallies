@@ -3,6 +3,7 @@ package com.oguzdogdu.wallies.presentation.favorites
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentFavoritesBinding
 import com.oguzdogdu.wallies.presentation.main.MainActivity
@@ -22,7 +23,7 @@ class FavoritesFragment :
 
     override fun initViews() {
         super.initViews()
-        binding.apply {
+        with(binding) {
             recyclerViewFavorites.setupRecyclerView(
                 layoutManager = GridLayoutManager(requireContext(), 2),
                 adapter = favoritesListAdapter,
@@ -40,6 +41,10 @@ class FavoritesFragment :
                             }
                         })
                 }
+            )
+            toolbarFavorites.setTitle(
+                title = getString(R.string.favorites),
+                titleStyleRes = R.style.ToolbarTitleText
             )
         }
     }
