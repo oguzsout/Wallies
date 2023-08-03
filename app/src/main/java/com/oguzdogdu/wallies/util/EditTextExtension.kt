@@ -27,3 +27,15 @@ fun EditText.textChanges(): Flow<CharSequence?> {
         awaitClose { removeTextChangedListener(listener) }
     }.onStart { emit(text) }
 }
+
+fun EditText.filterOnlyLetters(): String {
+    val regex = "[a-zA-ZığüşöçİĞÜŞÖÇ ]".toRegex()
+    var filtered = ""
+    val text = this.text?.toString() ?: ""
+    for (character in text) {
+        if (character.toString().matches(regex)) {
+            filtered += character
+        }
+    }
+    return filtered
+}

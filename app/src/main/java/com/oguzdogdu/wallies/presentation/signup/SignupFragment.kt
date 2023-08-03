@@ -14,21 +14,20 @@ import androidx.lifecycle.lifecycleScope
 import coil.load
 import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentSignupBinding
 import com.oguzdogdu.wallies.util.FieldValidators
 import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SignupFragment : BaseFragment<FragmentSignupBinding>(
-    FragmentSignupBinding::inflate
-) {
+class SignupFragment :
+    BaseFragment<FragmentSignupBinding>(
+        FragmentSignupBinding::inflate
+    ),
+    ActivityCompat.OnRequestPermissionsResultCallback {
     private val viewModel: SignUpViewModel by viewModels()
 
     private val REQUEST_CODE_PERMISSIONS = 1001
@@ -36,12 +35,6 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
         android.Manifest.permission.READ_EXTERNAL_STORAGE,
         android.Manifest.permission.CAMERA
     )
-
-    @Inject
-    lateinit var firebaseFirestore: FirebaseFirestore
-
-    @Inject
-    lateinit var firebaseAuth: FirebaseAuth
 
     override fun initViews() {
         super.initViews()
@@ -56,7 +49,6 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
                 TextFieldValidation(binding.editTextPassword)
             )
         }
-
     }
 
     private fun checkPermissions() {
@@ -78,7 +70,6 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
         }
     }
 
-    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
