@@ -1,12 +1,16 @@
 package com.oguzdogdu.wallies.presentation.signup
 
+import android.Manifest
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts.*
+import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
@@ -26,15 +30,42 @@ import kotlinx.coroutines.launch
 class SignupFragment :
     BaseFragment<FragmentSignupBinding>(
         FragmentSignupBinding::inflate
-    ),
-    ActivityCompat.OnRequestPermissionsResultCallback {
+    ) {
+
     private val viewModel: SignUpViewModel by viewModels()
 
     private val REQUEST_CODE_PERMISSIONS = 1001
-    private val REQUIRED_PERMISSIONS = arrayOf(
-        android.Manifest.permission.READ_EXTERNAL_STORAGE,
-        android.Manifest.permission.CAMERA
-    )
+    private val PERMISSIONS = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        arrayOf(
+            Manifest.permission.READ_MEDIA_IMAGES
+        )
+    } else {
+        arrayOf(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA
+        )
+    }
+
+    private val pickProfilePictureFromGalleryResult =
+        registerForActivityResult(OpenDocument()) { uri: Uri? ->
+            viewModel.setUri(uri)
+            binding.imageViewAddUserPhoto.load(uri) {
+                diskCachePolicy(CachePolicy.DISABLED)
+                transformations(CircleCropTransformation())
+                allowConversionToBitmap(true)
+            }
+        }
+
+    private val singlePhotoPickerLauncher =
+        registerForActivityResult(PickVisualMedia()) { uri ->
+            viewModel.setUri(uri)
+            binding.imageViewAddUserPhoto.load(uri) {
+                diskCachePolicy(CachePolicy.DISABLED)
+                transformations(CircleCropTransformation())
+                allowConversionToBitmap(true)
+            }
+        }
 
     override fun initViews() {
         super.initViews()
@@ -49,53 +80,6 @@ class SignupFragment :
                 TextFieldValidation(binding.editTextPassword)
             )
         }
-    }
-
-    private fun checkPermissions() {
-        val missingPermissions = REQUIRED_PERMISSIONS.filter {
-            ContextCompat.checkSelfPermission(
-                requireContext(),
-                it
-            ) == PackageManager.PERMISSION_DENIED
-        }
-
-        if (missingPermissions.isNotEmpty()) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                missingPermissions.toTypedArray(),
-                REQUEST_CODE_PERMISSIONS
-            )
-        } else {
-            pickImageFromGallery()
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == REQUEST_CODE_PERMISSIONS) {
-            if (grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
-                pickImageFromGallery()
-            }
-        }
-    }
-
-    private val getContent =
-        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            if (uri != null) {
-                viewModel.setUri(uri)
-                binding.imageViewAddUserPhoto.load(uri) {
-                    diskCachePolicy(CachePolicy.DISABLED)
-                    transformations(CircleCropTransformation())
-                    allowConversionToBitmap(true)
-                }
-            }
-        }
-
-    private fun pickImageFromGallery() {
-        getContent.launch("image/*")
     }
 
     override fun initListeners() {
@@ -117,6 +101,35 @@ class SignupFragment :
         }
     }
 
+    private fun checkPermissions() {
+        val missingPermissions = PERMISSIONS.filter {
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                it
+            ) == PackageManager.PERMISSION_DENIED
+        }
+
+        if (missingPermissions.isNotEmpty()) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                missingPermissions.toTypedArray(),
+                REQUEST_CODE_PERMISSIONS
+            )
+        } else {
+            pickImageFromGallery()
+        }
+    }
+
+    private fun pickImageFromGallery() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            singlePhotoPickerLauncher.launch(
+                PickVisualMediaRequest(ImageOnly)
+            )
+        } else {
+            pickProfilePictureFromGalleryResult.launch(arrayOf("image/*"))
+        }
+    }
+
     override fun observeData() {
         super.observeData()
         lifecycleScope.launch {
@@ -133,14 +146,8 @@ class SignupFragment :
                         )
                     }
 
-                    is SignUpState.UserSignUp -> {
-                        requireView().showToast(
-                            context = requireContext(),
-                            message = "Kayıt Başarılı",
-                            duration = Toast.LENGTH_LONG
-                        )
-                        navigateBack()
-                    }
+                    is SignUpState.UserSignUp ->
+                        navigateWithDirection(SignupFragmentDirections.toMain())
 
                     else -> {}
                 }
