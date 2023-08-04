@@ -2,10 +2,12 @@ package com.oguzdogdu.data.repository
 
 import android.R.attr.password
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.oAuthCredential
 import com.google.firebase.firestore.FirebaseFirestore
 import com.oguzdogdu.data.common.Constants.COLLECTION_PATH
 import com.oguzdogdu.data.common.Constants.EMAIL
@@ -14,8 +16,12 @@ import com.oguzdogdu.data.common.Constants.IMAGE
 import com.oguzdogdu.data.common.Constants.NAME
 import com.oguzdogdu.data.common.Constants.SURNAME
 import com.oguzdogdu.domain.repository.Authenticator
+import com.oguzdogdu.domain.wrapper.Resource
+import com.oguzdogdu.domain.wrapper.toResource
 import com.oguzdogdu.network.model.auth.User
 import com.oguzdogdu.network.model.auth.toUserDomain
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -64,11 +70,15 @@ class AuthenticatorImpl @Inject constructor(
         }?.await()
     }
 
-    override suspend fun changeEmail(email: String?) {
-        auth.currentUser?.updateEmail(email.orEmpty())?.await()
-        auth.currentUser?.uid?.let {
-            firebaseFirestore.collection(COLLECTION_PATH).document(it).update(EMAIL, email)
-        }?.await()
+    override suspend fun changeEmail(email: String?, password: String) {
+        val credential =
+            auth.currentUser?.email?.let { EmailAuthProvider.getCredential(it, password) }
+        credential?.let { credential ->
+            auth.currentUser?.reauthenticate(credential)?.await()
+            auth.currentUser?.updateEmail(email.orEmpty())?.await()
+            firebaseFirestore.collection(COLLECTION_PATH).document(auth.currentUser!!.uid)
+                .update(EMAIL, email).await()
+        }
     }
 
     override suspend fun changeProfilePhoto(photo: String?) {

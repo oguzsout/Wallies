@@ -18,7 +18,7 @@ class LoginViewModel @Inject constructor(
     private val signInUseCase: SignInUseCase,
     private val checkUserAuthenticatedUseCase: CheckUserAuthenticatedUseCase
 ) : ViewModel() {
-    private val _loginState: MutableStateFlow<LoginState> = MutableStateFlow(LoginState.Start)
+    private val _loginState: MutableStateFlow<LoginState?> = MutableStateFlow(LoginState.Start)
     val loginState = _loginState.asStateFlow()
 
     private val _signInStatus: MutableStateFlow<Boolean> = MutableStateFlow(false)
