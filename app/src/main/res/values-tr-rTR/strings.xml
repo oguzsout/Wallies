@@ -51,7 +51,7 @@
     <string name="email">Email</string>
     <string name="password">Şifre</string>
     <string name="login">Giriş Yap</string>
-    <string name="not_registered">Henüz Kayıt Olmadıysan, Kayıt Ol!</string>
+    <string name="not_registered">Henüz Kayıt Olmadıysan, </string>
     <string name="profile_title">Profil</string>
     <string name="sign_out">Çıkış Yap</string>
     <string name="welcome_profile">Hoşgeldin</string>
@@ -61,4 +61,12 @@
     <string name="edit_email_title">Emaili Düzenle</string>
     <string name="show_info_edit_infos">Düzenlemek istediğin bir bilgi varsa aşağıdaki seçenekleri kullanabilirsin.</string>
     <string name="send_info">Gönder</string>
+    <string name="edit_email">Emaili Düzenle</string>
+    <string name="change_email_info">E-posta adresini değiştirebilmek ve güvenliğini sağlamak amacıyla şifreni girmen gerekmektedir.</string>
+    <string name="required_field">Bu alan boş bırakılamaz !</string>
+    <string name="invalid_email">Geçersiz email !</string>
+    <string name="password_length">Şifren 6 karakterden az olamaz !</string>
+    <string name="required_at_least_1_digit">En az 1 sayı girmelisin !</string>
+    <string name="password_must_contain_upper_and_lower_case_letters">Şifren büyük ve küçük harf içermeli !</string>
+    <string name="one_special_character_required">Şifren 1 özel karakter içermeli !</string>
 </resources>

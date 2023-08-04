@@ -24,7 +24,6 @@ class EditUserNameSurnameFragment : BaseFragment<FragmentEditUserNameSurnameBind
                 titleStyleRes = DialogTitleText
             )
             toolbar.setLeftIcon(R.drawable.back)
-            toolbar.setRightIcon(R.drawable.info)
         }
     }
 

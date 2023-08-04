@@ -50,7 +50,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
-    <string name="not_registered">Not Registered Yet, Sign Up !</string>
+    <string name="not_registered">Not Registered Yet, </string>
     <string name="profile_title">Profile</string>
     <string name="sign_out">Sign Out</string>
     <string name="welcome_profile">Welcome</string>
@@ -60,4 +60,12 @@
     <string name="edit_email_title">Edit Email</string>
     <string name="show_info_edit_infos">If you have information that you want to edit, you can use the options below.</string>
     <string name="send_info">Send</string>
+    <string name="edit_email">Edit Email</string>
+    <string name="change_email_info">In order to change your e-mail address and ensure its security, you must enter your password.</string>
+    <string name="required_field">This field cannot be left blank !</string>
+    <string name="invalid_email">Invalid email !</string>
+    <string name="password_length">Password can\'t be less than 6 !</string>
+    <string name="required_at_least_1_digit">Required at least 1 digit !</string>
+    <string name="password_must_contain_upper_and_lower_case_letters">Password must contain upper and lower case letters !</string>
+    <string name="one_special_character_required">One special character required !</string>
 </resources>

@@ -1,7 +1,6 @@
 package com.oguzdogdu.wallies.presentation.authenticateduser
 
 import android.text.SpannableStringBuilder
-import android.widget.Toast
 import androidx.core.text.bold
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +15,6 @@ import com.oguzdogdu.wallies.util.TooltipDirection
 import com.oguzdogdu.wallies.util.information
 import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.setupRecyclerView
-import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -91,11 +89,7 @@ class AuthenticedUserFragment : BaseFragment<FragmentAuthenticedUserBinding>(
                 }
 
                 R.string.edit_email_title -> {
-                    requireView().showToast(
-                        requireContext(),
-                        R.string.edit_email_title,
-                        Toast.LENGTH_LONG
-                    )
+                    navigateWithDirection(AuthenticedUserFragmentDirections.toEditEmail())
                 }
             }
         }
@@ -133,12 +127,16 @@ class AuthenticedUserFragment : BaseFragment<FragmentAuthenticedUserBinding>(
 
     private fun setUserComponents(name: String?, surname: String?, profileImage: String?) {
         with(binding) {
-            imageViewProfileImage.load(profileImage) {
-                diskCachePolicy(CachePolicy.DISABLED)
-                transformations(CircleCropTransformation())
-                placeholder(R.drawable.ic_default_avatar)
-                allowConversionToBitmap(true)
+            if (profileImage?.isNotEmpty() == true) {
+                imageViewProfileImage.load(profileImage) {
+                    diskCachePolicy(CachePolicy.DISABLED)
+                    transformations(CircleCropTransformation())
+                    allowConversionToBitmap(true)
+                }
+            } else {
+                imageViewProfileImage.load(R.drawable.ic_default_avatar)
             }
+
             val editedString = SpannableStringBuilder().append(getString(R.string.welcome_profile))
                 .bold { run { append(", $name ") } }
             textViewWelcome.text = editedString

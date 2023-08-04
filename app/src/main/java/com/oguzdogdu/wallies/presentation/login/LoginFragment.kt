@@ -12,10 +12,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentLoginBinding
-import com.oguzdogdu.wallies.util.FieldValidators.isStringContainNumber
-import com.oguzdogdu.wallies.util.FieldValidators.isStringContainSpecialCharacter
-import com.oguzdogdu.wallies.util.FieldValidators.isStringLowerAndUpperCase
-import com.oguzdogdu.wallies.util.FieldValidators.isValidEmail
+import com.oguzdogdu.wallies.util.FieldValidators
 import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,23 +25,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
     override fun initViews() {
         super.initViews()
-        with(binding) {
-            val editedString = SpannableStringBuilder()
-                .append("Not Registered Yet")
-                .bold { run { append(", Sign Up !  ") } }
-            textViewSignUp.text = editedString
-
-            emailEt.addTextChangedListener(TextFieldValidation(binding.emailEt))
-            passET.addTextChangedListener(TextFieldValidation(binding.passET))
-
-            if (emailEt.text.toString().isNotEmpty()) {
-                emailLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM // may be set in xml
-                emailLayout.setEndIconDrawable(R.drawable.ic_clear_text)
-                emailLayout.setEndIconOnClickListener {
-                    emailEt.text?.clear()
-                }
-            }
-        }
+        setUiComponents()
+        setPasswordCleanIcon()
     }
 
     override fun initListeners() {
@@ -57,19 +39,21 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
     private fun sendLoginRequest() {
         binding.button.setOnClickListener {
-            if (validateEmail() && validatePassword()) {
-                viewModel.handleUIEvent(
-                    LoginScreenEvent.UserSignIn(
-                        email = binding.emailEt.text.toString(),
-                        password = binding.passET.text.toString()
-                    )
+            viewModel.handleUIEvent(
+                LoginScreenEvent.UserSignIn(
+                    email = binding.emailEt.text.toString(),
+                    password = binding.passET.text.toString()
                 )
-            }
+            )
         }
     }
 
     override fun observeData() {
         super.observeData()
+        checkLoginState()
+    }
+
+    private fun checkLoginState() {
         lifecycleScope.launch {
             viewModel.loginState.observeInLifecycle(viewLifecycleOwner, observer = { state ->
                 when (state) {
@@ -78,6 +62,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                         message = state.errorMessage,
                         duration = Toast.LENGTH_LONG
                     )
+
                     is LoginState.UserSignIn -> navigateWithDirection(
                         LoginFragmentDirections.toMain()
                     )
@@ -88,73 +73,43 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         }
     }
 
+    private fun setUiComponents() {
+        with(binding) {
+            val editedString = SpannableStringBuilder()
+                .append(getString(R.string.not_registered))
+                .bold { run { append(" ${getString(R.string.sign_up_title)} !  ") } }
+            textViewSignUp.text = editedString
+            emailEt.addTextChangedListener(TextFieldValidation(binding.emailEt))
+            passET.addTextChangedListener(TextFieldValidation(binding.passET))
+
+        }
+    }
+
+    private fun setPasswordCleanIcon() {
+
+        if (binding.emailEt.text.toString().isNotEmpty()) {
+            binding.emailLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM
+            binding.emailLayout.setEndIconDrawable(R.drawable.ic_clear_text)
+            binding.emailLayout.setEndIconOnClickListener {
+                binding.emailEt.text?.clear()
+            }
+        }
+    }
+
     inner class TextFieldValidation(private val view: View) : TextWatcher {
         override fun afterTextChanged(s: Editable?) {}
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             when (view.id) {
-                R.id.emailEt -> validateEmail()
+                R.id.emailEt -> FieldValidators.isValidEmailCheck(
+                    binding.emailEt.text.toString(),
+                    binding.emailLayout
+                )
 
-                R.id.passET -> validatePassword()
-            }
-        }
-    }
-
-    private fun validateEmail(): Boolean {
-        val email = binding.emailEt.text.toString().trim()
-        val emailLayout = binding.emailLayout
-
-        return when {
-            email.isEmpty() -> {
-                emailLayout.error = "Required Field!"
-                emailLayout.requestFocus()
-                false
-            }
-            !isValidEmail(email) -> {
-                emailLayout.error = "Invalid Email!"
-                emailLayout.requestFocus()
-                false
-            }
-            else -> {
-                emailLayout.isErrorEnabled = false
-                true
-            }
-        }
-    }
-
-    private fun validatePassword(): Boolean {
-        val password = binding.passET.text.toString().trim()
-        val passwordLayout = binding.passwordLayout
-
-        return when {
-            password.isEmpty() -> {
-                passwordLayout.error = "Required Field!"
-                binding.passET.requestFocus()
-                false
-            }
-            password.length < 6 -> {
-                passwordLayout.error = "Password can't be less than 6"
-                binding.passET.requestFocus()
-                false
-            }
-            !isStringContainNumber(password) -> {
-                passwordLayout.error = "Required at least 1 digit"
-                binding.passET.requestFocus()
-                false
-            }
-            !isStringLowerAndUpperCase(password) -> {
-                passwordLayout.error = "Password must contain upper and lower case letters"
-                binding.passET.requestFocus()
-                false
-            }
-            !isStringContainSpecialCharacter(password) -> {
-                passwordLayout.error = "One special character required"
-                binding.passET.requestFocus()
-                false
-            }
-            else -> {
-                passwordLayout.isErrorEnabled = false
-                true
+                R.id.passET -> FieldValidators.isValidPasswordCheck(
+                    binding.passET.text.toString(),
+                    binding.passwordLayout
+                )
             }
         }
     }

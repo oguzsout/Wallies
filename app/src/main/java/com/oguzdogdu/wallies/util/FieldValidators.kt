@@ -1,9 +1,67 @@
 package com.oguzdogdu.wallies.util
 
 import android.util.Patterns
+import com.google.android.material.textfield.TextInputLayout
+import com.oguzdogdu.wallies.R
 import java.util.regex.Pattern
 
 object FieldValidators {
+
+    fun isValidEmailCheck(input: String?, layout: TextInputLayout? = null): Boolean {
+        return when {
+            input?.isEmpty() == true -> {
+                layout?.error = layout?.context?.getString(R.string.required_field)
+                false
+            }
+
+            !isValidEmail(input.orEmpty()) -> {
+                layout?.error = layout?.context?.getString(R.string.invalid_email)
+                false
+            }
+
+            else -> {
+                layout?.isErrorEnabled = false
+                true
+            }
+        }
+    }
+
+    fun isValidPasswordCheck(input: String?, layout: TextInputLayout? = null): Boolean {
+        return when {
+            input?.isEmpty() == true -> {
+                layout?.error = layout?.context?.getString(R.string.required_field)
+                false
+            }
+
+            input?.length.orEmpty() < 6 -> {
+                layout?.error = layout?.context?.getString(R.string.password_length)
+                false
+            }
+
+            !isStringContainNumber(input.orEmpty()) -> {
+                layout?.error = layout?.context?.getString(R.string.required_at_least_1_digit)
+                false
+            }
+
+            !isStringLowerAndUpperCase(input.orEmpty()) -> {
+                layout?.error =
+                    layout?.context?.getString(
+                        R.string.password_must_contain_upper_and_lower_case_letters
+                    )
+                false
+            }
+
+            !isStringContainSpecialCharacter(input.orEmpty()) -> {
+                layout?.error = layout?.context?.getString(R.string.one_special_character_required)
+                false
+            }
+
+            else -> {
+                layout?.isErrorEnabled = false
+                true
+            }
+        }
+    }
 
     fun isValidEmail(email: String): Boolean {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches()

@@ -233,6 +233,9 @@
         <action
             android:id="@+id/toLogin"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/toMain"
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/settings"
@@ -270,12 +273,24 @@
         <action
             android:id="@+id/toEditUserName"
             app:destination="@id/editUserNameSurnameFragment" />
+        <action
+            android:id="@+id/toEditEmail"
+            app:destination="@id/editEmailFragment" />
     </fragment>
     <fragment
         android:id="@+id/editUserNameSurnameFragment"
         android:name="com.oguzdogdu.wallies.presentation.authenticateduser.editnameandsurname.EditUserNameSurnameFragment"
         android:label="EditUserNameSurnameFragment"
         tools:layout="@layout/fragment_edit_user_name_surname">
+        <action
+            android:id="@+id/toAuthUser"
+            app:destination="@id/authenticedUserFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editEmailFragment"
+        android:name="com.oguzdogdu.wallies.presentation.authenticateduser.editemail.EditEmailFragment"
+        android:label="EditEmailFragment"
+        tools:layout="@layout/fragment_edit_email">
         <action
             android:id="@+id/toAuthUser"
             app:destination="@id/authenticedUserFragment" />

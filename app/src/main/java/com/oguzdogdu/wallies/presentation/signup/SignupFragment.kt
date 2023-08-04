@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.text.Editable
+import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
@@ -13,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts.*
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.text.bold
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import coil.load
@@ -27,10 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SignupFragment :
-    BaseFragment<FragmentSignupBinding>(
-        FragmentSignupBinding::inflate
-    ) {
+class SignupFragment : BaseFragment<FragmentSignupBinding>(FragmentSignupBinding::inflate) {
 
     private val viewModel: SignUpViewModel by viewModels()
 
@@ -69,17 +68,7 @@ class SignupFragment :
 
     override fun initViews() {
         super.initViews()
-        with(binding) {
-            toolbarSignUp.setTitle(
-                title = getString(R.string.sign_up_title),
-                titleStyleRes = R.style.DialogTitleText
-            )
-            toolbarSignUp.setLeftIcon(R.drawable.back)
-            editTextEmail.addTextChangedListener(TextFieldValidation(binding.editTextEmail))
-            editTextPassword.addTextChangedListener(
-                TextFieldValidation(binding.editTextPassword)
-            )
-        }
+        setUiComponents()
     }
 
     override fun initListeners() {
@@ -132,6 +121,10 @@ class SignupFragment :
 
     override fun observeData() {
         super.observeData()
+        checkSignUpState()
+    }
+
+    private fun checkSignUpState(){
         lifecycleScope.launch {
             viewModel.signUpState.collect { state ->
                 when (state) {
@@ -146,12 +139,27 @@ class SignupFragment :
                         )
                     }
 
-                    is SignUpState.UserSignUp ->
-                        navigateWithDirection(SignupFragmentDirections.toMain())
+                    is SignUpState.UserSignUp -> navigateWithDirection(
+                        SignupFragmentDirections.toMain()
+                    )
 
                     else -> {}
                 }
             }
+        }
+    }
+
+    private fun setUiComponents() {
+        with(binding) {
+            toolbarSignUp.setTitle(
+                title = getString(R.string.sign_up_title),
+                titleStyleRes = R.style.DialogTitleText
+            )
+            toolbarSignUp.setLeftIcon(R.drawable.back)
+            editTextEmail.addTextChangedListener(TextFieldValidation(binding.editTextEmail))
+            editTextPassword.addTextChangedListener(
+                TextFieldValidation(binding.editTextPassword)
+            )
         }
     }
 
@@ -160,68 +168,15 @@ class SignupFragment :
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             when (view.id) {
-                R.id.editTextEmail -> validateEmail()
+                R.id.editTextEmail -> FieldValidators.isValidEmailCheck(
+                    binding.editTextEmail.text.toString(),
+                    binding.emailContainer
+                )
 
-                R.id.editTextPassword -> validatePassword()
-            }
-        }
-    }
-
-    private fun validateEmail(): Boolean {
-        val email = binding.editTextEmail.text.toString().trim()
-        val emailLayout = binding.emailContainer
-
-        return when {
-            email.isEmpty() -> {
-                emailLayout.error = "Required Field!"
-                false
-            }
-
-            !FieldValidators.isValidEmail(email) -> {
-                emailLayout.error = "Invalid Email!"
-                false
-            }
-
-            else -> {
-                emailLayout.isErrorEnabled = false
-                true
-            }
-        }
-    }
-
-    private fun validatePassword(): Boolean {
-        val password = binding.editTextPassword.text.toString().trim()
-        val passwordLayout = binding.passwordContainer
-
-        return when {
-            password.isEmpty() -> {
-                passwordLayout.error = "Required Field!"
-                false
-            }
-
-            password.length < 6 -> {
-                passwordLayout.error = "Password can't be less than 6"
-                false
-            }
-
-            !FieldValidators.isStringContainNumber(password) -> {
-                passwordLayout.error = "Required at least 1 digit"
-                false
-            }
-
-            !FieldValidators.isStringLowerAndUpperCase(password) -> {
-                passwordLayout.error = "Password must contain upper and lower case letters"
-                false
-            }
-
-            !FieldValidators.isStringContainSpecialCharacter(password) -> {
-                passwordLayout.error = "One special character required"
-                false
-            }
-
-            else -> {
-                passwordLayout.isErrorEnabled = false
-                true
+                R.id.editTextPassword -> FieldValidators.isValidPasswordCheck(
+                    binding.editTextPassword.text.toString(),
+                    binding.passwordContainer
+                )
             }
         }
     }
