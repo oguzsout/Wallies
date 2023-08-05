@@ -276,6 +276,9 @@
         <action
             android:id="@+id/toEditEmail"
             app:destination="@id/editEmailFragment" />
+        <action
+            android:id="@+id/toEditProfilePhoto"
+            app:destination="@id/editProfilePhotoDialog" />
     </fragment>
     <fragment
         android:id="@+id/editUserNameSurnameFragment"
@@ -291,6 +294,15 @@
         android:name="com.oguzdogdu.wallies.presentation.authenticateduser.editemail.EditEmailFragment"
         android:label="EditEmailFragment"
         tools:layout="@layout/fragment_edit_email">
+        <action
+            android:id="@+id/toAuthUser"
+            app:destination="@id/authenticedUserFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfilePhotoDialog"
+        android:name="com.oguzdogdu.wallies.presentation.authenticateduser.editprofilephoto.EditProfilePhotoDialog"
+        android:label="EditProfilePhotoDialog"
+        tools:layout="@layout/dialog_edit_profile_photo">
         <action
             android:id="@+id/toAuthUser"
             app:destination="@id/authenticedUserFragment" />
