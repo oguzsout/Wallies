@@ -298,14 +298,18 @@
             android:id="@+id/toAuthUser"
             app:destination="@id/authenticedUserFragment" />
     </fragment>
-    <fragment
+    <dialog
         android:id="@+id/editProfilePhotoDialog"
         android:name="com.oguzdogdu.wallies.presentation.authenticateduser.editprofilephoto.EditProfilePhotoDialog"
         android:label="EditProfilePhotoDialog"
         tools:layout="@layout/dialog_edit_profile_photo">
+        <argument
+            android:name="profilePhoto"
+            app:argType="string"
+            app:nullable="true" />
         <action
             android:id="@+id/toAuthUser"
             app:destination="@id/authenticedUserFragment" />
-    </fragment>
+    </dialog>
 
 </navigation>
