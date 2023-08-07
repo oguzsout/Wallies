@@ -69,4 +69,6 @@
     <string name="required_at_least_1_digit">En az 1 sayı girmelisin !</string>
     <string name="password_must_contain_upper_and_lower_case_letters">Şifren büyük ve küçük harf içermeli !</string>
     <string name="one_special_character_required">Şifren 1 özel karakter içermeli !</string>
+    <string name="forgot_password">Şifremi unuttum</string>
+    <string name="forgot_password_title">Şifre Değiştir</string>
 </resources>

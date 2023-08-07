@@ -12,6 +12,7 @@ interface Authenticator {
     suspend fun changeSurname(surname:String?)
     suspend fun changeEmail(email:String?,password: String)
     suspend fun changeProfilePhoto(photo: String?)
+    suspend fun forgotMyPassword(email: String?)
     suspend fun signIn(userEmail: String, password: String):AuthResult
     suspend fun signOut()
     fun getCurrentUserEmail(): String

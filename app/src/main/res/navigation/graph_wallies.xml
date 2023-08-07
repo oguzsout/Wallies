@@ -223,6 +223,9 @@
         <action
             android:id="@+id/toSignUp"
             app:destination="@id/signupFragment" />
+        <action
+            android:id="@+id/toForgotPassword"
+            app:destination="@id/forgotMyPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/signupFragment"
@@ -311,5 +314,14 @@
             android:id="@+id/toAuthUser"
             app:destination="@id/authenticedUserFragment" />
     </dialog>
+    <fragment
+        android:id="@+id/forgotMyPasswordFragment"
+        android:name="com.oguzdogdu.wallies.presentation.login.forgotmypassword.ForgotMyPasswordFragment"
+        android:label="ForgotMyPasswordFragment"
+        tools:layout="@layout/fragment_forgot_my_password">
+        <action
+            android:id="@+id/toLogin"
+            app:destination="@id/loginFragment" />
+    </fragment>
 
 </navigation>

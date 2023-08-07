@@ -72,6 +72,18 @@
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textViewForgetPassword"
+                style="@style/DetailText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:text="@string/forgot_password">
+
+            </androidx.appcompat.widget.AppCompatTextView>
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button"
                 style="@style/BaseButtonStyle"

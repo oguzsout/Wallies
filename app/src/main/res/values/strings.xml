@@ -68,4 +68,6 @@
     <string name="required_at_least_1_digit">Required at least 1 digit !</string>
     <string name="password_must_contain_upper_and_lower_case_letters">Password must contain upper and lower case letters !</string>
     <string name="one_special_character_required">One special character required !</string>
+    <string name="forgot_password">I forgot my password</string>
+    <string name="forgot_password_title">Change Password</string>
 </resources>

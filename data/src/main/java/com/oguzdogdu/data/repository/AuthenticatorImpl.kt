@@ -87,6 +87,9 @@ class AuthenticatorImpl @Inject constructor(
         }?.await()
     }
 
+    override suspend fun forgotMyPassword(email: String?) {
+        email?.let { auth.sendPasswordResetEmail(it).await() }
+    }
 
     override suspend fun signIn(userEmail: String, password: String):AuthResult {
       return  auth.signInWithEmailAndPassword(userEmail, password).await()
