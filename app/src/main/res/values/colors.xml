@@ -38,6 +38,7 @@
     <color name="white_opacity_40">#66ffffff</color>
     <color name="primary_purple_20">#407E01FD</color>
     <color name="purple_dark">#27004E</color>
+    <color name="row_color">#E3E4E9</color>
 
     <!-- Semantic Colors -->
     <color name="green">#90DB06</color>

@@ -1,6 +1,8 @@
 package com.oguzdogdu.wallies.presentation.authenticateduser
 
 import android.text.SpannableStringBuilder
+import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.text.bold
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,9 +21,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AuthenticedUserFragment : BaseFragment<FragmentAuthenticedUserBinding>(
-    FragmentAuthenticedUserBinding::inflate
-) {
+class AuthenticedUserFragment :
+    BaseFragment<FragmentAuthenticedUserBinding>(
+        FragmentAuthenticedUserBinding::inflate
+    ) {
 
     private val profileOptionsList = listOf(
         ProfileMenu(
@@ -44,13 +47,14 @@ class AuthenticedUserFragment : BaseFragment<FragmentAuthenticedUserBinding>(
     override fun initViews() {
         super.initViews()
         binding.rvUserOptions.setupRecyclerView(
-            layoutManager = LinearLayoutManager(
+            layout = LinearLayoutManager(
                 requireContext(),
                 LinearLayoutManager.VERTICAL,
                 false
             ),
             adapter = userOptionsAdapter,
             hasFixedSize = true,
+            addDivider = true,
             onScroll = {}
         )
         setDataIntoRV()
@@ -63,6 +67,15 @@ class AuthenticedUserFragment : BaseFragment<FragmentAuthenticedUserBinding>(
 
     private fun setDataIntoRV() {
         userOptionsAdapter.submitList(profileOptionsList)
+        userOptionsAdapter.onBindToDivider = { binding, position ->
+            setItemBackground(
+                items = profileOptionsList,
+                itemSize = profileOptionsList.size,
+                adapter = userOptionsAdapter,
+                position = position,
+                binding = binding
+            )
+        }
     }
 
     override fun initListeners() {
@@ -97,6 +110,7 @@ class AuthenticedUserFragment : BaseFragment<FragmentAuthenticedUserBinding>(
 
     override fun observeData() {
         super.observeData()
+        viewModel.handleUiEvents(AuthenticatedUserEvent.FetchUserInfos)
         viewModel.userState.observeInLifecycle(viewLifecycleOwner) { state ->
             when (state) {
                 is AuthenticatedUserScreenState.UserInfos -> {
@@ -105,6 +119,7 @@ class AuthenticedUserFragment : BaseFragment<FragmentAuthenticedUserBinding>(
                         surname = state.surname,
                         profileImage = state.profileImage
                     )
+                    goToChangeProfilePhoto(image = state.profileImage)
                 }
 
                 is AuthenticatedUserScreenState.UserInfoError -> {
@@ -125,6 +140,12 @@ class AuthenticedUserFragment : BaseFragment<FragmentAuthenticedUserBinding>(
         }
     }
 
+    private fun goToChangeProfilePhoto(image: String?) {
+        binding.imageViewEditPhoto.setOnClickListener {
+            navigateWithDirection(AuthenticedUserFragmentDirections.toEditProfilePhoto(image))
+        }
+    }
+
     private fun setUserComponents(name: String?, surname: String?, profileImage: String?) {
         with(binding) {
             if (profileImage?.isNotEmpty() == true) {
@@ -142,6 +163,45 @@ class AuthenticedUserFragment : BaseFragment<FragmentAuthenticedUserBinding>(
             textViewWelcome.text = editedString
             textViewUserName.text = getString(R.string.name_text, name)
             textViewSurname.text = getString(R.string.surname_text, surname)
+        }
+    }
+
+    private fun setItemBackground(
+        itemSize: Int,
+        position: Int,
+        items: List<ProfileMenu>,
+        adapter: ProfileOptionsAdapter,
+        binding: View
+    ) {
+        adapter.currentList.indexOf(items[position])
+
+        when (itemSize) {
+            1 -> binding.background = ContextCompat.getDrawable(
+                binding.context,
+                R.drawable.bg_clickable_all_radius_10
+            )
+            else -> {
+                when (position) {
+                    0 -> {
+                        binding.background = ContextCompat.getDrawable(
+                            binding.context,
+                            R.drawable.bg_clickable_top_radius_10
+                        )
+                    }
+
+                    itemSize - 1 -> binding.background = ContextCompat.getDrawable(
+                        binding.context,
+                        R.drawable.bg_clickable_bottom_radius_10
+                    )
+
+                    else -> {
+                        binding.background = ContextCompat.getDrawable(
+                            binding.context,
+                            R.drawable.bg_clickable_no_radius
+                        )
+                    }
+                }
+            }
         }
     }
 }

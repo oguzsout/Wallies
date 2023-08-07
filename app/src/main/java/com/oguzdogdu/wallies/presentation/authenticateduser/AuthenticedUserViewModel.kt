@@ -22,12 +22,11 @@ class AuthenticedUserViewModel @Inject constructor(
     private val _userState: MutableStateFlow<AuthenticatedUserScreenState?> = MutableStateFlow(null)
     val userState = _userState.asStateFlow()
 
-    init {
-        fetchUserDatas()
-    }
-
     fun handleUiEvents(event: AuthenticatedUserEvent) {
         when (event) {
+            is AuthenticatedUserEvent.FetchUserInfos -> {
+                fetchUserDatas()
+            }
             is AuthenticatedUserEvent.SignOut -> {
                 signOut()
             }
@@ -56,6 +55,8 @@ class AuthenticedUserViewModel @Inject constructor(
                                 profileImage = result.data.image
                             )
                         }
+
+                    else -> {}
                 }
             }
         }

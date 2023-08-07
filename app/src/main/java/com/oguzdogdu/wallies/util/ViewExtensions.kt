@@ -2,6 +2,7 @@ package com.oguzdogdu.wallies.util
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.view.View
@@ -16,39 +17,51 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.google.android.material.snackbar.Snackbar
 import com.oguzdogdu.wallies.R
 
-fun RecyclerView.addItemDivider() {
-    val itemDivider = DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
-    itemDivider.setDrawable(
-        GradientDrawable().apply {
-            shape = GradientDrawable.RECTANGLE
-            setColor(
-                ContextCompat.getColor(
-                    context,
-                    R.color.background
-                )
-            )
-            setSize(
-                resources.getDimensionPixelSize(R.dimen.dp_1),
-                resources.getDimensionPixelSize(R.dimen.dp_1)
-            )
-        }
-    )
-    this.addItemDecoration(itemDivider)
-}
-
 inline fun RecyclerView.setupRecyclerView(
-    layoutManager: RecyclerView.LayoutManager,
+    layout: RecyclerView.LayoutManager? = null,
     adapter: RecyclerView.Adapter<*>,
     hasFixedSize: Boolean = true,
     itemAnimator: RecyclerView.ItemAnimator? = null,
     itemDecoration: RecyclerView.ItemDecoration? = null,
+    addDivider: Boolean = false,
     crossinline onScroll: () -> Unit
 ) {
-    this.layoutManager = layoutManager
+    this.layoutManager = layout
     this.adapter = adapter
     setHasFixedSize(hasFixedSize)
     itemAnimator?.let { this.itemAnimator = it }
     itemDecoration?.let { addItemDecoration(it) }
+    if (addDivider) {
+        val itemDivider = DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
+        itemDivider.setDrawable(
+            GradientDrawable().apply {
+                shape = GradientDrawable.RECTANGLE
+                setColor(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.dim_gray
+                    )
+                )
+                setSize(
+                    resources.getDimensionPixelSize(R.dimen.dp_1),
+                    resources.getDimensionPixelSize(R.dimen.dp_1)
+                )
+                addItemDecoration(object : RecyclerView.ItemDecoration() {
+                    override fun getItemOffsets(
+                        outRect: Rect,
+                        view: View,
+                        parent: RecyclerView,
+                        state: RecyclerView.State
+                    ) {
+                        val position = parent.getChildAdapterPosition(view)
+                        if (position != parent.adapter!!.itemCount - 1) {
+                            itemDivider.getItemOffsets(outRect, view, parent, state)
+                        }
+                    }
+                })
+            }
+        )
+    }
     onScroll()
 }
 

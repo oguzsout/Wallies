@@ -23,23 +23,22 @@ class CollectionsFragment :
         super.initViews()
         with(binding) {
             recyclerViewCollections.setupRecyclerView(
-                layoutManager = GridLayoutManager(requireContext(), 3),
+                layout = GridLayoutManager(requireContext(), 3),
                 adapter = collectionListAdapter,
-                true,
-                onScroll = {
-                    recyclerViewCollections.addOnScrollListener(object :
-                            RecyclerView.OnScrollListener() {
-                            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                                super.onScrolled(recyclerView, dx, dy)
-                                if (dy > 0) {
-                                    (activity as MainActivity).slideDown()
-                                } else if (dy < 0) {
-                                    (activity as MainActivity).slideUp()
-                                }
+                true
+            ) {
+                recyclerViewCollections.addOnScrollListener(object :
+                        RecyclerView.OnScrollListener() {
+                        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                            super.onScrolled(recyclerView, dx, dy)
+                            if (dy > 0) {
+                                (activity as MainActivity).slideDown()
+                            } else if (dy < 0) {
+                                (activity as MainActivity).slideUp()
                             }
-                        })
-                }
-            )
+                        }
+                    })
+            }
             toolbarCollection.setTitle(
                 title = getString(R.string.collections_screen_title_text),
                 titleStyleRes = R.style.ToolbarTitleText
