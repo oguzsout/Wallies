@@ -70,4 +70,5 @@
     <string name="one_special_character_required">One special character required !</string>
     <string name="forgot_password">I forgot my password</string>
     <string name="forgot_password_title">Change Password</string>
+    <string name="password_change">Your Password Has Been Changed</string>
 </resources>

@@ -282,6 +282,9 @@
         <action
             android:id="@+id/toEditProfilePhoto"
             app:destination="@id/editProfilePhotoDialog" />
+        <action
+            android:id="@+id/toUpdatePassword"
+            app:destination="@id/editPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/editUserNameSurnameFragment"
@@ -322,6 +325,15 @@
         <action
             android:id="@+id/toLogin"
             app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editPasswordFragment"
+        android:name="com.oguzdogdu.wallies.presentation.authenticateduser.editpassword.EditPasswordFragment"
+        android:label="EditPasswordFragment"
+        tools:layout="@layout/fragment_edit_password">
+        <action
+            android:id="@+id/toAuthUser"
+            app:destination="@id/authenticedUserFragment" />
     </fragment>
 
 </navigation>

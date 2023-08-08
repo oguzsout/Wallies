@@ -30,16 +30,16 @@ class FavoritesFragment :
                 true,
                 onScroll = {
                     recyclerViewFavorites.addOnScrollListener(object :
-                        RecyclerView.OnScrollListener() {
-                        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                            super.onScrolled(recyclerView, dx, dy)
-                            if (dy > 0) {
-                                (activity as MainActivity).slideDown()
-                            } else if (dy < 0) {
-                                (activity as MainActivity).slideUp()
+                            RecyclerView.OnScrollListener() {
+                            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                                super.onScrolled(recyclerView, dx, dy)
+                                if (dy > 0) {
+                                    (activity as MainActivity).slideDown()
+                                } else if (dy < 0) {
+                                    (activity as MainActivity).slideUp()
+                                }
                             }
-                        }
-                    })
+                        })
                 }
             )
             toolbarFavorites.setTitle(

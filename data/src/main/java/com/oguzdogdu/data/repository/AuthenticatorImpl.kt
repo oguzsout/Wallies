@@ -1,13 +1,11 @@
 package com.oguzdogdu.data.repository
 
-import android.R.attr.password
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.oAuthCredential
 import com.google.firebase.firestore.FirebaseFirestore
 import com.oguzdogdu.data.common.Constants.COLLECTION_PATH
 import com.oguzdogdu.data.common.Constants.EMAIL
@@ -90,6 +88,13 @@ class AuthenticatorImpl @Inject constructor(
     override suspend fun forgotMyPassword(email: String?) {
         email?.let { auth.sendPasswordResetEmail(it).await() }
     }
+
+    override suspend fun updatePassword(password: String?) : Flow<Resource<Task<Void>?>> = flow {
+        password?.let { newPassword ->
+            val updateTask = auth.currentUser?.updatePassword(newPassword)
+            emit(updateTask)
+        }
+    }.toResource()
 
     override suspend fun signIn(userEmail: String, password: String):AuthResult {
       return  auth.signInWithEmailAndPassword(userEmail, password).await()

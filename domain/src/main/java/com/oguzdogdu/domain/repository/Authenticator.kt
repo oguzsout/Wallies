@@ -1,5 +1,6 @@
 package com.oguzdogdu.domain.repository
 
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.oguzdogdu.domain.model.auth.User
 import com.oguzdogdu.domain.wrapper.Resource
@@ -13,6 +14,7 @@ interface Authenticator {
     suspend fun changeEmail(email:String?,password: String)
     suspend fun changeProfilePhoto(photo: String?)
     suspend fun forgotMyPassword(email: String?)
+    suspend fun updatePassword(password: String?): Flow<Resource<Task<Void>?>>
     suspend fun signIn(userEmail: String, password: String):AuthResult
     suspend fun signOut()
     fun getCurrentUserEmail(): String

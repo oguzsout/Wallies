@@ -71,4 +71,5 @@
     <string name="one_special_character_required">Şifren 1 özel karakter içermeli !</string>
     <string name="forgot_password">Şifremi unuttum</string>
     <string name="forgot_password_title">Şifre Değiştir</string>
+    <string name="password_change">Şifren Değiştirildi</string>
 </resources>

@@ -34,6 +34,10 @@ class AuthenticedUserFragment :
         ProfileMenu(
             iconRes = R.drawable.ic_email,
             titleRes = R.string.edit_email_title
+        ),
+        ProfileMenu(
+            iconRes = R.drawable.password,
+            titleRes = R.string.forgot_password_title
         )
     )
 
@@ -97,13 +101,17 @@ class AuthenticedUserFragment :
         }
         userOptionsAdapter.setOnItemClickListener { option ->
             when (option?.titleRes) {
-                R.string.edit_user_info_title -> {
-                    navigateWithDirection(AuthenticedUserFragmentDirections.toEditUserName())
-                }
+                R.string.edit_user_info_title -> navigateWithDirection(
+                    AuthenticedUserFragmentDirections.toEditUserName()
+                )
 
-                R.string.edit_email_title -> {
-                    navigateWithDirection(AuthenticedUserFragmentDirections.toEditEmail())
-                }
+                R.string.edit_email_title -> navigateWithDirection(
+                    AuthenticedUserFragmentDirections.toEditEmail()
+                )
+
+                R.string.forgot_password_title -> navigateWithDirection(
+                    AuthenticedUserFragmentDirections.toUpdatePassword()
+                )
             }
         }
     }
