@@ -35,6 +35,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         binding.textViewSignUp.setOnClickListener {
             navigateWithDirection(LoginFragmentDirections.toSignUp())
         }
+        binding.textViewForgetPassword.setOnClickListener {
+            navigateWithDirection(LoginFragmentDirections.toForgotPassword())
+        }
     }
 
     private fun sendLoginRequest() {
@@ -81,12 +84,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
             textViewSignUp.text = editedString
             emailEt.addTextChangedListener(TextFieldValidation(binding.emailEt))
             passET.addTextChangedListener(TextFieldValidation(binding.passET))
-
         }
     }
 
     private fun setPasswordCleanIcon() {
-
         if (binding.emailEt.text.toString().isNotEmpty()) {
             binding.emailLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM
             binding.emailLayout.setEndIconDrawable(R.drawable.ic_clear_text)

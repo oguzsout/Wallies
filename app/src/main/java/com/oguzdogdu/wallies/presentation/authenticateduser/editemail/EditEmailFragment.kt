@@ -73,6 +73,7 @@ class EditEmailFragment : BaseFragment<FragmentEditEmailBinding>(FragmentEditEma
 
     private fun setDataToUiComponent(email: String?) {
         binding.editTextEmail.hint = "Email: $email"
+        binding.editTextPassword.hint = getString(R.string.password)
     }
 
     private fun changeUserEmail() {

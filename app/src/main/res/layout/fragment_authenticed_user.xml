@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -75,6 +74,15 @@
                 android:layout_marginTop="@dimen/dp_16"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewWelcome" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageViewEditPhoto"
+                android:layout_width="@dimen/dp_12"
+                android:layout_height="@dimen/dp_12"
+                android:background="@drawable/bg_small_button"
+                app:layout_constraintEnd_toEndOf="@+id/imageViewProfileImage"
+                app:layout_constraintTop_toTopOf="@+id/imageViewProfileImage"
+                app:srcCompat="@drawable/ic_edit_photo" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textViewUserName"

@@ -25,7 +25,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
         super.initViews()
         binding.apply {
             recyclerViewSearch.setupRecyclerView(
-                layoutManager = GridLayoutManager(requireContext(), 2),
+                layout = GridLayoutManager(requireContext(), 2),
                 adapter = searchWallpaperAdapter,
                 true,
                 onScroll = {}

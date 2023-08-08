@@ -62,7 +62,7 @@ inline fun RecyclerView.setupRecyclerView(
             }
         )
     }
-    onScroll()
+    onScroll.invoke()
 }
 
 @SuppressLint("SuspiciousIndentation", "ResourceType")

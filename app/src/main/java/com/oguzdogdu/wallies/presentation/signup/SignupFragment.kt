@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.text.Editable
-import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
@@ -14,7 +13,6 @@ import androidx.activity.result.contract.ActivityResultContracts.*
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.text.bold
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import coil.load
@@ -124,7 +122,7 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(FragmentSignupBinding
         checkSignUpState()
     }
 
-    private fun checkSignUpState(){
+    private fun checkSignUpState() {
         lifecycleScope.launch {
             viewModel.signUpState.collect { state ->
                 when (state) {

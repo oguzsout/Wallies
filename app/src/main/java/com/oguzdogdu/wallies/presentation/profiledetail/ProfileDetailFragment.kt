@@ -56,7 +56,7 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
     override fun initViews() {
         super.initViews()
         binding.rvUserPhotos.setupRecyclerView(
-            layoutManager = GridLayoutManager(requireContext(), 2),
+            layout = GridLayoutManager(requireContext(), 2),
             adapter = usersPhotosAdapter,
             true,
             onScroll = {}

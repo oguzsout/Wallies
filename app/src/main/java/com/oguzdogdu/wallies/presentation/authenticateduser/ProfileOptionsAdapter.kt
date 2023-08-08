@@ -1,6 +1,7 @@
 package com.oguzdogdu.wallies.presentation.authenticateduser
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -19,6 +20,8 @@ class ProfileOptionsAdapter :
         onItemClickListener = listener
     }
 
+    var onBindToDivider: ((binding: View, position: Int) -> Unit)? = null
+
     inner class ProfileOptionsViewHolder(private val binding: ItemOptionalMenuBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(profile: ProfileMenu) {
@@ -30,6 +33,7 @@ class ProfileOptionsAdapter :
                         it(profile)
                     }
                 }
+                onBindToDivider?.invoke(binding.root, layoutPosition)
             }
         }
     }

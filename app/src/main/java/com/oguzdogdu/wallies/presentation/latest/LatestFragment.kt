@@ -25,23 +25,22 @@ class LatestFragment : BaseFragment<FragmentLatestBinding>(FragmentLatestBinding
         super.initViews()
         binding.apply {
             recyclerViewWallpapers.setupRecyclerView(
-                layoutManager = GridLayoutManager(requireContext(), 3),
+                layout = GridLayoutManager(requireContext(), 3),
                 adapter = latestWallpaperAdapter,
-                true,
-                onScroll = {
-                    recyclerViewWallpapers.addOnScrollListener(object :
-                            RecyclerView.OnScrollListener() {
-                            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                                super.onScrolled(recyclerView, dx, dy)
-                                if (dy > 0) {
-                                    (activity as MainActivity).slideDown()
-                                } else if (dy < 0) {
-                                    (activity as MainActivity).slideUp()
-                                }
+                true
+            ) {
+                recyclerViewWallpapers.addOnScrollListener(object :
+                        RecyclerView.OnScrollListener() {
+                        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                            super.onScrolled(recyclerView, dx, dy)
+                            if (dy > 0) {
+                                (activity as MainActivity).slideDown()
+                            } else if (dy < 0) {
+                                (activity as MainActivity).slideUp()
                             }
-                        })
-                }
-            )
+                        }
+                    })
+            }
         }
     }
 
