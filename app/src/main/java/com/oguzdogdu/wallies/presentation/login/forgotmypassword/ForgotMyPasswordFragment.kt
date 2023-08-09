@@ -32,7 +32,11 @@ class ForgotMyPasswordFragment : BaseFragment<FragmentForgotMyPasswordBinding>(
     override fun initListeners() {
         super.initListeners()
         binding.button.setOnClickListener {
-            viewModel.sendNewPasswordRequest(binding.editTextSetEmail.text.toString())
+            viewModel.handleUIEvent(
+                ForgotPasswordScreenEvent.SendEmail(
+                    email = binding.editTextSetEmail.text.toString()
+                )
+            )
         }
         binding.toolbarForgotPassword.setLeftIconClickListener {
             navigateWithDirection(ForgotMyPasswordFragmentDirections.toLogin())
