@@ -119,6 +119,7 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(FragmentSignupBinding
 
     override fun observeData() {
         super.observeData()
+        viewModel.handleUIEvent(SignUpScreenEvent.ButtonState)
         checkSignUpState()
     }
 
@@ -140,6 +141,9 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(FragmentSignupBinding
                     is SignUpState.UserSignUp -> navigateWithDirection(
                         SignupFragmentDirections.toMain()
                     )
+                    is SignUpState.ButtonEnabled -> {
+                        binding.buttonSignUp.isEnabled = state.isEnabled
+                    }
 
                     else -> {}
                 }
@@ -166,15 +170,23 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(FragmentSignupBinding
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             when (view.id) {
-                R.id.editTextEmail -> FieldValidators.isValidEmailCheck(
-                    binding.editTextEmail.text.toString(),
-                    binding.emailContainer
-                )
+                R.id.editTextEmail -> {
+                    viewModel.setEmail(s.toString())
+                    viewModel.handleUIEvent(SignUpScreenEvent.ButtonState)
+                    FieldValidators.isValidEmailCheck(
+                        binding.editTextEmail.text.toString(),
+                        binding.emailContainer
+                    )
+                }
 
-                R.id.editTextPassword -> FieldValidators.isValidPasswordCheck(
-                    binding.editTextPassword.text.toString(),
-                    binding.passwordContainer
-                )
+                R.id.editTextPassword -> {
+                    viewModel.setPassword(s.toString())
+                    viewModel.handleUIEvent(SignUpScreenEvent.ButtonState)
+                    FieldValidators.isValidPasswordCheck(
+                        binding.editTextPassword.text.toString(),
+                        binding.passwordContainer
+                    )
+                }
             }
         }
     }

@@ -7,6 +7,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.oguzdogdu.data.common.Constants
 import com.oguzdogdu.domain.usecase.auth.SignUpUseCase
 import com.oguzdogdu.domain.wrapper.Resource
+import com.oguzdogdu.wallies.util.FieldValidators
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -26,6 +27,43 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
 
     fun setUri(newUri: Uri?) {
         uri = newUri
+    }
+
+    private val userEmail = MutableStateFlow("")
+
+    private val userPassword = MutableStateFlow("")
+
+    fun handleUIEvent(event: SignUpScreenEvent) {
+        when (event) {
+            is SignUpScreenEvent.ButtonState -> {
+                buttonStateUpdate()
+            }
+        }
+    }
+
+    fun setEmail(email: String?) {
+        email?.let {
+            userEmail.value = it
+        }
+    }
+
+    fun setPassword(password: String?) {
+        password?.let {
+            userPassword.value = it
+        }
+    }
+
+    private fun checkButtonState(): Boolean {
+        return FieldValidators.isValidEmailCheck(input = userEmail.value) && FieldValidators.isValidPasswordCheck(
+            input = userPassword.value
+        )
+    }
+
+    private fun buttonStateUpdate() {
+        viewModelScope.launch {
+            val state = checkButtonState()
+            _signUpState.update { SignUpState.ButtonEnabled(isEnabled = state) }
+        }
     }
 
     fun userSignUp(
