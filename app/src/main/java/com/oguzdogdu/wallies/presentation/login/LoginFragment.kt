@@ -53,6 +53,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
     override fun observeData() {
         super.observeData()
+        viewModel.handleUIEvent(LoginScreenEvent.ButtonState)
         checkLoginState()
     }
 
@@ -69,6 +70,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                     is LoginState.UserSignIn -> navigateWithDirection(
                         LoginFragmentDirections.toMain()
                     )
+                    is LoginState.ButtonEnabled -> {
+                        binding.button.isEnabled = state.isEnabled
+                    }
 
                     else -> {}
                 }
@@ -102,15 +106,23 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             when (view.id) {
-                R.id.emailEt -> FieldValidators.isValidEmailCheck(
-                    binding.emailEt.text.toString(),
-                    binding.emailLayout
-                )
+                R.id.emailEt -> {
+                    viewModel.setEmail(s.toString())
+                    viewModel.handleUIEvent(LoginScreenEvent.ButtonState)
+                    FieldValidators.isValidEmailCheck(
+                        binding.emailEt.text.toString(),
+                        binding.emailLayout
+                    )
+                }
 
-                R.id.passET -> FieldValidators.isValidPasswordCheck(
-                    binding.passET.text.toString(),
-                    binding.passwordLayout
-                )
+                R.id.passET -> {
+                    viewModel.setPassword(s.toString())
+                    viewModel.handleUIEvent(LoginScreenEvent.ButtonState)
+                    FieldValidators.isValidPasswordCheck(
+                        binding.passET.text.toString(),
+                        binding.passwordLayout
+                    )
+                }
             }
         }
     }

@@ -71,4 +71,5 @@
     <string name="forgot_password">I forgot my password</string>
     <string name="forgot_password_title">Change Password</string>
     <string name="password_change">Your Password Has Been Changed</string>
+    <string name="email_send">Password recovery mail has been sent</string>
 </resources>

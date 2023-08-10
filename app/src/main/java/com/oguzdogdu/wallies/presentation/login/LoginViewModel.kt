@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.oguzdogdu.domain.usecase.auth.CheckUserAuthenticatedUseCase
 import com.oguzdogdu.domain.usecase.auth.SignInUseCase
 import com.oguzdogdu.domain.wrapper.Resource
+import com.oguzdogdu.wallies.util.FieldValidators
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,11 +19,13 @@ class LoginViewModel @Inject constructor(
     private val signInUseCase: SignInUseCase,
     private val checkUserAuthenticatedUseCase: CheckUserAuthenticatedUseCase
 ) : ViewModel() {
+
     private val _loginState: MutableStateFlow<LoginState?> = MutableStateFlow(LoginState.Start)
     val loginState = _loginState.asStateFlow()
 
-    private val _signInStatus: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val signInStatus = _signInStatus.asStateFlow()
+    private val userEmail = MutableStateFlow("")
+
+    private val userPassword = MutableStateFlow("")
 
     init {
         checkSignIn()
@@ -30,9 +33,37 @@ class LoginViewModel @Inject constructor(
 
     fun handleUIEvent(event: LoginScreenEvent) {
         when (event) {
+            is LoginScreenEvent.ButtonState -> {
+                buttonStateUpdate()
+            }
             is LoginScreenEvent.UserSignIn -> {
                 signIn(userEmail = event.email, password = event.password)
             }
+        }
+    }
+
+    fun setEmail(email: String?) {
+        email?.let {
+            userEmail.value = it
+        }
+    }
+
+    fun setPassword(password: String?) {
+        password?.let {
+            userPassword.value = it
+        }
+    }
+
+    private fun checkButtonState(): Boolean {
+        return FieldValidators.isValidEmailCheck(input = userEmail.value) && FieldValidators.isValidPasswordCheck(
+            input = userPassword.value
+        )
+    }
+
+    private fun buttonStateUpdate() {
+        viewModelScope.launch {
+            val state = checkButtonState()
+            _loginState.update { LoginState.ButtonEnabled(isEnabled = state) }
         }
     }
 
