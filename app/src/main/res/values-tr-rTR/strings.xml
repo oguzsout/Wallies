@@ -73,4 +73,8 @@
     <string name="forgot_password_title">Şifre Değiştir</string>
     <string name="password_change">Şifren Değiştirildi</string>
     <string name="email_send">Şifre sıfırlama maili gönderildi</string>
+    <string name="en_language">İngilizce</string>
+    <string name="tr_language">Türkçe</string>
+    <string name="ok">Tamam</string>
+    <string name="cancel">İptal</string>
 </resources>

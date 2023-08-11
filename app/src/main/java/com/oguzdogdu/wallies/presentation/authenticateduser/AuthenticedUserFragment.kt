@@ -13,6 +13,7 @@ import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentAuthenticedUserBinding
 import com.oguzdogdu.wallies.util.ITooltipUtils
+import com.oguzdogdu.wallies.util.OptionLists
 import com.oguzdogdu.wallies.util.TooltipDirection
 import com.oguzdogdu.wallies.util.information
 import com.oguzdogdu.wallies.util.observeInLifecycle
@@ -25,21 +26,6 @@ class AuthenticedUserFragment :
     BaseFragment<FragmentAuthenticedUserBinding>(
         FragmentAuthenticedUserBinding::inflate
     ) {
-
-    private val profileOptionsList = listOf(
-        ProfileMenu(
-            iconRes = R.drawable.ic_person,
-            titleRes = R.string.edit_user_info_title
-        ),
-        ProfileMenu(
-            iconRes = R.drawable.ic_email,
-            titleRes = R.string.edit_email_title
-        ),
-        ProfileMenu(
-            iconRes = R.drawable.password,
-            titleRes = R.string.forgot_password_title
-        )
-    )
 
     @Inject
     lateinit var tooltip: ITooltipUtils
@@ -70,11 +56,12 @@ class AuthenticedUserFragment :
     }
 
     private fun setDataIntoRV() {
-        userOptionsAdapter.submitList(profileOptionsList)
+        val optionList = OptionLists.profileOptionsList
+        userOptionsAdapter.submitList(optionList)
         userOptionsAdapter.onBindToDivider = { binding, position ->
             setItemBackground(
-                items = profileOptionsList,
-                itemSize = profileOptionsList.size,
+                items = optionList,
+                itemSize = optionList.size,
                 adapter = userOptionsAdapter,
                 position = position,
                 binding = binding

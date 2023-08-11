@@ -4,36 +4,36 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_64">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imageViewOptionalIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_16"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageViewOptionalIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textViewOptionalDesc"
-                style="@style/DetailText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_24"
-                app:layout_constraintBottom_toBottomOf="@+id/imageViewOptionalIcon"
-                app:layout_constraintStart_toEndOf="@+id/imageViewOptionalIcon"
-                app:layout_constraintTop_toTopOf="@+id/imageViewOptionalIcon">
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewOptionalDesc"
+        style="@style/DialogTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_24"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewOptionalIcon"
+        app:layout_constraintStart_toEndOf="@+id/imageViewOptionalIcon"
+        app:layout_constraintTop_toTopOf="@+id/imageViewOptionalIcon">
 
-            </androidx.appcompat.widget.AppCompatTextView>
+    </androidx.appcompat.widget.AppCompatTextView>
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imageViewRight"
-                android:layout_width="@dimen/dp_8"
-                android:layout_height="@dimen/dp_12"
-                android:layout_marginVertical="@dimen/dp_16"
-                android:layout_marginEnd="@dimen/dp_16"
-                android:src="@drawable/ic_arrow"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageViewRight"
+        android:layout_width="@dimen/dp_8"
+        android:layout_height="@dimen/dp_12"
+        android:layout_marginVertical="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:src="@drawable/ic_arrow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

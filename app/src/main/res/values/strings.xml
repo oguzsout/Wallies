@@ -72,4 +72,8 @@
     <string name="forgot_password_title">Change Password</string>
     <string name="password_change">Your Password Has Been Changed</string>
     <string name="email_send">Password recovery mail has been sent</string>
+    <string name="en_language">English</string>
+    <string name="tr_language">Turkish</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
 </resources>

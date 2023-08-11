@@ -1,13 +1,19 @@
 package com.oguzdogdu.wallies.presentation.settings
 
+import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.oguzdogdu.wallies.BuildConfig
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentSettingsBinding
+import com.oguzdogdu.wallies.presentation.authenticateduser.ProfileMenu
+import com.oguzdogdu.wallies.util.OptionLists
 import com.oguzdogdu.wallies.util.observeInLifecycle
+import com.oguzdogdu.wallies.util.setupRecyclerView
 import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -16,6 +22,8 @@ import kotlinx.coroutines.launch
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsBinding::inflate) {
 
     private val viewModel: SettingsViewModel by activityViewModels()
+
+    private val appOptionsAdapter by lazy { SettingsAdapter() }
 
     private lateinit var selectedTheme: String
 
@@ -34,6 +42,18 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
 
     override fun initViews() {
         super.initViews()
+        binding.rvAppOptions.setupRecyclerView(
+            layout = LinearLayoutManager(
+                requireContext(),
+                LinearLayoutManager.VERTICAL,
+                false
+            ),
+            adapter = appOptionsAdapter,
+            hasFixedSize = true,
+            addDivider = true,
+            onScroll = {}
+        )
+        setDataIntoRV()
         binding.toolbarSettings.setTitle(
             title = getString(R.string.settings),
             titleStyleRes = R.style.ToolbarTitleText
@@ -41,17 +61,33 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
         binding.textViewBuildVersion.text = "${resources.getString(R.string.version)} ${BuildConfig.VERSION_NAME}"
     }
 
+    private fun setDataIntoRV() {
+        val optionList = OptionLists.appOptionsList
+        appOptionsAdapter.submitList(optionList)
+        appOptionsAdapter.onBindToDivider = { binding, position ->
+            setItemBackground(
+                items = optionList,
+                itemSize = optionList.size,
+                adapter = appOptionsAdapter,
+                position = position,
+                binding = binding
+            )
+        }
+    }
+
     override fun initListeners() {
         super.initListeners()
-        binding.cardViewThemeContainer.setOnClickListener {
-            showRadioConfirmationDialog()
-        }
-        binding.cardViewLanguageContainer.setOnClickListener {
-            showLanguageConfirmationDialog()
-        }
-        binding.cardViewCacheContainer.setOnClickListener {
-            requireContext().filesDir.deleteRecursively()
-            requireView().showToast(requireContext(), R.string.cache_state_string)
+        appOptionsAdapter.setOnItemClickListener { option ->
+            when (option?.titleRes) {
+                R.string.theme_text -> showRadioConfirmationDialog()
+
+                R.string.language_title_text -> showLanguageConfirmationDialog()
+
+                R.string.clear_cache_title -> {
+                    requireContext().filesDir.deleteRecursively()
+                    requireView().showToast(requireContext(), R.string.cache_state_string)
+                }
+            }
         }
     }
 
@@ -62,10 +98,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
                 selectedTheme = themes[which]
                 viewModel.handleUIEvent(SettingsEvent.SetNewTheme(value = selectedTheme))
             }
-            .setPositiveButton("Ok") { dialog, which ->
+            .setPositiveButton(getString(R.string.ok)) { dialog, which ->
                 viewModel.handleUIEvent(SettingsEvent.ThemeChanged)
             }
-            .setNegativeButton("Cancel") { dialog, which ->
+            .setNegativeButton(getString(R.string.cancel)) { dialog, which ->
                 dialog.dismiss()
             }
             .create()
@@ -80,11 +116,11 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
                 selectedLanguages = language[which]
                 viewModel.handleUIEvent(SettingsEvent.SetNewLanguage(value = selectedLanguages))
             }
-            .setPositiveButton("Ok") { dialog, which ->
+            .setPositiveButton(getString(R.string.ok)) { dialog, which ->
                 viewModel.handleUIEvent(SettingsEvent.LanguageChanged)
                 requireActivity().recreate()
             }
-            .setNegativeButton("Cancel") { dialog, which ->
+            .setNegativeButton(getString(R.string.cancel)) { dialog, which ->
                 dialog.dismiss()
             }
             .create()
@@ -102,7 +138,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
         lifecycleScope.launch {
             viewModel.themeState.observeInLifecycle(viewLifecycleOwner, observer = { theme ->
                 selectedTheme = theme?.value?.ifBlank { themes[selectedThemeIndex] }.toString()
-                binding.textViewChoisedTheme.text = selectedTheme
             })
         }
     }
@@ -111,18 +146,46 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
         lifecycleScope.launch {
             viewModel.languageState.observeInLifecycle(viewLifecycleOwner, observer = { lang ->
                 selectedLanguages = lang?.value?.ifBlank { language[selectedLanguageIndex] }.toString()
-                if (lang?.value?.isNotEmpty() == true) {
-                    when (lang.value) {
-                        LanguageValues.English.title -> {
-                            binding.textViewChoisedLanguage.text = "English"
-                        }
+            })
+        }
+    }
 
-                        LanguageValues.Turkish.title -> {
-                            binding.textViewChoisedLanguage.text = "Turkish"
-                        }
+    private fun setItemBackground(
+        itemSize: Int,
+        position: Int,
+        items: List<ProfileMenu>,
+        adapter: SettingsAdapter,
+        binding: View
+    ) {
+        adapter.currentList.indexOf(items[position])
+
+        when (itemSize) {
+            1 -> binding.background = ContextCompat.getDrawable(
+                binding.context,
+                R.drawable.bg_clickable_all_radius_10
+            )
+            else -> {
+                when (position) {
+                    0 -> {
+                        binding.background = ContextCompat.getDrawable(
+                            binding.context,
+                            R.drawable.bg_clickable_top_radius_10
+                        )
+                    }
+
+                    itemSize - 1 -> binding.background = ContextCompat.getDrawable(
+                        binding.context,
+                        R.drawable.bg_clickable_bottom_radius_10
+                    )
+
+                    else -> {
+                        binding.background = ContextCompat.getDrawable(
+                            binding.context,
+                            R.drawable.bg_clickable_no_radius
+                        )
                     }
                 }
-            })
+            }
         }
     }
 }
