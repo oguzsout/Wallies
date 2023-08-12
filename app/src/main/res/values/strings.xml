@@ -76,4 +76,6 @@
     <string name="tr_language">Turkish</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
+    <string name="choise_theme">Choise Your Theme</string>
+    <string name="choise_language">Choise Your Language</string>
 </resources>

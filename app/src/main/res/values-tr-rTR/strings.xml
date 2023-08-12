@@ -77,4 +77,6 @@
     <string name="tr_language">Türkçe</string>
     <string name="ok">Tamam</string>
     <string name="cancel">İptal</string>
+    <string name="choise_theme">Tercih Ettiğin Temayı Seç</string>
+    <string name="choise_language">Tercih Ettiğin Dili Seç</string>
 </resources>

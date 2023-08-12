@@ -5,12 +5,12 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.oguzdogdu.wallies.BuildConfig
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentSettingsBinding
 import com.oguzdogdu.wallies.presentation.authenticateduser.ProfileMenu
+import com.oguzdogdu.wallies.util.ChoiseDialogBuilder
 import com.oguzdogdu.wallies.util.OptionLists
 import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.setupRecyclerView
@@ -92,40 +92,39 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
     }
 
     private fun showRadioConfirmationDialog() {
-        val dialog = MaterialAlertDialogBuilder(requireContext())
-            .setSingleChoiceItems(themes, themes.indexOf(selectedTheme)) { dialog, which ->
+        ChoiseDialogBuilder.choiseAnyValueIntoDialogList(
+            context = requireContext(),
+            title = getString(R.string.choise_theme),
+            selectedValue = selectedTheme,
+            list = themes,
+            handlerList = { dialog, which ->
                 selectedThemeIndex = which
                 selectedTheme = themes[which]
                 viewModel.handleUIEvent(SettingsEvent.SetNewTheme(value = selectedTheme))
-            }
-            .setPositiveButton(getString(R.string.ok)) { dialog, which ->
+            },
+            positive = { dialog, which ->
                 viewModel.handleUIEvent(SettingsEvent.ThemeChanged)
             }
-            .setNegativeButton(getString(R.string.cancel)) { dialog, which ->
-                dialog.dismiss()
-            }
-            .create()
 
-        dialog.show()
+        )
     }
 
     private fun showLanguageConfirmationDialog() {
-        val dialog = MaterialAlertDialogBuilder(requireContext())
-            .setSingleChoiceItems(language, language.indexOf(selectedLanguages)) { dialog, which ->
+        ChoiseDialogBuilder.choiseAnyValueIntoDialogList(
+            context = requireContext(),
+            title = getString(R.string.choise_language),
+            selectedValue = selectedLanguages,
+            list = language,
+            handlerList = { dialog, which ->
                 selectedLanguageIndex = which
                 selectedLanguages = language[which]
                 viewModel.handleUIEvent(SettingsEvent.SetNewLanguage(value = selectedLanguages))
-            }
-            .setPositiveButton(getString(R.string.ok)) { dialog, which ->
+            },
+            positive = { dialog, which ->
                 viewModel.handleUIEvent(SettingsEvent.LanguageChanged)
                 requireActivity().recreate()
             }
-            .setNegativeButton(getString(R.string.cancel)) { dialog, which ->
-                dialog.dismiss()
-            }
-            .create()
-
-        dialog.show()
+        )
     }
 
     override fun observeData() {
