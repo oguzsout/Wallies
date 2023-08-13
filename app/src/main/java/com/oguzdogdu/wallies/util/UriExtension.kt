@@ -1,7 +1,6 @@
 package com.oguzdogdu.wallies.util
 
 import android.Manifest
-import android.app.Activity
 import android.app.DownloadManager
 import android.content.ContentResolver
 import android.content.Context
@@ -15,20 +14,23 @@ import android.provider.MediaStore
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.oguzdogdu.wallies.presentation.main.MainActivity
+import dagger.hilt.android.internal.managers.FragmentComponentManager
 import java.io.File
 import java.io.IOException
 
-fun Context.downloadImage(url: String, directoryName: String, fileName: String) {
+fun Context.downloadImage(url: String, directoryName: String, fileName: String): Boolean {
     when {
         ContextCompat.checkSelfPermission(
             this,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         ) != PackageManager.PERMISSION_GRANTED -> {
             ActivityCompat.requestPermissions(
-                this as Activity,
+                FragmentComponentManager.findActivity(this) as MainActivity,
                 arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
                 123
             )
+            return false
         }
 
         else -> {
@@ -40,6 +42,11 @@ fun Context.downloadImage(url: String, directoryName: String, fileName: String) 
                 directory.mkdirs()
             }
             val file = File(directory, fileName)
+
+            if (file.exists()) {
+                return false
+            }
+
             try {
                 val downloadManager =
                     this.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
@@ -49,18 +56,20 @@ fun Context.downloadImage(url: String, directoryName: String, fileName: String) 
                         DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE
                     )
                         .setMimeType("image/*")
-                        .setAllowedOverRoaming(false)
+                        .setAllowedOverRoaming(true)
                         .setNotificationVisibility(
-                            DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
+                            DownloadManager.Request.VISIBILITY_VISIBLE
                         )
                         .setTitle("Wallies")
                         .setDestinationUri(Uri.fromFile(file))
                 }
                 downloadManager.enqueue(request)
+                return true
             } catch (e: Exception) {
                 Toast.makeText(this, "Image download failed: ${e.message}", Toast.LENGTH_SHORT)
                     .show()
             }
+            return false
         }
     }
 }

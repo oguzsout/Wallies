@@ -78,4 +78,5 @@
     <string name="cancel">Cancel</string>
     <string name="choise_theme">Choise Your Theme</string>
     <string name="choise_language">Choise Your Language</string>
+    <string name="download_photo_success">Image downloaded successfully</string>
 </resources>
