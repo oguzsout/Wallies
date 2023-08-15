@@ -1,17 +1,20 @@
 package com.oguzdogdu.wallies.presentation.popular
 
-import androidx.core.view.isVisible
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentPopularBinding
 import com.oguzdogdu.wallies.presentation.main.MainActivity
+import com.oguzdogdu.wallies.util.LoaderAdapter
+import com.oguzdogdu.wallies.util.hide
 import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.setupRecyclerView
+import com.oguzdogdu.wallies.util.show
+import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBinding::inflate) {
@@ -24,8 +27,11 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
         super.initViews()
         binding.apply {
             recyclerViewWallpapers.setupRecyclerView(
-                layout = GridLayoutManager(requireContext(), 3),
-                adapter = popularWallpaperAdapter,
+                layout = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL),
+                adapter = popularWallpaperAdapter.withLoadStateHeaderAndFooter(
+                    LoaderAdapter(),
+                    LoaderAdapter()
+                ),
                 true,
                 onScroll = {
                     recyclerViewWallpapers.addOnScrollListener(object :
@@ -50,29 +56,52 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
             navigateWithDirection(PopularFragmentDirections.toDetail(id = it?.id))
         }
         binding.swipeRefresh.setOnRefreshListener {
-            checkConnection()
+            viewModel.handleUIEvent(PopularScreenEvent.FetchPopularData)
             binding.swipeRefresh.isRefreshing = false
         }
     }
 
     override fun observeData() {
         super.observeData()
-        checkConnection()
+        viewModel.handleUIEvent(PopularScreenEvent.FetchPopularData)
+        fetchPopularData()
+        handlePagingState()
     }
 
-    private fun checkConnection() {
-        viewModel.getPopularImages()
+    private fun fetchPopularData() {
         viewModel.getPopular.observeInLifecycle(viewLifecycleOwner, observer = { state ->
-            when {
-                state.error.isNotEmpty() -> {}
+            state?.let { popularWallpaperAdapter.submitData(it.popular) }
+        })
+    }
 
-                else -> {
-                    popularWallpaperAdapter.submitData(state.popular)
-                    popularWallpaperAdapter.loadStateFlow.collectLatest { loadStates ->
-                        binding.progressBar.isVisible = loadStates.refresh is LoadState.Loading
-                    }
+    private fun handlePagingState() {
+        popularWallpaperAdapter.addLoadStateListener { loadState ->
+            when (loadState.refresh) {
+                is LoadState.Loading -> {
+                    binding.progressBar.show()
+                    binding.recyclerViewWallpapers.hide()
+                }
+                is LoadState.NotLoading -> {
+                    binding.progressBar.hide()
+                    binding.recyclerViewWallpapers.show()
+                }
+                else -> {}
+            }
+            val errorState = when {
+                loadState.append is LoadState.Error -> loadState.append as LoadState.Error
+                loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
+                loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
+                else -> null
+            }
+            errorState?.let {
+                it.error.message?.let { message ->
+                    requireView().showToast(
+                        context = requireContext(),
+                        message = message,
+                        duration = Toast.LENGTH_LONG
+                    )
                 }
             }
-        })
+        }
     }
 }

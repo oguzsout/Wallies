@@ -9,6 +9,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -16,18 +17,21 @@ class PopularViewModel @Inject constructor(
     private val useCase: GetPopularUseCase
 ) : ViewModel() {
 
-    private val _getPopular = MutableStateFlow(PopularState())
+    private val _getPopular = MutableStateFlow<PopularState.ItemState?>(null)
     val getPopular = _getPopular.asStateFlow()
 
-    private val _isLoading = MutableStateFlow(false)
-    val isLoading = _isLoading.asStateFlow()
+    fun handleUIEvent(event: PopularScreenEvent) {
+        when (event) {
+            PopularScreenEvent.FetchPopularData -> {
+                getPopularImages()
+            }
+        }
+    }
 
-    fun getPopularImages() {
+    private fun getPopularImages() {
         viewModelScope.launch {
             useCase().cachedIn(viewModelScope).collectLatest { popular ->
-                popular.let {
-                    _getPopular.value = PopularState(popular = it)
-                }
+                _getPopular.update { PopularState.ItemState(popular = popular) }
             }
         }
     }
