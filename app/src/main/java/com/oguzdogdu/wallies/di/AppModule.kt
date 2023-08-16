@@ -15,6 +15,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
     @Provides
+    @Singleton
     fun provideCheckConnection(
         @ApplicationContext context: Context
     ): CheckConnection {

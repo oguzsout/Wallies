@@ -1,6 +1,5 @@
 package com.oguzdogdu.wallies.util
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
@@ -65,7 +64,6 @@ inline fun RecyclerView.setupRecyclerView(
     onScroll.invoke()
 }
 
-@SuppressLint("SuspiciousIndentation", "ResourceType")
 fun View.showSnackMessage(
     @StringRes buttonText: Int?,
     @StringRes message: Int?,

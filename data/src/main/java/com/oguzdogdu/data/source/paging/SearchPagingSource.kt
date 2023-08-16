@@ -27,7 +27,7 @@ class SearchPagingSource(
             LoadResult.Page(
                 data = response.results,
                 prevKey = if (page == 1) null else page - 1,
-                nextKey = if (page < response.total_pages) page + 1 else null
+                nextKey = if (response.results.isEmpty()) null else page + 1
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

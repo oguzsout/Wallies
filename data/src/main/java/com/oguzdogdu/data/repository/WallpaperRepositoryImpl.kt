@@ -41,6 +41,7 @@ class WallpaperRepositoryImpl @Inject constructor(
         val pagingConfig = PagingConfig(pageSize = Constants.PAGE_ITEM_LIMIT)
         return Pager(
             config = pagingConfig,
+            initialKey = 1,
             pagingSourceFactory = { PopularPagingSource(service = service) }
         ).flow.mapNotNull {
             it.map { popular ->
@@ -53,6 +54,7 @@ class WallpaperRepositoryImpl @Inject constructor(
         val pagingConfig = PagingConfig(pageSize = Constants.PAGE_ITEM_LIMIT)
         return Pager(
             config = pagingConfig,
+            initialKey = 1,
             pagingSourceFactory = { LatestPagingSource(service = service) }
         ).flow.mapNotNull {
             it.map { latest ->
@@ -69,6 +71,7 @@ class WallpaperRepositoryImpl @Inject constructor(
         val pagingConfig = PagingConfig(pageSize = Constants.PAGE_ITEM_LIMIT)
         return Pager(
             config = pagingConfig,
+            initialKey = 1,
             pagingSourceFactory = { SearchPagingSource(service = service, query = query ?: "") }
         ).flow.mapNotNull {
             it.map { search ->
@@ -81,6 +84,7 @@ class WallpaperRepositoryImpl @Inject constructor(
         val pagingConfig = PagingConfig(pageSize = Constants.PAGE_ITEM_LIMIT)
         return Pager(
             config = pagingConfig,
+            initialKey = 1,
             pagingSourceFactory = { CollectionsPagingSource(service = service) }
         ).flow.mapNotNull {
             it.map { collection ->
