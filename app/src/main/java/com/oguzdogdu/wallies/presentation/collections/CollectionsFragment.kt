@@ -1,14 +1,20 @@
 package com.oguzdogdu.wallies.presentation.collections
 
+import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentCollectionsBinding
 import com.oguzdogdu.wallies.presentation.main.MainActivity
+import com.oguzdogdu.wallies.util.LoaderAdapter
+import com.oguzdogdu.wallies.util.hide
 import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.setupRecyclerView
+import com.oguzdogdu.wallies.util.show
+import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,8 +29,8 @@ class CollectionsFragment :
         super.initViews()
         with(binding) {
             recyclerViewCollections.setupRecyclerView(
-                layout = GridLayoutManager(requireContext(), 3),
-                adapter = collectionListAdapter,
+                layout = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL),
+                adapter = collectionListAdapter.withLoadStateFooter(LoaderAdapter()),
                 true
             ) {
                 recyclerViewCollections.addOnScrollListener(object :
@@ -56,26 +62,53 @@ class CollectionsFragment :
                 )
             )
         }
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.handleUIEvent(CollectionScreenEvent.FetchLatestData)
+            binding.swipeRefresh.isRefreshing = false
+        }
     }
 
     override fun observeData() {
         super.observeData()
         showCollectionsDatas()
+        handlePagingState()
     }
 
     private fun showCollectionsDatas() {
-        viewModel.getCollectionsList()
         viewModel.getCollections.observeInLifecycle(
             viewLifecycleOwner,
-            observer = { state ->
-                when {
-                    state.isLoading -> {}
+            observer = { state -> state?.let { collectionListAdapter.submitData(it.collections) } }
+        )
+    }
 
-                    state.error.isNotEmpty() -> {}
-
-                    else -> collectionListAdapter.submitData(state.collections)
+    private fun handlePagingState() {
+        collectionListAdapter.addLoadStateListener { loadState ->
+            when (loadState.refresh) {
+                is LoadState.Loading -> {
+                    binding.progressBar.show()
+                    binding.recyclerViewCollections.hide()
+                }
+                is LoadState.NotLoading -> {
+                    binding.progressBar.hide()
+                    binding.recyclerViewCollections.show()
+                }
+                else -> {}
+            }
+            val errorState = when {
+                loadState.append is LoadState.Error -> loadState.append as LoadState.Error
+                loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
+                loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
+                else -> null
+            }
+            errorState?.let {
+                it.error.message?.let { message ->
+                    requireView().showToast(
+                        context = requireContext(),
+                        message = message,
+                        duration = Toast.LENGTH_LONG
+                    )
                 }
             }
-        )
+        }
     }
 }

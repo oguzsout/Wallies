@@ -20,6 +20,10 @@ class PopularViewModel @Inject constructor(
     private val _getPopular = MutableStateFlow<PopularState.ItemState?>(null)
     val getPopular = _getPopular.asStateFlow()
 
+    init {
+        getPopularImages()
+    }
+
     fun handleUIEvent(event: PopularScreenEvent) {
         when (event) {
             PopularScreenEvent.FetchPopularData -> {

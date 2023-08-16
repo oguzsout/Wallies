@@ -63,7 +63,6 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
 
     override fun observeData() {
         super.observeData()
-        viewModel.handleUIEvent(PopularScreenEvent.FetchPopularData)
         fetchPopularData()
         handlePagingState()
     }
