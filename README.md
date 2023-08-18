@@ -7,7 +7,7 @@ In this application consisting of multiple screens, you can review popular and r
 # 🛠️ Setup
 - You must create a developer account at [https://unsplash.com/developers](https://unsplash.com/developers)
 - You have to create your application and get the access key
-- You have to add the access key in `local.properties`
+- You have to add the access key in `network>common>constants`
 ```
 API_KEY=""
 ```
