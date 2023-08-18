@@ -24,10 +24,13 @@ import com.oguzdogdu.domain.model.popular.PopularImage
 import com.oguzdogdu.domain.model.search.SearchPhoto
 import com.oguzdogdu.domain.model.singlephoto.Photo
 import com.oguzdogdu.domain.repository.WallpaperRepository
+import com.oguzdogdu.domain.wrapper.Resource
+import com.oguzdogdu.domain.wrapper.toResource
 import com.oguzdogdu.wallies.cache.dao.FavoriteDao
 import com.oguzdogdu.wallies.cache.entity.FavoriteImage
 import com.oguzdogdu.wallies.cache.entity.toDomain
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
@@ -64,7 +67,7 @@ class WallpaperRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getPhoto(id: String): Photo {
-        return service.getPhoto(id).toDomainModelPhoto()
+        return service.getPhoto(id = id).toDomainModelPhoto()
     }
 
     override suspend fun searchPhoto(query: String?): Flow<PagingData<SearchPhoto>> {

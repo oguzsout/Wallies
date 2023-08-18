@@ -2,7 +2,6 @@ package com.oguzdogdu.wallies.presentation.detail
 
 import android.content.Intent
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import coil.load
 import coil.request.CachePolicy
@@ -12,12 +11,13 @@ import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentDetailBinding
 import com.oguzdogdu.wallies.util.formatDate
+import com.oguzdogdu.wallies.util.hide
 import com.oguzdogdu.wallies.util.itemLoading
 import com.oguzdogdu.wallies.util.observeInLifecycle
+import com.oguzdogdu.wallies.util.show
+import com.oguzdogdu.wallies.util.showToast
 import com.oguzdogdu.wallies.util.toFormattedString
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding::inflate) {
@@ -36,25 +36,42 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
     override fun observeData() {
         super.observeData()
+        viewModel.handleUIEvent(DetailScreenEvent.GetPhotoDetails(id = args.id))
         showDetailScreenDatas()
     }
 
     private fun showDetailScreenDatas() {
-        args.id?.let { viewModel.getSinglePhoto(it) }
         viewModel.photo.observeInLifecycle(viewLifecycleOwner, observer = { state ->
-            setItems(state.detail)
-            favoriteCheck(state.detail?.id)
-            showProfileInfos(state.detail)
-            navigateToSetWallpaper(state.detail?.urls)
-            sharePhoto(state.detail)
-            navigateToDownloadWallpaper(
-                raw = state.detail?.rawQuality,
-                high = state.detail?.highQuality,
-                medium = state.detail?.mediumQuality,
-                low = state.detail?.lowQuality,
-                imageTitle = state.detail?.desc
-            )
-            addOrDeleteFavorites(state.detail)
+            when (state) {
+                is DetailState.DetailError -> state.errorMessage?.let {
+                    requireView().showToast(
+                        requireContext(),
+                        it
+                    )
+                }
+
+                is DetailState.Loading -> binding.dashboardContainer.hide()
+
+                is DetailState.DetailOfPhoto -> {
+                    binding.dashboardContainer.show()
+                    setItems(state.detail)
+                    showProfileInfos(state.detail)
+                    navigateToSetWallpaper(state.detail?.urls)
+                    sharePhoto(state.detail)
+                    navigateToDownloadWallpaper(
+                        raw = state.detail?.rawQuality,
+                        high = state.detail?.highQuality,
+                        medium = state.detail?.mediumQuality,
+                        low = state.detail?.lowQuality,
+                        imageTitle = state.detail?.desc
+                    )
+                    addOrDeleteFavorites(state.detail)
+                }
+                is DetailState.FavoriteStateOfPhoto -> {
+                    binding.toggleButton.isChecked = state.favorite == true
+                }
+                else -> {}
+            }
         })
     }
 
@@ -110,14 +127,14 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
     private fun setItems(photo: Photo?) {
         with(binding) {
-            imageViewPhotoOwner.load(photo?.profileimage ?: "") {
+            imageViewPhotoOwner.load(photo?.profileimage.orEmpty()) {
                 diskCachePolicy(CachePolicy.DISABLED)
                 transformations(CircleCropTransformation())
                 placeholder(R.drawable.avatar)
                 allowConversionToBitmap(true)
             }
 
-            imageViewDetail.load(photo?.urls ?: "") {
+            imageViewDetail.load(photo?.urls.orEmpty()) {
                 diskCachePolicy(CachePolicy.DISABLED)
                 placeholder(
                     requireContext().itemLoading(resources.getColor(R.color.background_main_icon))
@@ -125,13 +142,13 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
                 allowConversionToBitmap(true)
             }
 
-            toolbar.title = photo?.desc ?: ""
-            textViewPhotoOwnerName.text = photo?.username ?: ""
-            textViewPhotoOwnerPortfolio.text = photo?.portfolio ?: ""
-            textViewViewsCount.text = photo?.views?.toFormattedString() ?: ""
-            textViewDownloadsCount.text = photo?.downloads?.toFormattedString() ?: ""
-            textViewLikeCount.text = photo?.likes?.toFormattedString()
-            textViewCreateTimeValue.text = photo?.createdAt?.formatDate()
+            toolbar.title = photo?.desc.orEmpty()
+            textViewPhotoOwnerName.text = photo?.username.orEmpty()
+            textViewPhotoOwnerPortfolio.text = photo?.portfolio.orEmpty()
+            textViewViewsCount.text = photo?.views?.toFormattedString().orEmpty()
+            textViewDownloadsCount.text = photo?.downloads?.toFormattedString().orEmpty()
+            textViewLikeCount.text = photo?.likes?.toFormattedString().orEmpty()
+            textViewCreateTimeValue.text = photo?.createdAt?.formatDate().orEmpty()
         }
     }
 
@@ -146,20 +163,6 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
                 null
             )
             startActivity(share)
-        }
-    }
-
-    private fun favoriteCheck(id: String?) {
-        lifecycleScope.launch {
-            viewModel.favorites.collectLatest { result ->
-                result.favorites.forEach {
-                    if (it != null) {
-                        if (it.id == id) {
-                            binding.toggleButton.isChecked = it.isChecked
-                        }
-                    }
-                }
-            }
         }
     }
 }
