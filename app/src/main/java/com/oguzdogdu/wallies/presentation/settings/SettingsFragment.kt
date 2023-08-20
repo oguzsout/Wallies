@@ -1,5 +1,6 @@
 package com.oguzdogdu.wallies.presentation.settings
 
+import android.content.Context
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -16,6 +17,7 @@ import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.setupRecyclerView
 import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -84,11 +86,31 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
                 R.string.language_title_text -> showLanguageConfirmationDialog()
 
                 R.string.clear_cache_title -> {
-                    requireContext().filesDir.deleteRecursively()
+                    clearAppCache(requireContext())
                     requireView().showToast(requireContext(), R.string.cache_state_string)
                 }
             }
         }
+    }
+
+    private fun clearAppCache(context: Context) {
+        val cacheDir = context.cacheDir
+        deleteDir(cacheDir)
+    }
+
+    private fun deleteDir(dir: File?): Boolean {
+        if (dir == null || !dir.isDirectory) {
+            return false
+        }
+        val children = dir.list() ?: return false
+        for (child in children) {
+            val childDir = File(dir, child)
+            val success = deleteDir(childDir)
+            if (!success) {
+                return false
+            }
+        }
+        return dir.delete()
     }
 
     private fun showRadioConfirmationDialog() {
