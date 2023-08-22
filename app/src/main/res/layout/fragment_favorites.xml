@@ -14,6 +14,18 @@
 
     </com.oguzdogdu.wallies.util.CustomToolbar>
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/purple_03"
+        android:visibility="gone"
+        app:circularflow_defaultRadius="@dimen/dp_12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewFavorites"
         android:layout_width="match_parent"
@@ -57,7 +69,5 @@
             android:text="@string/no_picture_text">
 
         </androidx.appcompat.widget.AppCompatTextView>
-
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

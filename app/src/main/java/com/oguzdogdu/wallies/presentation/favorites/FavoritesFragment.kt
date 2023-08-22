@@ -1,5 +1,6 @@
 package com.oguzdogdu.wallies.presentation.favorites
 
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +12,7 @@ import com.oguzdogdu.wallies.util.hide
 import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.setupRecyclerView
 import com.oguzdogdu.wallies.util.show
+import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -58,23 +60,37 @@ class FavoritesFragment :
 
     override fun observeData() {
         super.observeData()
+        viewModel.handleUIEvent(FavoriteScreenEvent.GetFavorites)
         getFavoritesData()
     }
 
     private fun getFavoritesData() {
         viewModel.favorites.observeInLifecycle(viewLifecycleOwner, observer = { state ->
-            when {
-                state.isLoading -> {}
-                state.error.isNotEmpty() -> {}
-                state.favorites.isEmpty() -> {
-                    binding.recyclerViewFavorites.hide()
-                    binding.linearLayoutNoPicture.show()
+            when (state) {
+                is FavoriteUiState.Loading -> binding.progressBar.show()
+                is FavoriteUiState.FavoriteError -> state.errorMessage?.let {
+                    requireView().showToast(
+                        context = requireContext(),
+                        message = it,
+                        duration = Toast.LENGTH_LONG
+                    )
+                }
+                is FavoriteUiState.Favorites -> {
+                    when {
+                        state.favorites.isEmpty() -> {
+                            binding.recyclerViewFavorites.hide()
+                            binding.linearLayoutNoPicture.show()
+                        }
+
+                        state.favorites.isNotEmpty() -> {
+                            binding.progressBar.hide()
+                            binding.linearLayoutNoPicture.hide()
+                            favoritesListAdapter.submitList(state.favorites)
+                        }
+                    }
                 }
 
-                else -> {
-                    binding.linearLayoutNoPicture.hide()
-                    favoritesListAdapter.submitList(state.favorites)
-                }
+                else -> {}
             }
         })
     }

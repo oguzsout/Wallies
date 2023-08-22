@@ -98,11 +98,17 @@ class DetailViewModel @Inject constructor(
     private fun getFavorite(id: String?) {
         viewModelScope.launch {
             getFavoritesUseCase.invoke().collectLatest { result ->
-                val matchingFavorite = result.find { it.id == id }
-                _getPhoto.update {
-                    DetailState.FavoriteStateOfPhoto(
-                        favorite = matchingFavorite?.isChecked
-                    )
+                when (result) {
+                    is Resource.Loading -> {}
+                    is Resource.Error -> {}
+                    is Resource.Success -> {
+                        val matchingFavorite = result.data.find { it.id == id }
+                        _getPhoto.update {
+                            DetailState.FavoriteStateOfPhoto(
+                                favorite = matchingFavorite?.isChecked
+                            )
+                        }
+                    }
                 }
             }
         }
