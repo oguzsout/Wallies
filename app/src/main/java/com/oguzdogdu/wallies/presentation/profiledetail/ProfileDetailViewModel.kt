@@ -19,53 +19,44 @@ class ProfileDetailViewModel @Inject constructor(
     private val unsplashUsersPhotos: GetUnsplashUsersPhotosUseCase
 ) : ViewModel() {
 
-    private val _getUserDetails: MutableStateFlow<ProfileDetailState> = MutableStateFlow(
-        ProfileDetailState()
-    )
+    private val _getUserDetails = MutableStateFlow<ProfileDetailState?>(null)
     val getUserDetails = _getUserDetails.asStateFlow()
 
-    private val _getUsersPhotos: MutableStateFlow<ProfileDetailListState> = MutableStateFlow(
-        ProfileDetailListState()
-    )
-    val getUsersPhotos = _getUsersPhotos.asStateFlow()
+    fun handleUIEvent(event: ProfileDetailEvent) {
+        when (event) {
+            is ProfileDetailEvent.FetchUserDetailInfos -> getUserDetails(event.username)
+            is ProfileDetailEvent.FetchUserCollections -> getUsersPhotos(event.username)
+        }
+    }
 
-    fun getUserDetails(username: String?) {
+    private fun getUserDetails(username: String?) {
         viewModelScope.launch {
-            userDetailsUseCase.invoke(username).collectLatest { infos ->
-                when (infos) {
+            userDetailsUseCase.invoke(username).collectLatest { result ->
+                when (result) {
                     is Resource.Success -> _getUserDetails.update {
-                        it.copy(
-                            loading = false,
-                            userDetails = infos.data
-                        )
+                        ProfileDetailState.UserInfos(userDetails = result.data)
                     }
-                    is Resource.Loading -> _getUserDetails.update { it.copy(loading = true) }
+
+                    is Resource.Loading -> _getUserDetails.update { ProfileDetailState.Loading }
                     is Resource.Error -> _getUserDetails.update {
-                        it.copy(
-                            errorMessage = infos.errorMessage
-                        )
+                        ProfileDetailState.UserDetailError(errorMessage = result.errorMessage)
                     }
                 }
             }
         }
     }
 
-    fun getUsersPhotos(username: String?) {
+    private fun getUsersPhotos(username: String?) {
         viewModelScope.launch {
-            unsplashUsersPhotos.invoke(username).collectLatest { infos ->
-                when (infos) {
-                    is Resource.Success -> _getUsersPhotos.update {
-                        it.copy(
-                            loading = false,
-                            usersPhotos = infos.data
-                        )
+            unsplashUsersPhotos.invoke(username).collectLatest { result ->
+                when (result) {
+                    is Resource.Success -> _getUserDetails.update {
+                        ProfileDetailState.UserCollections(usersPhotos = result.data)
                     }
 
-                    is Resource.Loading -> _getUsersPhotos.update { it.copy(loading = true) }
-                    is Resource.Error -> _getUsersPhotos.update {
-                        it.copy(
-                            errorMessage = infos.errorMessage
-                        )
+                    is Resource.Loading -> _getUserDetails.update { ProfileDetailState.Loading }
+                    is Resource.Error -> _getUserDetails.update {
+                        ProfileDetailState.UserCollectionsError(errorMessage = result.errorMessage)
                     }
                 }
             }

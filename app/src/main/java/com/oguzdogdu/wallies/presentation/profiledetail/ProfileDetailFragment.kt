@@ -11,8 +11,10 @@ import com.oguzdogdu.domain.model.userdetail.UserDetails
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
 import com.oguzdogdu.wallies.databinding.FragmentProfileDetailBinding
+import com.oguzdogdu.wallies.util.hide
 import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.setupRecyclerView
+import com.oguzdogdu.wallies.util.show
 import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,32 +29,6 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
 
     private val usersPhotosAdapter by lazy { UsersPhotosAdapter() }
 
-    override fun observeData() {
-        super.observeData()
-        viewModel.getUserDetails(username = args.username)
-        viewModel.getUsersPhotos(username = args.username)
-        viewModel.getUserDetails.observeInLifecycle(viewLifecycleOwner, observer = { state ->
-            when {
-                state.loading -> {}
-                state.errorMessage?.isNotEmpty() == true -> {
-                    requireView().showToast(requireContext(), state.errorMessage, Toast.LENGTH_LONG)
-                }
-
-                else -> setUserDatas(userDetails = state.userDetails)
-            }
-        })
-        viewModel.getUsersPhotos.observeInLifecycle(viewLifecycleOwner, observer = { state ->
-            when {
-                state.loading -> {}
-                state.errorMessage?.isNotEmpty() == true -> {
-                    requireView().showToast(requireContext(), state.errorMessage, Toast.LENGTH_LONG)
-                }
-
-                state.usersPhotos.isNotEmpty() -> usersPhotosAdapter.submitList(state.usersPhotos)
-            }
-        })
-    }
-
     override fun initViews() {
         super.initViews()
         binding.rvUserPhotos.setupRecyclerView(
@@ -61,16 +37,71 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
             true,
             onScroll = {}
         )
+        binding.toolbar.setLeftIcon(R.drawable.back)
     }
 
     override fun initListeners() {
         super.initListeners()
-        binding.toolbar.setNavigationOnClickListener {
+        binding.toolbar.setLeftIconClickListener {
             navigateBack()
         }
         usersPhotosAdapter.setOnItemClickListener {
             navigateWithDirection(ProfileDetailFragmentDirections.toDetail(it?.id))
         }
+    }
+
+    override fun observeData() {
+        super.observeData()
+        getUserDetails()
+        getUserCollections()
+    }
+
+    private fun getUserDetails() {
+        viewModel.handleUIEvent(ProfileDetailEvent.FetchUserDetailInfos(username = args.username))
+        viewModel.getUserDetails.observeInLifecycle(viewLifecycleOwner, observer = { state ->
+            when (state) {
+                is ProfileDetailState.Loading -> binding.progressBar.show()
+                is ProfileDetailState.UserDetailError -> {
+                    state.errorMessage?.let {
+                        requireView().showToast(
+                            requireContext(),
+                            it,
+                            Toast.LENGTH_LONG
+                        )
+                    }
+                }
+
+                is ProfileDetailState.UserInfos -> {
+                    binding.progressBar.hide()
+                    setUserDatas(userDetails = state.userDetails)
+                }
+                else -> {}
+            }
+        })
+    }
+
+    private fun getUserCollections() {
+        viewModel.handleUIEvent(ProfileDetailEvent.FetchUserCollections(username = args.username))
+        viewModel.getUserDetails.observeInLifecycle(viewLifecycleOwner, observer = { state ->
+            when (state) {
+                is ProfileDetailState.Loading -> binding.progressBar.show()
+                is ProfileDetailState.UserCollectionsError -> {
+                    state.errorMessage?.let {
+                        requireView().showToast(
+                            requireContext(),
+                            it,
+                            Toast.LENGTH_LONG
+                        )
+                    }
+                }
+
+                is ProfileDetailState.UserCollections -> {
+                    binding.progressBar.hide()
+                    usersPhotosAdapter.submitList(state.usersPhotos)
+                }
+                else -> {}
+            }
+        })
     }
 
     private fun setUserDatas(userDetails: UserDetails?) {
@@ -87,7 +118,12 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
                 placeholder(R.drawable.ic_default_avatar)
                 allowConversionToBitmap(true)
             }
-            toolbar.title = userDetails?.name
+            userDetails?.name?.let {
+                binding.toolbar.setTitle(
+                    title = it,
+                    titleStyleRes = R.style.DialogTitleText
+                )
+            }
         }
     }
 }
