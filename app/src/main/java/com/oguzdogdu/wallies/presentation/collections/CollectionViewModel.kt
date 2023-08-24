@@ -34,9 +34,7 @@ class CollectionViewModel @Inject constructor(private val useCase: GetCollection
     private fun getCollectionsList() {
         viewModelScope.launch {
             useCase().cachedIn(viewModelScope).collectLatest { collection ->
-                collection.let {
-                    _getCollections.update { CollectionState.ItemState(collections = collection) }
-                }
+                _getCollections.update { CollectionState.ItemState(collections = collection) }
             }
         }
     }

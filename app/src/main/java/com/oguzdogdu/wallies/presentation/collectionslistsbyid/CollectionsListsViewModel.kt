@@ -9,6 +9,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -17,26 +18,34 @@ class CollectionsListsViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    private val _getPhoto = MutableStateFlow(CollectionsListsState())
+    private val _getPhoto = MutableStateFlow<CollectionsListsState?>(null)
     val photo = _getPhoto.asStateFlow()
 
-    fun getCollectionsLists(id: String?) {
+    fun handleUiEvents(event: CollectionListEvent) {
+        when (event) {
+            is CollectionListEvent.FetchCollectionList -> {
+                getCollectionsLists(id = event.id)
+            }
+        }
+    }
+
+    private fun getCollectionsLists(id: String?) {
         viewModelScope.launch {
             useCase(id).collectLatest { result ->
                 when (result) {
-                    is Resource.Loading -> _getPhoto.value = CollectionsListsState(isLoading = true)
+                    is Resource.Loading -> _getPhoto.update { CollectionsListsState.Loading }
 
-                    is Resource.Success -> {
-                        result.data.let {
-                            _getPhoto.value = CollectionsListsState(collectionsLists = it)
-                        }
+                    is Resource.Success -> _getPhoto.update {
+                        CollectionsListsState.CollectionList(
+                            collectionsLists = result.data
+                        )
                     }
 
-                    is Resource.Error -> {
-                        _getPhoto.value = CollectionsListsState(error = result.errorMessage)
+                    is Resource.Error -> _getPhoto.update {
+                        CollectionsListsState.CollectionListError(
+                            errorMessage = result.errorMessage
+                        )
                     }
-
-                    else -> {}
                 }
             }
         }
