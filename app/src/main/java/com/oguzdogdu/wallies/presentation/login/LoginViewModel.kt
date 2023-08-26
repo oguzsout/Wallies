@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oguzdogdu.domain.usecase.auth.CheckUserAuthenticatedUseCase
 import com.oguzdogdu.domain.usecase.auth.SignInUseCase
+import com.oguzdogdu.domain.usecase.auth.SignInWithGoogleUseCase
 import com.oguzdogdu.domain.wrapper.Resource
 import com.oguzdogdu.wallies.util.FieldValidators
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +18,8 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val signInUseCase: SignInUseCase,
-    private val checkUserAuthenticatedUseCase: CheckUserAuthenticatedUseCase
+    private val checkUserAuthenticatedUseCase: CheckUserAuthenticatedUseCase,
+    private val signInWithGoogleUseCase: SignInWithGoogleUseCase
 ) : ViewModel() {
 
     private val _loginState: MutableStateFlow<LoginState?> = MutableStateFlow(LoginState.Start)
@@ -38,6 +40,9 @@ class LoginViewModel @Inject constructor(
             }
             is LoginScreenEvent.UserSignIn -> {
                 signIn(userEmail = event.email, password = event.password)
+            }
+            is LoginScreenEvent.GoogleButton -> {
+                signInWithGoogle(idToken = event.idToken)
             }
         }
     }
@@ -64,6 +69,28 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             val state = checkButtonState()
             _loginState.update { LoginState.ButtonEnabled(isEnabled = state) }
+        }
+    }
+
+    private fun signInWithGoogle(idToken: String?) {
+        viewModelScope.launch {
+            signInWithGoogleUseCase.invoke(idToken).collectLatest { response ->
+                when (response) {
+                    is Resource.Success -> {
+                        _loginState.update { LoginState.UserSignIn }
+                    }
+                    is Resource.Error -> {
+                        _loginState.update {
+                            LoginState.ErrorSignIn(
+                                errorMessage = response.errorMessage
+                            )
+                        }
+                    }
+                    else -> {
+                        _loginState.update { LoginState.Loading }
+                    }
+                }
+            }
         }
     }
 

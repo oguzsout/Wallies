@@ -27,6 +27,11 @@ abstract class BaseFragment<VB : ViewBinding>(
     @Inject
     lateinit var connection: CheckConnection
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initVariables()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -53,6 +58,8 @@ abstract class BaseFragment<VB : ViewBinding>(
             }
         }
     }
+
+    open fun initVariables() {}
 
     open fun observeData() {}
 

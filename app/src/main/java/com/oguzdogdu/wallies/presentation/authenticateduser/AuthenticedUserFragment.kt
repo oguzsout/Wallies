@@ -15,9 +15,11 @@ import com.oguzdogdu.wallies.databinding.FragmentAuthenticedUserBinding
 import com.oguzdogdu.wallies.util.ITooltipUtils
 import com.oguzdogdu.wallies.util.OptionLists
 import com.oguzdogdu.wallies.util.TooltipDirection
+import com.oguzdogdu.wallies.util.hide
 import com.oguzdogdu.wallies.util.information
 import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.setupRecyclerView
+import com.oguzdogdu.wallies.util.show
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -122,6 +124,18 @@ class AuthenticedUserFragment :
 
                 is AuthenticatedUserScreenState.Loading -> {
                 }
+                is AuthenticatedUserScreenState.CheckUserGoogleSignIn -> {
+                    when (state.isAuthenticated) {
+                        true -> {
+                            binding.rvUserOptions.hide()
+                            binding.imageViewEditPhoto.hide()
+                        }
+                        false -> {
+                            binding.rvUserOptions.show()
+                            binding.imageViewEditPhoto.show()
+                        }
+                    }
+                }
 
                 is AuthenticatedUserScreenState.CheckUserAuthStatus -> {
                     when (state.isAuthenticated) {
@@ -143,21 +157,24 @@ class AuthenticedUserFragment :
 
     private fun setUserComponents(name: String?, surname: String?, profileImage: String?) {
         with(binding) {
-            if (profileImage?.isNotEmpty() == true) {
-                imageViewProfileImage.load(profileImage) {
+            when (profileImage.isNullOrBlank()) {
+                false -> imageViewProfileImage.load(profileImage) {
                     diskCachePolicy(CachePolicy.DISABLED)
                     transformations(CircleCropTransformation())
                     allowConversionToBitmap(true)
                 }
-            } else {
-                imageViewProfileImage.load(R.drawable.ic_default_avatar)
-            }
 
+                true -> imageViewProfileImage.load(R.drawable.ic_default_avatar)
+            }
+            when (surname.isNullOrBlank()) {
+                true -> textViewSurname.hide()
+                false -> textViewSurname.show()
+            }
             val editedString = SpannableStringBuilder().append(getString(R.string.welcome_profile))
-                .bold { run { append(", $name ") } }
+                .bold { run { append(", ${name.orEmpty()} ") } }
             textViewWelcome.text = editedString
-            textViewUserName.text = getString(R.string.name_text, name)
-            textViewSurname.text = getString(R.string.surname_text, surname)
+            textViewUserName.text = getString(R.string.name_text, name.orEmpty())
+            textViewSurname.text = getString(R.string.surname_text, surname.orEmpty())
         }
     }
 

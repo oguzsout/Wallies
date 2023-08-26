@@ -39,7 +39,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/dp_140"
             android:padding="@dimen/dp_8">
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -59,9 +59,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_16"
-                android:layout_marginBottom="@dimen/dp_16"
                 android:maxLines="1"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textViewUserName"
                 app:layout_constraintTop_toBottomOf="@+id/textViewUserName" />
@@ -79,6 +78,7 @@
                 android:id="@+id/imageViewEditPhoto"
                 android:layout_width="@dimen/dp_12"
                 android:layout_height="@dimen/dp_12"
+                android:visibility="visible"
                 android:background="@drawable/bg_small_button"
                 app:layout_constraintEnd_toEndOf="@+id/imageViewProfileImage"
                 app:layout_constraintTop_toTopOf="@+id/imageViewProfileImage"
@@ -98,8 +98,8 @@
                 android:id="@+id/imageViewShowInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_marginEnd="@dimen/dp_8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_user_card_info" />
@@ -110,10 +110,11 @@
         android:id="@+id/rvUserOptions"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:layout_marginBottom="@dimen/dp_16"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/buttonSignOut"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

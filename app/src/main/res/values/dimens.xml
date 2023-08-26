@@ -23,6 +23,7 @@
     <dimen name="dp_72">72dp</dimen>
     <dimen name="dp_78">78dp</dimen>
     <dimen name="dp_100">100dp</dimen>
+    <dimen name="dp_140">140dp</dimen>
     <dimen name="dp_200">200dp</dimen>
     <dimen name="dp_220">220dp</dimen>
     <dimen name="dp_250">250dp</dimen>

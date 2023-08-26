@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "225181955346",
+    "firebase_url": "https://wallies-d029e-default-rtdb.firebaseio.com",
     "project_id": "wallies-d029e",
     "storage_bucket": "wallies-d029e.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "225181955346-jm25gn2htfor0mr6lkbhi3mvb91uuttk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.oguzdogdu.wallies",
+            "certificate_hash": "5a57d5d657dd9d9e673937ea449fad1502d99a8b"
+          }
+        },
         {
           "client_id": "225181955346-fe24mqoaiu3lon9gt5ud0rds0dubrpjp.apps.googleusercontent.com",
           "client_type": 3

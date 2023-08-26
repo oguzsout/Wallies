@@ -94,6 +94,20 @@
                 android:text="@string/login"
                 android:textStyle="bold" />
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buttonGoogleSignIn"
+                style="@style/AuthButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_google_sign_in"
+                android:layout_marginHorizontal="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_16"
+                android:drawablePadding="@dimen/dp_16"
+                android:paddingStart="@dimen/dp_20"
+                android:paddingEnd="@dimen/dp_20"
+                android:text="@string/sign_in_with_google"
+                tools:text="Google ile Giriş Yap" />
+
             <TextView
                 android:id="@+id/textViewSignUp"
                 style="@style/MainText"

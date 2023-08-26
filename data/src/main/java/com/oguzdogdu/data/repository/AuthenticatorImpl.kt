@@ -6,6 +6,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import com.oguzdogdu.data.common.Constants.COLLECTION_PATH
 import com.oguzdogdu.data.common.Constants.EMAIL
@@ -26,9 +27,13 @@ import javax.inject.Inject
 
 class AuthenticatorImpl @Inject constructor(
     private val auth: FirebaseAuth,
-    private val firebaseFirestore: FirebaseFirestore,
+    private val firebaseFirestore: FirebaseFirestore
 ) : Authenticator {
     override suspend fun isUserAuthenticatedInFirebase() = auth.currentUser != null
+    override suspend fun isUserAuthenticatedWithGoogle(): Boolean {
+        val user = FirebaseAuth.getInstance().currentUser
+        return user?.providerData?.any { it.providerId == GoogleAuthProvider.PROVIDER_ID } == true
+    }
 
     @RequiresApi(Build.VERSION_CODES.N)
     override suspend fun signUp(
@@ -98,6 +103,25 @@ class AuthenticatorImpl @Inject constructor(
 
     override suspend fun signIn(userEmail: String, password: String):AuthResult {
       return  auth.signInWithEmailAndPassword(userEmail, password).await()
+    }
+
+    override suspend fun signInWithGoogle(idToken: String?): AuthResult {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        return auth.signInWithCredential(credential).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val user = FirebaseAuth.getInstance().currentUser
+                val userModel = hashMapOf(
+                    ID to auth.currentUser?.uid,
+                    EMAIL to user?.email.orEmpty(),
+                    NAME to user?.displayName.orEmpty(),
+                    IMAGE to user?.photoUrl.toString()
+                )
+                auth.currentUser?.uid?.let {
+                    firebaseFirestore.collection(COLLECTION_PATH).document(it)
+                        .set(userModel)
+                }
+            }
+        }.await()
     }
 
     override suspend fun signOut() = auth.signOut()

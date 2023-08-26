@@ -1,13 +1,23 @@
 package com.oguzdogdu.wallies.presentation.login
 
+import android.app.Activity
+import android.content.ContentValues.TAG
+import android.content.Intent
+import android.os.Build
 import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.text.bold
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.android.material.textfield.TextInputLayout
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
@@ -23,6 +33,35 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
     private val viewModel: LoginViewModel by viewModels()
 
+    private lateinit var googleSignInClient: GoogleSignInClient
+
+    private val googleSignInLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data: Intent? = result.data
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val account = task.getResult(ApiException::class.java)!!
+                viewModel.handleUIEvent(
+                    LoginScreenEvent.GoogleButton(idToken = account.idToken)
+                )
+            } catch (e: ApiException) {
+                Log.w(TAG, "Google sign in failed", e)
+            }
+        }
+    }
+
+    override fun initVariables() {
+        super.initVariables()
+        val googleSignInOptions =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(
+                GOOGLE_CLIENT_ID
+            ).requestEmail().build()
+
+        googleSignInClient = GoogleSignIn.getClient(requireContext(), googleSignInOptions)
+    }
+
     override fun initViews() {
         super.initViews()
         setUiComponents()
@@ -37,6 +76,36 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         }
         binding.textViewForgetPassword.setOnClickListener {
             navigateWithDirection(LoginFragmentDirections.toForgotPassword())
+        }
+        binding.buttonGoogleSignIn.setOnClickListener {
+            checkVersion()
+        }
+    }
+
+    private fun checkVersion() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val signInIntent = googleSignInClient.signInIntent
+            googleSignInLauncher.launch(signInIntent)
+        } else {
+            val signInIntent = googleSignInClient.signInIntent
+            startActivityForResult(signInIntent, GOOGLE_SIGN_IN)
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == GOOGLE_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val account = task.getResult(ApiException::class.java)!!
+                viewModel.handleUIEvent(
+                    LoginScreenEvent.GoogleButton(idToken = account.idToken)
+                )
+                Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
+            } catch (e: ApiException) {
+                Log.w(TAG, "Google sign in failed", e)
+            }
         }
     }
 
@@ -125,5 +194,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                 }
             }
         }
+    }
+    companion object {
+        const val GOOGLE_SIGN_IN = 1001
+        const val GOOGLE_CLIENT_ID = "225181955346-fe24mqoaiu3lon9gt5ud0rds0dubrpjp.apps.googleusercontent.com"
     }
 }

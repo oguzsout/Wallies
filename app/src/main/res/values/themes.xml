@@ -86,6 +86,19 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="AuthButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:backgroundTint">@color/background_app_icon</item>
+        <item name="android:background">@drawable/bg_ripple_dark</item>
+        <item name="android:fontFamily">@font/googlesansmedium</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="paddingStart">@dimen/dp_16</item>
+        <item name="paddingEnd">@dimen/dp_16</item>
+        <item name="android:drawablePadding">@dimen/dp_16</item>
+        <item name="android:gravity">start|center_vertical</item>
+    </style>
+
     <style name="DialogButtonStyle" parent="Widget.AppCompat.Button">
         <item name="android:textColor">@color/black</item>
         <item name="android:fontFamily">@font/googlesansmedium</item>

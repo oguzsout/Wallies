@@ -80,4 +80,5 @@
     <string name="choise_theme">Tercih Ettiğin Temayı Seç</string>
     <string name="choise_language">Tercih Ettiğin Dili Seç</string>
     <string name="download_photo_success">Resim başarıyla indirildi</string>
+    <string name="sign_in_with_google">Google ile Giriş Yap</string>
 </resources>

@@ -8,12 +8,12 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import coil.load
 import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
+import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseBottomSheetDialogFragment
 import com.oguzdogdu.wallies.databinding.DialogEditProfilePhotoBinding
 import com.oguzdogdu.wallies.util.observeInLifecycle
@@ -62,8 +62,13 @@ class EditProfilePhotoDialog :
 
     override fun initViews() {
         super.initViews()
-        args.profilePhoto?.let {
-            setUserComponent(it.toUri())
+        when (args.profilePhoto.isNullOrBlank()) {
+            true -> binding.imageViewEditProfilePhoto.load(R.drawable.ic_default_avatar)
+            false -> binding.imageViewEditProfilePhoto.load(args.profilePhoto) {
+                diskCachePolicy(CachePolicy.DISABLED)
+                transformations(CircleCropTransformation())
+                allowConversionToBitmap(true)
+            }
         }
     }
 
@@ -124,10 +129,13 @@ class EditProfilePhotoDialog :
     }
 
     private fun setUserComponent(image: Uri?) {
-        binding.imageViewEditProfilePhoto.load(image) {
-            diskCachePolicy(CachePolicy.DISABLED)
-            transformations(CircleCropTransformation())
-            allowConversionToBitmap(true)
+        when (image.toString().isBlank()) {
+            true -> binding.imageViewEditProfilePhoto.load(R.drawable.ic_default_avatar)
+            false -> binding.imageViewEditProfilePhoto.load(image) {
+                diskCachePolicy(CachePolicy.DISABLED)
+                transformations(CircleCropTransformation())
+                allowConversionToBitmap(true)
+            }
         }
     }
 }

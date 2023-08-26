@@ -2,6 +2,7 @@ package com.oguzdogdu.wallies.presentation.authenticateduser
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.oguzdogdu.domain.usecase.auth.CheckGoogleSignInUseCase
 import com.oguzdogdu.domain.usecase.auth.GetCurrentUserDatasUseCase
 import com.oguzdogdu.domain.usecase.auth.SignOutUseCase
 import com.oguzdogdu.domain.wrapper.Resource
@@ -16,7 +17,8 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class AuthenticedUserViewModel @Inject constructor(
     private val getCurrentUserDatasUseCase: GetCurrentUserDatasUseCase,
-    private val signOutUseCase: SignOutUseCase
+    private val signOutUseCase: SignOutUseCase,
+    private val checkGoogleSignInUseCase: CheckGoogleSignInUseCase
 ) : ViewModel() {
 
     private val _userState: MutableStateFlow<AuthenticatedUserScreenState?> = MutableStateFlow(null)
@@ -26,6 +28,7 @@ class AuthenticedUserViewModel @Inject constructor(
         when (event) {
             is AuthenticatedUserEvent.FetchUserInfos -> {
                 fetchUserDatas()
+                checkUserSignInMethod()
             }
             is AuthenticatedUserEvent.SignOut -> {
                 signOut()
@@ -36,7 +39,6 @@ class AuthenticedUserViewModel @Inject constructor(
     private fun fetchUserDatas() {
         viewModelScope.launch {
             getCurrentUserDatasUseCase.invoke().collectLatest { result ->
-
                 when (result) {
                     is Resource.Loading -> _userState.update { AuthenticatedUserScreenState.Loading }
 
@@ -53,6 +55,31 @@ class AuthenticedUserViewModel @Inject constructor(
                                 surname = result.data.surname,
                                 email = result.data.email,
                                 profileImage = result.data.image
+                            )
+                        }
+
+                    else -> {}
+                }
+            }
+        }
+    }
+
+    private fun checkUserSignInMethod() {
+        viewModelScope.launch {
+            checkGoogleSignInUseCase.invoke().collectLatest { result ->
+                when (result) {
+                    is Resource.Loading -> _userState.update { AuthenticatedUserScreenState.Loading }
+
+                    is Resource.Error -> _userState.update {
+                        AuthenticatedUserScreenState.UserInfoError(
+                            result.errorMessage
+                        )
+                    }
+
+                    is Resource.Success ->
+                        _userState.update {
+                            AuthenticatedUserScreenState.CheckUserGoogleSignIn(
+                                isAuthenticated = result.data
                             )
                         }
 
