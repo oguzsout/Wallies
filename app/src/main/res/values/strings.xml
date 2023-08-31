@@ -80,4 +80,8 @@
     <string name="choise_language">Choise Your Language</string>
     <string name="download_photo_success">Image downloaded successfully</string>
     <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="login_title">Login</string>
+    <string name="please_sign_in_to_continue">Please sign in to continue.</string>
+    <string name="create_account">Create Account</string>
+    <string name="sign_up_sub_title">Please enter your information to create an account.</string>
 </resources>

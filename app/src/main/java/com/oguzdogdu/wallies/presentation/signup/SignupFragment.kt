@@ -153,10 +153,6 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(FragmentSignupBinding
 
     private fun setUiComponents() {
         with(binding) {
-            toolbarSignUp.setTitle(
-                title = getString(R.string.sign_up_title),
-                titleStyleRes = R.style.DialogTitleText
-            )
             toolbarSignUp.setLeftIcon(R.drawable.back)
             editTextEmail.addTextChangedListener(TextFieldValidation(binding.editTextEmail))
             editTextPassword.addTextChangedListener(

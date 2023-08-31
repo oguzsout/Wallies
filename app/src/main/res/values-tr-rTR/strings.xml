@@ -81,4 +81,8 @@
     <string name="choise_language">Tercih Ettiğin Dili Seç</string>
     <string name="download_photo_success">Resim başarıyla indirildi</string>
     <string name="sign_in_with_google">Google ile Giriş Yap</string>
+    <string name="login_title">Giriş Yap</string>
+    <string name="please_sign_in_to_continue">Devam etmek için giriş yapın.</string>
+    <string name="create_account">Hesap Oluştur</string>
+    <string name="sign_up_sub_title">Hesap oluşturmak için lütfen bilgilerinizi girin.</string>
 </resources>
