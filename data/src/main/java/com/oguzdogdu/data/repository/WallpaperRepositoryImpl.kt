@@ -67,7 +67,7 @@ class WallpaperRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getPhoto(id: String): Photo {
-        return service.getPhoto(id = id).toDomainModelPhoto()
+        return service.getPhoto(id = id).body()?.toDomainModelPhoto()!!
     }
 
     override suspend fun searchPhoto(query: String?): Flow<PagingData<SearchPhoto>> {
@@ -97,9 +97,9 @@ class WallpaperRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getCollectionsListById(id: String?): List<CollectionList> {
-        return service.getCollectionsListById(id).map {
+        return service.getCollectionsListById(id).body()?.map {
             it.toDomain()
-        }
+        }.orEmpty()
     }
 
     override suspend fun insertImageToFavorites(favorite: FavoriteImages) {

@@ -11,10 +11,12 @@ import javax.inject.Inject
 class UnsplashUserRepositoryImpl @Inject constructor(private val service: UnsplashUserService) :
     UnsplashUserRepository {
     override suspend fun getUserDetails(username: String?): UserDetails {
-        return service.getUserDetailInfos(username = username).toDomain()
+        return service.getUserDetailInfos(username = username).body()?.toDomain()!!
     }
 
     override suspend fun getUsersPhotos(username: String?): List<UsersPhotos> {
-        return service.getUserPhotos(username = username).map { it.toDomainUsersPhotos() }
+        return service.getUserPhotos(username = username).body().orEmpty().map {
+            it.toDomainUsersPhotos()
+        }
     }
 }

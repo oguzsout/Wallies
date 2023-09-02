@@ -23,11 +23,11 @@ class SearchPagingSource(
             : LoadResult<Int, Result> {
         return try {
             val page = params.key ?: 1
-            val response = service.searchPhotos(page = page, query = query)
+            val response = service.searchPhotos(page = page, query = query).body()?.results.orEmpty()
             LoadResult.Page(
-                data = response.results,
+                data = response,
                 prevKey = if (page == 1) null else page - 1,
-                nextKey = if (response.results.isEmpty()) null else page + 1
+                nextKey = if (response.isEmpty()) null else page + 1
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

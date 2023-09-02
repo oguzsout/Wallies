@@ -18,7 +18,7 @@ class PopularPagingSource(private val service: WallpaperService) :
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, UnsplashResponseItem> {
         return try {
             val page = params.key ?: 1
-            val response = service.getImagesByOrders(page = page, order = Constants.POPULAR)
+            val response = service.getImagesByOrders(page = page, order = Constants.POPULAR).body().orEmpty()
             LoadResult.Page(
                 data = response,
                 prevKey = if (page == 1) null else page - 1,
