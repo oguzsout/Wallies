@@ -23,12 +23,6 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
     private val _signUpState: MutableStateFlow<SignUpState> = MutableStateFlow(SignUpState.Start)
     val signUpState = _signUpState.asStateFlow()
 
-    private var uri: Uri? = null
-
-    fun setUri(newUri: Uri?) {
-        uri = newUri
-    }
-
     private val userEmail = MutableStateFlow("")
 
     private val userPassword = MutableStateFlow("")
@@ -38,6 +32,13 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
             is SignUpScreenEvent.ButtonState -> {
                 buttonStateUpdate()
             }
+            is SignUpScreenEvent.UserInfosForSignUp -> userSignUp(
+                name = event.name,
+                surname = event.surname,
+                email = event.email,
+                password = event.password,
+                photoUri = event.photoUri
+            )
         }
     }
 
@@ -66,11 +67,12 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
         }
     }
 
-    fun userSignUp(
+    private fun userSignUp(
         name: String,
         surname: String,
         email: String,
-        password: String
+        password: String,
+        photoUri: Uri
     ) {
         viewModelScope.launch {
             signUpUseCase.invoke(
@@ -78,7 +80,7 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
                     name = name,
                     surname = surname,
                     email = email,
-                    image = uploadImage()
+                    image = uploadImage(photoUri)
                 ),
                 password = password
             ).collect { result ->
@@ -99,7 +101,7 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
         }
     }
 
-    private suspend fun uploadImage(): String? = suspendCancellableCoroutine { continuation ->
+    private suspend fun uploadImage(uri: Uri?): String? = suspendCancellableCoroutine { continuation ->
         val storageRef = FirebaseStorage.getInstance().reference.child(Constants.IMAGE)
         val childRef = storageRef.child(System.currentTimeMillis().toString())
 

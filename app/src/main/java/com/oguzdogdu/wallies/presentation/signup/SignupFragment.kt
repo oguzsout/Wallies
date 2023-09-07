@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
 class SignupFragment : BaseFragment<FragmentSignupBinding>(FragmentSignupBinding::inflate) {
 
     private val viewModel: SignUpViewModel by viewModels()
-
+    private lateinit var photoUri: Uri
     private val REQUEST_CODE_PERMISSIONS = 1001
     private val PERMISSIONS = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         arrayOf(
@@ -46,21 +46,25 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(FragmentSignupBinding
 
     private val pickProfilePictureFromGalleryResult =
         registerForActivityResult(OpenDocument()) { uri: Uri? ->
-            viewModel.setUri(uri)
-            binding.imageViewAddUserPhoto.load(uri) {
-                diskCachePolicy(CachePolicy.DISABLED)
-                transformations(CircleCropTransformation())
-                allowConversionToBitmap(true)
+            uri?.let {
+                photoUri = it
+                binding.imageViewAddUserPhoto.load(it) {
+                    diskCachePolicy(CachePolicy.DISABLED)
+                    transformations(CircleCropTransformation())
+                    allowConversionToBitmap(true)
+                }
             }
         }
 
     private val singlePhotoPickerLauncher =
         registerForActivityResult(PickVisualMedia()) { uri ->
-            viewModel.setUri(uri)
-            binding.imageViewAddUserPhoto.load(uri) {
-                diskCachePolicy(CachePolicy.DISABLED)
-                transformations(CircleCropTransformation())
-                allowConversionToBitmap(true)
+            uri?.let {
+                photoUri = it
+                binding.imageViewAddUserPhoto.load(it) {
+                    diskCachePolicy(CachePolicy.DISABLED)
+                    transformations(CircleCropTransformation())
+                    allowConversionToBitmap(true)
+                }
             }
         }
 
@@ -79,11 +83,14 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(FragmentSignupBinding
         }
 
         binding.buttonSignUp.setOnClickListener {
-            viewModel.userSignUp(
-                name = binding.editTextName.text.toString(),
-                surname = binding.editTextSurname.text.toString(),
-                email = binding.editTextEmail.text.toString(),
-                password = binding.editTextPassword.text.toString()
+            viewModel.handleUIEvent(
+                SignUpScreenEvent.UserInfosForSignUp(
+                    name = binding.editTextName.text.toString(),
+                    surname = binding.editTextSurname.text.toString(),
+                    email = binding.editTextEmail.text.toString(),
+                    password = binding.editTextPassword.text.toString(),
+                    photoUri = photoUri
+                )
             )
         }
     }
