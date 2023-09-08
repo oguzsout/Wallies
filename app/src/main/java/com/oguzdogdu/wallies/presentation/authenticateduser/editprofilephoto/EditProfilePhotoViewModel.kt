@@ -29,16 +29,6 @@ class EditProfilePhotoViewModel @Inject constructor(
     )
     val userImageState = _userImageState.asStateFlow()
 
-    private var uri: Uri? = null
-
-    fun setUri(newUri: Uri?) {
-        uri = newUri
-    }
-
-    fun getUri(): Uri? {
-        return uri
-    }
-
     init {
         fetchUserImage()
     }
@@ -46,8 +36,7 @@ class EditProfilePhotoViewModel @Inject constructor(
     fun handleUiEvents(event: EditProfilePhotoEvent) {
         when (event) {
             is EditProfilePhotoEvent.ChangeProfileImage -> {
-                changeProfileImage()
-                checkChangedPhotoStatus()
+                changeProfileImage(uri = event.photoUri)
             }
         }
     }
@@ -74,9 +63,16 @@ class EditProfilePhotoViewModel @Inject constructor(
         }
     }
 
-    private fun checkChangedPhotoStatus() {
+    private fun changeProfileImage(uri: Uri?) {
         viewModelScope.launch {
-            if (uploadImage()?.isNotEmpty() == true) {
+            changeUserProfilePhotoUseCase.invoke(photo = uploadImage(uri = uri))
+            checkChangedPhotoStatus(uri = uri)
+        }
+    }
+
+    private fun checkChangedPhotoStatus(uri: Uri?) {
+        viewModelScope.launch {
+            if (uploadImage(uri)?.isNotEmpty() == true) {
                 _userImageState.update {
                     EditProfilePhotoScreenState.ProcessCompleted(
                         isCompleted = true
@@ -92,39 +88,35 @@ class EditProfilePhotoViewModel @Inject constructor(
         }
     }
 
-    fun changeProfileImage() {
-        viewModelScope.launch {
-            changeUserProfilePhotoUseCase.invoke(photo = uploadImage())
+    private suspend fun uploadImage(uri: Uri?): String? = suspendCancellableCoroutine { continuation ->
+        if (uri == null) {
+            continuation.resume(null)
+            return@suspendCancellableCoroutine
         }
-    }
 
-    private suspend fun uploadImage(): String? = suspendCancellableCoroutine { continuation ->
         val storageRef = FirebaseStorage.getInstance().reference.child(Constants.IMAGE)
         val childRef = storageRef.child(System.currentTimeMillis().toString())
 
-        uri?.let { uri ->
-            val uploadTask = childRef.putFile(uri)
-            uploadTask.continueWithTask { task ->
-                if (!task.isSuccessful) {
-                    task.exception?.let { exception ->
-                        throw exception
-                    }
-                }
-                childRef.downloadUrl
-            }.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val downloadUri = task.result
-                    continuation.resume(downloadUri?.toString())
-                } else {
-                    continuation.resume(null)
-                }
-            }
+        val uploadTask = childRef.putFile(uri)
 
-            continuation.invokeOnCancellation {
-                uploadTask.cancel()
+        uploadTask.continueWithTask { task ->
+            if (!task.isSuccessful) {
+                task.exception?.let { exception ->
+                    throw exception
+                }
             }
-        } ?: run {
-            continuation.resume(null)
+            childRef.downloadUrl
+        }.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val downloadUri = task.result
+                continuation.resume(downloadUri?.toString())
+            } else {
+                continuation.resume(null)
+            }
+        }
+
+        continuation.invokeOnCancellation {
+            uploadTask.cancel()
         }
     }
 }

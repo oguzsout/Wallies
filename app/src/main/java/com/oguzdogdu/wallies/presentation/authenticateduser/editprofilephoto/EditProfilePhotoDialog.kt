@@ -27,6 +27,8 @@ class EditProfilePhotoDialog :
 
     private val viewModel: EditProfilePhotoViewModel by viewModels()
 
+    private lateinit var photoUri: Uri
+
     private val args: EditProfilePhotoDialogArgs by navArgs()
 
     private val REQUEST_CODE_PERMISSIONS = 1001
@@ -45,18 +47,17 @@ class EditProfilePhotoDialog :
     private val pickProfilePictureFromGalleryResult =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri: Uri? ->
             uri?.let {
+                photoUri = uri
                 setUserComponent(it)
-                viewModel.setUri(it)
             }
         }
 
     private val singlePhotoPickerLauncher =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             uri?.let {
-                binding.imageViewEditProfilePhoto.load(it) {
-                    setUserComponent(it)
-                    viewModel.setUri(it)
-                }
+                photoUri = uri
+                binding.imageViewEditProfilePhoto.load(it)
+                setUserComponent(it)
             }
         }
 
@@ -78,7 +79,7 @@ class EditProfilePhotoDialog :
             checkPermissions()
         }
         binding.buttonChangeUserPhoto.setOnClickListener {
-            viewModel.handleUiEvents(EditProfilePhotoEvent.ChangeProfileImage)
+            viewModel.handleUiEvents(EditProfilePhotoEvent.ChangeProfileImage(photoUri = photoUri))
         }
     }
 

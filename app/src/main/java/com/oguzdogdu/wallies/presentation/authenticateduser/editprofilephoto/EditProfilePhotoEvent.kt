@@ -1,5 +1,7 @@
 package com.oguzdogdu.wallies.presentation.authenticateduser.editprofilephoto
 
+import android.net.Uri
+
 sealed class EditProfilePhotoEvent {
-    object ChangeProfileImage : EditProfilePhotoEvent()
+    data class ChangeProfileImage(val photoUri: Uri?) : EditProfilePhotoEvent()
 }
