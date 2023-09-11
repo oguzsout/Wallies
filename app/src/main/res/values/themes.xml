@@ -190,6 +190,14 @@
         <item name="android:fontFamily">@font/googlesansmedium</item>
     </style>
 
+    <style name="SnackBarText" parent="@android:style/TextAppearance">
+        <item name="android:textSize">@dimen/sp_12</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/googlesansmedium</item>
+        <item name="android:ellipsize">end</item>
+        <item name="maxLines">3</item>
+    </style>
+
     <style name="ToolbarTitleText" parent="@android:style/TextAppearance">
         <item name="android:textSize">@dimen/sp_24</item>
         <item name="android:textColor">@color/black</item>

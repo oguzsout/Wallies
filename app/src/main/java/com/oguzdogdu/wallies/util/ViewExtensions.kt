@@ -5,9 +5,12 @@ import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.view.View
+import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +18,30 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.google.android.material.snackbar.Snackbar
 import com.oguzdogdu.wallies.R
+
+internal fun View?.findSuitableParent(): ViewGroup? {
+    var view = this
+    var fallback: ViewGroup? = null
+
+    do {
+        if (view is ConstraintLayout) {
+            return view
+        } else if (view is FrameLayout) {
+            if (view.id == android.R.id.content) {
+                return view
+            } else {
+                fallback = view
+            }
+        }
+
+        if (view != null) {
+            val parent = view.parent
+            view = if (parent is View) parent else null
+        }
+    } while (view != null)
+
+    return fallback
+}
 
 inline fun RecyclerView.setupRecyclerView(
     layout: RecyclerView.LayoutManager? = null,
