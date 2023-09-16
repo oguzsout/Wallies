@@ -68,21 +68,21 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
     }
 
     private fun userSignUp(
-        name: String,
-        surname: String,
-        email: String,
-        password: String,
-        photoUri: Uri
+        name: String?,
+        surname: String?,
+        email: String?,
+        password: String?,
+        photoUri: Uri?
     ) {
         viewModelScope.launch {
             signUpUseCase.invoke(
                 user = com.oguzdogdu.domain.model.auth.User(
-                    name = name,
-                    surname = surname,
-                    email = email,
-                    image = uploadImage(photoUri)
+                    name = name.orEmpty(),
+                    surname = surname.orEmpty(),
+                    email = email.orEmpty(),
+                    image = uploadImage(photoUri).orEmpty()
                 ),
-                password = password
+                password = password.orEmpty()
             ).collect { result ->
                 when (result) {
                     is Resource.Loading -> {

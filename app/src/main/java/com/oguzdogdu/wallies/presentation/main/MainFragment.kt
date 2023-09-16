@@ -38,15 +38,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
     private fun getAuthenticatedUserInfos() {
         lifecycleScope.launch {
             viewModel.userState.observeInLifecycle(viewLifecycleOwner, observer = { data ->
-                if (data != null) {
-                    if (data.profileImage != null) {
-                        binding.imageViewProfileAvatar.load(data.profileImage) {
-                            diskCachePolicy(CachePolicy.DISABLED)
-                            transformations(CircleCropTransformation())
-                            allowConversionToBitmap(true)
-                        }
-                    } else {
-                        binding.imageViewProfileAvatar.load(R.drawable.ic_default_avatar)
+                when (data?.profileImage.isNullOrBlank()) {
+                    true -> binding.imageViewProfileAvatar.load(R.drawable.ic_default_avatar)
+                    false -> binding.imageViewProfileAvatar.load(data?.profileImage) {
+                        diskCachePolicy(CachePolicy.DISABLED)
+                        transformations(CircleCropTransformation())
+                        allowConversionToBitmap(true)
                     }
                 }
             })

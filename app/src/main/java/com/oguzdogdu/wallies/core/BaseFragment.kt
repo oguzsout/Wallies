@@ -10,10 +10,11 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.oguzdogdu.wallies.R
+import com.oguzdogdu.wallies.core.snackbar.CustomSnackbarImpl
+import com.oguzdogdu.wallies.core.snackbar.MessageType
 import com.oguzdogdu.wallies.util.CheckConnection
 import com.oguzdogdu.wallies.util.navigateSafe
 import com.oguzdogdu.wallies.util.navigateSafeWithDirection
-import com.oguzdogdu.wallies.util.showToast
 import javax.inject.Inject
 
 abstract class BaseFragment<VB : ViewBinding>(
@@ -53,7 +54,10 @@ abstract class BaseFragment<VB : ViewBinding>(
         connection.observe(viewLifecycleOwner) {
             when (it) {
                 true -> observeData()
-                false -> requireView().showToast(requireContext(), R.string.internet_error)
+                false -> showMessage(
+                    message = resources.getString(R.string.internet_error),
+                    type = MessageType.ERROR
+                )
                 null -> TODO()
             }
         }
@@ -83,6 +87,10 @@ abstract class BaseFragment<VB : ViewBinding>(
                 requireActivity().finish()
             }
         }
+    }
+
+    fun showMessage(message: String, type: MessageType) {
+        CustomSnackbarImpl.build(this, type, message, null).show()
     }
 
     override fun onDestroyView() {

@@ -9,7 +9,6 @@ import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.text.bold
 import androidx.fragment.app.viewModels
@@ -21,11 +20,12 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.material.textfield.TextInputLayout
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
+import com.oguzdogdu.wallies.core.snackbar.MessageType
 import com.oguzdogdu.wallies.databinding.FragmentLoginBinding
 import com.oguzdogdu.wallies.util.FieldValidators
 import com.oguzdogdu.wallies.util.observeInLifecycle
-import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -130,15 +130,21 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         lifecycleScope.launch {
             viewModel.loginState.observeInLifecycle(viewLifecycleOwner, observer = { state ->
                 when (state) {
-                    is LoginState.ErrorSignIn -> requireView().showToast(
-                        context = requireContext(),
+                    is LoginState.ErrorSignIn -> showMessage(
                         message = state.errorMessage,
-                        duration = Toast.LENGTH_LONG
+                        MessageType.ERROR
                     )
 
-                    is LoginState.UserSignIn -> navigateWithDirection(
-                        LoginFragmentDirections.toMain()
-                    )
+                    is LoginState.UserSignIn -> {
+                        showMessage(
+                            message = getString(R.string.success_login),
+                            MessageType.SUCCESS
+                        )
+                        delay(3000)
+                        navigateWithDirection(
+                            LoginFragmentDirections.toMain()
+                        )
+                    }
                     is LoginState.ButtonEnabled -> {
                         binding.button.isEnabled = state.isEnabled
                     }

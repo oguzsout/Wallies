@@ -1,18 +1,17 @@
 package com.oguzdogdu.wallies.presentation.favorites
 
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
+import com.oguzdogdu.wallies.core.snackbar.MessageType
 import com.oguzdogdu.wallies.databinding.FragmentFavoritesBinding
 import com.oguzdogdu.wallies.presentation.main.MainActivity
 import com.oguzdogdu.wallies.util.hide
 import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.setupRecyclerView
 import com.oguzdogdu.wallies.util.show
-import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -68,13 +67,10 @@ class FavoritesFragment :
         viewModel.favorites.observeInLifecycle(viewLifecycleOwner, observer = { state ->
             when (state) {
                 is FavoriteUiState.Loading -> binding.progressBar.show()
-                is FavoriteUiState.FavoriteError -> state.errorMessage?.let {
-                    requireView().showToast(
-                        context = requireContext(),
-                        message = it,
-                        duration = Toast.LENGTH_LONG
-                    )
-                }
+                is FavoriteUiState.FavoriteError -> showMessage(
+                    message = state.errorMessage.orEmpty(),
+                    type = MessageType.ERROR
+                )
                 is FavoriteUiState.Favorites -> {
                     when {
                         state.favorites.isEmpty() -> {

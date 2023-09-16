@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
+import com.oguzdogdu.wallies.core.snackbar.MessageType
 import com.oguzdogdu.wallies.databinding.FragmentEditPasswordBinding
 import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.showToast
@@ -43,15 +44,10 @@ class EditPasswordFragment : BaseFragment<FragmentEditPasswordBinding>(
         viewModel.passwordState.observeInLifecycle(viewLifecycleOwner, observer = { state ->
             when (state) {
                 is EditPasswordScreenState.Loading -> {}
-                is EditPasswordScreenState.PasswordChangeError -> {
-                    state.errorMessage?.let {
-                        requireView().showToast(
-                            context = requireContext(),
-                            message = it,
-                            duration = Toast.LENGTH_LONG
-                        )
-                    }
-                }
+                is EditPasswordScreenState.PasswordChangeError -> showMessage(
+                    message = state.errorMessage.orEmpty(),
+                    type = MessageType.ERROR
+                )
                 is EditPasswordScreenState.PasswordChangeSucceed -> {
                     if (state.successMessage != null) {
                         requireView().showToast(

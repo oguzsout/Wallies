@@ -9,13 +9,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.oguzdogdu.wallies.BuildConfig
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
+import com.oguzdogdu.wallies.core.snackbar.MessageType
 import com.oguzdogdu.wallies.databinding.FragmentSettingsBinding
 import com.oguzdogdu.wallies.presentation.authenticateduser.ProfileMenu
 import com.oguzdogdu.wallies.util.ChoiseDialogBuilder
 import com.oguzdogdu.wallies.util.OptionLists
 import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.setupRecyclerView
-import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import kotlinx.coroutines.launch
@@ -87,7 +87,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
 
                 R.string.clear_cache_title -> {
                     clearAppCache(requireContext())
-                    requireView().showToast(requireContext(), R.string.cache_state_string)
+                    showMessage(
+                        message = resources.getString(R.string.cache_state_string),
+                        MessageType.SUCCESS
+                    )
                 }
             }
         }

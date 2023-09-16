@@ -3,19 +3,18 @@ package com.oguzdogdu.wallies.presentation.search
 import android.content.Context
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.oguzdogdu.wallies.core.BaseFragment
+import com.oguzdogdu.wallies.core.snackbar.MessageType
 import com.oguzdogdu.wallies.databinding.FragmentSearchBinding
 import com.oguzdogdu.wallies.util.LoaderAdapter
 import com.oguzdogdu.wallies.util.hide
 import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.setupRecyclerView
 import com.oguzdogdu.wallies.util.show
-import com.oguzdogdu.wallies.util.showToast
 import com.oguzdogdu.wallies.util.textChanges
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.onEach
@@ -126,11 +125,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
             }
             errorState?.let {
                 it.error.message?.let { message ->
-                    requireView().showToast(
-                        context = requireContext(),
-                        message = message,
-                        duration = Toast.LENGTH_LONG
-                    )
+                    showMessage(message = message, type = MessageType.ERROR)
                 }
             }
         }

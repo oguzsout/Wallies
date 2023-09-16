@@ -1,12 +1,12 @@
 package com.oguzdogdu.wallies.presentation.collections
 
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
+import com.oguzdogdu.wallies.core.snackbar.MessageType
 import com.oguzdogdu.wallies.databinding.FragmentCollectionsBinding
 import com.oguzdogdu.wallies.presentation.main.MainActivity
 import com.oguzdogdu.wallies.util.LoaderAdapter
@@ -14,7 +14,6 @@ import com.oguzdogdu.wallies.util.hide
 import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.setupRecyclerView
 import com.oguzdogdu.wallies.util.show
-import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -102,11 +101,7 @@ class CollectionsFragment :
             }
             errorState?.let {
                 it.error.message?.let { message ->
-                    requireView().showToast(
-                        context = requireContext(),
-                        message = message,
-                        duration = Toast.LENGTH_LONG
-                    )
+                    showMessage(message = message, type = MessageType.ERROR)
                 }
             }
         }

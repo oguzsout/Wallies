@@ -84,4 +84,6 @@
     <string name="please_sign_in_to_continue">Please sign in to continue.</string>
     <string name="create_account">Create Account</string>
     <string name="sign_up_sub_title">Please enter your information to create an account.</string>
+    <string name="success_sign">Registration Successful</string>
+    <string name="success_login">Login Successful</string>
 </resources>

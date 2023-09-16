@@ -9,13 +9,13 @@ import coil.transform.CircleCropTransformation
 import com.oguzdogdu.domain.model.singlephoto.Photo
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
+import com.oguzdogdu.wallies.core.snackbar.MessageType
 import com.oguzdogdu.wallies.databinding.FragmentDetailBinding
 import com.oguzdogdu.wallies.util.formatDate
 import com.oguzdogdu.wallies.util.hide
 import com.oguzdogdu.wallies.util.itemLoading
 import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.show
-import com.oguzdogdu.wallies.util.showToast
 import com.oguzdogdu.wallies.util.toFormattedString
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -43,12 +43,10 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
     private fun showDetailScreenDatas() {
         viewModel.photo.observeInLifecycle(viewLifecycleOwner, observer = { state ->
             when (state) {
-                is DetailState.DetailError -> state.errorMessage?.let {
-                    requireView().showToast(
-                        requireContext(),
-                        it
-                    )
-                }
+                is DetailState.DetailError -> showMessage(
+                    message = state.errorMessage.orEmpty(),
+                    type = MessageType.ERROR
+                )
 
                 is DetailState.Loading -> binding.dashboardContainer.hide()
 

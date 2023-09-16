@@ -7,30 +7,30 @@ import android.os.Build
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts.*
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import coil.load
 import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
+import com.oguzdogdu.wallies.core.snackbar.MessageType
 import com.oguzdogdu.wallies.databinding.FragmentSignupBinding
 import com.oguzdogdu.wallies.util.FieldValidators
-import com.oguzdogdu.wallies.util.showToast
+import com.oguzdogdu.wallies.util.observeInLifecycle
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SignupFragment : BaseFragment<FragmentSignupBinding>(FragmentSignupBinding::inflate) {
 
     private val viewModel: SignUpViewModel by viewModels()
-    private lateinit var photoUri: Uri
+    private var photoUri: Uri? = null
     private val REQUEST_CODE_PERMISSIONS = 1001
     private val PERMISSIONS = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         arrayOf(
@@ -89,7 +89,7 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(FragmentSignupBinding
                     surname = binding.editTextSurname.text.toString(),
                     email = binding.editTextEmail.text.toString(),
                     password = binding.editTextPassword.text.toString(),
-                    photoUri = photoUri
+                    photoUri = photoUri ?: Uri.EMPTY
                 )
             )
         }
@@ -131,31 +131,31 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(FragmentSignupBinding
     }
 
     private fun checkSignUpState() {
-        lifecycleScope.launch {
-            viewModel.signUpState.collect { state ->
-                when (state) {
-                    is SignUpState.Loading -> {
-                    }
+        viewModel.signUpState.observeInLifecycle(viewLifecycleOwner, observer = { state ->
+            when (state) {
+                is SignUpState.Loading -> {
+                }
 
-                    is SignUpState.ErrorSignUp -> {
-                        requireView().showToast(
-                            context = requireContext(),
-                            message = state.errorMessage,
-                            duration = Toast.LENGTH_LONG
-                        )
-                    }
+                is SignUpState.ErrorSignUp -> showMessage(
+                    message = state.errorMessage,
+                    MessageType.ERROR
+                )
 
-                    is SignUpState.UserSignUp -> navigateWithDirection(
+                is SignUpState.UserSignUp -> {
+                    showMessage(message = getString(R.string.success_sign), MessageType.SUCCESS)
+                    delay(3000)
+                    navigateWithDirection(
                         SignupFragmentDirections.toMain()
                     )
-                    is SignUpState.ButtonEnabled -> {
-                        binding.buttonSignUp.isEnabled = state.isEnabled
-                    }
-
-                    else -> {}
                 }
+
+                is SignUpState.ButtonEnabled -> {
+                    binding.buttonSignUp.isEnabled = state.isEnabled
+                }
+
+                else -> {}
             }
-        }
+        })
     }
 
     private fun setUiComponents() {

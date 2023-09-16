@@ -1,15 +1,14 @@
 package com.oguzdogdu.wallies.presentation.authenticateduser.editemail
 
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
+import com.oguzdogdu.wallies.core.snackbar.MessageType
 import com.oguzdogdu.wallies.databinding.FragmentEditEmailBinding
 import com.oguzdogdu.wallies.util.ITooltipUtils
 import com.oguzdogdu.wallies.util.TooltipDirection
 import com.oguzdogdu.wallies.util.information
 import com.oguzdogdu.wallies.util.observeInLifecycle
-import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -56,15 +55,10 @@ class EditEmailFragment : BaseFragment<FragmentEditEmailBinding>(FragmentEditEma
         viewModel.emailState.observeInLifecycle(viewLifecycleOwner, observer = { state ->
             when (state) {
                 is EditEmailScreenState.Loading -> {}
-                is EditEmailScreenState.UserInfoError -> {
-                    state.errorMessage?.let {
-                        requireView().showToast(
-                            requireContext(),
-                            it,
-                            Toast.LENGTH_LONG
-                        )
-                    }
-                }
+                is EditEmailScreenState.UserInfoError -> showMessage(
+                    message = state.errorMessage.orEmpty(),
+                    type = MessageType.ERROR
+                )
                 is EditEmailScreenState.UserEmail -> setDataToUiComponent(email = state.email)
                 else -> {}
             }

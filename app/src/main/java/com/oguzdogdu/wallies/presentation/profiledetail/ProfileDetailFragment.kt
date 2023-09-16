@@ -1,6 +1,5 @@
 package com.oguzdogdu.wallies.presentation.profiledetail
 
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
@@ -10,12 +9,12 @@ import coil.transform.CircleCropTransformation
 import com.oguzdogdu.domain.model.userdetail.UserDetails
 import com.oguzdogdu.wallies.R
 import com.oguzdogdu.wallies.core.BaseFragment
+import com.oguzdogdu.wallies.core.snackbar.MessageType
 import com.oguzdogdu.wallies.databinding.FragmentProfileDetailBinding
 import com.oguzdogdu.wallies.util.hide
 import com.oguzdogdu.wallies.util.observeInLifecycle
 import com.oguzdogdu.wallies.util.setupRecyclerView
 import com.oguzdogdu.wallies.util.show
-import com.oguzdogdu.wallies.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -61,16 +60,10 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
         viewModel.getUserDetails.observeInLifecycle(viewLifecycleOwner, observer = { state ->
             when (state) {
                 is ProfileDetailState.Loading -> binding.progressBar.show()
-                is ProfileDetailState.UserDetailError -> {
-                    state.errorMessage?.let {
-                        requireView().showToast(
-                            requireContext(),
-                            it,
-                            Toast.LENGTH_LONG
-                        )
-                    }
-                }
-
+                is ProfileDetailState.UserDetailError -> showMessage(
+                    message = state.errorMessage.orEmpty(),
+                    type = MessageType.ERROR
+                )
                 is ProfileDetailState.UserInfos -> {
                     binding.progressBar.hide()
                     setUserDatas(userDetails = state.userDetails)
@@ -85,16 +78,10 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
         viewModel.getUserDetails.observeInLifecycle(viewLifecycleOwner, observer = { state ->
             when (state) {
                 is ProfileDetailState.Loading -> binding.progressBar.show()
-                is ProfileDetailState.UserCollectionsError -> {
-                    state.errorMessage?.let {
-                        requireView().showToast(
-                            requireContext(),
-                            it,
-                            Toast.LENGTH_LONG
-                        )
-                    }
-                }
-
+                is ProfileDetailState.UserCollectionsError -> showMessage(
+                    message = state.errorMessage.orEmpty(),
+                    type = MessageType.ERROR
+                )
                 is ProfileDetailState.UserCollections -> {
                     binding.progressBar.hide()
                     usersPhotosAdapter.submitList(state.usersPhotos)
