@@ -9,8 +9,10 @@ interface FavoriteDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addFavorites(favorite: FavoriteImage)
+
     @Query("SELECT * FROM favorites")
-     fun getFavorites(): Flow<List<FavoriteImage>>
+    fun getFavorites(): Flow<List<FavoriteImage>>
+
     @Delete
     suspend fun deleteFavorite(favorite: FavoriteImage)
 }

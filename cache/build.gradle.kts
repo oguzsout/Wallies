@@ -33,6 +33,9 @@ android {
     kotlinOptions {
         jvmTarget = ("17")
     }
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+    }
 
 }
 
@@ -43,9 +46,15 @@ dependencies {
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
+    implementation(libs.androidx.test.core)
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    testImplementation ("org.robolectric:robolectric:4.7.3")
+
+
+    androidTestImplementation ("com.google.truth:truth:1.1.4")
+    androidTestImplementation ("android.arch.core:core-testing:1.1.1")
 
     implementation(libs.google.dagger.hilt)
     kapt(libs.google.dagger.hilt.compiler)
@@ -53,4 +62,5 @@ dependencies {
     api(libs.androidx.room.runtime)
     kapt(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
+    testImplementation ("androidx.room:room-testing:2.5.1")
 }
