@@ -46,7 +46,21 @@ dependencies {
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    testImplementation("androidx.test:core-ktx:1.3.0")
+    testImplementation("androidx.test:core:1.3.0")
+    testImplementation( "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("io.mockk:mockk:1.12.3")
+    testImplementation("org.mockito:mockito-inline:3.8.0")
+    testImplementation("app.cash.turbine:turbine:0.4.0")
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.11.0"))
+    testImplementation ("com.squareup.okhttp3:mockwebserver:4.11.0")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+
+    //Truth
+    testImplementation ("com.google.truth:truth:1.1.4")
+    //MockK
+    testImplementation ("io.mockk:mockk:1.12.4")
+
 
 
     debugImplementation("com.github.chuckerteam.chucker:library:4.0.0")
