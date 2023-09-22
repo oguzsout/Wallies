@@ -14,7 +14,7 @@ dependencyResolutionManagement {
         maven("https://jitpack.io")
     }
 }
-rootProject.name = "Wallies"
+rootProject.name = "wallieshd"
 include(":app")
 include(":data")
 include(":domain")

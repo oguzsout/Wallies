@@ -1,13 +1,12 @@
 package com.oguzdogdu.network.di
 
-import android.service.wallpaper.WallpaperService
 import com.oguzdogdu.network.service.UnsplashUserService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 import retrofit2.Retrofit
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)

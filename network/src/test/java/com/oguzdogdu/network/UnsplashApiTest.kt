@@ -9,7 +9,6 @@ import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

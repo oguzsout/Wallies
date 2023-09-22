@@ -12,20 +12,10 @@ android {
     defaultConfig {
         minSdk = 21
         targetSdk = 33
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -54,14 +44,12 @@ dependencies {
     testImplementation("app.cash.turbine:turbine:0.4.0")
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.11.0"))
     testImplementation ("com.squareup.okhttp3:mockwebserver:4.11.0")
-    testImplementation("androidx.arch.core:core-testing:2.2.0")
+        testImplementation("androidx.arch.core:core-testing:2.2.0")
 
-    //Truth
-    testImplementation ("com.google.truth:truth:1.1.4")
-    //MockK
-    testImplementation ("io.mockk:mockk:1.12.4")
-
-
+        //Truth
+        testImplementation ("com.google.truth:truth:1.1.4")
+        //MockK
+        testImplementation ("io.mockk:mockk:1.12.4")
 
     debugImplementation("com.github.chuckerteam.chucker:library:4.0.0")
     releaseImplementation("com.github.chuckerteam.chucker:library-no-op:4.0.0")

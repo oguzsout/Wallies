@@ -1,4 +1,6 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import java.io.FileInputStream
+import java.util.Properties
 
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
@@ -11,18 +13,31 @@ plugins {
     id("com.google.gms.google-services")
     id("org.jlleitschuh.gradle.ktlint") version "11.3.2"
 }
+val keystorePropertiesFile: File = rootProject.file("keystore.properties")
+val keystoreProperties = Properties()
+keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 val apiKey: String = gradleLocalProperties(rootDir).getProperty("API_KEY")
+
 android {
     compileSdk = 33
-    namespace = "com.oguzdogdu.wallies"
+    namespace = "com.oguzdogdu.wallieshd"
     defaultConfig {
-        applicationId = "com.oguzdogdu.wallies"
+        applicationId = "com.oguzdogdu.wallieshd"
         minSdk = 21
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "API_KEY", apiKey)
+    }
+
+    signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+            storeFile = file(keystoreProperties["storeFile"] as String)
+            storePassword = keystoreProperties["storePassword"] as String
+        }
     }
 
     buildTypes {
@@ -32,6 +47,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -85,8 +101,11 @@ dependencies {
     implementation("com.google.firebase:firebase-bom:32.2.0")
     implementation("com.google.firebase:firebase-firestore-ktx:24.7.0")
     implementation("com.google.firebase:firebase-storage:20.2.1")
+    implementation("com.google.firebase:firebase-config-ktx:21.4.1")
+    implementation(libs.play.services.auth)
 
     testImplementation(libs.androidx.junit)
+    testImplementation("junit:junit:4.12")
     androidTestImplementation(libs.androidx.junit.ext)
     androidTestImplementation(libs.androidx.espresso.core)
 
@@ -111,6 +130,17 @@ dependencies {
     implementation("com.github.skydoves:balloon:1.5.4")
 
     implementation(libs.android.compose.bom)
+
+    testImplementation("io.mockk:mockk:1.12.3")
+    testImplementation("org.mockito:mockito-inline:3.8.0")
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.11.0")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+
+    // Truth
+    testImplementation("com.google.truth:truth:1.1.4")
+    // MockK
+    testImplementation("io.mockk:mockk:1.12.4")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.9")
 
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
@@ -143,7 +173,4 @@ dependencies {
     implementation(libs.androidx.swipe.refresh)
     implementation(libs.glide)
     implementation(libs.photo.view)
-}
-kapt {
-    correctErrorTypes = true
 }

@@ -18,7 +18,7 @@
         android:maxSdkVersion="32" />
 
     <application
-        android:name=".core.WalliesApp"
+       android:name="com.oguzdogdu.wallieshd.core.WalliesHD"
         android:allowBackup="true"
         android:usesCleartextTraffic="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -38,7 +38,7 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/purple_03" />
         <activity
-            android:name=".presentation.main.MainActivity"
+            android:name="com.oguzdogdu.wallieshd.presentation.main.MainActivity"
             android:theme="@style/Theme.Wallies"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             android:launchMode="singleInstance"
@@ -52,7 +52,7 @@
             <nav-graph android:value="@navigation/graph_wallies" />
         </activity>
         <service
-            android:name=".util.FirebaseService"
+            android:name="com.oguzdogdu.wallieshd.util.FirebaseService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

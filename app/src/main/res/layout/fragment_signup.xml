@@ -13,14 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.oguzdogdu.wallies.util.CustomToolbar
+        <com.oguzdogdu.wallieshd.util.CustomToolbar
             android:id="@+id/toolbarSignUp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_40"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-        </com.oguzdogdu.wallies.util.CustomToolbar>
+        </com.oguzdogdu.wallieshd.util.CustomToolbar>
 
         <com.google.android.material.card.MaterialCardView
             style="@style/CustomCardCorners"
