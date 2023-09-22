@@ -35,13 +35,7 @@ This project uses many of the popular libraries, plugins and tools of the androi
 - [Coil](https://github.com/coil-kt/coil) - Image loading for Android backed by Kotlin Coroutines.
 
 ## 📸 Screenshots
-
-|   |   |
-|---|---|
-|![](https://user-images.githubusercontent.com/73955284/235374976-869f35d8-8646-4c58-8cd5-9f38a3620fec.png)| ![](https://user-images.githubusercontent.com/73955284/235375011-d6f71965-1039-43a1-afd1-0b264bba5e7a.png)    |![](https://user-images.githubusercontent.com/73955284/235375049-fad3712d-adb0-489d-99a7-cee5ce0111b9.png)| ![](https://user-images.githubusercontent.com/73955284/235375072-d9089ca2-4524-4ce9-b8cc-2d0e0ae65a6b.png) 
-|![](https://user-images.githubusercontent.com/73955284/235375106-85b5679b-d68e-4394-8f19-0da2609bf7df.png)| ![](https://user-images.githubusercontent.com/73955284/235375132-9dbc1819-c2e9-461e-9079-ce6097a9d5a7.png)
-|![](https://user-images.githubusercontent.com/73955284/235375157-15c13532-2896-4d22-aaf5-49f6ebd8ba3b.png)| ![](https://user-images.githubusercontent.com/73955284/235375256-c17e525f-0709-4b29-b978-e4ed25b1d212.png)|
-
+![Component 1](https://github.com/oguzsout/Wallies/assets/73955284/004ce7ba-c6d6-42e9-9259-de51d4920a4b)
 ## 🎥 Screenrecord
 
 https://github.com/oguzsout/Wallies/assets/73955284/6f71a894-c58f-4dbd-a9ae-6d112b9955bd
