@@ -1,5 +1,9 @@
 package com.oguzdogdu.network.model.userdetail
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Photo(
     val blur_hash: String,
     val created_at: String,
@@ -7,4 +11,4 @@ data class Photo(
     val slug: String,
     val updated_at: String,
     val urls: Urls
-)
+):Parcelable

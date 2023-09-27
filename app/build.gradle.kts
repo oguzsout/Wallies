@@ -19,18 +19,6 @@ keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 val apiKey: String = gradleLocalProperties(rootDir).getProperty("API_KEY")
 
 android {
-    compileSdk = 33
-    namespace = "com.oguzdogdu.wallieshd"
-    defaultConfig {
-        applicationId = "com.oguzdogdu.wallieshd"
-        minSdk = 21
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "API_KEY", apiKey)
-    }
-
     signingConfigs {
         create("release") {
             keyAlias = keystoreProperties["keyAlias"] as String
@@ -39,15 +27,31 @@ android {
             storePassword = keystoreProperties["storePassword"] as String
         }
     }
+    compileSdk = 33
+    namespace = "com.oguzdogdu.wallieshd"
+    defaultConfig {
+        applicationId = "com.oguzdogdu.wallieshd"
+        minSdk = 21
+        targetSdk = 33
+        versionCode = 2
+        versionName = "1.0.1"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "API_KEY", apiKey)
+        signingConfig = signingConfigs.getByName("debug")
+    }
 
     buildTypes {
-        release {
-            isMinifyEnabled = false
+        getByName("release") {
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        getByName("debug") {
             signingConfig = signingConfigs.getByName("debug")
+            isMinifyEnabled = false
+            isDebuggable = true
         }
     }
     compileOptions {

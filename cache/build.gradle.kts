@@ -7,6 +7,7 @@ plugins {
 }
 
 android {
+
     namespace = "com.oguzdogdu.cache"
     compileSdk = 33
 

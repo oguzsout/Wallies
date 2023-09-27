@@ -1,5 +1,9 @@
 package com.oguzdogdu.domain.model.singlephoto
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Photo(
     val id: String?,
     val username: String?,
@@ -19,4 +23,4 @@ data class Photo(
     val highQuality: String?,
     val mediumQuality: String?,
     val lowQuality: String?
-)
+):Parcelable

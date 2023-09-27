@@ -1,11 +1,13 @@
 package com.oguzdogdu.network.model.userdetail
 
+import android.os.Parcelable
 import com.oguzdogdu.domain.model.userdetail.UserDetails
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class UserDetailResponse(
     val accepted_tos: Boolean,
     val allow_messages: Boolean,
-    val badge: Any,
     val bio: String,
     val downloads: Int,
     val first_name: String,
@@ -32,7 +34,7 @@ data class UserDetailResponse(
     val twitter_username: String,
     val updated_at: String,
     val username: String
-)
+):Parcelable
 
 fun UserDetailResponse.toDomain() = UserDetails(
     name = name,

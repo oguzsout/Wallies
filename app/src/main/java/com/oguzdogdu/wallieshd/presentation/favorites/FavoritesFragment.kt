@@ -88,7 +88,7 @@ class FavoritesFragment :
                     }
                 }
 
-                null -> TODO()
+                else -> {}
             }
         })
     }

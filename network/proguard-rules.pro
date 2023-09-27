@@ -19,3 +19,16 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-keepnames class com.oguzdogdu.network.model.** { *; }
+-keepnames class com.oguzdogdu.domain.model.** { *; }
+-keep class * extends com.google.protobuf.GeneratedMessageLite { *; }
+-keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
+-keep class * implements android.os.Parcelable {
+       *;
+   }
+   -keep class * extends com.google.gson.TypeAdapter
+   -keep class * implements com.google.gson.TypeAdapterFactory
+   -keep class * implements com.google.gson.JsonSerializer
+   -keep class * implements com.google.gson.JsonDeserializer
+   -keep,allowobfuscation,allowshrinking class com.google.gson.reflect.TypeToken
+   -keep,allowobfuscation,allowshrinking class * extends com.google.gson.reflect.TypeToken

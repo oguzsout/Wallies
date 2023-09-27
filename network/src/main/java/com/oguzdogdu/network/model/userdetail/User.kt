@@ -1,5 +1,9 @@
 package com.oguzdogdu.network.model.userdetail
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class User(
     val accepted_tos: Boolean,
     val bio: String,
@@ -20,4 +24,4 @@ data class User(
     val twitter_username: String,
     val updated_at: String,
     val username: String
-)
+):Parcelable
