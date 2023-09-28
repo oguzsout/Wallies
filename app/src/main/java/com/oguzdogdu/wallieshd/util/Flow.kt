@@ -27,6 +27,11 @@ class FlowObserver<T>(
                         }
                     }
 
+                    ON_DESTROY -> {
+                        job?.cancel()
+                        job = null
+                    }
+
                     ON_RESUME -> {
                         job = source.lifecycleScope.launch {
                             flow.collect { collector(it) }

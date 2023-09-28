@@ -12,13 +12,19 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class SetWallpaperViewModel @Inject constructor() : ViewModel() {
 
-    private val _wallpaperState = MutableStateFlow<SetWallpaperState.SetWallpaper?>(null)
+    private val _wallpaperState = MutableStateFlow<SetWallpaperState?>(null)
     val wallpaperState = _wallpaperState.asStateFlow()
 
     fun handleUIEvent(event: SetWallpaperEvent) {
         when (event) {
             is SetWallpaperEvent.AdjustWallpaper -> {
-                setWallpaperToAnyPlace(event.place)
+                setWallpaperToAnyPlace(place = event.place)
+            }
+            is SetWallpaperEvent.StatusOfAdjustWallpaper -> {
+                setStatusOfAdjustingWallpaper(
+                    isCompleted = event.isCompleted,
+                    message = event.message
+                )
             }
         }
     }
@@ -26,6 +32,17 @@ class SetWallpaperViewModel @Inject constructor() : ViewModel() {
     private fun setWallpaperToAnyPlace(place: String?) {
         viewModelScope.launch {
             _wallpaperState.update { SetWallpaperState.SetWallpaper(finallyPlace = place) }
+        }
+    }
+
+    private fun setStatusOfAdjustingWallpaper(isCompleted: Boolean?, message: String?) {
+        viewModelScope.launch {
+            _wallpaperState.update {
+                SetWallpaperState.SuccessAdjustImage(
+                    isCompleted = isCompleted,
+                    message = message
+                )
+            }
         }
     }
 }

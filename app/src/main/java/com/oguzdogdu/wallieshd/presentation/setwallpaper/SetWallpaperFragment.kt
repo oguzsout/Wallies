@@ -1,19 +1,20 @@
 package com.oguzdogdu.wallieshd.presentation.setwallpaper
 
 import android.app.WallpaperManager
-import android.graphics.Bitmap
+import android.content.Context
 import android.os.Build
-import androidx.annotation.RequiresApi
+import android.util.DisplayMetrics
+import android.view.WindowManager
+import android.widget.Toast
+import androidx.core.graphics.drawable.toBitmapOrNull
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
+import coil.Coil
+import coil.request.ImageRequest
 import com.oguzdogdu.wallieshd.core.BaseBottomSheetDialogFragment
 import com.oguzdogdu.wallieshd.databinding.FragmentSetWallpaperBinding
 import com.oguzdogdu.wallieshd.util.observeInLifecycle
+import com.oguzdogdu.wallieshd.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,13 +33,19 @@ class SetWallpaperFragment :
     private fun setWallpaperOptions() {
         binding.apply {
             buttonLockScreen.setOnClickListener {
-                viewModel.handleUIEvent(SetWallpaperEvent.AdjustWallpaper(LOCK_SCREEN))
+                viewModel.handleUIEvent(
+                    SetWallpaperEvent.AdjustWallpaper(place = PlaceOfWallpaper.LOCK_SCREEN.name)
+                )
             }
             buttonHomeScreen.setOnClickListener {
-                viewModel.handleUIEvent(SetWallpaperEvent.AdjustWallpaper(HOME_SCREEN))
+                viewModel.handleUIEvent(
+                    SetWallpaperEvent.AdjustWallpaper(place = PlaceOfWallpaper.HOME_SCREEN.name)
+                )
             }
             buttonHomeAndLockScreen.setOnClickListener {
-                viewModel.handleUIEvent(SetWallpaperEvent.AdjustWallpaper(HOME_AND_LOCK))
+                viewModel.handleUIEvent(
+                    SetWallpaperEvent.AdjustWallpaper(place = PlaceOfWallpaper.HOME_AND_LOCK.name)
+                )
             }
         }
     }
@@ -50,67 +57,88 @@ class SetWallpaperFragment :
 
     private fun checkWallpaperPlaceState() {
         viewModel.wallpaperState.observeInLifecycle(viewLifecycleOwner, observer = { state ->
-            setWallpaperFromUrl(imageUrl = args.imageUrl, place = state?.finallyPlace)
+            when (state) {
+                is SetWallpaperState.SetWallpaper -> {
+                    setWallpaperFromUrl(imageUrl = args.imageUrl, place = state.finallyPlace)
+                }
+
+                is SetWallpaperState.SuccessAdjustImage -> {
+                    when (state.isCompleted) {
+                        true -> this.dismiss()
+                        false -> state.message?.let {
+                            requireView().showToast(
+                                requireContext(),
+                                it,
+                                Toast.LENGTH_LONG
+                            )
+                        }
+                        null -> {}
+                    }
+                }
+
+                else -> {}
+            }
         })
     }
 
     private fun setWallpaperFromUrl(imageUrl: String?, place: String?) {
-        Glide.with(requireContext())
-            .asBitmap().load(imageUrl)
-            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-            .listener(object : RequestListener<Bitmap> {
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: com.bumptech.glide.request.target.Target<Bitmap>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    return false
-                }
-
-                @RequiresApi(Build.VERSION_CODES.N)
-                override fun onResourceReady(
-                    resource: Bitmap?,
-                    model: Any?,
-                    target: com.bumptech.glide.request.target.Target<Bitmap>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
+        val imageLoader = Coil.imageLoader(requireContext())
+        val request = ImageRequest.Builder(requireContext())
+            .data(imageUrl)
+            .target(
+                onSuccess = { result ->
                     val wallpaperManager = WallpaperManager.getInstance(requireContext())
+                    val displayMetrics = DisplayMetrics()
+                    val windowManager = context?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+                    windowManager.defaultDisplay.getMetrics(displayMetrics)
+                    val width = displayMetrics.widthPixels.plus(576)
+                    val height = displayMetrics.heightPixels.plus(324)
                     try {
-                        resource?.let {
-                            when (place) {
-                                LOCK_SCREEN -> wallpaperManager.setBitmap(
-                                    it,
-                                    null,
-                                    true,
-                                    WallpaperManager.FLAG_LOCK
-                                )
+                        when (place.orEmpty()) {
+                            PlaceOfWallpaper.LOCK_SCREEN.name -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                wallpaperManager
+                                    .setBitmap(
+                                        result.toBitmapOrNull(width, height),
+                                        null,
+                                        true,
+                                        WallpaperManager.FLAG_LOCK
+                                    )
+                            }
 
-                                HOME_AND_LOCK -> wallpaperManager.setBitmap(it)
-                                HOME_SCREEN -> wallpaperManager.setBitmap(
-                                    it,
+                            PlaceOfWallpaper.HOME_AND_LOCK.name ->
+                                wallpaperManager.setBitmap(result.toBitmapOrNull(width, height))
+
+                            PlaceOfWallpaper.HOME_SCREEN.name -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                wallpaperManager.setBitmap(
+                                    result.toBitmapOrNull(width, height),
                                     null,
                                     true,
                                     WallpaperManager.FLAG_SYSTEM
                                 )
-
-                                else -> {}
                             }
                         }
-                        this@SetWallpaperFragment.dismiss()
-                        return true
+                        viewModel.handleUIEvent(
+                            SetWallpaperEvent.StatusOfAdjustWallpaper(isCompleted = true)
+                        )
                     } catch (e: Exception) {
-                        e.printStackTrace()
+                        viewModel.handleUIEvent(
+                            SetWallpaperEvent.StatusOfAdjustWallpaper(
+                                isCompleted = false,
+                                message = e.message
+                            )
+                        )
                     }
-                    return false
+                },
+                onError = { error ->
+                    viewModel.handleUIEvent(
+                        SetWallpaperEvent.StatusOfAdjustWallpaper(
+                            isCompleted = false,
+                            message = "Something Went Wrong"
+                        )
+                    )
                 }
-            }).submit()
-    }
-
-    companion object {
-        const val LOCK_SCREEN = "Lock Screen"
-        const val HOME_AND_LOCK = "Home and Lock Screen"
-        const val HOME_SCREEN = "Home Screen"
+            )
+            .build()
+        imageLoader.enqueue(request)
     }
 }
