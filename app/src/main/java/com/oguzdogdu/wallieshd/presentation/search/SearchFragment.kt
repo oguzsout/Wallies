@@ -6,6 +6,8 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.oguzdogdu.wallieshd.core.BaseFragment
 import com.oguzdogdu.wallieshd.core.snackbar.MessageType
@@ -26,6 +28,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
 
     private val searchWallpaperAdapter by lazy { SearchWallpaperAdapter() }
 
+    private val suggestSearchWordsAdapter by lazy { SuggestSearchWordsAdapter() }
+
     override fun initViews() {
         super.initViews()
         binding.apply {
@@ -35,18 +39,26 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
                 true,
                 onScroll = {}
             )
+            recyclerViewSuggestSearchWords.setupRecyclerView(
+                layout = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false),
+                adapter = suggestSearchWordsAdapter,
+                hasFixedSize = true,
+                onScroll = {}
+            )
         }
     }
 
     override fun initListeners() {
         super.initListeners()
-        binding.apply {
-            buttonBack.setOnClickListener {
-                navigateBack()
-            }
-            searchWallpaperAdapter.setOnItemClickListener {
-                navigateWithDirection(SearchFragmentDirections.toDetail(id = it?.id))
-            }
+        binding.buttonBack.setOnClickListener { navigateBack() }
+        searchWallpaperAdapter.setOnItemClickListener {
+            navigateWithDirection(SearchFragmentDirections.toDetail(id = it?.id))
+        }
+        suggestSearchWordsAdapter.setOnItemClickListener { suggest ->
+            val suggestSearch = suggest?.keyword.orEmpty()
+            binding.editTextSearchWalpaper.setText(suggestSearch)
+            viewModel.handleUIEvent(SearchEvent.EnteredSearchQuery(suggest?.keyword.orEmpty()))
+            binding.tvCancel.show()
         }
         searchToImages()
     }
@@ -55,6 +67,21 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
         super.observeData()
         showSearchDatas()
         handlePagingState()
+        setSuggestionKeywordToAdapter()
+    }
+
+    private fun setSuggestionKeywordToAdapter() {
+        val list = mutableListOf(
+            SuggestWords("Animal"),
+            SuggestWords("Jungle"),
+            SuggestWords("Natural"),
+            SuggestWords("Space"),
+            SuggestWords("Cars"),
+            SuggestWords("Walley"),
+            SuggestWords("Cat"),
+            SuggestWords("Rain")
+        )
+        suggestSearchWordsAdapter.submitList(list)
     }
 
     private fun showSearchDatas() {

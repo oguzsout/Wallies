@@ -44,6 +44,11 @@
         <item name="android:fontFeatureSettings">pnum</item>
     </style>
 
+    <style name="MaterialChips" parent="@style/Widget.MaterialComponents.Chip.Action">
+        <item name="chipBackgroundColor">@color/chip_background</item>
+        <item name="android:textAppearance">@style/DetailText</item>
+    </style>
+
     <style name="AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="android:background">@color/background_dark</item>
         <item name="android:bottomLeftRadius">@dimen/dp_20</item>

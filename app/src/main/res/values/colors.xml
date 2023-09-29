@@ -19,6 +19,7 @@
     <color name="text_gray">#220E2E</color>
     <color name="light_mid_gray">#E3E4E9</color>
     <color name="mid_gray">#D0D3DA</color>
+    <color name="chip_background">#D0D3DA</color>
     <color name="splash_background">#3490dc</color>
     <color name="background_dark">#24292E</color>
     <color name="light_red">#61FF3C2B</color>
