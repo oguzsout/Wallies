@@ -39,7 +39,6 @@
 
     <style name="Widget.App.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.BottomNavigationView</item>
-        <item name="layout_behavior">com.oguzdogdu.wallies.util.BottomNavigationBehavior</item>
     </style>
 
     <style name="ThemeOverlay.App.BottomNavigationView" parent="">

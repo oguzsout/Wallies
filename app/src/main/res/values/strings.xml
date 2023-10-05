@@ -86,4 +86,8 @@
     <string name="sign_up_sub_title">Please enter your information to create an account.</string>
     <string name="success_sign">Registration Successful</string>
     <string name="success_login">Login Successful</string>
+    <string name="wallpapers_title">Wallpapers</string>
+    <string name="collections_title">Collections</string>
+    <string name="favorites_title">Favorites</string>
+    <string name="settings_title">Settings</string>
 </resources>

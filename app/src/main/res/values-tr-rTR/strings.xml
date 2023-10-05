@@ -87,4 +87,8 @@
     <string name="sign_up_sub_title">Hesap oluşturmak için lütfen bilgilerinizi girin.</string>
     <string name="success_sign">Kayıt Başarılı</string>
     <string name="success_login">Giriş Başarılı</string>
+    <string name="wallpapers_title">Duvar Kağıtları</string>
+    <string name="collections_title">Koleksiyonlar</string>
+    <string name="favorites_title">Favoriler</string>
+    <string name="settings_title">Ayarlar</string>
 </resources>

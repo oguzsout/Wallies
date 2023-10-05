@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -21,11 +20,10 @@ import com.oguzdogdu.wallieshd.presentation.settings.SettingsViewModel
 import com.oguzdogdu.wallieshd.presentation.settings.ThemeValues
 import com.oguzdogdu.wallieshd.util.LocaleHelper
 import com.oguzdogdu.wallieshd.util.hide
+import com.oguzdogdu.wallieshd.util.observeInLifecycle
 import com.oguzdogdu.wallieshd.util.show
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -34,7 +32,14 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
+    private val appBarConfiguration = AppBarConfiguration(
+        setOf(
+            R.id.mainFragment,
+            R.id.collectionsFragment,
+            R.id.favoritesFragment,
+            R.id.settings
+        )
+    )
 
     private val viewModel: SettingsViewModel by viewModels()
 
@@ -51,21 +56,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getLanguage() {
-        lifecycleScope.launch {
-            viewModel.languageState.collectLatest { lang ->
-                if (lang != null) {
-                    when (lang.value) {
-                        LanguageValues.English.title -> {
-                            setLocale(LanguageValues.English.title)
-                        }
+        viewModel.languageState.observeInLifecycle(lifecycleOwner = this, observer = { lang ->
+            when (lang?.value.orEmpty()) {
+                LanguageValues.English.title -> {
+                    setLocale(LanguageValues.English.title)
+                }
 
-                        LanguageValues.Turkish.title -> {
-                            setLocale(LanguageValues.Turkish.title)
-                        }
-                    }
+                LanguageValues.Turkish.title -> {
+                    setLocale(LanguageValues.Turkish.title)
                 }
             }
-        }
+            updateBottomNavigationTitles(lang?.value.orEmpty())
+        })
     }
 
     private fun setLocale(language: String?) {
@@ -83,31 +85,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setTheme() {
-        lifecycleScope.launch {
-            viewModel.themeState.collectLatest { theme ->
-                if (theme != null) {
-                    when (theme.value) {
-                        ThemeValues.LIGHT_MODE.title -> {
-                            AppCompatDelegate.setDefaultNightMode(
-                                AppCompatDelegate.MODE_NIGHT_NO
-                            )
-                        }
+        viewModel.themeState.observeInLifecycle(this, observer = { theme ->
+            if (theme != null) {
+                when (theme.value) {
+                    ThemeValues.LIGHT_MODE.title -> {
+                        AppCompatDelegate.setDefaultNightMode(
+                            AppCompatDelegate.MODE_NIGHT_NO
+                        )
+                    }
 
-                        ThemeValues.DARK_MODE.title -> {
-                            AppCompatDelegate.setDefaultNightMode(
-                                AppCompatDelegate.MODE_NIGHT_YES
-                            )
-                        }
+                    ThemeValues.DARK_MODE.title -> {
+                        AppCompatDelegate.setDefaultNightMode(
+                            AppCompatDelegate.MODE_NIGHT_YES
+                        )
+                    }
 
-                        ThemeValues.SYSTEM_DEFAULT.title -> {
-                            AppCompatDelegate.setDefaultNightMode(
-                                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-                            )
-                        }
+                    ThemeValues.SYSTEM_DEFAULT.title -> {
+                        AppCompatDelegate.setDefaultNightMode(
+                            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                        )
                     }
                 }
             }
-        }
+        })
     }
 
     private fun setupNavigation() {
@@ -140,6 +140,41 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateBottomNavigationTitles(selectedLanguage: String?) {
+        val bottomNavigationView = binding.bottomNavigationView
+        when (selectedLanguage) {
+            LanguageValues.English.title -> {
+                bottomNavigationView.menu.getItem(0).setTitle(
+                    R.string.wallpapers_title
+                )
+                bottomNavigationView.menu.getItem(1).setTitle(
+                    R.string.collections_title
+                )
+                bottomNavigationView.menu.getItem(2).setTitle(
+                    R.string.favorites_title
+                )
+                bottomNavigationView.menu.getItem(3).setTitle(
+                    R.string.settings_title
+                )
+            }
+
+            LanguageValues.Turkish.title -> {
+                bottomNavigationView.menu.getItem(0).setTitle(
+                    R.string.wallpapers_title
+                )
+                bottomNavigationView.menu.getItem(1).setTitle(
+                    R.string.collections_title
+                )
+                bottomNavigationView.menu.getItem(2).setTitle(
+                    R.string.favorites_title
+                )
+                bottomNavigationView.menu.getItem(3).setTitle(
+                    R.string.settings_title
+                )
+            }
+        }
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         return findNavController(R.id.nav_host_fragment_content_main).navigateUp(
             appBarConfiguration
@@ -153,8 +188,7 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationViewBackground.shapeAppearanceModel =
             bottomNavigationViewBackground.shapeAppearanceModel.toBuilder()
                 .setTopRightCorner(CornerFamily.ROUNDED, radius)
-                .setTopLeftCorner(CornerFamily.ROUNDED, radius)
-                .build()
+                .setTopLeftCorner(CornerFamily.ROUNDED, radius).build()
     }
 
     fun slideUp() {

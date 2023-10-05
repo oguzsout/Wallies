@@ -4,28 +4,28 @@
 
     <item
         android:id="@+id/mainFragment"
-        android:title="Wallpapers"
+        android:title="@string/wallpapers_title"
         android:icon="@drawable/wallpaper"
         android:enabled="true"
         app:actionViewClass="com.google.android.material.bottomnavigation.BottomNavigationView" />
 
     <item
         android:id="@+id/collectionsFragment"
-        android:title="Collections"
+        android:title="@string/collections_title"
         android:icon="@drawable/collections"
         android:enabled="true"
         app:actionViewClass="com.google.android.material.bottomnavigation.BottomNavigationView"/>
 
     <item
         android:id="@+id/favoritesFragment"
-        android:title="Favorites"
+        android:title="@string/favorites_title"
         android:icon="@drawable/favorite"
         android:enabled="true"
         app:actionViewClass="com.google.android.material.bottomnavigation.BottomNavigationView"/>
 
     <item
         android:id="@+id/settings"
-        android:title="Settings"
+        android:title="@string/settings_title"
         android:icon="@drawable/settings"
         android:enabled="true"
         app:actionViewClass="com.google.android.material.bottomnavigation.BottomNavigationView"/>
