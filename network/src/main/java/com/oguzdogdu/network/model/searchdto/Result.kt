@@ -1,6 +1,7 @@
 package com.oguzdogdu.network.model.searchdto
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import com.oguzdogdu.network.model.maindto.Link
 import com.oguzdogdu.network.model.maindto.Urls
 import com.oguzdogdu.network.model.maindto.User
@@ -9,22 +10,29 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Result(
+    @SerializedName("alt_description")
     val alt_description: String?,
-    val blur_hash: String?,
+    @SerializedName("color")
     val color: String?,
+    @SerializedName("created_at")
     val created_at: String?,
+    @SerializedName("description")
     val description: String?,
-    val height: Int?,
+    @SerializedName("id")
     val id: String?,
-    val liked_by_user: Boolean?,
+    @SerializedName("likes")
     val likes: Int?,
+    @SerializedName("links")
     val links: Link?,
+    @SerializedName("promoted_at")
     val promoted_at: String?,
+    @SerializedName("updated_at")
     val updated_at: String?,
+    @SerializedName("urls")
     val urls: Urls?,
+    @SerializedName("user")
     val user: User?,
-    val width: Int?
-):Parcelable
+) : Parcelable
 
 fun Result.toDomainSearch() = SearchPhoto(
     id = id,

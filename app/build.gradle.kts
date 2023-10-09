@@ -33,16 +33,20 @@ android {
         applicationId = "com.oguzdogdu.wallieshd"
         minSdk = 21
         targetSdk = 33
-        versionCode = 3
-        versionName = "1.1"
+        versionCode = 5
+        versionName = "1.3"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "API_KEY", apiKey)
         signingConfig = signingConfigs.getByName("debug")
+        resourceConfigurations.addAll(listOf("en", "tr"))
     }
 
     buildTypes {
         getByName("release") {
             signingConfig = signingConfigs.getByName("release")
+            isMinifyEnabled = true
+            isDebuggable = false
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
