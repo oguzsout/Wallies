@@ -57,16 +57,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun getLanguage() {
         viewModel.languageState.observeInLifecycle(lifecycleOwner = this, observer = { lang ->
-            when (lang?.value.orEmpty()) {
-                LanguageValues.English.title -> {
-                    setLocale(LanguageValues.English.title)
-                }
-
-                LanguageValues.Turkish.title -> {
-                    setLocale(LanguageValues.Turkish.title)
-                }
-            }
-            updateBottomNavigationTitles(lang?.value.orEmpty())
+            setLocale(lang?.value)
+            updateBottomNavigationTitles(lang?.value)
         })
     }
 
@@ -81,7 +73,7 @@ class MainActivity : AppCompatActivity() {
             config,
             this.resources.displayMetrics
         )
-        LocaleHelper.setLocale(context = this@MainActivity, language.orEmpty())
+        language?.let { LocaleHelper.setLocale(context = this@MainActivity, it) }
     }
 
     private fun setTheme() {

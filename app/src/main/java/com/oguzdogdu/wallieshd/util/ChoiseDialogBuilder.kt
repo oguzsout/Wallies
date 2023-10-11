@@ -14,7 +14,7 @@ object ChoiseDialogBuilder {
         handlerList: (DialogInterface, Int) -> Unit,
         positive: (DialogInterface, Int) -> Unit
     ) {
-        val dialogBuilder = MaterialAlertDialogBuilder(context).setTitle(title)
+        val dialogBuilder = MaterialAlertDialogBuilder(context, R.style.AlertDialog).setTitle(title)
             .setSingleChoiceItems(list, list?.indexOf(selectedValue)!!) { dialog, which ->
                 handlerList.apply {
                     invoke(dialog, which)

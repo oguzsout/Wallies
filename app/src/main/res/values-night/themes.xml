@@ -35,6 +35,11 @@
         <item name="android:fontFamily">@font/googlesansmedium</item>
     </style>
 
+    <style name="MaterialAlertDialogText" parent="@style/MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:fontFamily">@font/googlesansmedium</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+    </style>
+
 
     <style name="Title1Medium" parent="Widget.AppCompat.TextView">
         <item name="android:fontFamily">@font/googlesansmedium</item>
@@ -48,12 +53,26 @@
         <item name="android:textAppearance">@style/DetailText</item>
     </style>
 
-    <style name="AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+    <style name="AlertDialog" parent="MaterialAlertDialog.Material3">
         <item name="android:background">@color/background_dark</item>
         <item name="android:bottomLeftRadius">@dimen/dp_20</item>
         <item name="android:bottomRightRadius">@dimen/dp_20</item>
         <item name="android:topLeftRadius">@dimen/dp_20</item>
         <item name="android:topRightRadius">@dimen/dp_20</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/AlertDialogTitle</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/AlertDialogBody</item>
+    </style>
+
+    <style name="AlertDialogTitle" parent="MaterialAlertDialog.Material3.Title.Text">
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/googlesansmedium</item>
+    </style>
+
+    <style name="AlertDialogBody" parent="MaterialAlertDialog.Material3.Body.Text">
+        <item name="android:textSize">@dimen/sp_12</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/googlesansmedium</item>
     </style>
 
     <style name="DialogButtonStyle" parent="Widget.AppCompat.Button">
