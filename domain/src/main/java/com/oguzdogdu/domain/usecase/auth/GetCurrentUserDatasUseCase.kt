@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class GetCurrentUserDatasUseCase @Inject constructor(private val repository: Authenticator) {
-      operator fun invoke(): Flow<Resource<User>> = flow {
+     suspend operator fun invoke(): Flow<Resource<User>> = flow {
         emit(repository.fetchUserInfos())
     }.toResource()
 }

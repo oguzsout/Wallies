@@ -1,7 +1,5 @@
 package com.oguzdogdu.data.repository
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.EmailAuthProvider
@@ -10,6 +8,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import com.oguzdogdu.data.common.Constants.COLLECTION_PATH
 import com.oguzdogdu.data.common.Constants.EMAIL
+import com.oguzdogdu.data.common.Constants.FAVORITES
 import com.oguzdogdu.data.common.Constants.ID
 import com.oguzdogdu.data.common.Constants.IMAGE
 import com.oguzdogdu.data.common.Constants.NAME
@@ -27,7 +26,7 @@ import javax.inject.Inject
 
 class AuthenticatorImpl @Inject constructor(
     private val auth: FirebaseAuth,
-    private val firebaseFirestore: FirebaseFirestore
+    private val firebaseFirestore: FirebaseFirestore,
 ) : Authenticator {
     override suspend fun isUserAuthenticatedInFirebase() = auth.currentUser != null
     override suspend fun isUserAuthenticatedWithGoogle(): Boolean {
@@ -35,7 +34,6 @@ class AuthenticatorImpl @Inject constructor(
         return user?.providerData?.any { it.providerId == GoogleAuthProvider.PROVIDER_ID } == true
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override suspend fun signUp(
         user: com.oguzdogdu.domain.model.auth.User,
         password: String,
@@ -46,17 +44,19 @@ class AuthenticatorImpl @Inject constructor(
             EMAIL to user.email,
             NAME to user.name,
             SURNAME to user.surname,
-            IMAGE to user.image
+            IMAGE to user.image,
+            FAVORITES to user.favorites
         )
         auth.currentUser?.uid?.let {
             firebaseFirestore.collection(COLLECTION_PATH).document(it)
                 .set(userModel)
         }?.await()
         val result = User(
-            name = userModel.getOrDefault(key = NAME, defaultValue = null).toString(),
-            surname = userModel.getOrDefault(key = SURNAME, defaultValue = null).toString(),
-            email = userModel.getOrDefault(key = EMAIL, defaultValue = null).toString(),
-            image = userModel.getOrDefault(key = IMAGE,defaultValue = null).toString()
+            name = userModel.get(key = NAME).toString(),
+            surname = userModel.get(key = SURNAME).toString(),
+            email = userModel.get(key = EMAIL).toString(),
+            image = userModel.get(key = IMAGE).toString(),
+            favorites = userModel.get(key = FAVORITES) as? List<HashMap<String, String>> ?: emptyList()
         )
         return result.toUserDomain()
     }
@@ -88,6 +88,60 @@ class AuthenticatorImpl @Inject constructor(
         auth.currentUser?.uid?.let {
             firebaseFirestore.collection(COLLECTION_PATH).document(it).update(IMAGE, photo)
         }?.await()
+    }
+
+    override suspend fun addFavorites(id: String?, favorite: String?) {
+        auth.currentUser?.uid?.let { userId ->
+            val userDocRef = firebaseFirestore.collection(COLLECTION_PATH).document(userId)
+            userDocRef.get().addOnSuccessListener { documentSnapshot ->
+                if (documentSnapshot.exists()) {
+                    val currentFavorites = documentSnapshot[FAVORITES] as? List<HashMap<String, String>>
+                    val updatedFavorites = mutableListOf<HashMap<String, String>>()
+
+                    if (currentFavorites != null) {
+                        updatedFavorites.addAll(currentFavorites)
+                    }
+
+                    val newFavorite = hashMapOf(
+                        "id" to id.orEmpty(),
+                        "favorite" to favorite.orEmpty()
+                    )
+
+                    updatedFavorites.add(newFavorite)
+
+                    val dataToUpdate = mapOf(FAVORITES to updatedFavorites)
+
+                    userDocRef.update(dataToUpdate)
+                }
+            }
+        }
+    }
+
+    override suspend fun deleteFavorites(id: String?, favorite: String?) {
+        auth.currentUser?.uid?.let { userId ->
+            if (id == null && favorite == null) {
+                return
+            }
+
+            val userDocRef = firebaseFirestore.collection(COLLECTION_PATH).document(userId)
+            userDocRef.get().addOnSuccessListener { documentSnapshot ->
+                if (documentSnapshot.exists()) {
+                    val currentFavorites = documentSnapshot[FAVORITES] as? List<HashMap<String, String>>
+
+                    if (currentFavorites != null) {
+                        val updatedFavorites = currentFavorites.toMutableList()
+
+                        updatedFavorites.removeAll { favoriteMap ->
+                            favoriteMap["id"] == id && favoriteMap["favorite"] == favorite
+                        }
+
+                        val dataToUpdate = mapOf(FAVORITES to updatedFavorites)
+
+                        userDocRef.update(dataToUpdate)
+                    }
+                }
+            }
+        }
     }
 
     override suspend fun forgotMyPassword(email: String?) {
@@ -139,8 +193,9 @@ class AuthenticatorImpl @Inject constructor(
         val email = userDocument?.getString(EMAIL)
         val profileImageUrl = userDocument?.getString(IMAGE)
         val surname = userDocument?.getString(SURNAME)
+        val favorites = userDocument?.get(FAVORITES) as List<HashMap<String, String>>
 
-        val result = User(name = name, surname = surname, email = email, image = profileImageUrl)
+        val result = User(name = name, surname = surname, email = email, image = profileImageUrl, favorites = favorites)
         return result.toUserDomain()
     }
 }

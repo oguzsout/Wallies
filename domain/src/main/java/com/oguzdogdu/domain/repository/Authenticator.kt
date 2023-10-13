@@ -14,6 +14,8 @@ interface Authenticator {
     suspend fun changeSurname(surname:String?)
     suspend fun changeEmail(email:String?,password: String)
     suspend fun changeProfilePhoto(photo: String?)
+    suspend fun addFavorites(id:String?,favorite: String?)
+    suspend fun deleteFavorites(id: String?, favorite: String?)
     suspend fun forgotMyPassword(email: String?)
     suspend fun updatePassword(password: String?): Flow<Resource<Task<Void>?>>
     suspend fun signIn(userEmail: String, password: String):AuthResult

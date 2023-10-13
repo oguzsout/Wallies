@@ -102,7 +102,7 @@ class WallpaperRepositoryImpl @Inject constructor(
     override suspend fun insertImageToFavorites(favorite: FavoriteImages) {
         return favoriteDao.addFavorites(
             FavoriteImage(
-                id = favorite.id,
+                id = favorite.id.orEmpty(),
                 url = favorite.url,
                 profileImage = favorite.profileImage,
                 name = favorite.name,
@@ -123,7 +123,7 @@ class WallpaperRepositoryImpl @Inject constructor(
     override suspend fun deleteFavorites(favorite: FavoriteImages) {
         return favoriteDao.deleteFavorite(
             FavoriteImage(
-                id = favorite.id,
+                id = favorite.id.orEmpty(),
                 url = favorite.url,
                 profileImage = favorite.profileImage,
                 name = favorite.name,
