@@ -87,6 +87,21 @@ class FavoritesFragment :
                         }
                     }
                 }
+                is FavoriteUiState.FavoritesFromFirebase -> {
+                    when (state.favorites.isNotEmpty()) {
+                        true -> {
+                            binding.progressBar.hide()
+                            binding.linearLayoutNoPicture.hide()
+                            favoritesListAdapter.submitList(state.favorites)
+                        }
+
+                        false -> {
+                            binding.recyclerViewFavorites.hide()
+                            binding.linearLayoutNoPicture.show()
+                            binding.progressBar.hide()
+                        }
+                    }
+                }
 
                 else -> {}
             }

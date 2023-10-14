@@ -36,8 +36,8 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
     override fun observeData() {
         super.observeData()
-        viewModel.handleUIEvent(DetailScreenEvent.GetPhotoDetails(id = args.id))
         showDetailScreenDatas()
+        viewModel.handleUIEvent(DetailScreenEvent.GetPhotoDetails(id = args.id))
     }
 
     private fun showDetailScreenDatas() {
@@ -50,8 +50,18 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
                 is DetailState.Loading -> binding.dashboardContainer.hide()
 
+                is DetailState.FavoriteStateOfPhoto -> {
+                    binding.toggleButton.isChecked = state.favorite
+                }
+
                 is DetailState.DetailOfPhoto -> {
                     binding.dashboardContainer.show()
+                    viewModel.handleUIEvent(
+                        DetailScreenEvent.GetPhotoFromWhere(
+                            id = state.detail?.id.orEmpty(),
+                            url = state.detail?.urls.orEmpty()
+                        )
+                    )
                     setItems(state.detail)
                     showProfileInfos(state.detail)
                     navigateToSetWallpaper(state.detail?.urls)
@@ -65,9 +75,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
                     )
                     addOrDeleteFavorites(state.detail)
                 }
-                is DetailState.FavoriteStateOfPhoto -> {
-                    binding.toggleButton.isChecked = state.favorite == true
-                }
+
                 else -> {}
             }
         })
@@ -76,9 +84,13 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
     private fun addOrDeleteFavorites(photo: Photo?) {
         binding.toggleButton.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                viewModel.handleUIEvent(
-                    DetailScreenEvent.AddFavorites(photo)
-                )
+                viewModel.toggleState.observeInLifecycle(viewLifecycleOwner, observer = {
+                    if (!it) {
+                        viewModel.handleUIEvent(
+                            DetailScreenEvent.AddFavorites(photo)
+                        )
+                    }
+                })
             } else {
                 viewModel.handleUIEvent(
                     DetailScreenEvent.DeleteFavorites(photo)

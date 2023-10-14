@@ -54,7 +54,8 @@ class AuthenticedUserViewModel @Inject constructor(
                                 name = result.data.name,
                                 surname = result.data.surname,
                                 email = result.data.email,
-                                profileImage = result.data.image
+                                profileImage = result.data.image,
+                                favorites = result.data.favorites
                             )
                         }
 
