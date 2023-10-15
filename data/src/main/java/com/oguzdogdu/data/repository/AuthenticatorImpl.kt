@@ -126,18 +126,20 @@ class AuthenticatorImpl @Inject constructor(
             val userDocRef = firebaseFirestore.collection(COLLECTION_PATH).document(userId)
             userDocRef.get().addOnSuccessListener { documentSnapshot ->
                 if (documentSnapshot.exists()) {
-                    val currentFavorites = documentSnapshot[FAVORITES] as? List<HashMap<String, String>>
+                    val currentFavorites =
+                        documentSnapshot[FAVORITES] as? List<HashMap<String, String>>
 
                     if (currentFavorites != null) {
                         val updatedFavorites = currentFavorites.toMutableList()
 
-                        updatedFavorites.removeAll { favoriteMap ->
-                            favoriteMap["id"] == id && favoriteMap["favorite"] == favorite
+                        updatedFavorites.filterIndexed { index, hashMap ->
+                            hashMap["id"] != id && hashMap["favorite"] != favorite
+                        }.toMutableList().also { filteredList ->
+                            if (filteredList.size != updatedFavorites.size) {
+                                val dataToUpdate = mapOf(FAVORITES to filteredList)
+                                userDocRef.update(dataToUpdate)
+                            }
                         }
-
-                        val dataToUpdate = mapOf(FAVORITES to updatedFavorites)
-
-                        userDocRef.update(dataToUpdate)
                     }
                 }
             }

@@ -14,6 +14,7 @@ import com.oguzdogdu.domain.usecase.singlephoto.SinglePhotoUseCase
 import com.oguzdogdu.domain.wrapper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -45,7 +46,7 @@ class DetailViewModel @Inject constructor(
             }
 
             is DetailScreenEvent.AddFavorites -> {
-                addImagesToFavorites(
+                addOrDeleteFavoritesToAnyDatabase(
                     FavoriteImages(
                         id = event.photo?.id.orEmpty(),
                         url = event.photo?.urls.orEmpty(),
@@ -53,13 +54,13 @@ class DetailViewModel @Inject constructor(
                         portfolioUrl = event.photo?.portfolio.orEmpty(),
                         name = event.photo?.username.orEmpty(),
                         isChecked = true
-                    )
-
+                    ),
+                    DatabaseProcess.ADD.name
                 )
             }
 
             is DetailScreenEvent.DeleteFavorites -> {
-                deleteImagesToFavorites(
+                addOrDeleteFavoritesToAnyDatabase(
                     FavoriteImages(
                         id = event.photo?.id.orEmpty(),
                         url = event.photo?.urls.orEmpty(),
@@ -67,11 +68,13 @@ class DetailViewModel @Inject constructor(
                         portfolioUrl = event.photo?.portfolio.orEmpty(),
                         name = event.photo?.username.orEmpty(),
                         isChecked = false
-                    )
+                    ),
+                    DatabaseProcess.DELETE.name
                 )
             }
+
             is DetailScreenEvent.GetPhotoFromWhere -> {
-                checkAuthStatusForShowFavorites(id = event.id, url = event.url)
+                checkAuthStatusForShowFavorites(id = event.id)
             }
         }
     }
@@ -98,59 +101,13 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    private fun addImagesToFavorites(
-        favoriteImage: FavoriteImages
-    ) {
+    private fun checkAuthStatusForShowFavorites(id: String?) {
         viewModelScope.launch {
             checkUserAuthenticatedUseCase.invoke().collectLatest { status ->
                 when (status) {
                     is Resource.Success -> {
                         when (status.data) {
-                            true -> addFavoritesUseCase.invoke(
-                                id = favoriteImage.id,
-                                favorite = favoriteImage.url
-                            )
-                            false -> favoritesUseCase.invoke(favoriteImage)
-                        }
-                    }
-
-                    is Resource.Error -> {}
-                    is Resource.Loading -> {}
-                }
-            }
-        }
-    }
-
-    private fun deleteImagesToFavorites(
-        favoriteImage: FavoriteImages
-    ) {
-        viewModelScope.launch {
-            checkUserAuthenticatedUseCase.invoke().collectLatest { status ->
-                when (status) {
-                    is Resource.Success -> {
-                        when (status.data) {
-                            true -> deleteFavoriteToFirebaseUseCase.invoke(
-                                id = favoriteImage.id,
-                                favorite = favoriteImage.url
-                            )
-                            false -> deleteFavoritesUseCase.invoke(favoriteImage)
-                        }
-                    }
-
-                    is Resource.Error -> {}
-                    is Resource.Loading -> {}
-                }
-            }
-        }
-    }
-
-    private fun checkAuthStatusForShowFavorites(id: String?, url: String?) {
-        viewModelScope.launch {
-            checkUserAuthenticatedUseCase.invoke().collectLatest { status ->
-                when (status) {
-                    is Resource.Success -> {
-                        when (status.data) {
-                            true -> getFavoritesFromFirebase(url)
+                            true -> getFavoritesFromFirebase(id)
                             false -> getFavoritesFromRoom(id)
                         }
                     }
@@ -162,13 +119,86 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    private fun getFavoritesFromFirebase(url: String?) {
+    private fun addOrDeleteFavoritesToAnyDatabase(favoriteImage: FavoriteImages, process: String?) {
+        viewModelScope.launch {
+            checkUserAuthenticatedUseCase.invoke().collectLatest { status ->
+                when (status) {
+                    is Resource.Success -> {
+                        when (status.data) {
+                            true -> {
+                                when (process) {
+                                    DatabaseProcess.ADD.name -> addImagesToFavorites(
+                                        favoriteImage,
+                                        whichDb = ChooseDB.FIREBASE.name
+                                    )
+                                    DatabaseProcess.DELETE.name -> deleteImagesToFavorites(
+                                        favoriteImage,
+                                        whichDb = ChooseDB.FIREBASE.name
+                                    )
+                                }
+                            }
+                            false -> {
+                                when (process) {
+                                    DatabaseProcess.ADD.name -> addImagesToFavorites(
+                                        favoriteImage,
+                                        whichDb = ChooseDB.ROOM.name
+                                    )
+                                    DatabaseProcess.DELETE.name -> deleteImagesToFavorites(
+                                        favoriteImage,
+                                        whichDb = ChooseDB.ROOM.name
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                    is Resource.Error -> {}
+                    is Resource.Loading -> {}
+                }
+            }
+        }
+    }
+
+    private fun addImagesToFavorites(
+        favoriteImage: FavoriteImages,
+        whichDb: String?
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            when (whichDb) {
+                ChooseDB.FIREBASE.name -> addFavoritesUseCase.invoke(
+                    id = favoriteImage.id,
+                    favorite = favoriteImage.url
+                )
+
+                ChooseDB.ROOM.name -> favoritesUseCase.invoke(favoriteImage)
+            }
+        }
+    }
+
+    private fun deleteImagesToFavorites(
+        favoriteImage: FavoriteImages,
+        whichDb: String?
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            when (whichDb) {
+                ChooseDB.FIREBASE.name -> {
+                    deleteFavoriteToFirebaseUseCase.invoke(
+                        id = favoriteImage.id,
+                        favorite = favoriteImage.url
+                    )
+                }
+                ChooseDB.ROOM.name -> deleteFavoritesUseCase.invoke(favoriteImage)
+            }
+        }
+    }
+
+    private fun getFavoritesFromFirebase(id: String?) {
         viewModelScope.launch {
             getCurrentUserDatasUseCase.invoke().collectLatest { userDatas ->
                 when (userDatas) {
                     is Resource.Success -> {
                         val containsUrl = userDatas.data.favorites.any { favorite ->
-                            favorite.containsValue(url)
+                            favorite.containsValue(id)
                         }
                         _toogleState.emit(containsUrl)
                         _getPhoto.update {
@@ -205,5 +235,14 @@ class DetailViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    enum class ChooseDB(name: String) {
+        FIREBASE("firebase"),
+        ROOM("room")
+    }
+    enum class DatabaseProcess(name: String) {
+        ADD("add"),
+        DELETE("delete")
     }
 }
