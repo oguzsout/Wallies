@@ -1,19 +1,18 @@
 package com.oguzdogdu.wallieshd.presentation.main
 
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import coil.load
 import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
 import com.google.android.material.tabs.TabLayoutMediator
 import com.oguzdogdu.wallieshd.R
 import com.oguzdogdu.wallieshd.core.BaseFragment
+import com.oguzdogdu.wallieshd.core.snackbar.MessageType
 import com.oguzdogdu.wallieshd.databinding.FragmentMainBinding
 import com.oguzdogdu.wallieshd.presentation.latest.LatestFragment
 import com.oguzdogdu.wallieshd.presentation.popular.PopularFragment
 import com.oguzdogdu.wallieshd.util.observeInLifecycle
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::inflate) {
@@ -32,22 +31,35 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
 
     override fun observeData() {
         super.observeData()
+        viewModel.handleUIEvent(MainScreenEvent.FetchMainScreenUserData)
         getAuthenticatedUserInfos()
     }
 
     private fun getAuthenticatedUserInfos() {
-        lifecycleScope.launch {
-            viewModel.userState.observeInLifecycle(viewLifecycleOwner, observer = { data ->
-                when (data?.profileImage.isNullOrBlank()) {
-                    true -> binding.imageViewProfileAvatar.load(R.drawable.ic_default_avatar)
-                    false -> binding.imageViewProfileAvatar.load(data?.profileImage) {
-                        diskCachePolicy(CachePolicy.DISABLED)
-                        transformations(CircleCropTransformation())
-                        allowConversionToBitmap(true)
+        viewModel.userState.observeInLifecycle(viewLifecycleOwner, observer = { status ->
+            when (status) {
+                is MainScreenState.UserProfile -> {
+                    when (status.profileImage.isNullOrBlank()) {
+                        true -> binding.imageViewProfileAvatar.load(R.drawable.ic_default_avatar)
+
+                        false -> binding.imageViewProfileAvatar.load(status.profileImage) {
+                            diskCachePolicy(CachePolicy.DISABLED)
+                            transformations(CircleCropTransformation())
+                        }
                     }
                 }
-            })
-        }
+
+                is MainScreenState.UserAuthenticated -> {
+                    when (status.isAuthenticated) {
+                        false -> binding.imageViewProfileAvatar.load(R.drawable.ic_default_avatar)
+                        else -> {}
+                    }
+                    status.isAuthenticated?.let { goToUserInfoScreen(it) }
+                }
+
+                else -> {}
+            }
+        })
     }
 
     override fun initListeners() {
@@ -55,8 +67,17 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         binding.imageViewSearchWalpapers.setOnClickListener {
             navigate(R.id.toSearch, null)
         }
+    }
+
+    private fun goToUserInfoScreen(isAuthenticated: Boolean) {
         binding.imageViewProfileAvatar.setOnClickListener {
-            navigateWithDirection(MainFragmentDirections.toAuthUser())
+            when (isAuthenticated) {
+                true -> navigateWithDirection(MainFragmentDirections.toAuthUser())
+                false -> showMessage(
+                    message = "Giriş Yap",
+                    MessageType.ERROR
+                )
+            }
         }
     }
 

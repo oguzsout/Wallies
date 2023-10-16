@@ -2,6 +2,7 @@ package com.oguzdogdu.wallieshd.presentation.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.oguzdogdu.domain.usecase.auth.CheckUserAuthenticatedUseCase
 import com.oguzdogdu.domain.usecase.auth.GetCurrentUserDatasUseCase
 import com.oguzdogdu.domain.wrapper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,16 +15,22 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val getCurrentUserDatasUseCase: GetCurrentUserDatasUseCase
+    private val getCurrentUserDatasUseCase: GetCurrentUserDatasUseCase,
+    private val userAuthenticatedUseCase: CheckUserAuthenticatedUseCase
 ) : ViewModel() {
-    private val _userState = MutableStateFlow<MainScreenState.UserProfile?>(null)
+    private val _userState = MutableStateFlow<MainScreenState?>(null)
     val userState = _userState.asStateFlow()
 
-    init {
-        getUserInfos()
+    fun handleUIEvent(event: MainScreenEvent) {
+        when (event) {
+            is MainScreenEvent.FetchMainScreenUserData -> {
+                getUserProfileImage()
+                checkUserAuthenticate()
+            }
+        }
     }
 
-    private fun getUserInfos() {
+    private fun getUserProfileImage() {
         viewModelScope.launch {
             getCurrentUserDatasUseCase.invoke().collectLatest { value ->
                 when (value) {
@@ -32,6 +39,21 @@ class MainViewModel @Inject constructor(
                             MainScreenState.UserProfile(
                                 profileImage = value.data.image
                             )
+                        }
+                    }
+                    is Resource.Loading -> {}
+                    is Resource.Error -> {}
+                }
+            }
+        }
+    }
+    private fun checkUserAuthenticate(){
+        viewModelScope.launch {
+            userAuthenticatedUseCase.invoke().collectLatest { status ->
+                when (status) {
+                    is Resource.Success -> {
+                        _userState.update {
+                            MainScreenState.UserAuthenticated(isAuthenticated = status.data)
                         }
                     }
                     is Resource.Loading -> {}
