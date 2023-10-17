@@ -161,11 +161,13 @@
         <action
             android:id="@+id/toMain"
             app:destination="@id/mainFragment"
-            app:popUpTo="@id/graph_wallies"
+            app:popUpTo="@+id/splashFragment"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/toLogin"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@+id/splashFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
@@ -219,7 +221,9 @@
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/toMain"
-            app:destination="@id/mainFragment" />
+            app:destination="@id/mainFragment"
+            app:popUpTo="@+id/loginFragment"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/toSignUp"
             app:destination="@id/signupFragment" />

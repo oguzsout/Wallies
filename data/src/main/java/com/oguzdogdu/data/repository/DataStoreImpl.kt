@@ -11,7 +11,9 @@ import com.oguzdogdu.domain.wrapper.Resource
 import com.oguzdogdu.domain.wrapper.toResource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
 
 private val Context.themeDataStore: androidx.datastore.core.DataStore<Preferences> by preferencesDataStore(
@@ -20,6 +22,10 @@ private val Context.themeDataStore: androidx.datastore.core.DataStore<Preference
 
 private val Context.languageDataStore: androidx.datastore.core.DataStore<Preferences> by preferencesDataStore(
     name = "language_preference"
+)
+
+private val Context.firstOpened: androidx.datastore.core.DataStore<Preferences> by preferencesDataStore(
+    name = "first_opened"
 )
 
 class DataStoreImpl @Inject constructor(
@@ -61,6 +67,23 @@ class DataStoreImpl @Inject constructor(
             if (it.contains(preferencesKey)) {
                 it.remove(preferencesKey)
             }
+        }
+    }
+
+    override suspend fun whenAppFirstOpen(firstOpen: Boolean){
+        val preferencesKey = booleanPreferencesKey("first_opened")
+        context.firstOpened.edit {
+            it[preferencesKey] = firstOpen
+        }
+    }
+
+    override suspend fun getAppFirstOpen(): Flow<Boolean> {
+        return flow {
+            val preferencesKey = booleanPreferencesKey("first_opened")
+            val preference = context.firstOpened
+            emit(preference.data.mapNotNull {
+                it[preferencesKey]
+            }.firstOrNull() == true)
         }
     }
 }

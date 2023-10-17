@@ -47,7 +47,7 @@ class MainViewModel @Inject constructor(
             }
         }
     }
-    private fun checkUserAuthenticate(){
+    private fun checkUserAuthenticate() {
         viewModelScope.launch {
             userAuthenticatedUseCase.invoke().collectLatest { status ->
                 when (status) {

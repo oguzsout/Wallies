@@ -22,7 +22,7 @@ class LoginViewModel @Inject constructor(
     private val signInWithGoogleUseCase: SignInWithGoogleUseCase
 ) : ViewModel() {
 
-    private val _loginState: MutableStateFlow<LoginState?> = MutableStateFlow(LoginState.Start)
+    private val _loginState: MutableStateFlow<LoginState> = MutableStateFlow(LoginState.Start)
     val loginState = _loginState.asStateFlow()
 
     private val userEmail = MutableStateFlow("")
