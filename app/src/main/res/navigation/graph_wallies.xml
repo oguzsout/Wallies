@@ -239,7 +239,9 @@
 
         <action
             android:id="@+id/toLogin"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/signupFragment"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/toMain"
             app:destination="@id/mainFragment" />
@@ -276,7 +278,9 @@
             app:destination="@id/mainFragment" />
         <action
             android:id="@+id/toLogin"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/authenticedUserFragment"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/toEditUserName"
             app:destination="@id/editUserNameSurnameFragment" />
@@ -328,7 +332,9 @@
         tools:layout="@layout/fragment_forgot_my_password">
         <action
             android:id="@+id/toLogin"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/forgotMyPasswordFragment"
+            app:popUpTo="@id/signupFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/editPasswordFragment"
