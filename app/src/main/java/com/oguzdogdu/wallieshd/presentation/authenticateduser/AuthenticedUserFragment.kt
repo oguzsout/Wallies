@@ -88,6 +88,9 @@ class AuthenticedUserFragment :
             viewModel.handleUiEvents(AuthenticatedUserEvent.SignOut)
             navigateWithDirection(AuthenticedUserFragmentDirections.toLogin())
         }
+        binding.textViewRequireLogin.setOnClickListener {
+            navigateWithDirection(AuthenticedUserFragmentDirections.toLogin())
+        }
         userOptionsAdapter.setOnItemClickListener { option ->
             when (option?.titleRes) {
                 R.string.edit_user_info_title -> navigateWithDirection(
@@ -107,45 +110,69 @@ class AuthenticedUserFragment :
 
     override fun observeData() {
         super.observeData()
-        viewModel.handleUiEvents(AuthenticatedUserEvent.FetchUserInfos)
-        viewModel.userState.observeInLifecycle(viewLifecycleOwner) { state ->
-            when (state) {
-                is AuthenticatedUserScreenState.UserInfos -> {
-                    setUserComponents(
-                        name = state.name,
-                        surname = state.surname,
-                        profileImage = state.profileImage
-                    )
-                    goToChangeProfilePhoto(image = state.profileImage)
-                }
-
-                is AuthenticatedUserScreenState.UserInfoError -> {
-                }
-
-                is AuthenticatedUserScreenState.Loading -> {
-                }
-                is AuthenticatedUserScreenState.CheckUserGoogleSignIn -> {
-                    when (state.isAuthenticated) {
-                        true -> {
-                            binding.rvUserOptions.hide()
-                            binding.imageViewEditPhoto.hide()
-                        }
-                        false -> {
-                            binding.rvUserOptions.show()
-                            binding.imageViewEditPhoto.show()
-                        }
-                    }
-                }
-
-                is AuthenticatedUserScreenState.CheckUserAuthStatus -> {
-                    when (state.isAuthenticated) {
-                        false -> navigateWithDirection(AuthenticedUserFragmentDirections.toLogin())
-                        true -> {}
-                    }
-                }
-
-                else -> {}
+        when (arguments?.getBoolean("auth")) {
+            true -> {
+                viewModel.handleUiEvents(AuthenticatedUserEvent.FetchUserInfos)
+                setUiDataAfterThatAuthStat(true)
+                binding.rvUserOptions.show()
+                binding.cardViewUserInfoContainer.show()
+                binding.buttonSignOut.show()
+                binding.userNotAuthCaution.hide()
             }
+            else -> {
+                setIfUserNotAuthGoToAuth()
+                binding.userNotAuthCaution.show()
+                binding.rvUserOptions.hide()
+                binding.cardViewUserInfoContainer.hide()
+                binding.buttonSignOut.hide()
+            }
+        }
+    }
+
+    private fun setIfUserNotAuthGoToAuth() {
+        val editedString = SpannableStringBuilder()
+            .append(getString(R.string.user_not_auth_caution))
+            .bold { run { append(" ${getString(R.string.click_for_login)}   ") } }
+        binding.textViewRequireLogin.text = editedString
+    }
+
+    private fun setUiDataAfterThatAuthStat(isAuth: Boolean) {
+        when (isAuth) {
+            true -> {
+                viewModel.userState.observeInLifecycle(viewLifecycleOwner) { state ->
+                    when (state) {
+                        is AuthenticatedUserScreenState.UserInfos -> {
+                            setUserComponents(
+                                name = state.name,
+                                surname = state.surname,
+                                profileImage = state.profileImage
+                            )
+                            goToChangeProfilePhoto(image = state.profileImage)
+                        }
+
+                        is AuthenticatedUserScreenState.UserInfoError -> {
+                        }
+
+                        is AuthenticatedUserScreenState.Loading -> {
+                        }
+                        is AuthenticatedUserScreenState.CheckUserGoogleSignIn -> {
+                            when (state.isAuthenticated) {
+                                true -> {
+                                    binding.rvUserOptions.hide()
+                                    binding.imageViewEditPhoto.hide()
+                                }
+                                false -> {
+                                    binding.rvUserOptions.show()
+                                    binding.imageViewEditPhoto.show()
+                                }
+                            }
+                        }
+
+                        else -> {}
+                    }
+                }
+            }
+            false -> {}
         }
     }
 

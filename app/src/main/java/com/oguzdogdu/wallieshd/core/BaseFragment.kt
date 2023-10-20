@@ -58,7 +58,8 @@ abstract class BaseFragment<VB : ViewBinding>(
                     message = resources.getString(R.string.internet_error),
                     type = MessageType.ERROR
                 )
-                null -> TODO()
+
+                else -> {}
             }
         }
     }

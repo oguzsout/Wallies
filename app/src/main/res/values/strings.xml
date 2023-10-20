@@ -90,4 +90,6 @@
     <string name="collections_title">Collections</string>
     <string name="favorites_title">Favorites</string>
     <string name="settings_title">Settings</string>
+    <string name="user_not_auth_caution">You must log in to view your information.</string>
+    <string name="click_for_login"> Click to log in.</string>
 </resources>

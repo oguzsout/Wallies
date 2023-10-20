@@ -1,5 +1,6 @@
 package com.oguzdogdu.wallieshd.presentation.main
 
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import coil.load
 import coil.request.CachePolicy
@@ -7,7 +8,6 @@ import coil.transform.CircleCropTransformation
 import com.google.android.material.tabs.TabLayoutMediator
 import com.oguzdogdu.wallieshd.R
 import com.oguzdogdu.wallieshd.core.BaseFragment
-import com.oguzdogdu.wallieshd.core.snackbar.MessageType
 import com.oguzdogdu.wallieshd.databinding.FragmentMainBinding
 import com.oguzdogdu.wallieshd.presentation.latest.LatestFragment
 import com.oguzdogdu.wallieshd.presentation.popular.PopularFragment
@@ -71,13 +71,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
 
     private fun goToUserInfoScreen(isAuthenticated: Boolean) {
         binding.imageViewProfileAvatar.setOnClickListener {
-            when (isAuthenticated) {
-                true -> navigateWithDirection(MainFragmentDirections.toAuthUser())
-                false -> showMessage(
-                    message = "Giriş Yap",
-                    MessageType.ERROR
-                )
-            }
+            navigate(R.id.toAuthUser, bundleOf(Pair("auth", isAuthenticated)))
         }
     }
 

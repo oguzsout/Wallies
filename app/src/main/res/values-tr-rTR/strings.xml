@@ -91,4 +91,6 @@
     <string name="collections_title">Koleksiyonlar</string>
     <string name="favorites_title">Favoriler</string>
     <string name="settings_title">Ayarlar</string>
+    <string name="user_not_auth_caution">Bilgilerinizi görüntüleyebilmek için oturum açmanız gerekmektedir.</string>
+    <string name="click_for_login"> Giriş yapmak için tıklayın.</string>
 </resources>

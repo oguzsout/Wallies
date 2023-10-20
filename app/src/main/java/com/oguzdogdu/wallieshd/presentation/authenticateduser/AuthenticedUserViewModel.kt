@@ -30,6 +30,7 @@ class AuthenticedUserViewModel @Inject constructor(
                 fetchUserDatas()
                 checkUserSignInMethod()
             }
+
             is AuthenticatedUserEvent.SignOut -> {
                 signOut()
             }
