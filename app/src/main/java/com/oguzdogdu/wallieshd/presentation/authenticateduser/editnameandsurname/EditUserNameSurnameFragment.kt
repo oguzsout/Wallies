@@ -45,7 +45,7 @@ class EditUserNameSurnameFragment : BaseFragment<FragmentEditUserNameSurnameBind
                 is EditUsernameSurnameScreenState.UserInfoError -> {}
                 is EditUsernameSurnameScreenState.UserInfos -> setUserComponents(
                     name = state.name,
-                    surname = state?.surname
+                    surname = state.surname
                 )
                 else -> {}
             }

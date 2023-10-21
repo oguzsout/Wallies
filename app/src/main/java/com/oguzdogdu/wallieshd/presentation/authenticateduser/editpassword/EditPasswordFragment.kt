@@ -1,11 +1,15 @@
 package com.oguzdogdu.wallieshd.presentation.authenticateduser.editpassword
 
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.oguzdogdu.wallieshd.R
 import com.oguzdogdu.wallieshd.core.BaseFragment
 import com.oguzdogdu.wallieshd.core.snackbar.MessageType
 import com.oguzdogdu.wallieshd.databinding.FragmentEditPasswordBinding
+import com.oguzdogdu.wallieshd.util.FieldValidators
 import com.oguzdogdu.wallieshd.util.observeInLifecycle
 import com.oguzdogdu.wallieshd.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,6 +29,9 @@ class EditPasswordFragment : BaseFragment<FragmentEditPasswordBinding>(
         )
         binding.toolbar.setLeftIcon(R.drawable.back)
         binding.editTextPassword.hint = getString(R.string.password)
+        binding.editTextPassword.addTextChangedListener(
+            TextFieldValidation(binding.editTextPassword)
+        )
     }
 
     override fun initListeners() {
@@ -32,7 +39,7 @@ class EditPasswordFragment : BaseFragment<FragmentEditPasswordBinding>(
         binding.toolbar.setLeftIconClickListener {
             navigateWithDirection(EditPasswordFragmentDirections.toAuthUser())
         }
-        binding.buttonChangeUserEmail.setOnClickListener {
+        binding.buttonChangeUserPassword.setOnClickListener {
             viewModel.handleUIEvent(
                 EditPasswordScreenEvent.UserPassword(binding.editTextPassword.text.toString())
             )
@@ -60,5 +67,20 @@ class EditPasswordFragment : BaseFragment<FragmentEditPasswordBinding>(
                 else -> {}
             }
         })
+    }
+
+    inner class TextFieldValidation(private val view: View) : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {}
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            when (view.id) {
+                R.id.editTextPassword -> {
+                    FieldValidators.isValidPasswordCheck(
+                        binding.editTextPassword.text.toString(),
+                        binding.editTextPasswordLayout
+                    )
+                }
+            }
+        }
     }
 }
