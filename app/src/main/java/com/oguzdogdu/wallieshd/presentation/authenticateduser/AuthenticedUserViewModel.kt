@@ -3,6 +3,7 @@ package com.oguzdogdu.wallieshd.presentation.authenticateduser
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oguzdogdu.domain.usecase.auth.CheckGoogleSignInUseCase
+import com.oguzdogdu.domain.usecase.auth.CheckUserAuthenticatedUseCase
 import com.oguzdogdu.domain.usecase.auth.GetCurrentUserDatasUseCase
 import com.oguzdogdu.domain.usecase.auth.SignOutUseCase
 import com.oguzdogdu.domain.wrapper.Resource
@@ -18,7 +19,8 @@ import kotlinx.coroutines.launch
 class AuthenticedUserViewModel @Inject constructor(
     private val getCurrentUserDatasUseCase: GetCurrentUserDatasUseCase,
     private val signOutUseCase: SignOutUseCase,
-    private val checkGoogleSignInUseCase: CheckGoogleSignInUseCase
+    private val checkGoogleSignInUseCase: CheckGoogleSignInUseCase,
+    private val checkUserAuthenticatedUseCase: CheckUserAuthenticatedUseCase
 ) : ViewModel() {
 
     private val _userState: MutableStateFlow<AuthenticatedUserScreenState?> = MutableStateFlow(null)
@@ -26,6 +28,9 @@ class AuthenticedUserViewModel @Inject constructor(
 
     fun handleUiEvents(event: AuthenticatedUserEvent) {
         when (event) {
+            is AuthenticatedUserEvent.CheckUserAuth -> {
+                checkSignIn()
+            }
             is AuthenticatedUserEvent.FetchUserInfos -> {
                 fetchUserDatas()
                 checkUserSignInMethod()
@@ -61,6 +66,25 @@ class AuthenticedUserViewModel @Inject constructor(
                         }
 
                     else -> {}
+                }
+            }
+        }
+    }
+
+    private fun checkSignIn() {
+        viewModelScope.launch {
+            checkUserAuthenticatedUseCase.invoke().collectLatest { status ->
+                when (status) {
+                    is Resource.Success -> {
+                        _userState.update {
+                            AuthenticatedUserScreenState.CheckUserAuthenticated(
+                                status.data
+                            )
+                        }
+                    }
+
+                    is Resource.Error -> {}
+                    is Resource.Loading -> {}
                 }
             }
         }
