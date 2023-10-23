@@ -1,5 +1,9 @@
 package com.oguzdogdu.wallieshd.presentation.authenticateduser.editnameandsurname
 
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.View
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import com.oguzdogdu.wallieshd.R
 import com.oguzdogdu.wallieshd.core.BaseFragment
@@ -24,6 +28,12 @@ class EditUserNameSurnameFragment : BaseFragment<FragmentEditUserNameSurnameBind
             )
             toolbar.setLeftIcon(R.drawable.back)
         }
+        binding.editTextUserName.addTextChangedListener(
+            TextFieldValidation(binding.editTextUserName)
+        )
+        binding.editTextSurName.addTextChangedListener(TextFieldValidation(binding.editTextSurName))
+        binding.buttonChangeUsernameSurname.isEnabled =
+            !(binding.editTextUserName.text.isNullOrEmpty() && binding.editTextSurName.text.isNullOrEmpty())
     }
 
     override fun initListeners() {
@@ -43,18 +53,11 @@ class EditUserNameSurnameFragment : BaseFragment<FragmentEditUserNameSurnameBind
             when (state) {
                 is EditUsernameSurnameScreenState.Loading -> {}
                 is EditUsernameSurnameScreenState.UserInfoError -> {}
-                is EditUsernameSurnameScreenState.UserInfos -> setUserComponents(
-                    name = state.name,
-                    surname = state.surname
-                )
-                else -> {}
+                is EditUsernameSurnameScreenState.UserInfos -> {}
+                else -> {
+                }
             }
         })
-    }
-
-    private fun setUserComponents(name: String?, surname: String?) {
-        binding.editTextUserName.hint = getString(R.string.name_text, name)
-        binding.editTextSurName.hint = getString(R.string.surname_text, surname)
     }
 
     private fun changeUsernameSurname() {
@@ -66,6 +69,18 @@ class EditUserNameSurnameFragment : BaseFragment<FragmentEditUserNameSurnameBind
         }
         if (newSurName.isNotEmpty()) {
             viewModel.handleUIEvent(EditUsernameSurnameEvent.ChangedSurName(surname = newSurName))
+        }
+    }
+
+    inner class TextFieldValidation(private val view: View) : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+            binding.buttonChangeUsernameSurname.isEnabled = !s.isNullOrBlank()
+        }
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            binding.buttonChangeUsernameSurname.isEnabled = !s.isNullOrBlank()
+        }
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            binding.buttonChangeUsernameSurname.isEnabled = !s.isNullOrBlank()
         }
     }
 }

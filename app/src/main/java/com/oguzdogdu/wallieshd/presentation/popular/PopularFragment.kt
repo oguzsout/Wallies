@@ -68,7 +68,11 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
 
     private fun fetchPopularData() {
         viewModel.getPopular.observeInLifecycle(viewLifecycleOwner, observer = { state ->
-            state?.let { popularWallpaperAdapter.submitData(it.popular) }
+            when (state) {
+                is PopularState.ItemState -> {
+                    popularWallpaperAdapter.submitData(state.popular)
+                }
+            }
         })
     }
 

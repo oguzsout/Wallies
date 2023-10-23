@@ -14,12 +14,10 @@ import com.oguzdogdu.wallieshd.databinding.FragmentDetailBinding
 import com.oguzdogdu.wallieshd.util.formatDate
 import com.oguzdogdu.wallieshd.util.hide
 import com.oguzdogdu.wallieshd.util.itemLoading
-import com.oguzdogdu.wallieshd.util.observe
 import com.oguzdogdu.wallieshd.util.observeInLifecycle
 import com.oguzdogdu.wallieshd.util.show
 import com.oguzdogdu.wallieshd.util.toFormattedString
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding::inflate) {
@@ -85,13 +83,13 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
     private fun addOrDeleteFavorites(photo: Photo?) {
         binding.toggleButton.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                viewModel.toggleState.onEach {
+                viewModel.toggleState.observeInLifecycle(viewLifecycleOwner, observer = {
                     if (!it) {
                         viewModel.handleUIEvent(
                             DetailScreenEvent.AddFavorites(photo)
                         )
                     }
-                }.observe(viewLifecycleOwner)
+                })
             } else {
                 viewModel.handleUIEvent(
                     DetailScreenEvent.DeleteFavorites(photo)
