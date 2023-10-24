@@ -9,6 +9,4 @@ interface DataStore {
     suspend fun putLanguageStrings(key:String, value:String)
     suspend fun getLanguageStrings(key: String):Flow<Resource<String?>>
     suspend fun clearPReferences(key: String)
-    suspend fun whenAppFirstOpen(firstOpen:Boolean)
-    suspend fun getAppFirstOpen():Flow<Boolean>
 }

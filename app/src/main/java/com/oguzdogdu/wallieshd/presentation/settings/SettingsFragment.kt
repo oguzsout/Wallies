@@ -154,6 +154,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
 
     override fun observeData() {
         super.observeData()
+        viewModel.handleUIEvent(SettingsEvent.LanguageChanged)
+        viewModel.handleUIEvent(SettingsEvent.ThemeChanged)
         observeThemeState()
         observeLanguageState()
     }

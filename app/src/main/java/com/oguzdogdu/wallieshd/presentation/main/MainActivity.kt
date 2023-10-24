@@ -5,9 +5,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -26,7 +24,6 @@ import com.oguzdogdu.wallieshd.util.observeInLifecycle
 import com.oguzdogdu.wallieshd.util.show
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -50,7 +47,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel.checkSignIn()
         setupNavigation()
         navigationBarCorners()
         getLanguage()
@@ -109,13 +105,7 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_host_fragment_content_main
         ) as NavHostFragment
         navController = navHostFragment.navController
-        val navGraph = navController.navInflater.inflate(R.navigation.graph_wallies)
-        if (viewModel.checkSignIn.value == false) {
-            setOrGetAppFirstOpened(navGraph)
-        } else {
-            navGraph.setStartDestination(R.id.mainFragment)
-            navController.graph = navGraph
-        }
+        navController.navInflater.inflate(R.navigation.graph_wallies)
         binding.bottomNavigationView.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             viewModel.showBottomNavigation.value = when (destination.id) {
@@ -131,28 +121,6 @@ class MainActivity : AppCompatActivity() {
                 binding.bottomNavigationView.show()
             } else {
                 binding.bottomNavigationView.hide()
-            }
-        }
-    }
-
-    private fun setOrGetAppFirstOpened(navGraph: NavGraph) {
-        lifecycleScope.launch {
-            viewModel.isStartDestinationChanged.collect { dest ->
-                when (dest.firstOpened) {
-                    true -> {
-                        navGraph.setStartDestination(R.id.loginFragment)
-                        navController.graph = navGraph
-                    }
-
-                    false -> {
-                        navGraph.setStartDestination(R.id.splashFragment)
-                        navController.graph = navGraph
-                    }
-
-                    null -> {
-                        return@collect
-                    }
-                }
             }
         }
     }

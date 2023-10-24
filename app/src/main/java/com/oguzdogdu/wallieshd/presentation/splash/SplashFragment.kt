@@ -33,9 +33,4 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding
             }
         })
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.setDestination(true)
-    }
 }

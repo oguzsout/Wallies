@@ -24,10 +24,6 @@ private val Context.languageDataStore: androidx.datastore.core.DataStore<Prefere
     name = "language_preference"
 )
 
-private val Context.firstOpened: androidx.datastore.core.DataStore<Preferences> by preferencesDataStore(
-    name = "first_opened"
-)
-
 class DataStoreImpl @Inject constructor(
     private val context: Context,
 ) : DataStore {
@@ -67,23 +63,6 @@ class DataStoreImpl @Inject constructor(
             if (it.contains(preferencesKey)) {
                 it.remove(preferencesKey)
             }
-        }
-    }
-
-    override suspend fun whenAppFirstOpen(firstOpen: Boolean){
-        val preferencesKey = booleanPreferencesKey("first_opened")
-        context.firstOpened.edit {
-            it[preferencesKey] = firstOpen
-        }
-    }
-
-    override suspend fun getAppFirstOpen(): Flow<Boolean> {
-        return flow {
-            val preferencesKey = booleanPreferencesKey("first_opened")
-            val preference = context.firstOpened
-            emit(preference.data.mapNotNull {
-                it[preferencesKey]
-            }.firstOrNull() == true)
         }
     }
 }

@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
@@ -28,12 +27,6 @@ class SplashViewModel @Inject constructor(
 
     init {
         checkSignIn()
-    }
-
-    fun setDestination(route: Boolean?) = runBlocking {
-        if (route != null) {
-            dataStore.whenAppFirstOpen(route)
-        }
     }
 
     private fun checkSignIn() {

@@ -37,21 +37,7 @@ class SettingsViewModel @Inject constructor(
     val languageState = _languageState.asStateFlow()
 
     init {
-        getDestination()
-        getThemeValue()
-        getLanguageValue()
-    }
-
-    private fun getDestination() {
-        viewModelScope.launch {
-            dataStore.getAppFirstOpen().collectLatest { dest ->
-                _isStartDestinationChanged.update {
-                    SettingsState.FirstOpened(
-                        firstOpened = dest
-                    )
-                }
-            }
-        }
+        checkSignIn()
     }
 
     fun handleUIEvent(event: SettingsEvent) {
