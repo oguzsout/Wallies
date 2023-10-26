@@ -23,15 +23,16 @@ class EditPasswordFragment : BaseFragment<FragmentEditPasswordBinding>(
 
     override fun initViews() {
         super.initViews()
-        binding.toolbar.setTitle(
-            title = getString(R.string.forgot_password_title),
-            titleStyleRes = R.style.ToolbarTitleText
-        )
-        binding.toolbar.setLeftIcon(R.drawable.back)
-        binding.editTextPassword.hint = getString(R.string.password)
-        binding.editTextPassword.addTextChangedListener(
-            TextFieldValidation(binding.editTextPassword)
-        )
+        with(binding) {
+            toolbar.setTitle(
+                title = getString(R.string.forgot_password_title),
+                titleStyleRes = R.style.DialogTitleText
+            )
+            toolbar.setLeftIcon(R.drawable.back)
+            editTextPassword.addTextChangedListener(
+                TextFieldValidation(binding.editTextPassword)
+            )
+        }
     }
 
     override fun initListeners() {

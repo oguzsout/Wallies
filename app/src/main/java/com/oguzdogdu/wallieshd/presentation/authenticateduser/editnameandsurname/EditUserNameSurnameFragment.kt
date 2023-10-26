@@ -74,13 +74,22 @@ class EditUserNameSurnameFragment : BaseFragment<FragmentEditUserNameSurnameBind
 
     inner class TextFieldValidation(private val view: View) : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
-            binding.buttonChangeUsernameSurname.isEnabled = !s.isNullOrBlank()
+            when (view.id) {
+                R.id.editTextUserName -> binding.buttonChangeUsernameSurname.isEnabled = !s.isNullOrBlank()
+                R.id.editTextSurName -> binding.buttonChangeUsernameSurname.isEnabled = !s.isNullOrBlank()
+            }
         }
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            binding.buttonChangeUsernameSurname.isEnabled = !s.isNullOrBlank()
+            when (view.id) {
+                R.id.editTextUserName -> binding.buttonChangeUsernameSurname.isEnabled = !s.isNullOrBlank()
+                R.id.editTextSurName -> binding.buttonChangeUsernameSurname.isEnabled = !s.isNullOrBlank()
+            }
         }
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            binding.buttonChangeUsernameSurname.isEnabled = !s.isNullOrBlank()
+            when (view.id) {
+                R.id.editTextUserName -> binding.buttonChangeUsernameSurname.isEnabled = !s.isNullOrBlank()
+                R.id.editTextSurName -> binding.buttonChangeUsernameSurname.isEnabled = !s.isNullOrBlank()
+            }
         }
     }
 }

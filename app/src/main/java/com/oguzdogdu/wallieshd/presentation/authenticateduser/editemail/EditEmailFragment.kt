@@ -1,5 +1,8 @@
 package com.oguzdogdu.wallieshd.presentation.authenticateduser.editemail
 
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.View
 import androidx.fragment.app.viewModels
 import com.oguzdogdu.wallieshd.R
 import com.oguzdogdu.wallieshd.core.BaseFragment
@@ -29,6 +32,12 @@ class EditEmailFragment : BaseFragment<FragmentEditEmailBinding>(FragmentEditEma
             )
             toolbar.setLeftIcon(R.drawable.back)
             toolbar.setRightIcon(R.drawable.info)
+            editTextEmail.addTextChangedListener(
+                TextFieldValidation(editTextEmail)
+            )
+            binding.editTextPassword.addTextChangedListener(TextFieldValidation(editTextPassword))
+            buttonChangeUserEmail.isEnabled =
+                !(editTextEmail.text.isNullOrEmpty() && editTextPassword.text.isNullOrEmpty())
         }
     }
 
@@ -59,15 +68,10 @@ class EditEmailFragment : BaseFragment<FragmentEditEmailBinding>(FragmentEditEma
                     message = state.errorMessage.orEmpty(),
                     type = MessageType.ERROR
                 )
-                is EditEmailScreenState.UserEmail -> setDataToUiComponent(email = state.email)
+                is EditEmailScreenState.UserEmail -> {}
                 else -> {}
             }
         })
-    }
-
-    private fun setDataToUiComponent(email: String?) {
-        binding.editTextEmail.hint = "Email: $email"
-        binding.editTextPassword.hint = getString(R.string.password)
     }
 
     private fun changeUserEmail() {
@@ -78,6 +82,27 @@ class EditEmailFragment : BaseFragment<FragmentEditEmailBinding>(FragmentEditEma
             viewModel.handleUIEvent(
                 EditUserEmailEvent.ChangedEmail(email = newEmail, password = password)
             )
+        }
+    }
+
+    inner class TextFieldValidation(private val view: View) : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+            when (view.id) {
+                R.id.editTextEmail -> binding.buttonChangeUserEmail.isEnabled = !s.isNullOrBlank()
+                R.id.editTextPassword -> binding.buttonChangeUserEmail.isEnabled = !s.isNullOrBlank()
+            }
+        }
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            when (view.id) {
+                R.id.editTextEmail -> binding.buttonChangeUserEmail.isEnabled = !s.isNullOrBlank()
+                R.id.editTextPassword -> binding.buttonChangeUserEmail.isEnabled = !s.isNullOrBlank()
+            }
+        }
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            when (view.id) {
+                R.id.editTextEmail -> binding.buttonChangeUserEmail.isEnabled = !s.isNullOrBlank()
+                R.id.editTextPassword -> binding.buttonChangeUserEmail.isEnabled = !s.isNullOrBlank()
+            }
         }
     }
 }
