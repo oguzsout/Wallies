@@ -40,8 +40,8 @@
         <activity
             android:name="com.oguzdogdu.wallieshd.presentation.main.MainActivity"
             android:theme="@style/Theme.Wallies"
+            android:launchMode="standard"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
-            android:launchMode="singleInstance"
             android:exported="true">
 
             <intent-filter>

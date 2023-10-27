@@ -2,6 +2,7 @@ package com.oguzdogdu.wallieshd.presentation.login
 
 import android.app.Activity
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.text.Editable
@@ -9,6 +10,7 @@ import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.text.bold
 import androidx.fragment.app.viewModels
@@ -71,6 +73,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     override fun initListeners() {
         super.initListeners()
         sendLoginRequest()
+        binding.loginFieldsContainer.setOnClickListener {
+            hideKeyboard()
+        }
         binding.textViewSignUp.setOnClickListener {
             navigateWithDirection(LoginFragmentDirections.toSignUp())
         }
@@ -174,6 +179,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                 binding.emailEt.text?.clear()
             }
         }
+    }
+
+    private fun hideKeyboard() {
+        val inputMethodManager =
+            requireView().context
+                .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(requireView().windowToken, 0)
     }
 
     inner class TextFieldValidation(private val view: View) : TextWatcher {
