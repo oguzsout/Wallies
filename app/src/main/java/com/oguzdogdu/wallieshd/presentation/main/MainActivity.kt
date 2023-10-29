@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -16,6 +17,7 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.oguzdogdu.wallieshd.R
 import com.oguzdogdu.wallieshd.databinding.ActivityMainBinding
 import com.oguzdogdu.wallieshd.presentation.settings.LanguageValues
+import com.oguzdogdu.wallieshd.presentation.settings.SettingsEvent
 import com.oguzdogdu.wallieshd.presentation.settings.SettingsViewModel
 import com.oguzdogdu.wallieshd.presentation.settings.ThemeValues
 import com.oguzdogdu.wallieshd.util.LocaleHelper
@@ -75,26 +77,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setTheme() {
+        viewModel.handleUIEvent(SettingsEvent.ThemeChanged)
         viewModel.themeState.observeInLifecycle(this, observer = { theme ->
-            if (theme != null) {
-                when (theme.value) {
-                    ThemeValues.LIGHT_MODE.title -> {
-                        AppCompatDelegate.setDefaultNightMode(
-                            AppCompatDelegate.MODE_NIGHT_NO
-                        )
-                    }
+            when (theme?.value) {
+                ThemeValues.LIGHT_MODE.title -> {
+                    AppCompatDelegate.setDefaultNightMode(
+                        AppCompatDelegate.MODE_NIGHT_NO
+                    )
+                }
 
-                    ThemeValues.DARK_MODE.title -> {
-                        AppCompatDelegate.setDefaultNightMode(
-                            AppCompatDelegate.MODE_NIGHT_YES
-                        )
-                    }
+                ThemeValues.DARK_MODE.title -> {
+                    AppCompatDelegate.setDefaultNightMode(
+                        AppCompatDelegate.MODE_NIGHT_YES
+                    )
+                }
 
-                    ThemeValues.SYSTEM_DEFAULT.title -> {
-                        AppCompatDelegate.setDefaultNightMode(
-                            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-                        )
-                    }
+                ThemeValues.SYSTEM_DEFAULT.title -> {
+                    AppCompatDelegate.setDefaultNightMode(
+                        AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                    )
                 }
             }
         })

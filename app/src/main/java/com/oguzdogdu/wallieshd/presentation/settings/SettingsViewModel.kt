@@ -24,7 +24,7 @@ class SettingsViewModel @Inject constructor(
 ) : ViewModel() {
 
     val showBottomNavigation = MutableLiveData(true)
-    val checkSignIn = MutableStateFlow(false)
+    private val checkSignIn = MutableStateFlow(false)
 
     private var _isStartDestinationChanged: MutableStateFlow<SettingsState.FirstOpened> =
         MutableStateFlow(SettingsState.FirstOpened(firstOpened = null))
