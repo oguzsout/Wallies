@@ -6,7 +6,7 @@ import com.oguzdogdu.network.common.Constants
 import com.oguzdogdu.network.model.collection.CollectionResponse
 import com.oguzdogdu.network.service.WallpaperService
 
-class CollectionsPagingSource(private val service: WallpaperService) :
+class CollectionsByTitlePagingSource (private val service: WallpaperService) :
     PagingSource<Int, CollectionResponse>() {
     override fun getRefreshKey(state: PagingState<Int, CollectionResponse>): Int? {
         return state.anchorPosition?.let {
@@ -19,8 +19,9 @@ class CollectionsPagingSource(private val service: WallpaperService) :
         return try {
             val page = params.key ?: 1
             val response = service.getCollections(page = page, perPage = Constants.PAGE_ITEM_LIMIT).body().orEmpty()
+            val filteredAndSortedResponse = response.sortedBy { it.title?.lowercase() }
             LoadResult.Page(
-                data = response,
+                data = filteredAndSortedResponse,
                 prevKey = if (page == 1) null else page - 1,
                 nextKey = if (response.isEmpty()) null else page + 1
             )

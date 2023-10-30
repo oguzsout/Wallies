@@ -5,6 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.oguzdogdu.data.common.Constants
+import com.oguzdogdu.data.source.paging.CollectionsByTitlePagingSource
 import com.oguzdogdu.network.model.collection.toCollectionDomain
 import com.oguzdogdu.network.model.maindto.toDomain
 import com.oguzdogdu.network.model.maindto.toDomainModelLatest
@@ -81,11 +82,24 @@ class WallpaperRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getCollectionsList(): Flow<PagingData<WallpaperCollections>> {
-        val pagingConfig = PagingConfig(pageSize = Constants.PAGE_ITEM_LIMIT)
+        val pagingConfig = PagingConfig(pageSize = 30)
         return Pager(
             config = pagingConfig,
             initialKey = 1,
             pagingSourceFactory = { CollectionsPagingSource(service = service) }
+        ).flow.mapNotNull {
+            it.map { collection ->
+                collection.toCollectionDomain()
+            }
+        }
+    }
+
+    override suspend fun getCollectionsListByTitleSort(): Flow<PagingData<WallpaperCollections>> {
+        val pagingConfig = PagingConfig(pageSize = 30)
+        return Pager(
+            config = pagingConfig,
+            initialKey = 1,
+            pagingSourceFactory = { CollectionsByTitlePagingSource(service = service) }
         ).flow.mapNotNull {
             it.map { collection ->
                 collection.toCollectionDomain()

@@ -92,4 +92,7 @@
     <string name="settings_title">Settings</string>
     <string name="user_not_auth_caution">You must log in to view your information.</string>
     <string name="click_for_login"> Click to log in.</string>
+    <string name="text_sort">Sort by</string>
+    <string name="text_alphabetic_sort">By Alphabetical Order</string>
+    <string name="text_likes_sort">By Number of Likes</string>
 </resources>

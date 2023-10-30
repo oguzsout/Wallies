@@ -15,6 +15,7 @@ interface WallpaperRepository {
     suspend fun getPhoto(id: String): Photo
     suspend fun searchPhoto(query: String?): Flow<PagingData<SearchPhoto>>
     suspend fun getCollectionsList(): Flow<PagingData<com.oguzdogdu.domain.model.collection.WallpaperCollections>>
+    suspend fun getCollectionsListByTitleSort(): Flow<PagingData<com.oguzdogdu.domain.model.collection.WallpaperCollections>>
     suspend fun getCollectionsListById(id: String?): List<CollectionList>
     suspend fun insertImageToFavorites(favorite: FavoriteImages)
     suspend fun getFavorites(): Flow<List<FavoriteImages>>

@@ -22,7 +22,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarCollection">
+        app:layout_constraintTop_toBottomOf="@+id/textViewSorted">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewCollections"
@@ -45,4 +45,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewSorted"
+        style="@style/DialogTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:layout_marginBottom="8dp"
+        android:paddingVertical="@dimen/dp_4"
+        android:paddingHorizontal="@dimen/dp_4"
+        android:drawableStart="@drawable/ic_sort"
+        android:drawablePadding="@dimen/dp_4"
+        android:textAlignment="center"
+        android:text="@string/text_sort"
+        app:layout_constraintBottom_toTopOf="@+id/swipeRefresh"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarCollection" />
 </androidx.constraintlayout.widget.ConstraintLayout>

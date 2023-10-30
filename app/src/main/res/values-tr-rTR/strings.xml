@@ -93,4 +93,7 @@
     <string name="settings_title">Ayarlar</string>
     <string name="user_not_auth_caution">Bilgilerinizi görüntüleyebilmek için oturum açmanız gerekmektedir.</string>
     <string name="click_for_login"> Giriş yapmak için tıklayın.</string>
+    <string name="text_sort">Sırala</string>
+    <string name="text_alphabetic_sort">Alfabetik Sıraya Göre</string>
+    <string name="text_likes_sort">Beğeni Sayısına Göre</string>
 </resources>
