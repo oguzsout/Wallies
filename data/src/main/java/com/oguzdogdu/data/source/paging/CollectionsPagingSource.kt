@@ -17,7 +17,7 @@ class CollectionsPagingSource(private val service: WallpaperService) :
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CollectionResponse> {
         return try {
             val page = params.key ?: 1
-            val response = service.getCollections(page = page).body().orEmpty()
+            val response = service.getCollections(page = page, perPage = 30).body().orEmpty()
             LoadResult.Page(
                 data = response,
                 prevKey = if (page == 1) null else page - 1,

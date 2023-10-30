@@ -1,6 +1,7 @@
 package com.oguzdogdu.network
 
 import com.google.gson.Gson
+import com.oguzdogdu.network.common.Constants
 import com.oguzdogdu.network.model.maindto.UnsplashResponseItem
 import com.oguzdogdu.network.service.WallpaperService
 import kotlinx.coroutines.test.runTest
@@ -34,7 +35,7 @@ class UnsplashApiTest {
         mockResponse.setBody(Gson().toJson(wallpapers)).setResponseCode(HttpURLConnection.HTTP_OK)
         mockWebServer.enqueue(mockResponse)
 
-        val response = wallpaperService.getImagesByOrders(page = 1, order = "")
+        val response = wallpaperService.getImagesByOrders(perPage = Constants.PAGE_ITEM_LIMIT,page = 1, order = "")
         mockWebServer.takeRequest()
 
         Assert.assertEquals(true, response.body()!!.isEmpty())
@@ -48,7 +49,7 @@ class UnsplashApiTest {
         mockResponse.setBody(content)
         mockWebServer.enqueue(mockResponse)
 
-        val response = wallpaperService.getImagesByOrders(page = 1, order = "")
+        val response = wallpaperService.getImagesByOrders(perPage = Constants.PAGE_ITEM_LIMIT,page = 1, order = "")
         mockWebServer.takeRequest()
 
         Assert.assertEquals(false, response.body()!!.isEmpty())
@@ -61,7 +62,7 @@ class UnsplashApiTest {
         mockResponse.setBody("Something Went Wrong")
         mockWebServer.enqueue(mockResponse)
 
-        val response = wallpaperService.getImagesByOrders(page = 1, order = "")
+        val response = wallpaperService.getImagesByOrders(perPage = Constants.PAGE_ITEM_LIMIT,page = 1, order = "")
         mockWebServer.takeRequest()
 
         Assert.assertEquals(false, response.isSuccessful)

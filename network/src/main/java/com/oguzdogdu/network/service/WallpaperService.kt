@@ -14,7 +14,7 @@ interface WallpaperService {
 
     @GET("photos")
     suspend fun getImagesByOrders(
-        @Query("per_page") perPage: Int? = PAGE_ITEM_LIMIT,
+        @Query("per_page") perPage: Int?,
         @Query("page") page: Int?,
         @Query("order_by") order: String?,
     ): Response<List<UnsplashResponseItem>>
@@ -27,12 +27,14 @@ interface WallpaperService {
     @GET("search/photos")
     suspend fun searchPhotos(
         @Query("page") page: Int?,
+        @Query("per_page") perPage: Int?,
         @Query("query") query: String,
     ): Response<SearchResponseItem>
 
     @GET("collections")
     suspend fun getCollections(
         @Query("page") page: Int?,
+        @Query("per_page") perPage: Int?
     ): Response<List<CollectionResponse>>
 
     @GET("collections/{id}/photos")

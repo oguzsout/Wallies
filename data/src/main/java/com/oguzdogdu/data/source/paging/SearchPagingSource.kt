@@ -23,7 +23,7 @@ class SearchPagingSource(
             : LoadResult<Int, Result> {
         return try {
             val page = params.key ?: 1
-            val response = service.searchPhotos(page = page, query = query).body()?.results.orEmpty()
+            val response = service.searchPhotos(page = page, query = query,perPage = 30).body()?.results.orEmpty()
             LoadResult.Page(
                 data = response,
                 prevKey = if (page == 1) null else page - 1,

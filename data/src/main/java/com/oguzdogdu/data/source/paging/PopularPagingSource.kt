@@ -3,6 +3,7 @@ package com.oguzdogdu.data.source.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.oguzdogdu.data.common.Constants
+import com.oguzdogdu.network.common.Constants.PAGE_ITEM_LIMIT
 import com.oguzdogdu.network.model.maindto.UnsplashResponseItem
 import com.oguzdogdu.network.service.WallpaperService
 
@@ -18,7 +19,7 @@ class PopularPagingSource(private val service: WallpaperService) :
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, UnsplashResponseItem> {
         return try {
             val page = params.key ?: 1
-            val response = service.getImagesByOrders(page = page, order = Constants.POPULAR).body().orEmpty()
+            val response = service.getImagesByOrders(perPage = PAGE_ITEM_LIMIT,page = page, order = Constants.POPULAR).body().orEmpty()
             LoadResult.Page(
                 data = response,
                 prevKey = if (page == 1) null else page - 1,
