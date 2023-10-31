@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -17,6 +18,7 @@ import com.oguzdogdu.wallieshd.R
 import com.oguzdogdu.wallieshd.core.BaseBottomSheetDialogFragment
 import com.oguzdogdu.wallieshd.databinding.DialogEditProfilePhotoBinding
 import com.oguzdogdu.wallieshd.util.observeInLifecycle
+import com.oguzdogdu.wallieshd.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -119,8 +121,15 @@ class EditProfilePhotoDialog :
                 is EditProfilePhotoScreenState.Loading -> {}
                 is EditProfilePhotoScreenState.UserInfoError -> {}
                 is EditProfilePhotoScreenState.ProcessCompleted -> {
-                    if (state.isCompleted == true) {
-                        navigateWithDirection(EditProfilePhotoDialogDirections.toAuthUser())
+                    when (state.isCompleted) {
+                        true -> navigateWithDirection(EditProfilePhotoDialogDirections.toAuthUser())
+                        false -> requireView().showToast(
+                            requireContext(),
+                            "Something went wrong",
+                            Toast.LENGTH_LONG
+                        )
+
+                        else -> {}
                     }
                 }
 
