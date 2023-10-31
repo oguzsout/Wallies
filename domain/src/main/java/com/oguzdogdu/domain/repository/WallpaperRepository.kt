@@ -7,6 +7,7 @@ import com.oguzdogdu.domain.model.latest.LatestImage
 import com.oguzdogdu.domain.model.popular.PopularImage
 import com.oguzdogdu.domain.model.search.SearchPhoto
 import com.oguzdogdu.domain.model.singlephoto.Photo
+import com.oguzdogdu.domain.wrapper.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface WallpaperRepository {
@@ -16,7 +17,8 @@ interface WallpaperRepository {
     suspend fun searchPhoto(query: String?): Flow<PagingData<SearchPhoto>>
     suspend fun getCollectionsList(): Flow<PagingData<com.oguzdogdu.domain.model.collection.WallpaperCollections>>
     suspend fun getCollectionsListByTitleSort(): Flow<PagingData<com.oguzdogdu.domain.model.collection.WallpaperCollections>>
-    suspend fun getCollectionsListById(id: String?): List<CollectionList>
+    suspend fun getCollectionsListByLikesSort(): Flow<PagingData<com.oguzdogdu.domain.model.collection.WallpaperCollections>>
+    suspend fun getCollectionsListById(id: String?): Flow<List<CollectionList>>
     suspend fun insertImageToFavorites(favorite: FavoriteImages)
     suspend fun getFavorites(): Flow<List<FavoriteImages>>
     suspend fun deleteFavorites(favorite: FavoriteImages)

@@ -10,4 +10,7 @@ sealed class CollectionState {
     data class SortedByTitle(
         val collections: PagingData<WallpaperCollections> = PagingData.empty()
     ) : CollectionState()
+    data class SortedByLikes(
+        val collections: PagingData<WallpaperCollections> = PagingData.empty()
+    ) : CollectionState()
 }

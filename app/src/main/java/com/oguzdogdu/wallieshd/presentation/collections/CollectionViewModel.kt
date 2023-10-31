@@ -3,6 +3,7 @@ package com.oguzdogdu.wallieshd.presentation.collections
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import com.oguzdogdu.domain.usecase.collection.GetCollectionByLikes
 import com.oguzdogdu.domain.usecase.collection.GetCollectionByTitles
 import com.oguzdogdu.domain.usecase.collection.GetCollectionsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +17,8 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class CollectionViewModel @Inject constructor(
     private val useCase: GetCollectionsUseCase,
-    private val getCollectionByTitles: GetCollectionByTitles
+    private val getCollectionByTitles: GetCollectionByTitles,
+    private val getCollectionByLikes: GetCollectionByLikes
 ) : ViewModel() {
 
     private val _getCollections = MutableStateFlow<CollectionState?>(null)
@@ -24,13 +26,11 @@ class CollectionViewModel @Inject constructor(
 
     fun handleUIEvent(event: CollectionScreenEvent) {
         when (event) {
-            is CollectionScreenEvent.FetchLatestData -> {
-                getCollectionsList()
-            }
+            is CollectionScreenEvent.FetchLatestData -> getCollectionsList()
 
-            is CollectionScreenEvent.SortByTitles -> {
-                sortListByTitle()
-            }
+            is CollectionScreenEvent.SortByTitles -> sortListByTitle()
+
+            is CollectionScreenEvent.SortByLikes -> sortListByLikes()
         }
     }
 
@@ -49,6 +49,18 @@ class CollectionViewModel @Inject constructor(
             getCollectionByTitles().cachedIn(viewModelScope).collectLatest { sortedPagingData ->
                 _getCollections.update {
                     CollectionState.SortedByTitle(
+                        collections = sortedPagingData
+                    )
+                }
+            }
+        }
+    }
+
+    private fun sortListByLikes() {
+        viewModelScope.launch {
+            getCollectionByLikes().cachedIn(viewModelScope).collectLatest { sortedPagingData ->
+                _getCollections.update {
+                    CollectionState.SortedByLikes(
                         collections = sortedPagingData
                     )
                 }

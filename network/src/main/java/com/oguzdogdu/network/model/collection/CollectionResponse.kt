@@ -35,5 +35,6 @@ fun CollectionResponse.toCollectionDomain() =
         id = id,
         title = title,
         photo = cover_photo?.urls?.regular,
-        desc = description
+        desc = description,
+        likes = cover_photo?.likes
     )

@@ -103,6 +103,15 @@ class CollectionsFragment :
                     )
                 }
 
+                is CollectionState.SortedByLikes -> {
+                    collectionListAdapter.submitData(PagingData.empty())
+                    state.collections.let {
+                        collectionListAdapter.submitData(
+                            it
+                        )
+                    }
+                }
+
                 else -> collectionListAdapter.submitData(PagingData.empty())
             }
         })
@@ -132,12 +141,13 @@ class CollectionsFragment :
 
         customPowerMenu.setOnMenuItemClickListener { _, item ->
             when (item.menuItemType) {
-                MenuAdapterItem.MenuItemType.ALPHABETIC -> {
-                    viewModel.handleUIEvent(CollectionScreenEvent.SortByTitles)
-                }
-                MenuAdapterItem.MenuItemType.LIKE -> {
+                MenuAdapterItem.MenuItemType.ALPHABETIC -> viewModel.handleUIEvent(
+                    CollectionScreenEvent.SortByTitles
+                )
 
-                }
+                MenuAdapterItem.MenuItemType.LIKE -> viewModel.handleUIEvent(
+                    CollectionScreenEvent.SortByLikes
+                )
             }
         }
 
