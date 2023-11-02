@@ -13,6 +13,7 @@ import com.oguzdogdu.wallieshd.core.snackbar.MessageType
 import com.oguzdogdu.wallieshd.databinding.FragmentProfileDetailBinding
 import com.oguzdogdu.wallieshd.util.hide
 import com.oguzdogdu.wallieshd.util.observeInLifecycle
+import com.oguzdogdu.wallieshd.util.orEmpty
 import com.oguzdogdu.wallieshd.util.setupRecyclerView
 import com.oguzdogdu.wallieshd.util.show
 import dagger.hilt.android.AndroidEntryPoint
@@ -110,6 +111,22 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
                     title = it,
                     titleStyleRes = R.style.DialogTitleText
                 )
+            }
+        }
+        checkUserActivityCount(userDetails)
+    }
+
+    private fun checkUserActivityCount(userDetails: UserDetails?) {
+        when (userDetails?.postCount != null && userDetails.followersCount != null && userDetails.followingCount != null) {
+            true -> {
+                binding.textViewPosts.show()
+                binding.textViewFollowers.show()
+                binding.textViewFollowing.show()
+            }
+            false -> {
+                binding.textViewPosts.hide()
+                binding.textViewFollowers.hide()
+                binding.textViewFollowing.hide()
             }
         }
     }
