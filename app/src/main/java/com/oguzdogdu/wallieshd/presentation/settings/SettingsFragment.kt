@@ -1,6 +1,7 @@
 package com.oguzdogdu.wallieshd.presentation.settings
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -17,7 +18,6 @@ import com.oguzdogdu.wallieshd.util.OptionLists
 import com.oguzdogdu.wallieshd.util.observeInLifecycle
 import com.oguzdogdu.wallieshd.util.setupRecyclerView
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -98,22 +98,17 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
 
     private fun clearAppCache(context: Context) {
         val cacheDir = context.cacheDir
-        deleteDir(cacheDir)
-    }
-
-    private fun deleteDir(dir: File?): Boolean {
-        if (dir == null || !dir.isDirectory) {
-            return false
-        }
-        val children = dir.list() ?: return false
-        for (child in children) {
-            val childDir = File(dir, child)
-            val success = deleteDir(childDir)
-            if (!success) {
-                return false
+        when {
+            cacheDir.exists() -> {
+                try {
+                    cacheDir.deleteRecursively()
+                    Log.d("AppCache", "Cache directory deleted successfully")
+                } catch (e: Exception) {
+                    Log.e("AppCache", "Error deleting cache directory: $e")
+                }
             }
+            else -> Log.d("AppCache", "Cache directory does not exist")
         }
-        return dir.delete()
     }
 
     private fun showRadioConfirmationDialog() {
