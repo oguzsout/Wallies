@@ -96,4 +96,7 @@
     <string name="text_sort">Sırala</string>
     <string name="text_alphabetic_sort">Alfabetik Sıraya Göre</string>
     <string name="text_likes_sort">Beğeni Sayısına Göre</string>
+    <string name="text_caution_add_favorite">Favorilerinizi güvende tutmak için hesabınızla giriş yapmayı unutmayın! Hesapla giriş yaparsanız, favorileriniz uzak sunucuda güvenli bir şekilde saklanır ve herhangi bir cihazdan erişebilirsiniz. Favorilerinizi korumak ve senkronize etmek için hemen giriş yapın!</string>
+    <string name="text_warning">Uyarı!</string>
+    <string name="text_continue">Devam Et</string>
 </resources>

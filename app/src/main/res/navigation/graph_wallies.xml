@@ -103,6 +103,9 @@
         <action
             android:id="@+id/toProfileDetail"
             app:destination="@id/profileDetailFragment" />
+        <action
+            android:id="@+id/toSavedPlaceWarning"
+            app:destination="@id/savedPlaceWarningDialog" />
 
     </fragment>
 
@@ -345,5 +348,14 @@
             android:id="@+id/toAuthUser"
             app:destination="@id/authenticedUserFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/savedPlaceWarningDialog"
+        android:name="com.oguzdogdu.wallieshd.presentation.SavedPlaceWarningDialog"
+        android:label="SavedPlaceWarningDialog" >
+        <action
+            android:id="@+id/toLogin"
+            app:destination="@id/loginFragment"
+            app:popUpToInclusive="true"/>
+    </dialog>
 
 </navigation>

@@ -95,4 +95,7 @@
     <string name="text_sort">Sort by</string>
     <string name="text_alphabetic_sort">By Alphabetical Order</string>
     <string name="text_likes_sort">By Number of Likes</string>
+    <string name="text_caution_add_favorite">Don\'t forget to log in with your account to keep your favorites safe! If you log in with the account, your favorites will be stored securely on the remote server and you can access them from any device. Sign in now to protect and sync your favorites!</string>
+    <string name="text_warning">Warning!</string>
+    <string name="text_continue">Continue</string>
 </resources>
