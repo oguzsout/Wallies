@@ -7,4 +7,5 @@ sealed class DetailState {
     data class DetailError(val errorMessage: String?) : DetailState()
     data class DetailOfPhoto(val detail: Photo? = null) : DetailState()
     data class FavoriteStateOfPhoto(val favorite: Boolean) : DetailState()
+    data class StateOfLoginDialog(val isShown: Boolean) : DetailState()
 }

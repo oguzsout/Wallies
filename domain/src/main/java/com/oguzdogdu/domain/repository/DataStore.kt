@@ -9,4 +9,6 @@ interface DataStore {
     suspend fun putLanguageStrings(key:String, value:String)
     suspend fun getLanguageStrings(key: String):Flow<Resource<String?>>
     suspend fun clearPReferences(key: String)
+    suspend fun setShowLoginWarningPresent(key: String, value: Boolean)
+    suspend fun getLoginWarningPresent(key: String):Flow<Boolean>
 }

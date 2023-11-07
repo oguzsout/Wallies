@@ -3,6 +3,7 @@ package com.oguzdogdu.wallieshd.presentation.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oguzdogdu.domain.model.favorites.FavoriteImages
+import com.oguzdogdu.domain.repository.DataStore
 import com.oguzdogdu.domain.usecase.auth.AddFavoritesToFirebaseUseCase
 import com.oguzdogdu.domain.usecase.auth.CheckUserAuthenticatedUseCase
 import com.oguzdogdu.domain.usecase.auth.DeleteFavoriteToFirebaseUseCase
@@ -20,9 +21,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
+    private val dataStore: DataStore,
     private val useCase: SinglePhotoUseCase,
     private val favoritesUseCase: AddFavoritesUseCase,
     private val getFavoritesUseCase: GetFavoritesUseCase,
@@ -76,6 +79,7 @@ class DetailViewModel @Inject constructor(
             is DetailScreenEvent.GetPhotoFromWhere -> {
                 checkAuthStatusForShowFavorites(id = event.id)
             }
+            is DetailScreenEvent.SetLoginDialogState -> setUserAuthDialogPresent(event.isShown)
         }
     }
 
@@ -97,6 +101,19 @@ class DetailViewModel @Inject constructor(
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private fun setUserAuthDialogPresent(value: Boolean) = runBlocking {
+        dataStore.setShowLoginWarningPresent(key = "isShow", value = value)
+        getUserAuthDialogShown()
+    }
+
+    fun getUserAuthDialogShown() {
+        viewModelScope.launch {
+            dataStore.getLoginWarningPresent("isShow").collect { result ->
+                _getPhoto.update { DetailState.StateOfLoginDialog(isShown = result) }
             }
         }
     }
@@ -139,10 +156,14 @@ class DetailViewModel @Inject constructor(
                             }
                             false -> {
                                 when (process) {
-                                    DatabaseProcess.ADD.name -> addImagesToFavorites(
-                                        favoriteImage,
-                                        whichDb = ChooseDB.ROOM.name
-                                    )
+                                    DatabaseProcess.ADD.name -> {
+                                        _getPhoto.update { DetailState.StateOfLoginDialog(true) }
+                                        addImagesToFavorites(
+                                            favoriteImage,
+                                            whichDb = ChooseDB.ROOM.name
+                                        )
+                                    }
+
                                     DatabaseProcess.DELETE.name -> deleteImagesToFavorites(
                                         favoriteImage,
                                         whichDb = ChooseDB.ROOM.name

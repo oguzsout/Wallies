@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/dp_8"
-    app:behavior_hideable="true"
     app:behavior_peekHeight="@dimen/dp_16"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 

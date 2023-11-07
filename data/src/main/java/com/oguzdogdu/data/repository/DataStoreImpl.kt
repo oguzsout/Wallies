@@ -23,6 +23,10 @@ private val Context.themeDataStore: androidx.datastore.core.DataStore<Preference
 private val Context.languageDataStore: androidx.datastore.core.DataStore<Preferences> by preferencesDataStore(
     name = "language_preference"
 )
+private val Context.loginDialog: androidx.datastore.core.DataStore<Preferences> by preferencesDataStore(
+    name = "login_dialog_present"
+)
+
 
 class DataStoreImpl @Inject constructor(
     private val context: Context,
@@ -63,6 +67,21 @@ class DataStoreImpl @Inject constructor(
             if (it.contains(preferencesKey)) {
                 it.remove(preferencesKey)
             }
+        }
+    }
+
+    override suspend fun setShowLoginWarningPresent(key: String,value: Boolean) {
+        val preferencesKey = booleanPreferencesKey(key)
+        context.loginDialog.edit {
+            it[preferencesKey] = value
+        }
+    }
+
+    override suspend fun getLoginWarningPresent(key: String): Flow<Boolean> {
+        return flow {
+            val preferencesKey = booleanPreferencesKey(key)
+            val preference = context.loginDialog.data.firstOrNull()
+            emit(preference?.get(preferencesKey)!!)
         }
     }
 }
