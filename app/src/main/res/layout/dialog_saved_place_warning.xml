@@ -40,7 +40,6 @@
         android:layout_marginTop="@dimen/dp_8"
         android:gravity="center"
         android:text="@string/text_caution_add_favorite"
-        android:textColor="@color/text_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_view_title"/>
@@ -48,13 +47,14 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_login"
         style="@style/ShapeAppearanceOverlay.Material3.Button"
-        android:backgroundTint="@color/crimson"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dp_32"
         android:layout_marginTop="@dimen/dp_24"
-        android:layout_marginBottom="@dimen/dp_32"
+        android:layout_marginBottom="@dimen/dp_24"
+        android:backgroundTint="@color/crimson"
         android:text="@string/login"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_view_description" />
@@ -62,13 +62,14 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_continue"
         style="@style/ShapeAppearanceOverlay.Material3.Button"
-        android:backgroundTint="@color/red"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dp_32"
         android:layout_marginTop="@dimen/dp_24"
-        android:layout_marginBottom="@dimen/dp_32"
+        android:layout_marginBottom="@dimen/dp_24"
+        android:backgroundTint="@color/red"
         android:text="@string/text_continue"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_view_description" />
