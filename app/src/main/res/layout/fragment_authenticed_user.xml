@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -18,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_8"
         android:layout_marginEnd="@dimen/dp_8"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,11 +59,10 @@
         android:id="@+id/cardViewUserInfoContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginHorizontal="@dimen/dp_8"
         android:layout_marginTop="@dimen/dp_16"
-        android:layout_marginEnd="8dp"
         android:visibility="visible"
-        android:backgroundTint="@color/background_main_icon"
+        android:background="@color/profile_card"
         app:cardCornerRadius="@dimen/dp_8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,40 +70,30 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_140"
-            android:padding="@dimen/dp_8">
+            android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textViewWelcome"
-                style="@style/ProfileText"
+                style="@style/MainText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_8"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageViewProfileImage"
                 app:layout_constraintEnd_toStartOf="@+id/imageViewShowInfo"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textViewSurname"
-                style="@style/ProfileMainText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_16"
-                android:maxLines="1"
-                android:visibility="visible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textViewUserName"
-                app:layout_constraintTop_toBottomOf="@+id/textViewUserName" />
+                app:layout_constraintStart_toEndOf="@+id/imageViewProfileImage"
+                app:layout_constraintTop_toTopOf="@+id/imageViewProfileImage" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imageViewProfileImage"
                 android:layout_width="@dimen/dp_48"
                 android:layout_height="@dimen/dp_48"
-                android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_16"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewWelcome" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imageViewEditPhoto"
@@ -115,25 +105,15 @@
                 app:layout_constraintTop_toTopOf="@+id/imageViewProfileImage"
                 app:srcCompat="@drawable/ic_edit_photo" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textViewUserName"
-                style="@style/ProfileMainText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_16"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageViewProfileImage"
-                app:layout_constraintTop_toTopOf="@+id/imageViewProfileImage" />
-
             <ImageView
                 android:id="@+id/imageViewShowInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_8"
-                android:layout_marginEnd="@dimen/dp_8"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageViewProfileImage"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_user_card_info" />
+                app:layout_constraintTop_toTopOf="@+id/imageViewProfileImage"
+                app:srcCompat="@drawable/info" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

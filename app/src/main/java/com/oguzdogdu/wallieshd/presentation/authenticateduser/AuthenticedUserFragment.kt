@@ -193,15 +193,9 @@ class AuthenticedUserFragment :
 
                 true -> imageViewProfileImage.load(R.drawable.ic_default_avatar)
             }
-            when (surname.isNullOrBlank()) {
-                true -> textViewSurname.hide()
-                false -> textViewSurname.show()
-            }
             val editedString = SpannableStringBuilder().append(getString(R.string.welcome_profile))
-                .bold { run { append(", ${name.orEmpty()} ") } }
+                .bold { run { append(", ${name.orEmpty()} \uD83D\uDD90️ ") } }
             textViewWelcome.text = editedString
-            textViewUserName.text = getString(R.string.name_text, name.orEmpty())
-            textViewSurname.text = getString(R.string.surname_text, surname.orEmpty())
         }
     }
 

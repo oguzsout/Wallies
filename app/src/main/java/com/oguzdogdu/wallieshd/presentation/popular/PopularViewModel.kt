@@ -32,7 +32,7 @@ class PopularViewModel @Inject constructor(
         }
     }
 
-    fun getPopularImages() {
+    private fun getPopularImages() {
         viewModelScope.launch {
             useCase().cachedIn(viewModelScope).collectLatest { popular ->
                 _getPopular.update { PopularState.ItemState(popular = popular) }
