@@ -350,7 +350,7 @@
     </fragment>
     <dialog
         android:id="@+id/savedPlaceWarningDialog"
-        android:name="com.oguzdogdu.wallieshd.presentation.SavedPlaceWarningDialog"
+        android:name="com.oguzdogdu.wallieshd.presentation.detail.SavedPlaceWarningDialog"
         android:label="SavedPlaceWarningDialog" >
         <action
             android:id="@+id/toLogin"

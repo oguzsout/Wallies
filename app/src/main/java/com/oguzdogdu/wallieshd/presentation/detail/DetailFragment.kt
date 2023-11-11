@@ -69,7 +69,6 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
                 is DetailState.FavoriteStateOfPhoto -> {
                     binding.toggleButton.isChecked = state.favorite
-                    viewModel.handleUIEvent(DetailScreenEvent.SetLoginDialogState(state.favorite))
                 }
 
                 is DetailState.DetailOfPhoto -> {
@@ -88,7 +87,9 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
                 }
                 is DetailState.StateOfLoginDialog -> {
                     when (state.isShown) {
-                        false -> navigate(R.id.toSavedPlaceWarning, null)
+                        false -> navigateWithDirection(
+                            DetailFragmentDirections.toSavedPlaceWarning()
+                        )
                         true -> {}
                     }
                 }

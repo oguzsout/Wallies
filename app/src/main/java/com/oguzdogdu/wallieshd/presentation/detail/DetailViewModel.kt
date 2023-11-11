@@ -110,7 +110,7 @@ class DetailViewModel @Inject constructor(
         getUserAuthDialogShown()
     }
 
-    fun getUserAuthDialogShown() {
+    private fun getUserAuthDialogShown() {
         viewModelScope.launch {
             dataStore.getLoginWarningPresent("isShow").collect { result ->
                 _getPhoto.update { DetailState.StateOfLoginDialog(isShown = result) }
@@ -157,7 +157,6 @@ class DetailViewModel @Inject constructor(
                             false -> {
                                 when (process) {
                                     DatabaseProcess.ADD.name -> {
-                                        _getPhoto.update { DetailState.StateOfLoginDialog(true) }
                                         addImagesToFavorites(
                                             favoriteImage,
                                             whichDb = ChooseDB.ROOM.name
