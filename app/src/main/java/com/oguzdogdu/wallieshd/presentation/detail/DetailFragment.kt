@@ -1,6 +1,9 @@
 package com.oguzdogdu.wallieshd.presentation.detail
 
+import android.content.Context
 import android.content.Intent
+import android.util.DisplayMetrics
+import android.view.WindowManager
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import coil.load
@@ -129,8 +132,17 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
     }
 
     private fun navigateToSetWallpaper() {
+        val displayMetrics = DisplayMetrics()
+        val windowManager = context?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        val width = displayMetrics.widthPixels
+        val height = displayMetrics.heightPixels
         binding.textViewSetWallpaper.setOnClickListener {
-            navigateWithDirection(DetailFragmentDirections.toSetWallpaper(imageUrl = photo?.urls))
+            navigateWithDirection(
+                DetailFragmentDirections.toSetWallpaper(
+                    imageUrl = photo?.rawQuality + "&w=$width&h=$height$FIT$AUTO"
+                )
+            )
         }
     }
 
@@ -187,5 +199,9 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
             )
             startActivity(share)
         }
+    }
+    companion object {
+        private const val FIT = "&fit=facearea"
+        private const val AUTO = "&auto=enhance"
     }
 }

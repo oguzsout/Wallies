@@ -1,21 +1,20 @@
 package com.oguzdogdu.wallieshd.presentation.setwallpaper
 
 import android.app.WallpaperManager
-import android.content.Context
 import android.os.Build
-import android.util.DisplayMetrics
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.graphics.drawable.toBitmapOrNull
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import coil.Coil
+import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.oguzdogdu.wallieshd.core.BaseBottomSheetDialogFragment
 import com.oguzdogdu.wallieshd.databinding.FragmentSetWallpaperBinding
 import com.oguzdogdu.wallieshd.util.observeInLifecycle
 import com.oguzdogdu.wallieshd.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 
 @AndroidEntryPoint
 class SetWallpaperFragment :
@@ -85,20 +84,19 @@ class SetWallpaperFragment :
         val imageLoader = Coil.imageLoader(requireContext())
         val request = ImageRequest.Builder(requireContext())
             .data(imageUrl)
+            .transformationDispatcher(Dispatchers.Main.immediate)
+            .lifecycle(viewLifecycleOwner)
+            .allowConversionToBitmap(true)
+            .memoryCachePolicy(CachePolicy.READ_ONLY)
             .target(
                 onSuccess = { result ->
                     val wallpaperManager = WallpaperManager.getInstance(requireContext())
-                    val displayMetrics = DisplayMetrics()
-                    val windowManager = context?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-                    windowManager.defaultDisplay.getMetrics(displayMetrics)
-                    val width = displayMetrics.widthPixels.plus(576)
-                    val height = displayMetrics.heightPixels.plus(324)
                     try {
                         when (place.orEmpty()) {
                             PlaceOfWallpaper.LOCK_SCREEN.name -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                 wallpaperManager
                                     .setBitmap(
-                                        result.toBitmapOrNull(width, height),
+                                        result.toBitmapOrNull(),
                                         null,
                                         true,
                                         WallpaperManager.FLAG_LOCK
@@ -106,11 +104,11 @@ class SetWallpaperFragment :
                             }
 
                             PlaceOfWallpaper.HOME_AND_LOCK.name ->
-                                wallpaperManager.setBitmap(result.toBitmapOrNull(width, height))
+                                wallpaperManager.setBitmap(result.toBitmapOrNull())
 
                             PlaceOfWallpaper.HOME_SCREEN.name -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                 wallpaperManager.setBitmap(
-                                    result.toBitmapOrNull(width, height),
+                                    result.toBitmapOrNull(),
                                     null,
                                     true,
                                     WallpaperManager.FLAG_SYSTEM
