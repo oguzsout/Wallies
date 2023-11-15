@@ -99,4 +99,12 @@
     <string name="text_caution_add_favorite">Favorilerinizi güvende tutmak için hesabınızla giriş yapmayı unutmayın! Hesapla giriş yaparsanız, favorileriniz uzak sunucuda güvenli bir şekilde saklanır ve herhangi bir cihazdan erişebilirsiniz. Favorilerinizi korumak ve senkronize etmek için hemen giriş yapın!</string>
     <string name="text_warning">Uyarı!</string>
     <string name="text_continue">Devam Et</string>
+    <string name="search_animal">Hayvan</string>
+    <string name="search_jungle">Orman</string>
+    <string name="search_natural">Doğa</string>
+    <string name="search_space">Uzay</string>
+    <string name="search_cars">Arabalar</string>
+    <string name="search_walley">Vadi</string>
+    <string name="search_cat">Kedi</string>
+    <string name="search_rain">Yağmur</string>
 </resources>

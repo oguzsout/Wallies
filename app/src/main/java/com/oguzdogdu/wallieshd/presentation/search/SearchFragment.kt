@@ -9,6 +9,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.oguzdogdu.wallieshd.R
 import com.oguzdogdu.wallieshd.core.BaseFragment
 import com.oguzdogdu.wallieshd.core.snackbar.MessageType
 import com.oguzdogdu.wallieshd.databinding.FragmentSearchBinding
@@ -29,6 +30,16 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
     private val searchWallpaperAdapter by lazy { SearchWallpaperAdapter() }
 
     private val suggestSearchWordsAdapter by lazy { SuggestSearchWordsAdapter() }
+
+    private var appLang: String? = null
+
+    override fun initVariables() {
+        super.initVariables()
+        appLang = requireContext().resources?.configuration?.locale?.language
+        when (requireContext().resources?.configuration?.locale?.language) {
+            "en-US" -> appLang = "en"
+        }
+    }
 
     override fun initViews() {
         super.initViews()
@@ -57,7 +68,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
         suggestSearchWordsAdapter.setOnItemClickListener { suggest ->
             val suggestSearch = suggest?.keyword.orEmpty()
             binding.editTextSearchWalpaper.setText(suggestSearch)
-            viewModel.handleUIEvent(SearchEvent.EnteredSearchQuery(suggest?.keyword.orEmpty()))
+            viewModel.handleUIEvent(
+                SearchEvent.EnteredSearchQuery(suggest?.keyword.orEmpty(), appLang)
+            )
             binding.tvCancel.show()
         }
         searchToImages()
@@ -72,14 +85,14 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
 
     private fun setSuggestionKeywordToAdapter() {
         val list = mutableListOf(
-            SuggestWords("Animal"),
-            SuggestWords("Jungle"),
-            SuggestWords("Natural"),
-            SuggestWords("Space"),
-            SuggestWords("Cars"),
-            SuggestWords("Walley"),
-            SuggestWords("Cat"),
-            SuggestWords("Rain")
+            SuggestWords(getString(R.string.search_animal)),
+            SuggestWords(getString(R.string.search_jungle)),
+            SuggestWords(getString(R.string.search_natural)),
+            SuggestWords(getString(R.string.search_space)),
+            SuggestWords(getString(R.string.search_cars)),
+            SuggestWords(getString(R.string.search_walley)),
+            SuggestWords(getString(R.string.search_cat)),
+            SuggestWords(getString(R.string.search_rain))
         )
         suggestSearchWordsAdapter.submitList(list)
     }
@@ -99,7 +112,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
             editTextSearchWalpaper.textChanges()
                 .onEach {
                     if (it?.isNotEmpty() == true) {
-                        viewModel.handleUIEvent(SearchEvent.EnteredSearchQuery(it.toString()))
+                        viewModel.handleUIEvent(
+                            SearchEvent.EnteredSearchQuery(it.toString(), appLang)
+                        )
                     }
                 }
                 .observeInLifecycle(lifecycleOwner = viewLifecycleOwner, observer = {})
@@ -107,7 +122,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
             editTextSearchWalpaper.setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     viewModel.handleUIEvent(
-                        SearchEvent.EnteredSearchQuery(editTextSearchWalpaper.text.toString())
+                        SearchEvent.EnteredSearchQuery(
+                            editTextSearchWalpaper.text.toString(),
+                            appLang
+                        )
                     )
                 }
                 true

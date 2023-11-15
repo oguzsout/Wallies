@@ -1,6 +1,5 @@
 package com.oguzdogdu.network.service
 
-import com.oguzdogdu.network.common.Constants.PAGE_ITEM_LIMIT
 import com.oguzdogdu.network.model.collection.CollectionResponse
 import com.oguzdogdu.network.model.maindto.Photo
 import com.oguzdogdu.network.model.maindto.UnsplashResponseItem
@@ -29,6 +28,7 @@ interface WallpaperService {
         @Query("page") page: Int?,
         @Query("per_page") perPage: Int?,
         @Query("query") query: String,
+        @Query("lang") language: String?,
     ): Response<SearchResponseItem>
 
     @GET("collections")

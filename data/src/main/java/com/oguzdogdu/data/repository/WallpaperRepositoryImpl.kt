@@ -7,17 +7,10 @@ import androidx.paging.map
 import com.oguzdogdu.data.common.Constants
 import com.oguzdogdu.data.source.paging.CollectionByLikesPagingSource
 import com.oguzdogdu.data.source.paging.CollectionsByTitlePagingSource
-import com.oguzdogdu.network.model.collection.toCollectionDomain
-import com.oguzdogdu.network.model.maindto.toDomain
-import com.oguzdogdu.network.model.maindto.toDomainModelLatest
-import com.oguzdogdu.network.model.maindto.toDomainModelPhoto
-import com.oguzdogdu.network.model.maindto.toDomainModelPopular
-import com.oguzdogdu.network.model.searchdto.toDomainSearch
 import com.oguzdogdu.data.source.paging.CollectionsPagingSource
 import com.oguzdogdu.data.source.paging.LatestPagingSource
 import com.oguzdogdu.data.source.paging.PopularPagingSource
 import com.oguzdogdu.data.source.paging.SearchPagingSource
-import com.oguzdogdu.network.service.WallpaperService
 import com.oguzdogdu.domain.model.collection.CollectionList
 import com.oguzdogdu.domain.model.collection.WallpaperCollections
 import com.oguzdogdu.domain.model.favorites.FavoriteImages
@@ -26,7 +19,13 @@ import com.oguzdogdu.domain.model.popular.PopularImage
 import com.oguzdogdu.domain.model.search.SearchPhoto
 import com.oguzdogdu.domain.model.singlephoto.Photo
 import com.oguzdogdu.domain.repository.WallpaperRepository
-import com.oguzdogdu.domain.wrapper.Resource
+import com.oguzdogdu.network.model.collection.toCollectionDomain
+import com.oguzdogdu.network.model.maindto.toDomain
+import com.oguzdogdu.network.model.maindto.toDomainModelLatest
+import com.oguzdogdu.network.model.maindto.toDomainModelPhoto
+import com.oguzdogdu.network.model.maindto.toDomainModelPopular
+import com.oguzdogdu.network.model.searchdto.toDomainSearch
+import com.oguzdogdu.network.service.WallpaperService
 import com.oguzdogdu.wallieshd.cache.dao.FavoriteDao
 import com.oguzdogdu.wallieshd.cache.entity.FavoriteImage
 import com.oguzdogdu.wallieshd.cache.entity.toDomain
@@ -71,12 +70,12 @@ class WallpaperRepositoryImpl @Inject constructor(
         return service.getPhoto(id = id).body()?.toDomainModelPhoto()!!
     }
 
-    override suspend fun searchPhoto(query: String?): Flow<PagingData<SearchPhoto>> {
+    override suspend fun searchPhoto(query: String?,language:String?): Flow<PagingData<SearchPhoto>> {
         val pagingConfig = PagingConfig(pageSize = Constants.PAGE_ITEM_LIMIT)
         return Pager(
             config = pagingConfig,
             initialKey = 1,
-            pagingSourceFactory = { SearchPagingSource(service = service, query = query ?: "") }
+            pagingSourceFactory = { SearchPagingSource(service = service, query = query ?: "",lang = language) }
         ).flow.mapNotNull {
             it.map { search ->
                 search.toDomainSearch()

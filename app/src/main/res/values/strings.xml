@@ -98,4 +98,12 @@
     <string name="text_caution_add_favorite">Don\'t forget to log in with your account to keep your favorites safe! If you log in with the account, your favorites will be stored securely on the remote server and you can access them from any device. Sign in now to protect and sync your favorites!</string>
     <string name="text_warning">Warning!</string>
     <string name="text_continue">Continue</string>
+    <string name="search_animal">Animal</string>
+    <string name="search_jungle">Jungle</string>
+    <string name="search_natural">Natural</string>
+    <string name="search_space">Space</string>
+    <string name="search_cars">Cars</string>
+    <string name="search_walley">Walley</string>
+    <string name="search_cat">Cat</string>
+    <string name="search_rain">Rain</string>
 </resources>

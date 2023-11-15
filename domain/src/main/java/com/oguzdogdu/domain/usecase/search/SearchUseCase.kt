@@ -7,6 +7,6 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class SearchUseCase @Inject constructor(private val repository: WallpaperRepository) {
-    suspend operator fun invoke(query: String): Flow<PagingData<SearchPhoto>> =
-        repository.searchPhoto(query)
+    suspend operator fun invoke(query: String?,language:String?): Flow<PagingData<SearchPhoto>> =
+        repository.searchPhoto(query,language)
 }

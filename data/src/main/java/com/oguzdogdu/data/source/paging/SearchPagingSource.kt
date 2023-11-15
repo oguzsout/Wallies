@@ -9,6 +9,7 @@ import com.oguzdogdu.network.service.WallpaperService
 class SearchPagingSource(
     private val service: WallpaperService,
     private val query: String,
+    private val lang: String?
 ) : PagingSource<Int, Result>() {
 
     override fun getRefreshKey(
@@ -24,7 +25,7 @@ class SearchPagingSource(
             : LoadResult<Int, Result> {
         return try {
             val page = params.key ?: 1
-            val response = service.searchPhotos(page = page, query = query,perPage = Constants.PAGE_ITEM_LIMIT).body()?.results.orEmpty()
+            val response = service.searchPhotos(page = page, query = query,perPage = Constants.PAGE_ITEM_LIMIT, language = lang).body()?.results.orEmpty()
             LoadResult.Page(
                 data = response,
                 prevKey = if (page == 1) null else page - 1,

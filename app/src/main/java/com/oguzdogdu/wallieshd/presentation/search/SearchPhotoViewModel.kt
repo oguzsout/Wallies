@@ -3,15 +3,20 @@ package com.oguzdogdu.wallieshd.presentation.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import com.oguzdogdu.domain.repository.DataStore
 import com.oguzdogdu.domain.usecase.search.SearchUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class SearchPhotoViewModel @Inject constructor(
-    private val useCase: SearchUseCase
+    private val useCase: SearchUseCase,
+    private val dataStore: DataStore
 ) :
     ViewModel() {
 
@@ -21,15 +26,15 @@ class SearchPhotoViewModel @Inject constructor(
     fun handleUIEvent(event: SearchEvent) {
         when (event) {
             is SearchEvent.EnteredSearchQuery -> {
-                getSearchPhotos(event.query)
+                getSearchPhotos(event.query, event.language)
             }
             else -> {}
         }
     }
 
-    private fun getSearchPhotos(query: String) {
+    private fun getSearchPhotos(query: String?, language: String?) {
         viewModelScope.launch {
-            useCase.invoke(query).cachedIn(viewModelScope).collectLatest { search ->
+            useCase.invoke(query, language).cachedIn(viewModelScope).collectLatest { search ->
                 _getSearchPhotos.update { SearchPhotoState.ItemState(search = search) }
             }
         }
