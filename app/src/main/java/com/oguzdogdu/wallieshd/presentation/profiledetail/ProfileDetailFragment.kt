@@ -13,7 +13,6 @@ import com.oguzdogdu.wallieshd.core.snackbar.MessageType
 import com.oguzdogdu.wallieshd.databinding.FragmentProfileDetailBinding
 import com.oguzdogdu.wallieshd.util.hide
 import com.oguzdogdu.wallieshd.util.observeInLifecycle
-import com.oguzdogdu.wallieshd.util.orEmpty
 import com.oguzdogdu.wallieshd.util.setupRecyclerView
 import com.oguzdogdu.wallieshd.util.show
 import dagger.hilt.android.AndroidEntryPoint
@@ -94,12 +93,12 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
 
     private fun setUserDatas(userDetails: UserDetails?) {
         binding.apply {
-            textViewPortfolioUrl.text = userDetails?.portfolioUrl
+            textViewPortfolioUrl.text = userDetails?.portfolioUrl.orEmpty()
             textViewNumberOfPosts.text = userDetails?.postCount?.toString()
             textViewNumberOfFollowers.text = userDetails?.followersCount?.toString()
             textViewNumberOfFollowing.text = userDetails?.followingCount?.toString()
-            textViewUsername.text = userDetails?.name
-            textViewBio.text = userDetails?.bio
+            textViewUsername.text = userDetails?.name.orEmpty()
+            textViewBio.text = userDetails?.bio.orEmpty()
             imageViewDetailProfilePhoto.load(userDetails?.profileImage) {
                 diskCachePolicy(CachePolicy.DISABLED)
                 transformations(CircleCropTransformation())

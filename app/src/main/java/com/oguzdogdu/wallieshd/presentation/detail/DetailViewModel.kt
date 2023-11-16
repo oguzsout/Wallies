@@ -14,7 +14,6 @@ import com.oguzdogdu.domain.usecase.favorites.GetFavoritesUseCase
 import com.oguzdogdu.domain.usecase.singlephoto.SinglePhotoUseCase
 import com.oguzdogdu.domain.wrapper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,6 +21,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
@@ -80,6 +80,7 @@ class DetailViewModel @Inject constructor(
                 checkAuthStatusForShowFavorites(id = event.id)
             }
             is DetailScreenEvent.SetLoginDialogState -> setUserAuthDialogPresent(event.isShown)
+            DetailScreenEvent.CheckUserAuth -> checkUserAuthStatus()
         }
     }
 
@@ -100,6 +101,21 @@ class DetailViewModel @Inject constructor(
                             )
                         }
                     }
+                }
+            }
+        }
+    }
+
+    private fun checkUserAuthStatus() {
+        viewModelScope.launch {
+            checkUserAuthenticatedUseCase.invoke().collectLatest { status ->
+                when (status) {
+                    is Resource.Success -> {
+                        _getPhoto.update { DetailState.UserAuthenticated(status.data) }
+                    }
+
+                    is Resource.Error -> {}
+                    is Resource.Loading -> {}
                 }
             }
         }

@@ -8,4 +8,5 @@ sealed class DetailState {
     data class DetailOfPhoto(val detail: Photo? = null) : DetailState()
     data class FavoriteStateOfPhoto(val favorite: Boolean) : DetailState()
     data class StateOfLoginDialog(val isShown: Boolean) : DetailState()
+    data class UserAuthenticated(val isAuthenticated: Boolean) : DetailState()
 }

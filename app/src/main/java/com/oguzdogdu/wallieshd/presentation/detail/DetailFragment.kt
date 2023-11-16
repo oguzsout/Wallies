@@ -88,8 +88,8 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
                     sharePhoto()
                     navigateToDownloadWallpaper()
                 }
-                is DetailState.StateOfLoginDialog -> {
-                    when (state.isShown) {
+                is DetailState.UserAuthenticated -> {
+                    when (state.isAuthenticated) {
                         false -> navigateWithDirection(
                             DetailFragmentDirections.toSavedPlaceWarning()
                         )
@@ -107,7 +107,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
             if (isChecked) {
                 viewModel.toggleState.observeInLifecycle(viewLifecycleOwner, observer = { result ->
                     if (!result) {
-                        viewModel.handleUIEvent(DetailScreenEvent.SetLoginDialogState(false))
+                        viewModel.handleUIEvent(DetailScreenEvent.CheckUserAuth)
                         viewModel.handleUIEvent(
                             DetailScreenEvent.AddFavorites(photo)
                         )
@@ -123,11 +123,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
     private fun showProfileInfos() {
         binding.buttonInfo.setOnClickListener {
-            navigateWithDirection(
-                DetailFragmentDirections.toProfileDetail(
-                    username = photo?.username
-                )
-            )
+            viewModel.handleUIEvent(DetailScreenEvent.GetPhotoDetails(id = args.id))
         }
     }
 
