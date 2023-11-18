@@ -28,6 +28,7 @@ This project uses many of the popular libraries, plugins and tools of the androi
   state-holder observable flow that emits the current and new state updates to its collectors.
 - [Android Architecture Components](https://developer.android.com/topic/libraries/architecture) - Collection of libraries that help you design robust, testable, and maintainable apps.
 - [Material Design](https://material.io/develop/android/docs/getting-started/) - Build awesome beautiful UIs.
+- [Motion Layout](https://developer.android.com/develop/ui/views/animations/motionlayout) - MotionLayout is a layout type that helps you manage motion and widget animation in your app.
 - [Navigation](https://developer.android.com/guide/navigation/navigation-getting-started) - Android Jetpack's Navigation component helps you implement navigation, from simple button clicks to more complex patterns, such as app bars and the navigation drawer.
 - [Viewpager](https://developer.android.com/guide/navigation/advanced/swipe-view) - Swipe views let you navigate between sibling screens, such as tabs, with a horizontal finger gesture (swipe). This navigation pattern is also referred to as horizontal paging.
 - [Firebase Auth](https://firebase.google.com/docs/auth) - Firebase Authentication provides backend services, easy-to-use SDKs, and ready-made UI libraries to authenticate users to your app. It supports authentication using passwords, phone numbers, popular federated identity providers like Google, Facebook and Twitter, and more.
