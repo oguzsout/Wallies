@@ -37,6 +37,7 @@ This project uses many of the popular libraries, plugins and tools of the androi
 - [Pagination](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) - The Paging library helps you load and display pages of data from a larger dataset from local storage or over network.
 - [Room](https://developer.android.com/training/data-storage/room) - The room persistence library it is an abstraction layer over SQLite.
 - [Coil](https://github.com/coil-kt/coil) - Image loading for Android backed by Kotlin Coroutines.
+- [Balloon](https://github.com/skydoves/Balloon) - Modernized and sophisticated tooltips, fully customizable with an arrow and animations on Android.
 
 ## 📸 Screenshots
 ![Component 1](https://github.com/oguzsout/Wallies/assets/73955284/004ce7ba-c6d6-42e9-9259-de51d4920a4b)
