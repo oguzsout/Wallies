@@ -2,6 +2,8 @@ package com.oguzdogdu.wallieshd.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.oguzdogdu.data.di.Dispatcher
+import com.oguzdogdu.data.di.WalliesDispatchers
 import com.oguzdogdu.data.repository.AuthenticatorImpl
 import com.oguzdogdu.data.repository.UnsplashUserRepositoryImpl
 import com.oguzdogdu.data.repository.WallpaperRepositoryImpl
@@ -15,6 +17,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
 
 @Module
@@ -24,9 +27,10 @@ object RepositoryModule {
     @Singleton
     fun provideWallpaperRepository(
         service: WallpaperService,
-        dao: FavoriteDao
+        dao: FavoriteDao,
+        @Dispatcher(WalliesDispatchers.IO) ioDispatcher: CoroutineDispatcher
     ): WallpaperRepository {
-        return WallpaperRepositoryImpl(service, dao)
+        return WallpaperRepositoryImpl(service, dao, ioDispatcher)
     }
 
     @Provides

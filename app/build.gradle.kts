@@ -33,12 +33,11 @@ android {
         applicationId = "com.oguzdogdu.wallieshd"
         minSdk = 21
         targetSdk = 33
-        versionCode = 5
-        versionName = "1.3"
+        versionCode = 8
+        versionName = "1.3.3"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "API_KEY", apiKey)
         signingConfig = signingConfigs.getByName("debug")
-        resourceConfigurations.addAll(listOf("en", "tr"))
     }
 
     buildTypes {
@@ -55,6 +54,7 @@ android {
         getByName("debug") {
             signingConfig = signingConfigs.getByName("debug")
             isMinifyEnabled = false
+            isShrinkResources = false
             isDebuggable = true
         }
     }
@@ -121,6 +121,8 @@ dependencies {
     implementation("androidx.compose.runtime:runtime:1.4.3")
 
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+
+    implementation("com.github.skydoves:powermenu:2.2.0")
 
     implementation("androidx.paging:paging-runtime:3.1.1")
     implementation("androidx.paging:paging-compose:1.0.0-alpha19")
