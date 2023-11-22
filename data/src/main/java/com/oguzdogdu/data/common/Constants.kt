@@ -1,7 +1,7 @@
 package com.oguzdogdu.data.common
 
 object Constants {
-    const val PAGE_ITEM_LIMIT = 20
+    const val PAGE_ITEM_LIMIT = 30
     const val POPULAR = "popular"
     const val LATEST = "latest"
     const val TAB_POPULAR = "Popular"
