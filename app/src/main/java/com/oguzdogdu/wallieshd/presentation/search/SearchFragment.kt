@@ -57,6 +57,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
                 onScroll = {}
             )
         }
+        val tag = this.arguments?.getString("tag")
+        if (tag != null) {
+            binding.editTextSearchWalpaper.setText(tag)
+            viewModel.handleUIEvent(
+                SearchEvent.EnteredSearchQuery(tag, appLang)
+            )
+        }
     }
 
     override fun initListeners() {

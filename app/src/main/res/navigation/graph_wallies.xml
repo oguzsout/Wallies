@@ -106,6 +106,9 @@
         <action
             android:id="@+id/toSavedPlaceWarning"
             app:destination="@id/savedPlaceWarningDialog" />
+        <action
+            android:id="@+id/toSearch"
+            app:destination="@id/searchFragment" />
 
     </fragment>
 
@@ -117,6 +120,11 @@
         <action
             android:id="@+id/toDetail"
             app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/toTagDetail"
+            app:destination="@id/detailFragment"
+            app:popUpToSaveState="false"
+            app:popUpToInclusive="true"/>
     </fragment>
 
     <fragment

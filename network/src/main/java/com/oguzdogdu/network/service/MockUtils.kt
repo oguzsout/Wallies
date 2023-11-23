@@ -60,7 +60,8 @@ fun mockBaseWallpaper() = listOf(
         ),
         width = 5454,
         views = 1.3534345345346346,
-        downloads = 0
+        downloads = 0,
+        tags = emptyList()
     ),
     UnsplashResponseItem(
         altDescription = "the sun is shining through the trees in the forest",
@@ -113,6 +114,7 @@ fun mockBaseWallpaper() = listOf(
         ),
         width = 5454,
         views = 1.3534345345346346,
-        downloads = 0
+        downloads = 0,
+        tags = emptyList()
     )
 ).toString()

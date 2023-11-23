@@ -18,6 +18,7 @@ data class Photo(
     val likes: Int?,
     val bio: String?,
     val name: String?,
+    val tag: List<String?>?,
     val location: String?,
     val rawQuality: String?,
     val highQuality: String?,

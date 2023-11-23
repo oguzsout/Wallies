@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
-        app:layout_constraintCircleRadius="@dimen/dp_8"
         app:layout_constraintBottom_toTopOf="@+id/cardView"
+        app:layout_constraintCircleRadius="@dimen/dp_8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
@@ -32,9 +32,9 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
+            app:navigationIcon="@drawable/back"
             app:titleCentered="true"
-            app:titleTextAppearance="@style/DetailText"
-            app:navigationIcon="@drawable/back">
+            app:titleTextAppearance="@style/DetailText">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/buttonInfo"
@@ -78,7 +78,7 @@
                 app:drawableStartCompat="@drawable/wallpaper"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider2"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerViewTags"
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <ToggleButton
@@ -150,7 +150,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider2">
+                app:layout_constraintTop_toBottomOf="@+id/recyclerViewTags">
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/buttonShare"
@@ -292,6 +292,17 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/containerViews" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewTags"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_48"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_marginEnd="@dimen/dp_8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

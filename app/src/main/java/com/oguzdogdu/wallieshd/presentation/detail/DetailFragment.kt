@@ -2,10 +2,12 @@ package com.oguzdogdu.wallieshd.presentation.detail
 
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.WindowManager
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
@@ -21,6 +23,7 @@ import com.oguzdogdu.wallieshd.util.hide
 import com.oguzdogdu.wallieshd.util.itemLoading
 import com.oguzdogdu.wallieshd.util.observeInLifecycle
 import com.oguzdogdu.wallieshd.util.setFragmentResultListener
+import com.oguzdogdu.wallieshd.util.setupRecyclerView
 import com.oguzdogdu.wallieshd.util.show
 import com.oguzdogdu.wallieshd.util.toFormattedString
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,10 +37,34 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
     private val args: DetailFragmentArgs by navArgs()
 
+    private val tagsAdapter by lazy { TagsAdapter() }
+
+    override fun initViews() {
+        super.initViews()
+        binding.apply {
+            recyclerViewTags.setupRecyclerView(
+                layout = LinearLayoutManager(
+                    requireContext(),
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                ),
+                adapter = tagsAdapter,
+                true,
+                onScroll = {}
+            )
+        }
+    }
+
     override fun initListeners() {
         super.initListeners()
         binding.toolbar.setNavigationOnClickListener {
             navigateBack()
+        }
+        tagsAdapter.setOnItemClickListener {
+            val tag = Bundle().apply {
+                putString("tag", it)
+            }
+            navigate(R.id.toSearch, extras = tag)
         }
         addOrDeleteFavorites()
     }
@@ -123,7 +150,11 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
     private fun showProfileInfos() {
         binding.buttonInfo.setOnClickListener {
-            viewModel.handleUIEvent(DetailScreenEvent.GetPhotoDetails(id = args.id))
+            navigateWithDirection(
+                DetailFragmentDirections.toProfileDetail(
+                    username = photo?.username
+                )
+            )
         }
     }
 
@@ -180,6 +211,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
             textViewDownloadsCount.text = photo?.downloads?.toFormattedString().orEmpty()
             textViewLikeCount.text = photo?.likes?.toFormattedString().orEmpty()
             textViewCreateTimeValue.text = photo?.createdAt?.formatDate().orEmpty()
+            tagsAdapter.submitList(photo?.tag)
         }
     }
 
