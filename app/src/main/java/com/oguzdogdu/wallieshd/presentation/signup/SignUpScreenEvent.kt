@@ -9,6 +9,6 @@ sealed class SignUpScreenEvent {
         val surname: String,
         val email: String,
         val password: String,
-        val photoUri: Uri
+        val photoUri: Uri?
     ) : SignUpScreenEvent()
 }

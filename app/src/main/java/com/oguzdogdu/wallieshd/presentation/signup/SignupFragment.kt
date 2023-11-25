@@ -30,7 +30,7 @@ import kotlinx.coroutines.delay
 class SignupFragment : BaseFragment<FragmentSignupBinding>(FragmentSignupBinding::inflate) {
 
     private val viewModel: SignUpViewModel by viewModels()
-    private lateinit var photoUri: Uri
+    private var photoUri: Uri? = Uri.EMPTY
     private val REQUEST_CODE_PERMISSIONS = 1001
     private val PERMISSIONS = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         arrayOf(

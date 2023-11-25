@@ -11,7 +11,6 @@ import com.oguzdogdu.wallieshd.databinding.ItemCollectionsBinding
 class CollectionListAdapter :
     BasePagingDataAdapter<WallpaperCollections, CollectionListAdapter.CollectionsViewHolder>() {
 
-
     inner class CollectionsViewHolder(private val binding: ItemCollectionsBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(wallpaper: WallpaperCollections) {
@@ -30,7 +29,9 @@ class CollectionListAdapter :
     override fun createViewHolder(parent: ViewGroup): CollectionsViewHolder {
         return CollectionsViewHolder(
             ItemCollectionsBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false
+                LayoutInflater.from(parent.context),
+                parent,
+                false
             )
         )
     }
