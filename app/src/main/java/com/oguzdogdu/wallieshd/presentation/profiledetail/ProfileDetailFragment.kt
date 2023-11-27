@@ -1,19 +1,20 @@
 package com.oguzdogdu.wallieshd.presentation.profiledetail
 
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
+import com.google.android.material.tabs.TabLayoutMediator
 import com.oguzdogdu.domain.model.userdetail.UserDetails
 import com.oguzdogdu.wallieshd.R
 import com.oguzdogdu.wallieshd.core.BaseFragment
 import com.oguzdogdu.wallieshd.core.snackbar.MessageType
 import com.oguzdogdu.wallieshd.databinding.FragmentProfileDetailBinding
+import com.oguzdogdu.wallieshd.presentation.profiledetail.usercollections.UserCollectionsFragment
+import com.oguzdogdu.wallieshd.presentation.profiledetail.userphotos.UserPhotosFragment
 import com.oguzdogdu.wallieshd.util.hide
 import com.oguzdogdu.wallieshd.util.observeInLifecycle
-import com.oguzdogdu.wallieshd.util.setupRecyclerView
 import com.oguzdogdu.wallieshd.util.show
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,20 +23,19 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
     FragmentProfileDetailBinding::inflate
 ) {
 
-    private val viewModel: ProfileDetailViewModel by viewModels()
+    private val viewModel: ProfileDetailViewModel by activityViewModels<ProfileDetailViewModel>()
+
+    private val fragments =
+        listOf(UserPhotosFragment(), UserCollectionsFragment())
+
+    private val tabTitles = listOf("Photos", "Collections")
 
     private val args: ProfileDetailFragmentArgs by navArgs()
 
-    private val usersPhotosAdapter by lazy { UsersPhotosAdapter() }
-
     override fun initViews() {
         super.initViews()
-        binding.rvUserPhotos.setupRecyclerView(
-            layout = GridLayoutManager(requireContext(), 2),
-            adapter = usersPhotosAdapter,
-            true,
-            onScroll = {}
-        )
+        initViewPager()
+        initTabLayout()
         binding.toolbar.setLeftIcon(R.drawable.back)
     }
 
@@ -43,9 +43,6 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
         super.initListeners()
         binding.toolbar.setLeftIconClickListener {
             navigateBack()
-        }
-        usersPhotosAdapter.setOnItemClickListener {
-            navigateWithDirection(ProfileDetailFragmentDirections.toDetail(it?.id))
         }
     }
 
@@ -59,13 +56,12 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
         viewModel.handleUIEvent(ProfileDetailEvent.FetchUserDetailInfos(username = args.username))
         viewModel.getUserDetails.observeInLifecycle(viewLifecycleOwner, observer = { state ->
             when (state) {
-                is ProfileDetailState.Loading -> binding.progressBar.show()
+                is ProfileDetailState.Loading -> {}
                 is ProfileDetailState.UserDetailError -> showMessage(
                     message = state.errorMessage.orEmpty(),
                     type = MessageType.ERROR
                 )
                 is ProfileDetailState.UserInfos -> {
-                    binding.progressBar.hide()
                     setUserDatas(userDetails = state.userDetails)
                 }
                 else -> {}
@@ -77,14 +73,12 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
         viewModel.handleUIEvent(ProfileDetailEvent.FetchUserCollections(username = args.username))
         viewModel.getUserDetails.observeInLifecycle(viewLifecycleOwner, observer = { state ->
             when (state) {
-                is ProfileDetailState.Loading -> binding.progressBar.show()
+                is ProfileDetailState.Loading -> {}
                 is ProfileDetailState.UserCollectionsError -> showMessage(
                     message = state.errorMessage.orEmpty(),
                     type = MessageType.ERROR
                 )
                 is ProfileDetailState.UserCollections -> {
-                    binding.progressBar.hide()
-                    usersPhotosAdapter.submitList(state.usersPhotos)
                 }
                 else -> {}
             }
@@ -128,5 +122,19 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
                 binding.textViewFollowing.hide()
             }
         }
+    }
+    private fun initTabLayout() {
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            tab.text = tabTitles[position]
+        }.attach()
+    }
+
+    private fun initViewPager() {
+        val pagerAdapter = UserScreensViewPagerAdapter(
+            requireParentFragment().requireActivity(),
+            fragments
+        )
+        binding.viewPager.adapter = pagerAdapter
+        binding.viewPager.isUserInputEnabled = false
     }
 }

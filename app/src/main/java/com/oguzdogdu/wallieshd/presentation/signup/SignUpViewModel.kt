@@ -9,13 +9,13 @@ import com.oguzdogdu.domain.usecase.auth.SignUpUseCase
 import com.oguzdogdu.domain.wrapper.Resource
 import com.oguzdogdu.wallieshd.util.FieldValidators
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+import kotlin.coroutines.resume
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
-import javax.inject.Inject
-import kotlin.coroutines.resume
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCase) : ViewModel() {
