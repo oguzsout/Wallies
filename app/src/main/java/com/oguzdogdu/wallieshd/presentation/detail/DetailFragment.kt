@@ -150,11 +150,10 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
     private fun showProfileInfos() {
         binding.buttonInfo.setOnClickListener {
-            navigateWithDirection(
-                DetailFragmentDirections.toProfileDetail(
-                    username = photo?.username
-                )
-            )
+            val bundle = Bundle().apply {
+                this.putString("username", photo?.username)
+            }
+            navigate(R.id.toProfileDetail, bundle)
         }
     }
 

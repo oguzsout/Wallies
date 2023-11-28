@@ -2,10 +2,12 @@ package com.oguzdogdu.network.model.collection
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.oguzdogdu.domain.model.collection.WallpaperCollections
+import com.oguzdogdu.domain.model.userdetail.UserCollections
 import com.oguzdogdu.network.model.maindto.Link
 import com.oguzdogdu.network.model.maindto.Photo
 import com.oguzdogdu.network.model.maindto.User
-import com.oguzdogdu.domain.model.collection.WallpaperCollections
+
 @kotlinx.parcelize.Parcelize
 data class CollectionResponse(
     @SerializedName("id")
@@ -27,7 +29,7 @@ data class CollectionResponse(
     @SerializedName("user")
     val user: User?,
     @SerializedName("links")
-    val links: Link?
+    val links: Link?,
 ) : Parcelable
 
 fun CollectionResponse.toCollectionDomain() =
@@ -38,3 +40,11 @@ fun CollectionResponse.toCollectionDomain() =
         desc = description,
         likes = cover_photo?.likes
     )
+
+fun CollectionResponse.toUserCollection() = UserCollections(
+    id = id,
+    title = title,
+    photo = cover_photo?.urls?.regular,
+    desc = description,
+    likes = cover_photo?.likes
+)

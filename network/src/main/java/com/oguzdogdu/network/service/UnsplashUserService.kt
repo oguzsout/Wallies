@@ -1,5 +1,6 @@
 package com.oguzdogdu.network.service
 
+import com.oguzdogdu.network.model.collection.CollectionResponse
 import com.oguzdogdu.network.model.maindto.Photo
 import com.oguzdogdu.network.model.userdetail.UserDetailResponse
 import retrofit2.Response
@@ -16,4 +17,9 @@ interface UnsplashUserService {
     suspend fun getUserPhotos(
         @Path("username") username: String?,
     ): Response<List<Photo>>
+
+    @GET("users/{username}/collections")
+    suspend fun getUserCollections(
+        @Path("username") username: String?,
+    ): Response<List<CollectionResponse>>
 }
