@@ -1,5 +1,6 @@
 package com.oguzdogdu.wallieshd.presentation.profiledetail
 
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import coil.load
@@ -23,7 +24,7 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
     FragmentProfileDetailBinding::inflate
 ) {
 
-    private val viewModel: ProfileDetailViewModel by activityViewModels<ProfileDetailViewModel>()
+    private val viewModel: ProfileDetailViewModel by activityViewModels()
 
     private val fragments =
         listOf(UserPhotosFragment(), UserCollectionsFragment())
@@ -34,6 +35,7 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
 
     override fun initViews() {
         super.initViews()
+        viewModel.setUsername(args.username)
         initViewPager()
         initTabLayout()
         binding.toolbar.setLeftIcon(R.drawable.back)
@@ -49,11 +51,10 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
     override fun observeData() {
         super.observeData()
         getUserDetails()
-        getUserCollections()
     }
 
     private fun getUserDetails() {
-        viewModel.handleUIEvent(ProfileDetailEvent.FetchUserDetailInfos(username = args.username))
+        viewModel.handleUIEvent(ProfileDetailEvent.FetchUserDetailInfos)
         viewModel.getUserDetails.observeInLifecycle(viewLifecycleOwner, observer = { state ->
             when (state) {
                 is ProfileDetailState.Loading -> {}
@@ -63,22 +64,6 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
                 )
                 is ProfileDetailState.UserInfos -> {
                     setUserDatas(userDetails = state.userDetails)
-                }
-                else -> {}
-            }
-        })
-    }
-
-    private fun getUserCollections() {
-        viewModel.handleUIEvent(ProfileDetailEvent.FetchUserCollections(username = args.username))
-        viewModel.getUserDetails.observeInLifecycle(viewLifecycleOwner, observer = { state ->
-            when (state) {
-                is ProfileDetailState.Loading -> {}
-                is ProfileDetailState.UserCollectionsError -> showMessage(
-                    message = state.errorMessage.orEmpty(),
-                    type = MessageType.ERROR
-                )
-                is ProfileDetailState.UserCollections -> {
                 }
                 else -> {}
             }
