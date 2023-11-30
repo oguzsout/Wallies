@@ -1,6 +1,5 @@
 package com.oguzdogdu.wallieshd.presentation.profiledetail
 
-import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import coil.load

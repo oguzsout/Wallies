@@ -1,6 +1,5 @@
 package com.oguzdogdu.wallieshd.presentation.profiledetail
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oguzdogdu.domain.usecase.collection.GetUserCollectionUseCase

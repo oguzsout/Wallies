@@ -8,7 +8,6 @@ import com.oguzdogdu.wallieshd.databinding.FragmentUserPhotosBinding
 import com.oguzdogdu.wallieshd.presentation.profiledetail.ProfileDetailEvent
 import com.oguzdogdu.wallieshd.presentation.profiledetail.ProfileDetailFragmentDirections
 import com.oguzdogdu.wallieshd.presentation.profiledetail.ProfileDetailViewModel
-import com.oguzdogdu.wallieshd.presentation.profiledetail.UsersPhotosAdapter
 import com.oguzdogdu.wallieshd.util.hide
 import com.oguzdogdu.wallieshd.util.observeInLifecycle
 import com.oguzdogdu.wallieshd.util.setupRecyclerView
@@ -55,7 +54,8 @@ class UserPhotosFragment : BaseFragment<FragmentUserPhotosBinding>(
         when (state) {
             is UserPhotosState.Loading -> binding.progressBar.show()
             is UserPhotosState.UserPhotosError -> showMessage(
-                message = state.errorMessage.orEmpty(), type = MessageType.ERROR
+                message = state.errorMessage.orEmpty(),
+                type = MessageType.ERROR
             )
 
             is UserPhotosState.UserPhotos -> {

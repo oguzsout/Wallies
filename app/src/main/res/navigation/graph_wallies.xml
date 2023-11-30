@@ -102,7 +102,13 @@
             app:uri="https://unsplash.com/photos/{id}" />
         <action
             android:id="@+id/toProfileDetail"
-            app:destination="@id/profileDetailFragment" />
+            app:destination="@id/profileDetailFragment" >
+            <argument
+                android:name="username"
+                app:argType="string"
+                app:nullable="true" />
+        </action>
+
         <action
             android:id="@+id/toSavedPlaceWarning"
             app:destination="@id/savedPlaceWarningDialog" />
@@ -278,6 +284,12 @@
         <action
             android:id="@+id/toDetail"
             app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/toUserPhotos"
+            app:destination="@id/userPhotosFragment" />
+        <action
+            android:id="@+id/toUserCollections"
+            app:destination="@id/userCollectionsFragment" />
     </fragment>
     <fragment
         android:id="@+id/authenticedUserFragment"
@@ -356,6 +368,7 @@
             android:id="@+id/toAuthUser"
             app:destination="@id/authenticedUserFragment" />
     </fragment>
+
     <dialog
         android:id="@+id/savedPlaceWarningDialog"
         android:name="com.oguzdogdu.wallieshd.presentation.detail.SavedPlaceWarningDialog"
@@ -365,5 +378,21 @@
             app:destination="@id/loginFragment"
             app:popUpToInclusive="true"/>
     </dialog>
+
+    <fragment
+        android:id="@+id/userPhotosFragment"
+        android:name="com.oguzdogdu.wallieshd.presentation.profiledetail.userphotos.UserPhotosFragment"
+        android:label="fragment_user_photos"
+        tools:layout="@layout/fragment_user_photos">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/userCollectionsFragment"
+        android:name="com.oguzdogdu.wallieshd.presentation.profiledetail.usercollections.UserCollectionsFragment"
+        android:label="fragment_user_collections"
+        tools:layout="@layout/fragment_user_collections">
+
+    </fragment>
 
 </navigation>

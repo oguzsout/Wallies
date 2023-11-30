@@ -1,4 +1,4 @@
-package com.oguzdogdu.wallieshd.presentation.profiledetail
+package com.oguzdogdu.wallieshd.presentation.profiledetail.userphotos
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
