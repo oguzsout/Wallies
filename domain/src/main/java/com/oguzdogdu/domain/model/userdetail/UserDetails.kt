@@ -11,5 +11,6 @@ data class UserDetails(
     val postCount: Int?,
     val followingCount: Int?,
     val followersCount: Int?,
-    val portfolioUrl:String?,
-):Parcelable
+    val portfolioUrl: String?,
+    val username: String?,
+) : Parcelable

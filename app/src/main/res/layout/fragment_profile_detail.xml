@@ -129,6 +129,7 @@
 
     <TextView
         android:id="@+id/textViewUsername"
+        style="@style/DialogTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_16"
@@ -139,6 +140,7 @@
 
     <TextView
         android:id="@+id/textViewBio"
+        style="@style/DialogText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_16"
@@ -151,6 +153,7 @@
 
     <TextView
         android:id="@+id/textViewPortfolioUrl"
+        style="@style/DialogText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_16"

@@ -75,7 +75,7 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
             textViewNumberOfPosts.text = userDetails?.postCount?.toString()
             textViewNumberOfFollowers.text = userDetails?.followersCount?.toString()
             textViewNumberOfFollowing.text = userDetails?.followingCount?.toString()
-            textViewUsername.text = userDetails?.name.orEmpty()
+            textViewUsername.text = userDetails?.username.orEmpty()
             textViewBio.text = userDetails?.bio.orEmpty()
             imageViewDetailProfilePhoto.load(userDetails?.profileImage) {
                 diskCachePolicy(CachePolicy.DISABLED)

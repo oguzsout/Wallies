@@ -43,5 +43,6 @@ fun UserDetailResponse.toDomain() = UserDetails(
     postCount = total_photos,
     followersCount = followers_count,
     followingCount = following_count,
-    portfolioUrl = portfolio_url
+    portfolioUrl = portfolio_url,
+    username = username
 )
