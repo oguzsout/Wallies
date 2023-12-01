@@ -37,16 +37,13 @@ object NetworkModule {
         val builder = OkHttpClient.Builder().apply {
             addInterceptor(loggingInterceptor)
             addInterceptor(ChuckerInterceptor(context))
-            addInterceptor {
-                val originalRequest = it.request()
-                val newHttpUrl = originalRequest.url.newBuilder()
-                    .addQueryParameter("client_id", API_KEY)
-                    .build()
-                val newRequest = originalRequest.newBuilder()
-                    .url(newHttpUrl)
-                    .build()
-                it.proceed(newRequest)
-            }
+                .addInterceptor { chain ->
+                    val originalRequest = chain.request()
+                    val newRequest = originalRequest.newBuilder()
+                        .addHeader("Authorization", "Client-ID $API_KEY")
+                        .build()
+                    chain.proceed(newRequest)
+                }
             connectTimeout(30, TimeUnit.SECONDS)
             readTimeout(30, TimeUnit.SECONDS)
             writeTimeout(30, TimeUnit.SECONDS)
