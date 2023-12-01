@@ -11,4 +11,5 @@
     <color name="row_color">#30363D</color>
     <color name="chip_background">#7539c6</color>
     <color name="profile_card">#40ffffff</color>
+    <color name="background_tab_second">#24292E</color>
 </resources>

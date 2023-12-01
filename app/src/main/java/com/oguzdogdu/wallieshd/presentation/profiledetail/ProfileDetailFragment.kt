@@ -75,7 +75,6 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
             textViewNumberOfPosts.text = userDetails?.postCount?.toString()
             textViewNumberOfFollowers.text = userDetails?.followersCount?.toString()
             textViewNumberOfFollowing.text = userDetails?.followingCount?.toString()
-            textViewUsername.text = userDetails?.username.orEmpty()
             textViewBio.text = userDetails?.bio.orEmpty()
             imageViewDetailProfilePhoto.load(userDetails?.profileImage) {
                 diskCachePolicy(CachePolicy.DISABLED)
@@ -83,7 +82,7 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
                 placeholder(R.drawable.ic_default_avatar)
                 allowConversionToBitmap(true)
             }
-            userDetails?.name?.let {
+            userDetails?.username?.let {
                 binding.toolbar.setTitle(
                     title = it,
                     titleStyleRes = R.style.DialogTitleText
@@ -119,6 +118,6 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
             fragments
         )
         binding.viewPager.adapter = pagerAdapter
-        binding.viewPager.isUserInputEnabled = false
+        binding.viewPager.isUserInputEnabled = true
     }
 }

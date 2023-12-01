@@ -156,6 +156,18 @@
         <item name="tabTextColor">@color/orange</item>
     </style>
 
+    <style name="Tab.SecondBackground" parent="Widget.MaterialComponents.TabLayout">
+        <item name="android:background">@drawable/bg_tab_second</item>
+        <item name="tabIndicator">@drawable/tab_indicator</item>
+        <item name="tabIndicatorColor">@color/orange</item>
+        <item name="tabIndicatorGravity">center</item>
+        <item name="tabGravity">center</item>
+        <item name="rippleColor">@null</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+        <item name="tabTextAppearance">@style/Tab</item>
+        <item name="tabTextColor">@color/orange</item>
+    </style>
+
     <style name="EditTextSearch">
         <item name="android:background">@drawable/bg_default_edit_text_search</item>
         <item name="android:textColor">@color/white</item>
