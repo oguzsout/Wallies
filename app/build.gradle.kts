@@ -1,4 +1,4 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -16,7 +16,6 @@ plugins {
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")
 val keystoreProperties = Properties()
 keystoreProperties.load(FileInputStream(keystorePropertiesFile))
-val apiKey: String = gradleLocalProperties(rootDir).getProperty("API_KEY")
 
 android {
     signingConfigs {
@@ -33,10 +32,9 @@ android {
         applicationId = "com.oguzdogdu.wallieshd"
         minSdk = 21
         targetSdk = 33
-        versionCode = 9
-        versionName = "1.3.5"
+        versionCode = 10
+        versionName = "1.3.6"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "API_KEY", apiKey)
         signingConfig = signingConfigs.getByName("debug")
     }
 

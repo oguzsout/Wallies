@@ -1,10 +1,12 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("kotlin-parcelize")
 }
-
+val apiKey: String = gradleLocalProperties(rootDir).getProperty("API_KEY")
 android {
     namespace = "com.oguzdogdu.network"
     compileSdk = 33
@@ -14,6 +16,7 @@ android {
         targetSdk = 33
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+        buildConfigField("String", "API_KEY", apiKey)
     }
 
     compileOptions {
@@ -23,6 +26,10 @@ android {
 
     kotlinOptions {
         jvmTarget = ("17")
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 }
 

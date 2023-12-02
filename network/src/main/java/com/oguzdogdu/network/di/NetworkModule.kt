@@ -2,7 +2,7 @@ package com.oguzdogdu.network.di
 
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
-import com.oguzdogdu.network.common.Constants.API_KEY
+import com.oguzdogdu.network.BuildConfig
 import com.oguzdogdu.network.common.Constants.UNSPLASH_BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -40,7 +40,7 @@ object NetworkModule {
                 .addInterceptor { chain ->
                     val originalRequest = chain.request()
                     val newRequest = originalRequest.newBuilder()
-                        .addHeader("Authorization", "Client-ID $API_KEY")
+                        .addHeader("Authorization", "Client-ID ${BuildConfig.API_KEY}")
                         .build()
                     chain.proceed(newRequest)
                 }
