@@ -162,13 +162,14 @@
             app:destination="@id/detailFragment" />
         <action
             android:id="@+id/toCollections"
-            app:destination="@id/collectionsFragment"
-            app:popUpTo="@id/toCollections"
-            app:popUpToInclusive="true"/>
+            app:destination="@id/collectionsFragment" />
         <argument
             android:name="title"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/toUserCollections"
+            app:destination="@id/userCollectionsFragment" />
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
@@ -290,6 +291,9 @@
         <action
             android:id="@+id/toUserCollections"
             app:destination="@id/userCollectionsFragment" />
+        <action
+            android:id="@+id/toSingleCollection"
+            app:destination="@id/singleCollectionFragment" />
     </fragment>
     <fragment
         android:id="@+id/authenticedUserFragment"
@@ -393,6 +397,9 @@
         android:label="fragment_user_collections"
         tools:layout="@layout/fragment_user_collections">
 
+        <action
+            android:id="@+id/toSingleCollection"
+            app:destination="@id/singleCollectionFragment" />
     </fragment>
 
 </navigation>

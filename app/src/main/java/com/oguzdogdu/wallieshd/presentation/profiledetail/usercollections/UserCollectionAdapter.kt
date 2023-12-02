@@ -11,7 +11,7 @@ import com.oguzdogdu.wallieshd.databinding.ItemCollectionsBinding
 
 class UserCollectionAdapter :
     ListAdapter<UserCollections, UserCollectionAdapter.CollectionsViewHolder>(
-        UserCollectionAdapter.DIFF_CALLBACK
+        DIFF_CALLBACK
     ) {
 
     private var onItemClickListener: ((UserCollections?) -> Unit)? = null
@@ -26,7 +26,7 @@ class UserCollectionAdapter :
             binding.apply {
                 textViewAuthorName.text = wallpaper.title
                 imageViewPost.load(wallpaper.photo)
-                root.setOnClickListener {
+                imageViewPost.setOnClickListener {
                     onItemClickListener?.let {
                         it(wallpaper)
                     }

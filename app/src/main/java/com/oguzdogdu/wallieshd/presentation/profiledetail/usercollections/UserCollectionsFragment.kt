@@ -31,6 +31,18 @@ class UserCollectionsFragment : BaseFragment<FragmentUserCollectionsBinding>(
         )
     }
 
+    override fun initListeners() {
+        super.initListeners()
+        userCollectionAdapter.setOnItemClickListener {
+            navigateWithDirection(
+                UserCollectionsFragmentDirections.toSingleCollection(
+                    id = it?.id,
+                    title = it?.title
+                )
+            )
+        }
+    }
+
     override fun observeData() {
         super.observeData()
         viewModel.handleUIEvent(
