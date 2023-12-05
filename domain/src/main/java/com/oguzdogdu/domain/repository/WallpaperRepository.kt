@@ -7,6 +7,7 @@ import com.oguzdogdu.domain.model.latest.LatestImage
 import com.oguzdogdu.domain.model.popular.PopularImage
 import com.oguzdogdu.domain.model.search.SearchPhoto
 import com.oguzdogdu.domain.model.singlephoto.Photo
+import com.oguzdogdu.domain.model.topics.Topics
 import com.oguzdogdu.domain.wrapper.Resource
 import kotlinx.coroutines.flow.Flow
 
@@ -22,4 +23,5 @@ interface WallpaperRepository {
     suspend fun insertImageToFavorites(favorite: FavoriteImages)
     suspend fun getFavorites(): Flow<List<FavoriteImages>>
     suspend fun deleteFavorites(favorite: FavoriteImages)
+    suspend fun getTopicsTitle(): Flow<Resource<List<Topics>?>>
 }

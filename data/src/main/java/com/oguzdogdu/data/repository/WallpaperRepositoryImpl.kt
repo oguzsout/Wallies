@@ -21,6 +21,7 @@ import com.oguzdogdu.domain.model.latest.LatestImage
 import com.oguzdogdu.domain.model.popular.PopularImage
 import com.oguzdogdu.domain.model.search.SearchPhoto
 import com.oguzdogdu.domain.model.singlephoto.Photo
+import com.oguzdogdu.domain.model.topics.Topics
 import com.oguzdogdu.domain.repository.WallpaperRepository
 import com.oguzdogdu.domain.wrapper.Resource
 import com.oguzdogdu.network.model.collection.toCollectionDomain
@@ -29,6 +30,7 @@ import com.oguzdogdu.network.model.maindto.toDomainModelLatest
 import com.oguzdogdu.network.model.maindto.toDomainModelPhoto
 import com.oguzdogdu.network.model.maindto.toDomainModelPopular
 import com.oguzdogdu.network.model.searchdto.toDomainSearch
+import com.oguzdogdu.network.model.topics.toDomainTopics
 import com.oguzdogdu.network.service.WallpaperService
 import com.oguzdogdu.wallieshd.cache.dao.FavoriteDao
 import com.oguzdogdu.wallieshd.cache.entity.FavoriteImage
@@ -168,5 +170,13 @@ class WallpaperRepositoryImpl @Inject constructor(
                 isChecked = favorite.isChecked
             )
         )
+    }
+
+    override suspend fun getTopicsTitle(): Flow<Resource<List<Topics>?>> {
+        return safeApiCall(ioDispatcher) {
+            service.getTopics().body()?.map {
+                it.toDomainTopics()
+            }
+        }
     }
 }

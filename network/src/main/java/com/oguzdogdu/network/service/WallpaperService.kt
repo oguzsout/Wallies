@@ -4,6 +4,7 @@ import com.oguzdogdu.network.model.collection.CollectionResponse
 import com.oguzdogdu.network.model.maindto.Photo
 import com.oguzdogdu.network.model.maindto.UnsplashResponseItem
 import com.oguzdogdu.network.model.searchdto.SearchResponseItem
+import com.oguzdogdu.network.model.topics.TopicsResponseItem
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -41,4 +42,7 @@ interface WallpaperService {
     suspend fun getCollectionsListById(
         @Path("id") id: String?,
     ): Response<List<Photo>>
+
+    @GET("topics")
+    suspend fun getTopics(): Response<List<TopicsResponseItem>>
 }
