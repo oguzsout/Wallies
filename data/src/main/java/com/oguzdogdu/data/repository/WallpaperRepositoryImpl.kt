@@ -17,6 +17,7 @@ import com.oguzdogdu.data.source.paging.SearchPagingSource
 import com.oguzdogdu.domain.model.collection.CollectionList
 import com.oguzdogdu.domain.model.collection.WallpaperCollections
 import com.oguzdogdu.domain.model.favorites.FavoriteImages
+import com.oguzdogdu.domain.model.home.HomeListItems
 import com.oguzdogdu.domain.model.latest.LatestImage
 import com.oguzdogdu.domain.model.popular.PopularImage
 import com.oguzdogdu.domain.model.search.SearchPhoto
@@ -25,6 +26,7 @@ import com.oguzdogdu.domain.model.topics.Topics
 import com.oguzdogdu.domain.repository.WallpaperRepository
 import com.oguzdogdu.domain.wrapper.Resource
 import com.oguzdogdu.network.model.collection.toCollectionDomain
+import com.oguzdogdu.network.model.maindto.homieListToDomain
 import com.oguzdogdu.network.model.maindto.toDomain
 import com.oguzdogdu.network.model.maindto.toDomainModelLatest
 import com.oguzdogdu.network.model.maindto.toDomainModelPhoto
@@ -69,6 +71,14 @@ class WallpaperRepositoryImpl @Inject constructor(
         ).flow.mapNotNull {
             it.map { latest ->
                 latest.toDomainModelLatest()
+            }
+        }
+    }
+
+    override suspend fun getPopularAndLatestImagesForHomeScreen(type:String?): Flow<Resource<List<HomeListItems>?>> {
+        return safeApiCall(ioDispatcher) {
+            service.getImagesByOrders(perPage = 10, page = 1, order = type).body()?.map {
+                it.homieListToDomain().homeList.second
             }
         }
     }

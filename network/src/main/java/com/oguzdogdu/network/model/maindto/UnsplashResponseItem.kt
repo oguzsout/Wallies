@@ -2,6 +2,8 @@ package com.oguzdogdu.network.model.maindto
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.oguzdogdu.domain.model.home.HomeListItems
+import com.oguzdogdu.domain.model.home.HomePopularAndLatest
 import com.oguzdogdu.domain.model.latest.LatestImage
 import com.oguzdogdu.domain.model.popular.PopularImage
 import com.oguzdogdu.domain.model.singlephoto.Photo
@@ -57,6 +59,13 @@ data class UnsplashResponseItem(
 fun UnsplashResponseItem.convertList() = tags.map { it?.title }
 fun UnsplashResponseItem.toDomainModelPopular() = PopularImage(id = id, url = urls?.regular)
 fun UnsplashResponseItem.toDomainModelLatest() = LatestImage(id = id, url = urls?.regular)
+fun UnsplashResponseItem.homieListToDomain(): HomePopularAndLatest {
+    val listType = HomePopularAndLatest.ListType.fromType("")
+
+    val homeListItems = HomeListItems(id, urls?.regular)
+
+    return HomePopularAndLatest(Pair(listType?.type,homeListItems))
+}
 
 fun UnsplashResponseItem.toDomainModelPhoto() = Photo(
     id = id,
