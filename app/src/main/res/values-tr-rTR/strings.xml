@@ -107,4 +107,6 @@
     <string name="search_walley">Vadi</string>
     <string name="search_cat">Kedi</string>
     <string name="search_rain">Yağmur</string>
+    <string name="topics_title">Kategoriler</string>
+    <string name="show_all">Tümünü Gör</string>
 </resources>

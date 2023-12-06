@@ -106,4 +106,6 @@
     <string name="search_walley">Walley</string>
     <string name="search_cat">Cat</string>
     <string name="search_rain">Rain</string>
+    <string name="topics_title">Topics</string>
+    <string name="show_all">Show All</string>
 </resources>

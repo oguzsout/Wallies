@@ -42,4 +42,4 @@ data class TopicsResponseItem(
     val visibility: String?
 ):Parcelable
 
-fun TopicsResponseItem.toDomainTopics() = Topics(title = slug,titleBackground = previewPhotos?.first()?.urls?.regular)
+fun TopicsResponseItem.toDomainTopics() = Topics(title = slug,titleBackground = previewPhotos?.first()?.urls?.smallS3)
