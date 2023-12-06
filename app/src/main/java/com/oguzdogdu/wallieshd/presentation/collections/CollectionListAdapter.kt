@@ -7,6 +7,7 @@ import coil.load
 import com.oguzdogdu.domain.model.collection.WallpaperCollections
 import com.oguzdogdu.wallieshd.core.BasePagingDataAdapter
 import com.oguzdogdu.wallieshd.databinding.ItemCollectionsBinding
+import com.oguzdogdu.wallieshd.util.shadow
 
 class CollectionListAdapter :
     BasePagingDataAdapter<WallpaperCollections, CollectionListAdapter.CollectionsViewHolder>() {
@@ -15,6 +16,7 @@ class CollectionListAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(wallpaper: WallpaperCollections) {
             binding.apply {
+                imageViewPost.shadow(100)
                 textViewAuthorName.text = wallpaper.title
                 imageViewPost.load(wallpaper.photo)
                 root.setOnClickListener {

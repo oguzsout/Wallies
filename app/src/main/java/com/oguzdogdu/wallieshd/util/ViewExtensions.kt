@@ -1,12 +1,15 @@
 package com.oguzdogdu.wallieshd.util
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
@@ -108,6 +111,13 @@ fun View.showSnackMessage(
             print(ex)
         }
     }
+}
+
+fun ImageView.shadow(alpha: Int) {
+    this.setColorFilter(
+        Color.argb(alpha, 0, 0, 0),
+        PorterDuff.Mode.SRC_OVER
+    )
 }
 
 fun View.showToast(context: Context, @StringRes message: Int, duration: Int = Toast.LENGTH_SHORT) {
