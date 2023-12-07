@@ -3,7 +3,6 @@ package com.oguzdogdu.wallieshd.util
 import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
-import android.view.Gravity
 import android.view.LayoutInflater
 import androidx.annotation.DrawableRes
 import androidx.annotation.StyleRes
@@ -29,8 +28,11 @@ class CustomToolbar @JvmOverloads constructor(
     fun setTitle(title: String, @StyleRes titleStyleRes: Int?, titleCentered: Boolean? = false) {
         binding.textViewToolbarTitle.text = title
         if (titleCentered == true) {
-            binding.textViewToolbarTitle.gravity = Gravity.CENTER_HORIZONTAL
+            binding.textViewToolbarTitle.textAlignment = TEXT_ALIGNMENT_CENTER
+        } else {
+            binding.textViewToolbarTitle.textAlignment = TEXT_ALIGNMENT_TEXT_START
         }
+
         if (titleStyleRes != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 binding.textViewToolbarTitle.setTextAppearance(titleStyleRes)

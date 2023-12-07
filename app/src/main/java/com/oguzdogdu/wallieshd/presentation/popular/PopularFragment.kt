@@ -4,6 +4,7 @@ import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.oguzdogdu.wallieshd.R
 import com.oguzdogdu.wallieshd.core.BaseFragment
 import com.oguzdogdu.wallieshd.core.snackbar.MessageType
 import com.oguzdogdu.wallieshd.databinding.FragmentPopularBinding
@@ -25,6 +26,11 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
     override fun initViews() {
         super.initViews()
         binding.apply {
+            toolbar.setTitle(
+                title = getString(R.string.popular_title),
+                titleStyleRes = R.style.DialogTitleText
+            )
+            toolbar.setLeftIcon(R.drawable.back)
             recyclerViewWallpapers.setupRecyclerView(
                 layout = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL),
                 adapter = popularWallpaperAdapter.withLoadStateHeaderAndFooter(
@@ -57,6 +63,9 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.handleUIEvent(PopularScreenEvent.FetchPopularData)
             binding.swipeRefresh.isRefreshing = false
+        }
+        binding.toolbar.setLeftIconClickListener {
+            navigateWithDirection(PopularFragmentDirections.toMain())
         }
     }
 
