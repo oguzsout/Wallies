@@ -109,4 +109,5 @@
     <string name="topics_title">Topics</string>
     <string name="show_all">Show All</string>
     <string name="popular_title">Popular</string>
+    <string name="latest_title">Latest</string>
 </resources>

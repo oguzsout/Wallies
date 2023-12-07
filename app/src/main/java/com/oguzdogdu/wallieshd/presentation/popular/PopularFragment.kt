@@ -65,7 +65,7 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
             binding.swipeRefresh.isRefreshing = false
         }
         binding.toolbar.setLeftIconClickListener {
-            navigateWithDirection(PopularFragmentDirections.toMain())
+            navigateBack()
         }
     }
 

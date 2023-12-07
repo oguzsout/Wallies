@@ -13,7 +13,8 @@
 
         <action
             android:id="@+id/toPopular"
-            app:destination="@id/popularFragment" />
+            app:destination="@id/popularFragment"
+            app:popUpToInclusive="false"/>
 
         <action
             android:id="@+id/toLatest"
@@ -21,7 +22,8 @@
 
         <action
             android:id="@+id/toDetail"
-            app:destination="@id/detailFragment" />
+            app:destination="@id/detailFragment"
+            app:popUpTo="@id/detailFragment"/>
         <action
             android:id="@+id/toSearch"
             app:destination="@id/searchFragment" />
@@ -52,6 +54,9 @@
         <action
             android:id="@+id/toDetail"
             app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/toMain"
+            app:destination="@id/mainFragment" />
 
     </fragment>
 
@@ -64,6 +69,9 @@
         <action
             android:id="@+id/toDetail"
             app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/toMain"
+            app:destination="@id/mainFragment" />
 
     </fragment>
 
@@ -85,6 +93,10 @@
         <action
             android:id="@+id/toLatest"
             app:destination="@id/latestFragment" />
+
+        <action
+            android:id="@+id/toMain"
+            app:destination="@id/mainFragment" />
 
         <action
             android:id="@+id/toSetWallpaper"
@@ -307,7 +319,7 @@
             android:id="@+id/toLogin"
             app:destination="@id/loginFragment"
             app:popUpTo="@id/authenticedUserFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/toEditUserName"
             app:destination="@id/editUserNameSurnameFragment" />

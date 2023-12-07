@@ -110,4 +110,5 @@
     <string name="topics_title">Kategoriler</string>
     <string name="show_all">Tümünü Gör</string>
     <string name="popular_title">Popüler</string>
+    <string name="latest_title">En Son</string>
 </resources>
