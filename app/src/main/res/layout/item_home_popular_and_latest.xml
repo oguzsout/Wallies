@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/dp_8"
+    android:orientation="vertical">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageViewItemWallpaper"
+        android:layout_width="@dimen/dp_140"
+        android:layout_height="@dimen/dp_200"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="@string/walpaper_list_photo"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/MainImageStyle"
+        tools:srcCompat="@tools:sample/avatars" />
+
+</LinearLayout>
