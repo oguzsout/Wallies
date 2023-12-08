@@ -55,19 +55,30 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
                 }
             )
             topicsViewContainer.rvHome.setupRecyclerView(
-                layout = GridLayoutManager(requireContext(), 2),
+                layout = GridLayoutManager(
+                    requireContext(),
+                    2
+                ),
                 adapter = topicsTitleAdapter,
                 true,
                 onScroll = {}
             )
             popularViewContainer.rvHome.setupRecyclerView(
-                layout = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false),
+                layout = LinearLayoutManager(
+                    requireContext(),
+                    RecyclerView.HORIZONTAL,
+                    false
+                ),
                 adapter = homePopularAdapter,
                 true,
                 onScroll = {}
             )
             latestViewContainer.rvHome.setupRecyclerView(
-                layout = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false),
+                layout = LinearLayoutManager(
+                    requireContext(),
+                    RecyclerView.HORIZONTAL,
+                    false
+                ),
                 adapter = homeLatestAdapter,
                 true,
                 onScroll = {}
@@ -85,7 +96,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
 
     override fun observeData() {
         super.observeData()
-        getAuthenticatedUserInfos()
+        viewModel.userState.observeInLifecycle(viewLifecycleOwner, ::getAuthenticatedUserInfos)
         fetchHomeScreenList()
     }
 
@@ -93,39 +104,39 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         viewModel.homeListState.observeInLifecycle(viewLifecycleOwner, observer = { state ->
             when (state) {
                 is HomeRecyclerViewItems.TopicsTitleList -> handleTopicsTitleListState(state)
-                is HomeRecyclerViewItems.PopularAndLatestImageList -> popularAndLatestLoadingAndErrorHandling(
+                is HomeRecyclerViewItems.PopularImageList -> getPopularImageList(
                     state
                 )
+
+                is HomeRecyclerViewItems.LatestImageList -> getLatestImageList(state)
                 null -> {}
             }
         })
     }
 
-    private fun getAuthenticatedUserInfos() {
-        viewModel.userState.observeInLifecycle(viewLifecycleOwner, observer = { status ->
-            when (status) {
-                is MainScreenState.UserProfile -> {
-                    when (status.profileImage.isNullOrBlank()) {
-                        true -> binding.imageViewProfileAvatar.load(R.drawable.ic_default_avatar)
+    private fun getAuthenticatedUserInfos(state: MainScreenState?) {
+        when (state) {
+            is MainScreenState.UserProfile -> {
+                when (state.profileImage.isNullOrBlank()) {
+                    true -> binding.imageViewProfileAvatar.load(R.drawable.ic_default_avatar)
 
-                        false -> binding.imageViewProfileAvatar.load(status.profileImage) {
-                            diskCachePolicy(CachePolicy.DISABLED)
-                            transformations(CircleCropTransformation())
-                        }
+                    false -> binding.imageViewProfileAvatar.load(state.profileImage) {
+                        diskCachePolicy(CachePolicy.DISABLED)
+                        transformations(CircleCropTransformation())
                     }
                 }
-
-                is MainScreenState.UserAuthenticated -> {
-                    when (status.isAuthenticated) {
-                        false -> binding.imageViewProfileAvatar.load(R.drawable.ic_default_avatar)
-                        else -> {}
-                    }
-                    status.isAuthenticated?.let { goToUserInfoScreen(it) }
-                }
-
-                else -> {}
             }
-        })
+
+            is MainScreenState.UserAuthenticated -> {
+                when (state.isAuthenticated) {
+                    false -> binding.imageViewProfileAvatar.load(R.drawable.ic_default_avatar)
+                    else -> {}
+                }
+                state.isAuthenticated?.let { goToUserInfoScreen(it) }
+            }
+
+            null -> return
+        }
     }
 
     override fun initListeners() {
@@ -178,62 +189,51 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
                 type = MessageType.ERROR
             )
 
-            else -> {
-            }
+            else -> {}
         }
     }
 
-    private fun popularAndLatestLoadingAndErrorHandling(
-        state: HomeRecyclerViewItems.PopularAndLatestImageList?
-    ) {
-        when (state?.list?.first) {
-            HomePopularAndLatest.ListType.POPULAR.type -> {
-                when (state.loading) {
-                    true -> {
-                        binding.popularViewContainer.progressBar.show()
-                    }
-
-                    false -> {
-                        binding.popularViewContainer.progressBar.hide()
-                        homePopularAdapter.submitList(state.list.second)
-                    }
-
-                    null -> {}
-                }
-                when {
-                    !state.error.isNullOrBlank() -> showMessage(
-                        message = state.error,
-                        type = MessageType.ERROR
-                    )
-
-                    else -> {
-                    }
-                }
+    private fun getPopularImageList(state: HomeRecyclerViewItems.PopularImageList) {
+        when (state.loading) {
+            true -> {
+                binding.popularViewContainer.progressBar.show()
             }
 
-            HomePopularAndLatest.ListType.LATEST.type -> {
-                when (state.loading) {
-                    true -> {
-                        binding.latestViewContainer.progressBar.show()
-                    }
-
-                    false -> {
-                        binding.latestViewContainer.progressBar.hide()
-                        homeLatestAdapter.submitList(state.list.second)
-                    }
-
-                    null -> {}
-                }
-                when {
-                    !state.error.isNullOrBlank() -> showMessage(
-                        message = state.error,
-                        type = MessageType.ERROR
-                    )
-
-                    else -> {
-                    }
-                }
+            false -> {
+                binding.popularViewContainer.progressBar.hide()
+                homePopularAdapter.submitList(state.list)
             }
+
+            null -> {}
+        }
+        when {
+            !state.error.isNullOrBlank() -> showMessage(
+                message = state.error,
+                type = MessageType.ERROR
+            )
+
+            else -> {}
+        }
+    }
+
+    private fun getLatestImageList(state: HomeRecyclerViewItems.LatestImageList) {
+        when (state.loading) {
+            true -> {
+                binding.latestViewContainer.progressBar.show()
+            }
+
+            false -> {
+                binding.latestViewContainer.progressBar.hide()
+                homeLatestAdapter.submitList(state.list)
+            }
+
+            null -> {}
+        }
+        when {
+            !state.error.isNullOrBlank() -> showMessage(
+                message = state.error,
+                type = MessageType.ERROR
+            )
 
             else -> {}
         }

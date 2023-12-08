@@ -9,7 +9,7 @@ import com.oguzdogdu.domain.model.popular.PopularImage
 import com.oguzdogdu.domain.model.singlephoto.Photo
 import kotlinx.parcelize.Parcelize
 
-@kotlinx.parcelize.Parcelize
+@Parcelize
 data class UnsplashResponseItem(
     @SerializedName("alt_description")
     val altDescription: String?,

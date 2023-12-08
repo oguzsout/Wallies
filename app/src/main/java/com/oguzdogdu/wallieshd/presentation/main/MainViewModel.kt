@@ -2,18 +2,19 @@ package com.oguzdogdu.wallieshd.presentation.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.oguzdogdu.domain.model.home.HomePopularAndLatest
 import com.oguzdogdu.domain.usecase.auth.CheckUserAuthenticatedUseCase
 import com.oguzdogdu.domain.usecase.auth.GetCurrentUserDatasUseCase
 import com.oguzdogdu.domain.usecase.home.GetPopularAndLatestHomeListUseCase
 import com.oguzdogdu.domain.usecase.topics.GetTopicsListUseCase
 import com.oguzdogdu.domain.wrapper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -43,27 +44,62 @@ class MainViewModel @Inject constructor(
     private fun fetchPopularAndLatestList(type: String?) {
         viewModelScope.launch {
             getPopularAndLatestHomeListUseCase.invoke(type = type).collectLatest { value ->
-                when (value) {
-                    is Resource.Success -> {
-                        _homeListState.update {
-                            HomeRecyclerViewItems.PopularAndLatestImageList(
-                                loading = false,
-                                list = Pair(first = type, value.data)
-                            )
+                when (type) {
+                    HomePopularAndLatest.ListType.POPULAR.type -> {
+                        when (value) {
+                            is Resource.Success -> {
+                                _homeListState.update {
+                                    HomeRecyclerViewItems.PopularImageList(
+                                        loading = false,
+                                        list = value.data
+                                    )
+                                }
+                            }
+
+                            is Resource.Loading -> {
+                                _homeListState.update {
+                                    HomeRecyclerViewItems.PopularImageList(
+                                        loading = true
+                                    )
+                                }
+                            }
+
+                            is Resource.Error -> {
+                                _homeListState.update {
+                                    HomeRecyclerViewItems.PopularImageList(
+                                        error = value.errorMessage
+                                    )
+                                }
+                            }
                         }
                     }
-                    is Resource.Loading -> {
-                        _homeListState.update {
-                            HomeRecyclerViewItems.PopularAndLatestImageList(
-                                loading = true
-                            )
-                        }
-                    }
-                    is Resource.Error -> {
-                        _homeListState.update {
-                            HomeRecyclerViewItems.PopularAndLatestImageList(
-                                error = value.errorMessage
-                            )
+
+                    HomePopularAndLatest.ListType.LATEST.type -> {
+                        when (value) {
+                            is Resource.Success -> {
+                                _homeListState.update {
+                                    HomeRecyclerViewItems.LatestImageList(
+                                        loading = false,
+                                        list = value.data
+                                    )
+                                }
+                            }
+
+                            is Resource.Loading -> {
+                                _homeListState.update {
+                                    HomeRecyclerViewItems.LatestImageList(
+                                        loading = true
+                                    )
+                                }
+                            }
+
+                            is Resource.Error -> {
+                                _homeListState.update {
+                                    HomeRecyclerViewItems.LatestImageList(
+                                        error = value.errorMessage
+                                    )
+                                }
+                            }
                         }
                     }
                 }

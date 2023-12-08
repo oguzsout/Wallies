@@ -9,9 +9,15 @@ sealed class HomeRecyclerViewItems {
         val error: String? = null,
         val topics: List<Topics>? = emptyList()
     ) : HomeRecyclerViewItems()
-    data class PopularAndLatestImageList(
+    data class PopularImageList(
         val loading: Boolean? = false,
         val error: String? = null,
-        val list: Pair<String?, List<HomeListItems>?>? = null
+        val list: List<HomeListItems>? = null
+    ) : HomeRecyclerViewItems()
+
+    data class LatestImageList(
+        val loading: Boolean? = false,
+        val error: String? = null,
+        val list: List<HomeListItems>? = null
     ) : HomeRecyclerViewItems()
 }
