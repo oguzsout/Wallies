@@ -30,7 +30,7 @@ abstract class BaseFragment<VB : ViewBinding>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initVariables()
+        firstExecution()
     }
 
     override fun onCreateView(
@@ -64,7 +64,7 @@ abstract class BaseFragment<VB : ViewBinding>(
         }
     }
 
-    open fun initVariables() {}
+    open fun firstExecution() {}
 
     open fun observeData() {}
 
