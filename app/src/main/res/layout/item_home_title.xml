@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/recyclerViewTitle"
-    android:visibility="visible"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -14,6 +12,7 @@
         android:orientation="horizontal"
         android:padding="@dimen/dp_8"
         android:weightSum="2"
+        app:layout_constraintBottom_toTopOf="@+id/rvHome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -37,25 +36,27 @@
             app:drawableEndCompat="@drawable/ic_arrow" />
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:indeterminateTint="@color/purple_03"
-        android:visibility="gone"
-        app:circularflow_defaultRadius="@dimen/dp_12"
-        app:layout_constraintBottom_toBottomOf="@+id/rvHome"
-        app:layout_constraintEnd_toEndOf="@+id/rvHome"
-        app:layout_constraintStart_toStartOf="@+id/rvHome"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:indeterminateTint="@color/purple_03"
+            android:visibility="gone"
+            app:circularflow_defaultRadius="@dimen/dp_12"
+            app:layout_constraintBottom_toBottomOf="@+id/rvHome"
+            app:layout_constraintEnd_toEndOf="@+id/rvHome"
+            app:layout_constraintStart_toStartOf="@+id/rvHome"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvHome"
         android:layout_width="match_parent"
-        android:layout_height="282dp"
-        android:layout_marginTop="@dimen/dp_8"
+        android:layout_height="wrap_content"
+        android:maxHeight="@dimen/dp_320"
+        android:minHeight="@dimen/dp_220"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        tools:listitem="@layout/item_topics_title" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

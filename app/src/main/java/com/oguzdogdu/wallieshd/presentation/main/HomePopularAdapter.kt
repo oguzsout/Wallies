@@ -9,7 +9,7 @@ import com.oguzdogdu.domain.model.home.HomeListItems
 import com.oguzdogdu.wallieshd.core.BaseListAdapter
 import com.oguzdogdu.wallieshd.databinding.ItemHomePopularAndLatestBinding
 
-class HomePopularAndLatestImagesAdapter : BaseListAdapter<HomeListItems, HomePopularAndLatestImagesAdapter.MainImageViewHolder>() {
+class HomePopularAdapter : BaseListAdapter<HomeListItems, HomePopularAdapter.MainImageViewHolder>() {
     inner class MainImageViewHolder(private val binding: ItemHomePopularAndLatestBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(wallpaper: HomeListItems?) {

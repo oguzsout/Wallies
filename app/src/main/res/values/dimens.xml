@@ -45,4 +45,5 @@
     <dimen name="height_button_rounded_corner">40dp</dimen>
     <dimen name="height_bottom_sheet_title">56dp</dimen>
     <dimen name="letter_spacing_call_out">0.0107</dimen>
+    <dimen name="dp_320">320dp</dimen>
 </resources>

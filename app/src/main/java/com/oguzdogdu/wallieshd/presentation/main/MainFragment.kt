@@ -4,15 +4,20 @@ import androidx.core.os.bundleOf
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
+import com.oguzdogdu.domain.model.home.HomePopularAndLatest
 import com.oguzdogdu.wallieshd.R
 import com.oguzdogdu.wallieshd.core.BaseFragment
 import com.oguzdogdu.wallieshd.core.snackbar.MessageType
 import com.oguzdogdu.wallieshd.databinding.FragmentMainBinding
+import com.oguzdogdu.wallieshd.util.hide
 import com.oguzdogdu.wallieshd.util.observeInLifecycle
 import com.oguzdogdu.wallieshd.util.setupRecyclerView
+import com.oguzdogdu.wallieshd.util.show
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,6 +26,21 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
     private val viewModel: MainViewModel by viewModels()
 
     private val topicsTitleAdapter by lazy { TopicsTitleAdapter() }
+
+    private val homePopularAdapter by lazy { HomePopularAdapter() }
+
+    private val homeLatestAdapter by lazy { HomeLatestAdapter() }
+
+    override fun firstExecution() {
+        super.firstExecution()
+        viewModel.handleUIEvent(MainScreenEvent.FetchMainScreenUserData)
+        viewModel.handleUIEvent(
+            MainScreenEvent.FetchMainScreenList(HomePopularAndLatest.ListType.POPULAR.type)
+        )
+        viewModel.handleUIEvent(
+            MainScreenEvent.FetchMainScreenList(HomePopularAndLatest.ListType.LATEST.type)
+        )
+    }
 
     override fun initViews() {
         super.initViews()
@@ -34,14 +54,30 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
                     }
                 }
             )
-            rvTopics.setupRecyclerView(
+            topicsViewContainer.rvHome.setupRecyclerView(
                 layout = GridLayoutManager(requireContext(), 2),
                 adapter = topicsTitleAdapter,
                 true,
                 onScroll = {}
             )
-            includedLayout.textViewTitle.text = getString(R.string.topics_title)
-            includedLayout.textViewShowAll.text = getString(R.string.show_all)
+            popularViewContainer.rvHome.setupRecyclerView(
+                layout = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false),
+                adapter = homePopularAdapter,
+                true,
+                onScroll = {}
+            )
+            latestViewContainer.rvHome.setupRecyclerView(
+                layout = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false),
+                adapter = homeLatestAdapter,
+                true,
+                onScroll = {}
+            )
+            topicsViewContainer.textViewTitle.text = getString(R.string.topics_title)
+            topicsViewContainer.textViewShowAll.text = getString(R.string.show_all)
+            popularViewContainer.textViewTitle.text = getString(R.string.popular_title)
+            popularViewContainer.textViewShowAll.text = getString(R.string.show_all)
+            latestViewContainer.textViewTitle.text = getString(R.string.latest_title)
+            latestViewContainer.textViewShowAll.text = getString(R.string.show_all)
             textViewTitle.text = resources.getString(R.string.app_name)
             imageViewSearch.load(R.drawable.search)
         }
@@ -49,8 +85,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
 
     override fun observeData() {
         super.observeData()
-        viewModel.handleUIEvent(MainScreenEvent.FetchMainScreenUserData)
-        viewModel.handleUIEvent(MainScreenEvent.FetchMainScreenList)
         getAuthenticatedUserInfos()
         fetchHomeScreenList()
     }
@@ -58,14 +92,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
     private fun fetchHomeScreenList() {
         viewModel.homeListState.observeInLifecycle(viewLifecycleOwner, observer = { state ->
             when (state) {
-                is HomeRecyclerViewItems.TopicsTitleList -> {
-                    topicsTitleAdapter.submitList(
-                        state.topics
-                    )
-                }
-
-                is HomeRecyclerViewItems.LatestImageList -> {}
-                is HomeRecyclerViewItems.PopularImageList -> {}
+                is HomeRecyclerViewItems.TopicsTitleList -> handleTopicsTitleListState(state)
+                is HomeRecyclerViewItems.PopularAndLatestImageList -> popularAndLatestLoadingAndErrorHandling(
+                    state
+                )
                 null -> {}
             }
         })
@@ -108,11 +138,104 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
                 showMessage(message = item.title!!, MessageType.SUCCESS)
             }
         }
+        homePopularAdapter.setOnItemClickListener {
+            navigateWithDirection(MainFragmentDirections.toDetail(it?.id))
+        }
+        homeLatestAdapter.setOnItemClickListener {
+            navigateWithDirection(MainFragmentDirections.toDetail(it?.id))
+        }
+        binding.popularViewContainer.textViewShowAll.setOnClickListener {
+            navigateWithDirection(MainFragmentDirections.toPopular())
+        }
+        binding.latestViewContainer.textViewShowAll.setOnClickListener {
+            navigateWithDirection(MainFragmentDirections.toLatest())
+        }
     }
 
     private fun goToUserInfoScreen(isAuthenticated: Boolean) {
         binding.imageViewProfileAvatar.setOnClickListener {
             navigate(R.id.toAuthUser, bundleOf(Pair("auth", isAuthenticated)))
+        }
+    }
+
+    private fun handleTopicsTitleListState(state: HomeRecyclerViewItems.TopicsTitleList) {
+        when (state.loading) {
+            true -> {
+                binding.topicsViewContainer.progressBar.show()
+            }
+
+            false -> {
+                binding.topicsViewContainer.progressBar.hide()
+                topicsTitleAdapter.submitList(state.topics)
+            }
+
+            null -> {}
+        }
+
+        when {
+            !state.error.isNullOrBlank() -> showMessage(
+                message = state.error,
+                type = MessageType.ERROR
+            )
+
+            else -> {
+            }
+        }
+    }
+
+    private fun popularAndLatestLoadingAndErrorHandling(
+        state: HomeRecyclerViewItems.PopularAndLatestImageList?
+    ) {
+        when (state?.list?.first) {
+            HomePopularAndLatest.ListType.POPULAR.type -> {
+                when (state.loading) {
+                    true -> {
+                        binding.popularViewContainer.progressBar.show()
+                    }
+
+                    false -> {
+                        binding.popularViewContainer.progressBar.hide()
+                        homePopularAdapter.submitList(state.list.second)
+                    }
+
+                    null -> {}
+                }
+                when {
+                    !state.error.isNullOrBlank() -> showMessage(
+                        message = state.error,
+                        type = MessageType.ERROR
+                    )
+
+                    else -> {
+                    }
+                }
+            }
+
+            HomePopularAndLatest.ListType.LATEST.type -> {
+                when (state.loading) {
+                    true -> {
+                        binding.latestViewContainer.progressBar.show()
+                    }
+
+                    false -> {
+                        binding.latestViewContainer.progressBar.hide()
+                        homeLatestAdapter.submitList(state.list.second)
+                    }
+
+                    null -> {}
+                }
+                when {
+                    !state.error.isNullOrBlank() -> showMessage(
+                        message = state.error,
+                        type = MessageType.ERROR
+                    )
+
+                    else -> {
+                    }
+                }
+            }
+
+            else -> {}
         }
     }
 }

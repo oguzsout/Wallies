@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -59,7 +58,6 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutHomeTitleContainer">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/coordinator"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -75,21 +73,48 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <include
-                    android:id="@+id/includedLayout"
+                    android:id="@+id/topicsViewContainer"
+                    layout="@layout/item_home_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/popularContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/topicsContainer">
+
+                <include
+                    android:id="@+id/popularViewContainer"
                     layout="@layout/item_home_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvTopics"
-                    android:layout_width="match_parent"
-                    android:layout_height="282dp"
-                    android:layout_marginTop="@dimen/dp_8"
-                    android:layout_marginBottom="@dimen/dp_8"
-                    tools:listitem="@layout/item_topics_title" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/latestContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/popularContainer">
+                <include
+                    android:id="@+id/latestViewContainer"
+                    layout="@layout/item_home_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

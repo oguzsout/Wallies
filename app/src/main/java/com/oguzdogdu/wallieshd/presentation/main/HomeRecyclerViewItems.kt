@@ -1,12 +1,17 @@
 package com.oguzdogdu.wallieshd.presentation.main
 
-import androidx.paging.PagingData
-import com.oguzdogdu.domain.model.latest.LatestImage
-import com.oguzdogdu.domain.model.popular.PopularImage
+import com.oguzdogdu.domain.model.home.HomeListItems
 import com.oguzdogdu.domain.model.topics.Topics
 
 sealed class HomeRecyclerViewItems {
-    data class TopicsTitleList(val topics: List<Topics>?) : HomeRecyclerViewItems()
-    data class PopularImageList(val popular: PagingData<PopularImage> = PagingData.empty()) : HomeRecyclerViewItems()
-    data class LatestImageList(val latest: List<LatestImage>?) : HomeRecyclerViewItems()
+    data class TopicsTitleList(
+        val loading: Boolean? = false,
+        val error: String? = null,
+        val topics: List<Topics>? = emptyList()
+    ) : HomeRecyclerViewItems()
+    data class PopularAndLatestImageList(
+        val loading: Boolean? = false,
+        val error: String? = null,
+        val list: Pair<String?, List<HomeListItems>?>? = null
+    ) : HomeRecyclerViewItems()
 }

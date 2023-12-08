@@ -4,6 +4,7 @@ import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.oguzdogdu.wallieshd.R
 import com.oguzdogdu.wallieshd.core.BaseFragment
 import com.oguzdogdu.wallieshd.core.snackbar.MessageType
 import com.oguzdogdu.wallieshd.databinding.FragmentLatestBinding
@@ -25,6 +26,11 @@ class LatestFragment : BaseFragment<FragmentLatestBinding>(FragmentLatestBinding
     override fun initViews() {
         super.initViews()
         binding.apply {
+            toolbar.setTitle(
+                title = getString(R.string.latest_title),
+                titleStyleRes = R.style.DialogTitleText
+            )
+            toolbar.setLeftIcon(R.drawable.back)
             recyclerViewWallpapers.setupRecyclerView(
                 layout = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL),
                 adapter = latestWallpaperAdapter.withLoadStateFooter(LoaderAdapter()),
@@ -53,6 +59,9 @@ class LatestFragment : BaseFragment<FragmentLatestBinding>(FragmentLatestBinding
         }
         latestWallpaperAdapter.setOnItemClickListener {
             navigateWithDirection(LatestFragmentDirections.toDetail(id = it?.id))
+        }
+        binding.toolbar.setLeftIconClickListener {
+            navigateBack()
         }
     }
 

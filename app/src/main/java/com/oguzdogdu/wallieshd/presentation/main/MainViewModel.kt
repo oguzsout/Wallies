@@ -4,8 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oguzdogdu.domain.usecase.auth.CheckUserAuthenticatedUseCase
 import com.oguzdogdu.domain.usecase.auth.GetCurrentUserDatasUseCase
-import com.oguzdogdu.domain.usecase.latest.GetLatestUseCase
-import com.oguzdogdu.domain.usecase.popular.GetPopularUseCase
+import com.oguzdogdu.domain.usecase.home.GetPopularAndLatestHomeListUseCase
 import com.oguzdogdu.domain.usecase.topics.GetTopicsListUseCase
 import com.oguzdogdu.domain.wrapper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,8 +20,7 @@ class MainViewModel @Inject constructor(
     private val getCurrentUserDatasUseCase: GetCurrentUserDatasUseCase,
     private val userAuthenticatedUseCase: CheckUserAuthenticatedUseCase,
     private val getTopicsListUseCase: GetTopicsListUseCase,
-    private val getPopularUseCase: GetPopularUseCase,
-    private val getLatestUseCase: GetLatestUseCase
+    private val getPopularAndLatestHomeListUseCase: GetPopularAndLatestHomeListUseCase
 ) : ViewModel() {
     private val _userState = MutableStateFlow<MainScreenState?>(null)
     val userState = _userState.asStateFlow()
@@ -34,13 +32,45 @@ class MainViewModel @Inject constructor(
             is MainScreenEvent.FetchMainScreenUserData -> {
                 getUserProfileImage()
                 checkUserAuthenticate()
+                fetchTopicTitleList()
             }
 
             is MainScreenEvent.FetchMainScreenList -> {
-                fetchTopicTitleList()
+                fetchPopularAndLatestList(event.type)
             }
         }
     }
+    private fun fetchPopularAndLatestList(type: String?) {
+        viewModelScope.launch {
+            getPopularAndLatestHomeListUseCase.invoke(type = type).collectLatest { value ->
+                when (value) {
+                    is Resource.Success -> {
+                        _homeListState.update {
+                            HomeRecyclerViewItems.PopularAndLatestImageList(
+                                loading = false,
+                                list = Pair(first = type, value.data)
+                            )
+                        }
+                    }
+                    is Resource.Loading -> {
+                        _homeListState.update {
+                            HomeRecyclerViewItems.PopularAndLatestImageList(
+                                loading = true
+                            )
+                        }
+                    }
+                    is Resource.Error -> {
+                        _homeListState.update {
+                            HomeRecyclerViewItems.PopularAndLatestImageList(
+                                error = value.errorMessage
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private fun fetchTopicTitleList() {
         viewModelScope.launch {
             getTopicsListUseCase.invoke().collectLatest { value ->
@@ -48,12 +78,25 @@ class MainViewModel @Inject constructor(
                     is Resource.Success -> {
                         _homeListState.update {
                             HomeRecyclerViewItems.TopicsTitleList(
+                                loading = false,
                                 topics = value.data
                             )
                         }
                     }
-                    is Resource.Loading -> {}
-                    is Resource.Error -> {}
+                    is Resource.Loading -> {
+                        _homeListState.update {
+                            HomeRecyclerViewItems.TopicsTitleList(
+                                loading = true
+                            )
+                        }
+                    }
+                    is Resource.Error -> {
+                        _homeListState.update {
+                            HomeRecyclerViewItems.TopicsTitleList(
+                                error = value.errorMessage
+                            )
+                        }
+                    }
                 }
             }
         }
