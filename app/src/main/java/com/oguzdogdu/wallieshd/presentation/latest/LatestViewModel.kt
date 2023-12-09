@@ -3,7 +3,7 @@ package com.oguzdogdu.wallieshd.presentation.latest
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.oguzdogdu.domain.usecase.latest.GetLatestUseCase
+import com.oguzdogdu.domain.usecase.latest.GetLatestUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class LatestViewModel @Inject constructor(private val useCase: GetLatestUseCase) : ViewModel() {
+class LatestViewModel @Inject constructor(private val getLatestUseCases: GetLatestUseCases) : ViewModel() {
 
     private val _getLatest = MutableStateFlow<LatestState.ItemState?>(null)
     val getLatest = _getLatest.asStateFlow()
@@ -32,7 +32,7 @@ class LatestViewModel @Inject constructor(private val useCase: GetLatestUseCase)
 
     private fun getLatestImages() {
         viewModelScope.launch {
-            useCase().cachedIn(viewModelScope).collectLatest { latest ->
+            getLatestUseCases().cachedIn(viewModelScope).collectLatest { latest ->
                 latest.let {
                     _getLatest.update { LatestState.ItemState(latest = latest) }
                 }

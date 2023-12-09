@@ -5,26 +5,28 @@ import androidx.lifecycle.viewModelScope
 import com.oguzdogdu.domain.model.home.HomePopularAndLatest
 import com.oguzdogdu.domain.usecase.auth.CheckUserAuthenticatedUseCase
 import com.oguzdogdu.domain.usecase.auth.GetCurrentUserDatasUseCase
-import com.oguzdogdu.domain.usecase.home.GetPopularAndLatestHomeListUseCase
+import com.oguzdogdu.domain.usecase.home.GetPopularAndLatestUseCase
 import com.oguzdogdu.domain.usecase.topics.GetTopicsListUseCase
 import com.oguzdogdu.domain.wrapper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getCurrentUserDatasUseCase: GetCurrentUserDatasUseCase,
     private val userAuthenticatedUseCase: CheckUserAuthenticatedUseCase,
     private val getTopicsListUseCase: GetTopicsListUseCase,
-    private val getPopularAndLatestHomeListUseCase: GetPopularAndLatestHomeListUseCase
+    private val getPopularAndLatestHomeListUseCase: GetPopularAndLatestUseCase
 ) : ViewModel() {
+
     private val _userState = MutableStateFlow<MainScreenState?>(null)
     val userState = _userState.asStateFlow()
+
     private val _homeListState = MutableStateFlow<HomeRecyclerViewItems?>(null)
     val homeListState = _homeListState.asStateFlow()
 
@@ -33,17 +35,17 @@ class MainViewModel @Inject constructor(
             is MainScreenEvent.FetchMainScreenUserData -> {
                 getUserProfileImage()
                 checkUserAuthenticate()
-                fetchTopicTitleList()
             }
 
             is MainScreenEvent.FetchMainScreenList -> {
+                fetchTopicTitleList()
                 fetchPopularAndLatestList(event.type)
             }
         }
     }
     private fun fetchPopularAndLatestList(type: String?) {
         viewModelScope.launch {
-            getPopularAndLatestHomeListUseCase.invoke(type = type).collectLatest { value ->
+            getPopularAndLatestHomeListUseCase.invoke(type = type).collect { value ->
                 when (type) {
                     HomePopularAndLatest.ListType.POPULAR.type -> {
                         when (value) {

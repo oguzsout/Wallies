@@ -6,9 +6,8 @@ import com.oguzdogdu.domain.wrapper.Resource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetCollectionsListByIdUseCase @Inject constructor(private val repository: WallpaperRepository) {
-
-   suspend operator fun invoke(id: String?): Flow<Resource<List<CollectionList>?>> {
-        return repository.getCollectionsListById(id)
-    }
+class GetCollectionListByIdUseCaseImpl @Inject constructor(private val repository: WallpaperRepository) :
+    GetCollectionListByIdUseCase {
+    override suspend fun invoke(id: String?): Flow<Resource<List<CollectionList>?>> =
+        repository.getCollectionsListById(id)
 }

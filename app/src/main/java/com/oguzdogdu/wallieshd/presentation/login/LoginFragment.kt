@@ -54,8 +54,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         }
     }
 
-    override fun initVariables() {
-        super.initVariables()
+    override fun firstExecution() {
+        super.firstExecution()
         val googleSignInOptions =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(
                 getString(R.string.default_web_client_id)

@@ -7,8 +7,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import javax.inject.Inject
 
-class GetCollectionByLikes @Inject constructor(private val repository: WallpaperRepository) {
-    suspend operator fun invoke(): Flow<PagingData<WallpaperCollections>> {
+class GetCollectionByLikesUseCaseImpl @Inject constructor(private val repository: WallpaperRepository):GetCollectionByLikesUseCase {
+    override suspend fun invoke(): Flow<PagingData<WallpaperCollections>> {
         return repository.getCollectionsListByLikesSort().distinctUntilChanged()
     }
+
 }

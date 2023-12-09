@@ -3,9 +3,9 @@ package com.oguzdogdu.wallieshd.presentation.collections
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.oguzdogdu.domain.usecase.collection.GetCollectionByLikes
-import com.oguzdogdu.domain.usecase.collection.GetCollectionByTitles
-import com.oguzdogdu.domain.usecase.collection.GetCollectionsUseCase
+import com.oguzdogdu.domain.usecase.collection.GetCollectionByLikesUseCase
+import com.oguzdogdu.domain.usecase.collection.GetCollectionByTitlesUseCase
+import com.oguzdogdu.domain.usecase.collection.GetCollectionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,9 +16,9 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class CollectionViewModel @Inject constructor(
-    private val useCase: GetCollectionsUseCase,
-    private val getCollectionByTitles: GetCollectionByTitles,
-    private val getCollectionByLikes: GetCollectionByLikes
+    private val getCollectionUseCase: GetCollectionUseCase,
+    private val getCollectionByTitlesUseCase: GetCollectionByTitlesUseCase,
+    private val getCollectionByLikesUseCase: GetCollectionByLikesUseCase
 ) : ViewModel() {
 
     private val _getCollections = MutableStateFlow<CollectionState?>(null)
@@ -36,7 +36,7 @@ class CollectionViewModel @Inject constructor(
 
     private fun getCollectionsList() {
         viewModelScope.launch {
-            useCase().cachedIn(viewModelScope).collectLatest { collection ->
+            getCollectionUseCase().cachedIn(viewModelScope).collectLatest { collection ->
                 collection.let {
                     _getCollections.update { CollectionState.ItemState(collections = collection) }
                 }
@@ -46,7 +46,7 @@ class CollectionViewModel @Inject constructor(
 
     private fun sortListByTitle() {
         viewModelScope.launch {
-            getCollectionByTitles().cachedIn(viewModelScope).collectLatest { sortedPagingData ->
+            getCollectionByTitlesUseCase().cachedIn(viewModelScope).collectLatest { sortedPagingData ->
                 _getCollections.update {
                     CollectionState.SortedByTitle(
                         collections = sortedPagingData
@@ -58,7 +58,7 @@ class CollectionViewModel @Inject constructor(
 
     private fun sortListByLikes() {
         viewModelScope.launch {
-            getCollectionByLikes().cachedIn(viewModelScope).collectLatest { sortedPagingData ->
+            getCollectionByLikesUseCase().cachedIn(viewModelScope).collectLatest { sortedPagingData ->
                 _getCollections.update {
                     CollectionState.SortedByLikes(
                         collections = sortedPagingData

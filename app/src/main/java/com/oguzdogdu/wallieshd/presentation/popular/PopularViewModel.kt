@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class PopularViewModel @Inject constructor(
-    private val useCase: GetPopularUseCase
+    private val getPopularUseCase: GetPopularUseCase
 ) : ViewModel() {
 
     private val _getPopular = MutableStateFlow<PopularState.ItemState?>(null)
@@ -34,7 +34,7 @@ class PopularViewModel @Inject constructor(
 
     private fun getPopularImages() {
         viewModelScope.launch {
-            useCase().cachedIn(viewModelScope).collectLatest { popular ->
+            getPopularUseCase().cachedIn(viewModelScope).collectLatest { popular ->
                 _getPopular.update { PopularState.ItemState(popular = popular) }
             }
         }

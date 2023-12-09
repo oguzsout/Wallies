@@ -17,8 +17,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineDispatcher
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -41,7 +41,10 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideUnsplashUserRepository(service: UnsplashUserService): UnsplashUserRepository {
-        return UnsplashUserRepositoryImpl(service)
+    fun provideUnsplashUserRepository(
+        service: UnsplashUserService,
+        @Dispatcher(WalliesDispatchers.IO) ioDispatcher: CoroutineDispatcher
+    ): UnsplashUserRepository {
+        return UnsplashUserRepositoryImpl(service, ioDispatcher)
     }
 }

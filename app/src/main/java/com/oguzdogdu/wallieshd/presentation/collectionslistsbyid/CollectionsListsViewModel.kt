@@ -2,7 +2,7 @@ package com.oguzdogdu.wallieshd.presentation.collectionslistsbyid
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.oguzdogdu.domain.usecase.collection.GetCollectionsListByIdUseCase
+import com.oguzdogdu.domain.usecase.collection.GetCollectionListByIdUseCase
 import com.oguzdogdu.domain.wrapper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class CollectionsListsViewModel @Inject constructor(
-    private val useCase: GetCollectionsListByIdUseCase
+    private val getCollectionListByIdUseCase: GetCollectionListByIdUseCase
 ) :
     ViewModel() {
 
@@ -31,7 +31,7 @@ class CollectionsListsViewModel @Inject constructor(
 
     private fun getCollectionsLists(id: String?) {
         viewModelScope.launch {
-            useCase(id).collectLatest { result ->
+            getCollectionListByIdUseCase(id).collectLatest { result ->
                 when (result) {
                     is Resource.Loading -> _getPhoto.update { CollectionsListsState.Loading }
 

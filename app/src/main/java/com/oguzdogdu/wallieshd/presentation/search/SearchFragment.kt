@@ -33,8 +33,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
 
     private var appLang: String? = null
 
-    override fun initVariables() {
-        super.initVariables()
+    override fun firstExecution() {
+        super.firstExecution()
         appLang = requireContext().resources?.configuration?.locale?.language
         when (requireContext().resources?.configuration?.locale?.language) {
             "en-US" -> appLang = "en"
