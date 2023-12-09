@@ -21,7 +21,7 @@ interface WallpaperService {
 
     @GET("photos/{id}")
     suspend fun getPhoto(
-        @Path("id") id: String,
+        @Path("id") id: String?,
     ): Response<UnsplashResponseItem>
 
     @GET("search/photos")

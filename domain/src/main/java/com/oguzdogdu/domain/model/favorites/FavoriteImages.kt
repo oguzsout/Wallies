@@ -10,5 +10,5 @@ data class FavoriteImages(
     val profileImage: String? = null,
     val name: String? = null,
     val portfolioUrl: String? = null,
-    var isChecked: Boolean = false
+    var isChecked: Boolean? = false
 ):Parcelable

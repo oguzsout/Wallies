@@ -20,13 +20,17 @@ class UnsplashUserRepositoryImpl @Inject constructor(private val service: Unspla
     WalliesDispatchers.IO) private val ioDispatcher: CoroutineDispatcher
 ) :
     UnsplashUserRepository {
-    override suspend fun getUserDetails(username: String?): UserDetails {
-        return service.getUserDetailInfos(username = username).body()?.toDomain()!!
+    override suspend fun getUserDetails(username: String?): Flow<Resource<UserDetails?>> {
+        return safeApiCall(ioDispatcher) {
+            service.getUserDetailInfos(username = username).body()?.toDomain()
+        }
     }
 
-    override suspend fun getUsersPhotos(username: String?): List<UsersPhotos> {
-        return service.getUserPhotos(username = username).body().orEmpty().map {
-            it.toDomainUsersPhotos()
+    override suspend fun getUsersPhotos(username: String?): Flow<Resource<List<UsersPhotos>?>>{
+        return safeApiCall(ioDispatcher) {
+            service.getUserPhotos(username = username).body().orEmpty().map {
+                it.toDomainUsersPhotos()
+            }
         }
     }
 

@@ -8,10 +8,10 @@ import com.oguzdogdu.domain.usecase.auth.AddFavoritesToFirebaseUseCase
 import com.oguzdogdu.domain.usecase.auth.CheckUserAuthenticatedUseCase
 import com.oguzdogdu.domain.usecase.auth.DeleteFavoriteToFirebaseUseCase
 import com.oguzdogdu.domain.usecase.auth.GetCurrentUserDatasUseCase
-import com.oguzdogdu.domain.usecase.favorites.AddFavoritesUseCase
-import com.oguzdogdu.domain.usecase.favorites.DeleteFavoritesUseCase
-import com.oguzdogdu.domain.usecase.favorites.GetFavoritesUseCase
-import com.oguzdogdu.domain.usecase.singlephoto.SinglePhotoUseCase
+import com.oguzdogdu.domain.usecase.favorites.GetAddFavoritesUseCase
+import com.oguzdogdu.domain.usecase.favorites.GetDeleteFromFavoritesUseCase
+import com.oguzdogdu.domain.usecase.favorites.GetImageFromFavoritesUseCase
+import com.oguzdogdu.domain.usecase.singlephoto.GetPhotoDetailUseCase
 import com.oguzdogdu.domain.wrapper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -26,10 +26,10 @@ import kotlinx.coroutines.runBlocking
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val dataStore: DataStore,
-    private val useCase: SinglePhotoUseCase,
-    private val favoritesUseCase: AddFavoritesUseCase,
-    private val getFavoritesUseCase: GetFavoritesUseCase,
-    private val deleteFavoritesUseCase: DeleteFavoritesUseCase,
+    private val getPhotoDetailUseCase: GetPhotoDetailUseCase,
+    private val getAddFavoritesUseCase: GetAddFavoritesUseCase,
+    private val getImageFromFavoritesUseCase: GetImageFromFavoritesUseCase,
+    private val getDeleteFromFavoritesUseCase: GetDeleteFromFavoritesUseCase,
     private val addFavoritesUseCase: AddFavoritesToFirebaseUseCase,
     private val deleteFavoriteToFirebaseUseCase: DeleteFavoriteToFirebaseUseCase,
     private val checkUserAuthenticatedUseCase: CheckUserAuthenticatedUseCase,
@@ -86,7 +86,7 @@ class DetailViewModel @Inject constructor(
 
     private fun getSinglePhoto(id: String?) {
         viewModelScope.launch {
-            useCase.invoke(id = id).collectLatest { result ->
+            getPhotoDetailUseCase.invoke(id = id).collectLatest { result ->
                 when (result) {
                     is Resource.Loading -> _getPhoto.update { DetailState.Loading }
 
@@ -206,7 +206,7 @@ class DetailViewModel @Inject constructor(
                     favorite = favoriteImage.url
                 )
 
-                ChooseDB.ROOM.name -> favoritesUseCase.invoke(favoriteImage)
+                ChooseDB.ROOM.name -> getAddFavoritesUseCase.invoke(favoriteImage)
             }
         }
     }
@@ -223,7 +223,7 @@ class DetailViewModel @Inject constructor(
                         favorite = favoriteImage.url
                     )
                 }
-                ChooseDB.ROOM.name -> deleteFavoritesUseCase.invoke(favoriteImage)
+                ChooseDB.ROOM.name -> getDeleteFromFavoritesUseCase.invoke(favoriteImage)
             }
         }
     }
@@ -253,12 +253,12 @@ class DetailViewModel @Inject constructor(
 
     private fun getFavoritesFromRoom(id: String?) {
         viewModelScope.launch {
-            getFavoritesUseCase.invoke().collectLatest { result ->
+            getImageFromFavoritesUseCase.invoke().collectLatest { result ->
                 when (result) {
                     is Resource.Loading -> {}
                     is Resource.Error -> {}
                     is Resource.Success -> {
-                        val matchingFavorite = result.data.find { it.id == id }
+                        val matchingFavorite = result.data?.find { it.id == id }
                         _getPhoto.update {
                             matchingFavorite?.isChecked?.let { it1 ->
                                 DetailState.FavoriteStateOfPhoto(

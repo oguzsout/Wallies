@@ -18,8 +18,8 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class ProfileDetailViewModel @Inject constructor(
-    private val userDetailsUseCase: GetUnsplashUserDetailsUseCase,
-    private val unsplashUsersPhotos: GetUnsplashUsersPhotosUseCase,
+    private val getUnsplashUserDetailsUseCase: GetUnsplashUserDetailsUseCase,
+    private val getUnsplashUsersPhotosUseCase: GetUnsplashUsersPhotosUseCase,
     private val getUserCollectionUseCase: GetUserCollectionUseCase
 ) : ViewModel() {
 
@@ -48,7 +48,7 @@ class ProfileDetailViewModel @Inject constructor(
 
     private fun getUserDetails(username: String?) {
         viewModelScope.launch {
-            userDetailsUseCase.invoke(username).collectLatest { result ->
+            getUnsplashUserDetailsUseCase.invoke(username).collectLatest { result ->
                 when (result) {
                     is Resource.Success -> _getUserDetails.update {
                         ProfileDetailState.UserInfos(userDetails = result.data)
@@ -65,7 +65,7 @@ class ProfileDetailViewModel @Inject constructor(
 
     private fun getUsersPhotos(username: String?) {
         viewModelScope.launch {
-            unsplashUsersPhotos.invoke(username).collectLatest { result ->
+            getUnsplashUsersPhotosUseCase.invoke(username).collectLatest { result ->
                 when (result) {
                     is Resource.Success -> _getUserPhotoList.update {
                         UserPhotosState.UserPhotos(result.data)

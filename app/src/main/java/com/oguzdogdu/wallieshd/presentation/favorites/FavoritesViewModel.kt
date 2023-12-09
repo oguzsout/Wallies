@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.oguzdogdu.domain.model.favorites.FavoriteImages
 import com.oguzdogdu.domain.usecase.auth.CheckUserAuthenticatedUseCase
 import com.oguzdogdu.domain.usecase.auth.GetCurrentUserDatasUseCase
-import com.oguzdogdu.domain.usecase.favorites.GetFavoritesUseCase
+import com.oguzdogdu.domain.usecase.favorites.GetImageFromFavoritesUseCase
 import com.oguzdogdu.domain.wrapper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(
-    private val getFavoritesUseCase: GetFavoritesUseCase,
+    private val getImageFromFavoritesUseCase: GetImageFromFavoritesUseCase,
     private val checkUserAuthenticatedUseCase: CheckUserAuthenticatedUseCase,
     private val getCurrentUserDatasUseCase: GetCurrentUserDatasUseCase
 ) :
@@ -78,7 +78,7 @@ class FavoritesViewModel @Inject constructor(
 
     private fun getFavoritesList() {
         viewModelScope.launch(Dispatchers.IO) {
-            getFavoritesUseCase.invoke().collectLatest { result ->
+            getImageFromFavoritesUseCase.invoke().collectLatest { result ->
                 when (result) {
                     is Resource.Loading -> _getFavorites.update { FavoriteUiState.Loading }
                     is Resource.Error -> _getFavorites.update {

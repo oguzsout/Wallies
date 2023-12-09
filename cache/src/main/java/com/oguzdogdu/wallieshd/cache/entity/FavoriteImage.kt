@@ -13,7 +13,7 @@ data class FavoriteImage(
     val profileImage: String?,
     val name: String?,
     val portfolioUrl: String?,
-    var isChecked: Boolean = false,
+    var isChecked: Boolean? = false,
 )
 
 fun FavoriteImage.toDomain() = FavoriteImages(

@@ -83,7 +83,7 @@ class WallpaperRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getPhoto(id: String): Flow<Resource<Photo?>> {
+    override suspend fun getPhoto(id: String?): Flow<Resource<Photo?>> {
         return safeApiCall(ioDispatcher) {
             service.getPhoto(id = id).body()?.toDomainModelPhoto()
         }
@@ -148,15 +148,15 @@ class WallpaperRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun insertImageToFavorites(favorite: FavoriteImages) {
+    override suspend fun insertImageToFavorites(favorite: FavoriteImages?) {
         return favoriteDao.addFavorites(
             FavoriteImage(
-                id = favorite.id.orEmpty(),
-                url = favorite.url,
-                profileImage = favorite.profileImage,
-                name = favorite.name,
-                portfolioUrl = favorite.portfolioUrl,
-                isChecked = favorite.isChecked
+                id = favorite?.id.orEmpty(),
+                url = favorite?.url,
+                profileImage = favorite?.profileImage,
+                name = favorite?.name,
+                portfolioUrl = favorite?.portfolioUrl,
+                isChecked = favorite?.isChecked
             )
         )
     }
@@ -169,15 +169,15 @@ class WallpaperRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteFavorites(favorite: FavoriteImages) {
+    override suspend fun deleteFavorites(favorite: FavoriteImages?) {
         return favoriteDao.deleteFavorite(
             FavoriteImage(
-                id = favorite.id.orEmpty(),
-                url = favorite.url,
-                profileImage = favorite.profileImage,
-                name = favorite.name,
-                portfolioUrl = favorite.portfolioUrl,
-                isChecked = favorite.isChecked
+                id = favorite?.id.orEmpty(),
+                url = favorite?.url,
+                profileImage = favorite?.profileImage,
+                name = favorite?.name,
+                portfolioUrl = favorite?.portfolioUrl,
+                isChecked = favorite?.isChecked
             )
         )
     }

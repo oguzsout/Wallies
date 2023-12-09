@@ -7,7 +7,7 @@ import com.oguzdogdu.domain.wrapper.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface UnsplashUserRepository {
-suspend fun getUserDetails(username:String?): UserDetails
-suspend fun getUsersPhotos(username: String?): List<UsersPhotos>
+suspend fun getUserDetails(username:String?): Flow<Resource<UserDetails?>>
+suspend fun getUsersPhotos(username: String?): Flow<Resource<List<UsersPhotos>?>>
 suspend fun getUsersCollections(username: String?): Flow<Resource<List<UserCollections>?>>
 }

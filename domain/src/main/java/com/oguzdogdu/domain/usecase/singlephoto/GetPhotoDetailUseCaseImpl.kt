@@ -6,10 +6,9 @@ import com.oguzdogdu.domain.wrapper.Resource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class SinglePhotoUseCase @Inject constructor(
+class GetPhotoDetailUseCaseImpl @Inject constructor(
     private val repository: WallpaperRepository,
-) {
-    suspend operator fun invoke(id: String?): Flow<Resource<Photo?>> {
-        return repository.getPhoto(id = id.orEmpty())
-    }
+) : GetPhotoDetailUseCase {
+    override suspend fun invoke(id: String?): Flow<Resource<Photo?>> =
+        repository.getPhoto(id = id.orEmpty())
 }

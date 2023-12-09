@@ -73,7 +73,7 @@ class FavoritesFragment :
                 )
 
                 is FavoriteUiState.Favorites -> {
-                    when (state.favorites.isNotEmpty()) {
+                    when (state.favorites?.isNotEmpty()) {
                         true -> {
                             binding.progressBar.hide()
                             binding.linearLayoutNoPicture.hide()
@@ -85,6 +85,8 @@ class FavoritesFragment :
                             binding.linearLayoutNoPicture.show()
                             binding.progressBar.hide()
                         }
+
+                        null -> Unit
                     }
                 }
                 is FavoriteUiState.FavoritesFromFirebase -> {

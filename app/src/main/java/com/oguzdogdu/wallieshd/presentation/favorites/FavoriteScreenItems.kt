@@ -22,7 +22,7 @@ fun FavoriteItem(
         modifier = Modifier
             .height(220.dp)
             .width(140.dp)
-            .clickable { onItemClick(favoriteImages.id) }
+            .clickable { onItemClick(favoriteImages.id.orEmpty()) }
     ) {
         AsyncImage(
             model = favoriteImages.url,
