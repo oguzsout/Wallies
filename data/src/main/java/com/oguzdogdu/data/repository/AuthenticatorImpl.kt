@@ -20,6 +20,7 @@ import com.oguzdogdu.network.model.auth.User
 import com.oguzdogdu.network.model.auth.toUserDomain
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -35,17 +36,17 @@ class AuthenticatorImpl @Inject constructor(
     }
 
     override suspend fun signUp(
-        user: com.oguzdogdu.domain.model.auth.User,
-        password: String,
-    ): com.oguzdogdu.domain.model.auth.User {
-        user.email?.let { auth.createUserWithEmailAndPassword(it, password).await() }
+        user: com.oguzdogdu.domain.model.auth.User?,
+        password: String?,
+    ): Flow<Resource<com.oguzdogdu.domain.model.auth.User?>> {
+        user?.email?.let { auth.createUserWithEmailAndPassword(it, password.orEmpty()).await() }
         val userModel = hashMapOf(
             ID to auth.currentUser?.uid,
-            EMAIL to user.email,
-            NAME to user.name,
-            SURNAME to user.surname,
-            IMAGE to user.image,
-            FAVORITES to user.favorites
+            EMAIL to user?.email,
+            NAME to user?.name,
+            SURNAME to user?.surname,
+            IMAGE to user?.image,
+            FAVORITES to user?.favorites
         )
         auth.currentUser?.uid?.let {
             firebaseFirestore.collection(COLLECTION_PATH).document(it)
@@ -56,9 +57,9 @@ class AuthenticatorImpl @Inject constructor(
             surname = userModel.get(key = SURNAME).toString(),
             email = userModel.get(key = EMAIL).toString(),
             image = userModel.get(key = IMAGE).toString(),
-            favorites = userModel.get(key = FAVORITES) as? List<HashMap<String, String>> ?: emptyList()
+            favorites = userModel.get(key = FAVORITES) as? List<HashMap<String?, String?>> ?: emptyList()
         )
-        return result.toUserDomain()
+        return flowOf(result.toUserDomain()).toResource()
     }
 
     override suspend fun changeUsername(name: String?) {
@@ -73,9 +74,13 @@ class AuthenticatorImpl @Inject constructor(
         }?.await()
     }
 
-    override suspend fun changeEmail(email: String?, password: String) {
+    override suspend fun changeEmail(email: String?, password: String?) {
         val credential =
-            auth.currentUser?.email?.let { EmailAuthProvider.getCredential(it, password) }
+            auth.currentUser?.email?.let { password?.let { password ->
+                EmailAuthProvider.getCredential(it,
+                    password
+                )
+            } }
         credential?.let { credential ->
             auth.currentUser?.reauthenticate(credential)?.await()
             auth.currentUser?.updateEmail(email.orEmpty())?.await()
@@ -157,13 +162,13 @@ class AuthenticatorImpl @Inject constructor(
         }
     }.toResource()
 
-    override suspend fun signIn(userEmail: String, password: String):AuthResult {
-      return  auth.signInWithEmailAndPassword(userEmail, password).await()
+    override suspend fun signIn(userEmail: String?, password: String?):Flow<Resource<AuthResult>> {
+      return  flowOf(auth.signInWithEmailAndPassword(userEmail.orEmpty(), password.orEmpty()).await()).toResource()
     }
 
-    override suspend fun signInWithGoogle(idToken: String?): AuthResult {
+    override suspend fun signInWithGoogle(idToken: String?): Flow<Resource<AuthResult>> {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
-        return auth.signInWithCredential(credential).addOnCompleteListener { task ->
+        return flowOf(auth.signInWithCredential(credential).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val user = FirebaseAuth.getInstance().currentUser
                 val userModel = hashMapOf(
@@ -177,14 +182,14 @@ class AuthenticatorImpl @Inject constructor(
                         .set(userModel)
                 }
             }
-        }.await()
+        }.await()) .toResource()
     }
 
     override suspend fun signOut() = auth.signOut()
 
     override fun getCurrentUserEmail() = auth.currentUser?.email ?: ""
 
-    override suspend fun fetchUserInfos(): com.oguzdogdu.domain.model.auth.User {
+    override suspend fun fetchUserInfos(): Flow<Resource<com.oguzdogdu.domain.model.auth.User?>> {
         val user = FirebaseAuth.getInstance().currentUser
         val id = user?.uid ?: ""
 
@@ -195,9 +200,9 @@ class AuthenticatorImpl @Inject constructor(
         val email = userDocument?.getString(EMAIL)
         val profileImageUrl = userDocument?.getString(IMAGE)
         val surname = userDocument?.getString(SURNAME)
-        val favorites = userDocument?.get(FAVORITES) as List<HashMap<String, String>>
+        val favorites = userDocument?.get(FAVORITES) as List<HashMap<String?, String?>>
 
         val result = User(name = name, surname = surname, email = email, image = profileImageUrl, favorites = favorites)
-        return result.toUserDomain()
+        return flowOf(result.toUserDomain()).toResource()
     }
 }

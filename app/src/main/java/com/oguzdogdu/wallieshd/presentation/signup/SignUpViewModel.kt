@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.storage.FirebaseStorage
 import com.oguzdogdu.data.common.Constants
-import com.oguzdogdu.domain.usecase.auth.SignUpUseCase
+import com.oguzdogdu.domain.usecase.auth.GetSignUpUseCase
 import com.oguzdogdu.domain.wrapper.Resource
 import com.oguzdogdu.wallieshd.util.FieldValidators
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCase) : ViewModel() {
+class SignUpViewModel @Inject constructor(private val getSignUpUseCase: GetSignUpUseCase) : ViewModel() {
 
     private val _signUpState: MutableStateFlow<SignUpState> = MutableStateFlow(SignUpState.Start)
     val signUpState = _signUpState.asStateFlow()
@@ -75,7 +75,7 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
         photoUri: Uri?
     ) {
         viewModelScope.launch {
-            signUpUseCase.invoke(
+            getSignUpUseCase.invoke(
                 user = com.oguzdogdu.domain.model.auth.User(
                     name = name.orEmpty(),
                     surname = surname.orEmpty(),

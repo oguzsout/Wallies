@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.storage.FirebaseStorage
 import com.oguzdogdu.data.common.Constants
-import com.oguzdogdu.domain.usecase.auth.ChangeUserProfilePhotoUseCase
-import com.oguzdogdu.domain.usecase.auth.GetCurrentUserDatasUseCase
+import com.oguzdogdu.domain.usecase.auth.GetChangeProfilePhotoUseCase
+import com.oguzdogdu.domain.usecase.auth.GetCurrentUserInfoUseCase
 import com.oguzdogdu.domain.wrapper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -20,8 +20,8 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 
 @HiltViewModel
 class EditProfilePhotoViewModel @Inject constructor(
-    private val getCurrentUserDatasUseCase: GetCurrentUserDatasUseCase,
-    private val changeUserProfilePhotoUseCase: ChangeUserProfilePhotoUseCase
+    private val getCurrentUserInfoUseCase: GetCurrentUserInfoUseCase,
+    private val getChangeProfilePhotoUseCase: GetChangeProfilePhotoUseCase
 ) : ViewModel() {
 
     private val _userImageState: MutableStateFlow<EditProfilePhotoScreenState?> = MutableStateFlow(
@@ -43,7 +43,7 @@ class EditProfilePhotoViewModel @Inject constructor(
 
     private fun fetchUserImage() {
         viewModelScope.launch {
-            getCurrentUserDatasUseCase.invoke().collectLatest { result ->
+            getCurrentUserInfoUseCase.invoke().collectLatest { result ->
                 when (result) {
                     is Resource.Loading -> _userImageState.update { EditProfilePhotoScreenState.Loading }
 
@@ -55,7 +55,7 @@ class EditProfilePhotoViewModel @Inject constructor(
 
                     is Resource.Success -> _userImageState.update {
                         EditProfilePhotoScreenState.ProfileImage(
-                            image = result.data.image
+                            image = result.data?.image
                         )
                     }
                 }
@@ -65,7 +65,7 @@ class EditProfilePhotoViewModel @Inject constructor(
 
     private fun changeProfileImage(uri: Uri?) {
         viewModelScope.launch {
-            changeUserProfilePhotoUseCase.invoke(photo = uploadImage(uri = uri))
+            getChangeProfilePhotoUseCase.invoke(photo = uploadImage(uri = uri))
             checkChangedPhotoStatus(uri = uri)
         }
     }

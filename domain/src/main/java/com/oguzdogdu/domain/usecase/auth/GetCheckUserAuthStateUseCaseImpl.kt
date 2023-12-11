@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class CheckGoogleSignInUseCase @Inject constructor(
-    private val repository: Authenticator
-) {
-    operator fun invoke(): Flow<Resource<Boolean>> = flow {
-        emit(repository.isUserAuthenticatedWithGoogle())
+class GetCheckUserAuthStateUseCaseImpl @Inject constructor(
+    private val repository: Authenticator,
+) : GetCheckUserAuthStateUseCase {
+    override suspend fun invoke(): Flow<Resource<Boolean>> = flow {
+        emit(repository.isUserAuthenticatedInFirebase())
     }.toResource()
 }

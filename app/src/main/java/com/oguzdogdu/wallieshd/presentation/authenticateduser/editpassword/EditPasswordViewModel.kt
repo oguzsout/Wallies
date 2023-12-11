@@ -2,7 +2,7 @@ package com.oguzdogdu.wallieshd.presentation.authenticateduser.editpassword
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.oguzdogdu.domain.usecase.auth.UpdatePasswordUseCase
+import com.oguzdogdu.domain.usecase.auth.GetUpdatePasswordUseCase
 import com.oguzdogdu.domain.wrapper.Resource
 import com.oguzdogdu.wallieshd.R
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +14,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class EditPasswordViewModel @Inject constructor(private val useCase: UpdatePasswordUseCase) : ViewModel() {
+class EditPasswordViewModel @Inject constructor(
+    private val getUpdatePasswordUseCase: GetUpdatePasswordUseCase
+) : ViewModel() {
 
     private val _passwordState: MutableStateFlow<EditPasswordScreenState?> = MutableStateFlow(null)
     val passwordState = _passwordState.asStateFlow()
@@ -28,7 +30,7 @@ class EditPasswordViewModel @Inject constructor(private val useCase: UpdatePassw
     }
     private fun updatePassword(password: String?) {
         viewModelScope.launch {
-            useCase.invoke(password = password).collectLatest { state ->
+            getUpdatePasswordUseCase.invoke(password = password).collectLatest { state ->
                 when (state) {
                     is Resource.Loading -> {
                         _passwordState.update { EditPasswordScreenState.Loading }

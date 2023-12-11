@@ -2,9 +2,9 @@ package com.oguzdogdu.wallieshd.presentation.authenticateduser.editnameandsurnam
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.oguzdogdu.domain.usecase.auth.ChangeSurnameUseCase
-import com.oguzdogdu.domain.usecase.auth.ChangeUserNameUseCase
-import com.oguzdogdu.domain.usecase.auth.GetCurrentUserDatasUseCase
+import com.oguzdogdu.domain.usecase.auth.GetChangeSurnameUseCase
+import com.oguzdogdu.domain.usecase.auth.GetChangeUsernameUseCase
+import com.oguzdogdu.domain.usecase.auth.GetCurrentUserInfoUseCase
 import com.oguzdogdu.domain.wrapper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -16,9 +16,9 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class EditUsernameSurnameViewModel @Inject constructor(
-    private val getCurrentUserDatasUseCase: GetCurrentUserDatasUseCase,
-    private val changeUserNameUseCase: ChangeUserNameUseCase,
-    private val changeSurnameUseCase: ChangeSurnameUseCase
+    private val getCurrentUserInfoUseCase: GetCurrentUserInfoUseCase,
+    private val getChangeUsernameUseCase: GetChangeUsernameUseCase,
+    private val getChangeSurnameUseCase: GetChangeSurnameUseCase
 ) : ViewModel() {
 
     private val _userState: MutableStateFlow<EditUsernameSurnameScreenState?> = MutableStateFlow(
@@ -43,7 +43,7 @@ class EditUsernameSurnameViewModel @Inject constructor(
 
     private fun fetchAuthenticatedUserInfo() {
         viewModelScope.launch {
-            getCurrentUserDatasUseCase.invoke().collectLatest { result ->
+            getCurrentUserInfoUseCase.invoke().collectLatest { result ->
                 when (result) {
                     is Resource.Loading -> _userState.update { EditUsernameSurnameScreenState.Loading }
 
@@ -55,10 +55,10 @@ class EditUsernameSurnameViewModel @Inject constructor(
 
                     is Resource.Success -> _userState.update {
                         EditUsernameSurnameScreenState.UserInfos(
-                            name = result.data.name,
-                            surname = result.data.surname,
-                            email = result.data.email,
-                            profileImage = result.data.image
+                            name = result.data?.name,
+                            surname = result.data?.surname,
+                            email = result.data?.email,
+                            profileImage = result.data?.image
                         )
                     }
                 }
@@ -68,13 +68,13 @@ class EditUsernameSurnameViewModel @Inject constructor(
 
     private fun changeUsername(name: String?) {
         viewModelScope.launch {
-            changeUserNameUseCase.invoke(name = name)
+            getChangeUsernameUseCase.invoke(username = name)
         }
     }
 
     private fun changeSurname(surname: String?) {
         viewModelScope.launch {
-            changeSurnameUseCase.invoke(surname = surname)
+            getChangeSurnameUseCase.invoke(surname = surname)
         }
     }
 }

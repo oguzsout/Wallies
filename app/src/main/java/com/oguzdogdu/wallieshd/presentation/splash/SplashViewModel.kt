@@ -2,8 +2,7 @@ package com.oguzdogdu.wallieshd.presentation.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.oguzdogdu.domain.repository.DataStore
-import com.oguzdogdu.domain.usecase.auth.CheckUserAuthenticatedUseCase
+import com.oguzdogdu.domain.usecase.auth.GetCheckUserAuthStateUseCase
 import com.oguzdogdu.domain.wrapper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -15,8 +14,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val dataStore: DataStore,
-    private val checkUserAuthenticatedUseCase: CheckUserAuthenticatedUseCase
+    private val getCheckUserAuthStateUseCase: GetCheckUserAuthStateUseCase
 ) :
     ViewModel() {
 
@@ -31,7 +29,7 @@ class SplashViewModel @Inject constructor(
 
     private fun checkSignIn() {
         viewModelScope.launch {
-            checkUserAuthenticatedUseCase.invoke().collectLatest { status ->
+            getCheckUserAuthStateUseCase.invoke().collectLatest { status ->
                 when (status) {
                     is Resource.Success -> {
                         if (status.data) {

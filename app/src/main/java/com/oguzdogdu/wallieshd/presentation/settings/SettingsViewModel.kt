@@ -4,8 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oguzdogdu.domain.repository.DataStore
-import com.oguzdogdu.domain.usecase.auth.CheckUserAuthenticatedUseCase
-import com.oguzdogdu.domain.usecase.auth.SignOutUseCase
+import com.oguzdogdu.domain.usecase.auth.GetCheckUserAuthStateUseCase
 import com.oguzdogdu.domain.wrapper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -19,8 +18,7 @@ import kotlinx.coroutines.runBlocking
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val dataStore: DataStore,
-    private val checkUserAuthenticatedUseCase: CheckUserAuthenticatedUseCase,
-    private val signOutUseCase: SignOutUseCase
+    private val getCheckUserAuthStateUseCase: GetCheckUserAuthStateUseCase
 ) : ViewModel() {
 
     val showBottomNavigation = MutableLiveData(true)
@@ -110,7 +108,7 @@ class SettingsViewModel @Inject constructor(
 
     fun checkSignIn() {
         viewModelScope.launch {
-            checkUserAuthenticatedUseCase.invoke().collectLatest { status ->
+            getCheckUserAuthStateUseCase.invoke().collectLatest { status ->
                 when (status) {
                     is Resource.Success -> {
                         checkSignIn.value = status.data

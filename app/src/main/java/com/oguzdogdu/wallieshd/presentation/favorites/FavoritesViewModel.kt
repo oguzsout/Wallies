@@ -3,8 +3,8 @@ package com.oguzdogdu.wallieshd.presentation.favorites
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oguzdogdu.domain.model.favorites.FavoriteImages
-import com.oguzdogdu.domain.usecase.auth.CheckUserAuthenticatedUseCase
-import com.oguzdogdu.domain.usecase.auth.GetCurrentUserDatasUseCase
+import com.oguzdogdu.domain.usecase.auth.GetCheckUserAuthStateUseCase
+import com.oguzdogdu.domain.usecase.auth.GetCurrentUserInfoUseCase
 import com.oguzdogdu.domain.usecase.favorites.GetImageFromFavoritesUseCase
 import com.oguzdogdu.domain.wrapper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,8 +19,8 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(
     private val getImageFromFavoritesUseCase: GetImageFromFavoritesUseCase,
-    private val checkUserAuthenticatedUseCase: CheckUserAuthenticatedUseCase,
-    private val getCurrentUserDatasUseCase: GetCurrentUserDatasUseCase
+    private val getCheckUserAuthStateUseCase: GetCheckUserAuthStateUseCase,
+    private val getCurrentUserInfoUseCase: GetCurrentUserInfoUseCase
 ) :
     ViewModel() {
 
@@ -35,7 +35,7 @@ class FavoritesViewModel @Inject constructor(
 
     private fun fetchImagesToFavorites() {
         viewModelScope.launch {
-            checkUserAuthenticatedUseCase.invoke().collectLatest { status ->
+            getCheckUserAuthStateUseCase.invoke().collectLatest { status ->
                 when (status) {
                     is Resource.Success -> {
                         when (status.data) {
@@ -53,16 +53,16 @@ class FavoritesViewModel @Inject constructor(
 
     private fun getFavoritesFromFirebase() {
         viewModelScope.launch {
-            getCurrentUserDatasUseCase.invoke().collectLatest { userDatas ->
+            getCurrentUserInfoUseCase.invoke().collectLatest { userDatas ->
                 when (userDatas) {
                     is Resource.Success -> {
-                        val remoteList = userDatas.data.favorites.map { favoriteMap ->
-                            val id = favoriteMap["id"] ?: ""
-                            val url = favoriteMap["favorite"] ?: ""
+                        val remoteList = userDatas.data?.favorites?.map { favoriteMap ->
+                            val id = favoriteMap?.get("id") ?: ""
+                            val url = favoriteMap?.get("favorite") ?: ""
                             FavoriteImages(id = id, url = url)
                         }
                         _getFavorites.update {
-                            FavoriteUiState.FavoritesFromFirebase(remoteList)
+                            remoteList?.let { list -> FavoriteUiState.FavoritesFromFirebase(list) }
                         }
                     }
                     is Resource.Error -> {}

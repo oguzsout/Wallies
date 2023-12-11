@@ -2,7 +2,7 @@ package com.oguzdogdu.wallieshd.presentation.login.forgotmypassword
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.oguzdogdu.domain.usecase.auth.ForgotMyPasswordUseCase
+import com.oguzdogdu.domain.usecase.auth.GetForgotMyPasswordUseCase
 import com.oguzdogdu.wallieshd.util.FieldValidators
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -12,7 +12,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class ForgotMyPasswordViewModel @Inject constructor(private val useCase: ForgotMyPasswordUseCase) : ViewModel() {
+class ForgotMyPasswordViewModel @Inject constructor(
+    private val getForgotMyPasswordUseCase: GetForgotMyPasswordUseCase
+) : ViewModel() {
 
     private val _forgotPasswordState: MutableStateFlow<ForgotPasswordScreenState?> = MutableStateFlow(
         null
@@ -40,7 +42,7 @@ class ForgotMyPasswordViewModel @Inject constructor(private val useCase: ForgotM
 
     private fun sendNewPasswordRequest(email: String?) {
         viewModelScope.launch {
-            useCase.invoke(email = email)
+            getForgotMyPasswordUseCase.invoke(email = email)
         }
     }
 

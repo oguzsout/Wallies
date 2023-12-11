@@ -2,8 +2,8 @@ package com.oguzdogdu.wallieshd.presentation.authenticateduser.editemail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.oguzdogdu.domain.usecase.auth.ChangeEmailUseCase
-import com.oguzdogdu.domain.usecase.auth.GetCurrentUserDatasUseCase
+import com.oguzdogdu.domain.usecase.auth.GetChangeEmailUseCase
+import com.oguzdogdu.domain.usecase.auth.GetCurrentUserInfoUseCase
 import com.oguzdogdu.domain.wrapper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -15,8 +15,8 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class EditEmailViewModel @Inject constructor(
-    private val getCurrentUserDatasUseCase: GetCurrentUserDatasUseCase,
-    private val changeEmailUseCase: ChangeEmailUseCase
+    private val getCurrentUserInfoUseCase: GetCurrentUserInfoUseCase,
+    private val getChangeEmailUseCase: GetChangeEmailUseCase
 ) : ViewModel() {
 
     private val _emailState: MutableStateFlow<EditEmailScreenState?> = MutableStateFlow(
@@ -39,7 +39,7 @@ class EditEmailViewModel @Inject constructor(
 
     private fun fetchAuthenticatedUserEmail() {
         viewModelScope.launch {
-            getCurrentUserDatasUseCase.invoke().collectLatest { result ->
+            getCurrentUserInfoUseCase.invoke().collectLatest { result ->
                 when (result) {
                     is Resource.Loading -> _emailState.update { EditEmailScreenState.Loading }
 
@@ -51,7 +51,7 @@ class EditEmailViewModel @Inject constructor(
 
                     is Resource.Success -> _emailState.update {
                         EditEmailScreenState.UserEmail(
-                            email = result.data.email
+                            email = result.data?.email
                         )
                     }
                 }
@@ -61,7 +61,7 @@ class EditEmailViewModel @Inject constructor(
 
     private fun changeEmail(email: String?, password: String?) {
         viewModelScope.launch {
-            password?.let { changeEmailUseCase.invoke(email = email, password = it) }?.collect { result ->
+            getChangeEmailUseCase.invoke(email = email, password = password).collect { result ->
                 when (result) {
                     is Resource.Error -> _emailState.update {
                         EditEmailScreenState.UserInfoError(

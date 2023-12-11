@@ -5,7 +5,7 @@ data class User(
     val surname: String?,
     val email: String?,
     val image: String?,
-    val favorites: List<HashMap<String, String>>
+    val favorites: List<HashMap<String?,String?>?>
 )
 
 fun User.toUserDomain() =

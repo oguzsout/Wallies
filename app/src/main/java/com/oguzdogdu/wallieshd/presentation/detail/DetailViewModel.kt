@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oguzdogdu.domain.model.favorites.FavoriteImages
 import com.oguzdogdu.domain.repository.DataStore
-import com.oguzdogdu.domain.usecase.auth.AddFavoritesToFirebaseUseCase
-import com.oguzdogdu.domain.usecase.auth.CheckUserAuthenticatedUseCase
-import com.oguzdogdu.domain.usecase.auth.DeleteFavoriteToFirebaseUseCase
-import com.oguzdogdu.domain.usecase.auth.GetCurrentUserDatasUseCase
+import com.oguzdogdu.domain.usecase.auth.GetCheckUserAuthStateUseCase
+import com.oguzdogdu.domain.usecase.auth.GetCurrentUserInfoUseCase
+import com.oguzdogdu.domain.usecase.auth.GetDeleteFavoriteFromFirebaseUseCase
+import com.oguzdogdu.domain.usecase.auth.GetFavoritesToFirebaseUseCase
 import com.oguzdogdu.domain.usecase.favorites.GetAddFavoritesUseCase
 import com.oguzdogdu.domain.usecase.favorites.GetDeleteFromFavoritesUseCase
 import com.oguzdogdu.domain.usecase.favorites.GetImageFromFavoritesUseCase
@@ -30,10 +30,10 @@ class DetailViewModel @Inject constructor(
     private val getAddFavoritesUseCase: GetAddFavoritesUseCase,
     private val getImageFromFavoritesUseCase: GetImageFromFavoritesUseCase,
     private val getDeleteFromFavoritesUseCase: GetDeleteFromFavoritesUseCase,
-    private val addFavoritesUseCase: AddFavoritesToFirebaseUseCase,
-    private val deleteFavoriteToFirebaseUseCase: DeleteFavoriteToFirebaseUseCase,
-    private val checkUserAuthenticatedUseCase: CheckUserAuthenticatedUseCase,
-    private val getCurrentUserDatasUseCase: GetCurrentUserDatasUseCase
+    private val getFavoritesToFirebaseUseCase: GetFavoritesToFirebaseUseCase,
+    private val getDeleteFavoriteFromFirebaseUseCase: GetDeleteFavoriteFromFirebaseUseCase,
+    private val getCheckUserAuthStateUseCase: GetCheckUserAuthStateUseCase,
+    private val getCurrentUserInfoUseCase: GetCurrentUserInfoUseCase
 ) : ViewModel() {
 
     private val _getPhoto = MutableStateFlow<DetailState?>(null)
@@ -108,7 +108,7 @@ class DetailViewModel @Inject constructor(
 
     private fun checkUserAuthStatus() {
         viewModelScope.launch {
-            checkUserAuthenticatedUseCase.invoke().collectLatest { status ->
+            getCheckUserAuthStateUseCase.invoke().collectLatest { status ->
                 when (status) {
                     is Resource.Success -> {
                         _getPhoto.update { DetailState.UserAuthenticated(status.data) }
@@ -136,7 +136,7 @@ class DetailViewModel @Inject constructor(
 
     private fun checkAuthStatusForShowFavorites(id: String?) {
         viewModelScope.launch {
-            checkUserAuthenticatedUseCase.invoke().collectLatest { status ->
+            getCheckUserAuthStateUseCase.invoke().collectLatest { status ->
                 when (status) {
                     is Resource.Success -> {
                         when (status.data) {
@@ -154,7 +154,7 @@ class DetailViewModel @Inject constructor(
 
     private fun addOrDeleteFavoritesToAnyDatabase(favoriteImage: FavoriteImages, process: String?) {
         viewModelScope.launch {
-            checkUserAuthenticatedUseCase.invoke().collectLatest { status ->
+            getCheckUserAuthStateUseCase.invoke().collectLatest { status ->
                 when (status) {
                     is Resource.Success -> {
                         when (status.data) {
@@ -201,7 +201,7 @@ class DetailViewModel @Inject constructor(
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             when (whichDb) {
-                ChooseDB.FIREBASE.name -> addFavoritesUseCase.invoke(
+                ChooseDB.FIREBASE.name -> getFavoritesToFirebaseUseCase.invoke(
                     id = favoriteImage.id,
                     favorite = favoriteImage.url
                 )
@@ -218,7 +218,7 @@ class DetailViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             when (whichDb) {
                 ChooseDB.FIREBASE.name -> {
-                    deleteFavoriteToFirebaseUseCase.invoke(
+                    getDeleteFavoriteFromFirebaseUseCase.invoke(
                         id = favoriteImage.id,
                         favorite = favoriteImage.url
                     )
@@ -230,16 +230,16 @@ class DetailViewModel @Inject constructor(
 
     private fun getFavoritesFromFirebase(id: String?) {
         viewModelScope.launch {
-            getCurrentUserDatasUseCase.invoke().collectLatest { userDatas ->
+            getCurrentUserInfoUseCase.invoke().collectLatest { userDatas ->
                 when (userDatas) {
                     is Resource.Success -> {
-                        val containsUrl = userDatas.data.favorites.any { favorite ->
-                            favorite.containsValue(id)
+                        val containsUrl = userDatas.data?.favorites?.any { favorite ->
+                            favorite?.containsValue(id) == true
                         }
-                        _toogleState.emit(containsUrl)
+                        containsUrl?.let { _toogleState.emit(it) }
                         _getPhoto.update {
                             DetailState.FavoriteStateOfPhoto(
-                                favorite = containsUrl
+                                favorite = containsUrl == true
                             )
                         }
                     }

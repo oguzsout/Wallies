@@ -9,18 +9,18 @@ import kotlinx.coroutines.flow.Flow
 interface Authenticator {
     suspend fun isUserAuthenticatedInFirebase(): Boolean
     suspend fun isUserAuthenticatedWithGoogle(): Boolean
-    suspend fun signUp(user: User, password: String) : User
+    suspend fun signUp(user: User?, password: String?) : Flow<Resource<User?>>
     suspend fun changeUsername(name:String?)
     suspend fun changeSurname(surname:String?)
-    suspend fun changeEmail(email:String?,password: String)
+    suspend fun changeEmail(email:String?,password: String?)
     suspend fun changeProfilePhoto(photo: String?)
     suspend fun addFavorites(id:String?,favorite: String?)
     suspend fun deleteFavorites(id: String?, favorite: String?)
     suspend fun forgotMyPassword(email: String?)
     suspend fun updatePassword(password: String?): Flow<Resource<Task<Void>?>>
-    suspend fun signIn(userEmail: String, password: String):AuthResult
-    suspend fun signInWithGoogle(idToken: String?):AuthResult
+    suspend fun signIn(userEmail: String?, password: String?):Flow<Resource<AuthResult>>
+    suspend fun signInWithGoogle(idToken: String?):Flow<Resource<AuthResult>>
     suspend fun signOut()
     fun getCurrentUserEmail(): String
-    suspend fun fetchUserInfos():User
+    suspend fun fetchUserInfos():Flow<Resource<User?>>
 }

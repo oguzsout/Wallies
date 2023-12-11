@@ -3,8 +3,8 @@ package com.oguzdogdu.wallieshd.presentation.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oguzdogdu.domain.model.home.HomePopularAndLatest
-import com.oguzdogdu.domain.usecase.auth.CheckUserAuthenticatedUseCase
-import com.oguzdogdu.domain.usecase.auth.GetCurrentUserDatasUseCase
+import com.oguzdogdu.domain.usecase.auth.GetCheckUserAuthStateUseCase
+import com.oguzdogdu.domain.usecase.auth.GetCurrentUserInfoUseCase
 import com.oguzdogdu.domain.usecase.home.GetPopularAndLatestUseCase
 import com.oguzdogdu.domain.usecase.topics.GetTopicsListUseCase
 import com.oguzdogdu.domain.wrapper.Resource
@@ -18,8 +18,8 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val getCurrentUserDatasUseCase: GetCurrentUserDatasUseCase,
-    private val userAuthenticatedUseCase: CheckUserAuthenticatedUseCase,
+    private val getCurrentUserInfoUseCase: GetCurrentUserInfoUseCase,
+    private val getCheckUserAuthStateUseCase: GetCheckUserAuthStateUseCase,
     private val getTopicsListUseCase: GetTopicsListUseCase,
     private val getPopularAndLatestHomeListUseCase: GetPopularAndLatestUseCase
 ) : ViewModel() {
@@ -142,12 +142,12 @@ class MainViewModel @Inject constructor(
 
     private fun getUserProfileImage() {
         viewModelScope.launch {
-            getCurrentUserDatasUseCase.invoke().collectLatest { value ->
+            getCurrentUserInfoUseCase.invoke().collectLatest { value ->
                 when (value) {
                     is Resource.Success -> {
                         _userState.update {
                             MainScreenState.UserProfile(
-                                profileImage = value.data.image
+                                profileImage = value.data?.image
                             )
                         }
                     }
@@ -159,7 +159,7 @@ class MainViewModel @Inject constructor(
     }
     private fun checkUserAuthenticate() {
         viewModelScope.launch {
-            userAuthenticatedUseCase.invoke().collectLatest { status ->
+            getCheckUserAuthStateUseCase.invoke().collectLatest { status ->
                 when (status) {
                     is Resource.Success -> {
                         _userState.update {

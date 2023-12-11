@@ -2,9 +2,9 @@ package com.oguzdogdu.wallieshd.presentation.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.oguzdogdu.domain.usecase.auth.CheckUserAuthenticatedUseCase
-import com.oguzdogdu.domain.usecase.auth.SignInUseCase
-import com.oguzdogdu.domain.usecase.auth.SignInWithGoogleUseCase
+import com.oguzdogdu.domain.usecase.auth.GetCheckUserAuthStateUseCase
+import com.oguzdogdu.domain.usecase.auth.GetSignInUseCase
+import com.oguzdogdu.domain.usecase.auth.GetSignInWithGoogleUseCase
 import com.oguzdogdu.domain.wrapper.Resource
 import com.oguzdogdu.wallieshd.util.FieldValidators
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,9 +17,9 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val signInUseCase: SignInUseCase,
-    private val checkUserAuthenticatedUseCase: CheckUserAuthenticatedUseCase,
-    private val signInWithGoogleUseCase: SignInWithGoogleUseCase
+    private val getSignInUseCase: GetSignInUseCase,
+    private val getCheckUserAuthStateUseCase: GetCheckUserAuthStateUseCase,
+    private val getSignInWithGoogleUseCase: GetSignInWithGoogleUseCase
 ) : ViewModel() {
 
     private val _loginState: MutableStateFlow<LoginState> = MutableStateFlow(LoginState.Start)
@@ -74,7 +74,7 @@ class LoginViewModel @Inject constructor(
 
     private fun signInWithGoogle(idToken: String?) {
         viewModelScope.launch {
-            signInWithGoogleUseCase.invoke(idToken).collectLatest { response ->
+            getSignInWithGoogleUseCase.invoke(idToken).collectLatest { response ->
                 when (response) {
                     is Resource.Success -> {
                         _loginState.update { LoginState.UserSignIn }
@@ -96,7 +96,7 @@ class LoginViewModel @Inject constructor(
 
     private fun checkSignIn() {
         viewModelScope.launch {
-            checkUserAuthenticatedUseCase.invoke().collectLatest { status ->
+            getCheckUserAuthStateUseCase.invoke().collectLatest { status ->
                 when (status) {
                     is Resource.Success -> {
                         if (status.data) {
@@ -113,7 +113,7 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun signIn(userEmail: String, password: String) = viewModelScope.launch {
-        signInUseCase(userEmail, password).collect { response ->
+        getSignInUseCase(userEmail, password).collect { response ->
             when (response) {
                 is Resource.Success -> {
                     _loginState.update { LoginState.UserSignIn }

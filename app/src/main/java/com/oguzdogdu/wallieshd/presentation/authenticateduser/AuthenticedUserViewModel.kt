@@ -2,10 +2,10 @@ package com.oguzdogdu.wallieshd.presentation.authenticateduser
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.oguzdogdu.domain.usecase.auth.CheckGoogleSignInUseCase
-import com.oguzdogdu.domain.usecase.auth.CheckUserAuthenticatedUseCase
-import com.oguzdogdu.domain.usecase.auth.GetCurrentUserDatasUseCase
-import com.oguzdogdu.domain.usecase.auth.SignOutUseCase
+import com.oguzdogdu.domain.usecase.auth.GetCheckUserAuthStateUseCase
+import com.oguzdogdu.domain.usecase.auth.GetCurrentUserInfoUseCase
+import com.oguzdogdu.domain.usecase.auth.GetSignInCheckGoogleUseCase
+import com.oguzdogdu.domain.usecase.auth.GetSignOutUseCase
 import com.oguzdogdu.domain.wrapper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -17,10 +17,10 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class AuthenticedUserViewModel @Inject constructor(
-    private val getCurrentUserDatasUseCase: GetCurrentUserDatasUseCase,
-    private val signOutUseCase: SignOutUseCase,
-    private val checkGoogleSignInUseCase: CheckGoogleSignInUseCase,
-    private val checkUserAuthenticatedUseCase: CheckUserAuthenticatedUseCase
+    private val getCurrentUserInfoUseCase: GetCurrentUserInfoUseCase,
+    private val getSignOutUseCase: GetSignOutUseCase,
+    private val getSignInCheckGoogleUseCase: GetSignInCheckGoogleUseCase,
+    private val getCheckUserAuthStateUseCase: GetCheckUserAuthStateUseCase
 ) : ViewModel() {
 
     private val _userState: MutableStateFlow<AuthenticatedUserScreenState?> = MutableStateFlow(null)
@@ -44,7 +44,7 @@ class AuthenticedUserViewModel @Inject constructor(
 
     private fun fetchUserDatas() {
         viewModelScope.launch {
-            getCurrentUserDatasUseCase.invoke().collectLatest { result ->
+            getCurrentUserInfoUseCase.invoke().collectLatest { result ->
                 when (result) {
                     is Resource.Loading -> _userState.update { AuthenticatedUserScreenState.Loading }
 
@@ -57,11 +57,11 @@ class AuthenticedUserViewModel @Inject constructor(
                     is Resource.Success ->
                         _userState.update {
                             AuthenticatedUserScreenState.UserInfos(
-                                name = result.data.name,
-                                surname = result.data.surname,
-                                email = result.data.email,
-                                profileImage = result.data.image,
-                                favorites = result.data.favorites
+                                name = result.data?.name,
+                                surname = result.data?.surname,
+                                email = result.data?.email,
+                                profileImage = result.data?.image,
+                                favorites = result.data?.favorites.orEmpty()
                             )
                         }
 
@@ -73,7 +73,7 @@ class AuthenticedUserViewModel @Inject constructor(
 
     private fun checkSignIn() {
         viewModelScope.launch {
-            checkUserAuthenticatedUseCase.invoke().collectLatest { status ->
+            getCheckUserAuthStateUseCase.invoke().collectLatest { status ->
                 when (status) {
                     is Resource.Success -> {
                         _userState.update {
@@ -92,7 +92,7 @@ class AuthenticedUserViewModel @Inject constructor(
 
     private fun checkUserSignInMethod() {
         viewModelScope.launch {
-            checkGoogleSignInUseCase.invoke().collectLatest { result ->
+            getSignInCheckGoogleUseCase.invoke().collectLatest { result ->
                 when (result) {
                     is Resource.Loading -> _userState.update { AuthenticatedUserScreenState.Loading }
 
@@ -117,7 +117,7 @@ class AuthenticedUserViewModel @Inject constructor(
 
     private fun signOut() {
         viewModelScope.launch {
-            signOutUseCase.invoke()
+            getSignOutUseCase.invoke()
         }
     }
 }
