@@ -57,7 +57,7 @@ class AuthenticatorImpl @Inject constructor(
             surname = userModel.get(key = SURNAME).toString(),
             email = userModel.get(key = EMAIL).toString(),
             image = userModel.get(key = IMAGE).toString(),
-            favorites = userModel.get(key = FAVORITES) as? List<HashMap<String?, String?>> ?: emptyList()
+            favorites = userModel.get(key = FAVORITES) as? List<HashMap<String, String>>
         )
         return flowOf(result.toUserDomain()).toResource()
     }
@@ -162,8 +162,8 @@ class AuthenticatorImpl @Inject constructor(
         }
     }.toResource()
 
-    override suspend fun signIn(userEmail: String?, password: String?):Flow<Resource<AuthResult>> {
-      return  flowOf(auth.signInWithEmailAndPassword(userEmail.orEmpty(), password.orEmpty()).await()).toResource()
+    override suspend fun signIn(userEmail: String?, password: String?):AuthResult {
+      return auth.signInWithEmailAndPassword(userEmail.orEmpty(), password.orEmpty()).await()
     }
 
     override suspend fun signInWithGoogle(idToken: String?): Flow<Resource<AuthResult>> {
@@ -200,7 +200,7 @@ class AuthenticatorImpl @Inject constructor(
         val email = userDocument?.getString(EMAIL)
         val profileImageUrl = userDocument?.getString(IMAGE)
         val surname = userDocument?.getString(SURNAME)
-        val favorites = userDocument?.get(FAVORITES) as List<HashMap<String?, String?>>
+        val favorites = userDocument?.get(FAVORITES) as? List<HashMap<String, String>>
 
         val result = User(name = name, surname = surname, email = email, image = profileImageUrl, favorites = favorites)
         return flowOf(result.toUserDomain()).toResource()

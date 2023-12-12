@@ -112,8 +112,8 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    private fun signIn(userEmail: String, password: String) = viewModelScope.launch {
-        getSignInUseCase(userEmail, password).collect { response ->
+    private fun signIn(userEmail: String?, password: String?) = viewModelScope.launch {
+        getSignInUseCase(userEmail, password).collectLatest { response ->
             when (response) {
                 is Resource.Success -> {
                     _loginState.update { LoginState.UserSignIn }

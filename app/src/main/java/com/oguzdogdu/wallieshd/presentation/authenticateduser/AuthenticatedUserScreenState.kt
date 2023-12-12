@@ -10,6 +10,6 @@ sealed class AuthenticatedUserScreenState {
         val surname: String? = null,
         val email: String? = null,
         val profileImage: String? = null,
-        val favorites: List<HashMap<String?, String?>?> = emptyList()
+        val favorites: List<HashMap<String, String>>? = emptyList()
     ) : AuthenticatedUserScreenState()
 }

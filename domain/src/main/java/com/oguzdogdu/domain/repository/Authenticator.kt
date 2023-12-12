@@ -18,7 +18,7 @@ interface Authenticator {
     suspend fun deleteFavorites(id: String?, favorite: String?)
     suspend fun forgotMyPassword(email: String?)
     suspend fun updatePassword(password: String?): Flow<Resource<Task<Void>?>>
-    suspend fun signIn(userEmail: String?, password: String?):Flow<Resource<AuthResult>>
+    suspend fun signIn(userEmail: String?, password: String?):AuthResult
     suspend fun signInWithGoogle(idToken: String?):Flow<Resource<AuthResult>>
     suspend fun signOut()
     fun getCurrentUserEmail(): String
