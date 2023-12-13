@@ -1,5 +1,6 @@
 package com.oguzdogdu.wallieshd.presentation.main
 
+import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
@@ -30,8 +31,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
 
     private val homeLatestAdapter by lazy { HomeLatestAdapter() }
 
-    override fun firstExecution() {
-        super.firstExecution()
+    override fun firstExecution(savedInstanceState: Bundle?) {
+        super.firstExecution(savedInstanceState)
         viewModel.handleUIEvent(MainScreenEvent.FetchMainScreenUserData)
         viewModel.handleUIEvent(
             MainScreenEvent.FetchMainScreenList(HomePopularAndLatest.ListType.POPULAR.type)
@@ -41,8 +42,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         )
     }
 
-    override fun initViews() {
-        super.initViews()
+    override fun initViews(savedInstanceState: Bundle?) {
+        super.initViews(savedInstanceState)
         with(binding) {
             nestedScrollMainContainer.setOnScrollChangeListener(
                 NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
@@ -154,10 +155,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
             navigateWithDirection(MainFragmentDirections.toDetail(it?.id))
         }
         binding.popularViewContainer.textViewShowAll.setOnClickListener {
-            navigateWithDirection(MainFragmentDirections.toPopular())
+            navigate(R.id.toPopular, null)
         }
         binding.latestViewContainer.textViewShowAll.setOnClickListener {
-            navigateWithDirection(MainFragmentDirections.toLatest())
+            navigate(R.id.toLatest, null)
         }
     }
 

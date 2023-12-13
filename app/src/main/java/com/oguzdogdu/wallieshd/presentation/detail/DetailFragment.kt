@@ -40,8 +40,8 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
     private val tagsAdapter by lazy { TagsAdapter() }
 
-    override fun initViews() {
-        super.initViews()
+    override fun initViews(savedInstanceState: Bundle?) {
+        super.initViews(savedInstanceState)
         binding.apply {
             recyclerViewTags.setupRecyclerView(
                 layout = LinearLayoutManager(

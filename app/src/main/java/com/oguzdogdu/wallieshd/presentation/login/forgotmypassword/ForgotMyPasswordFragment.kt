@@ -1,5 +1,6 @@
 package com.oguzdogdu.wallieshd.presentation.login.forgotmypassword
 
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -18,8 +19,8 @@ class ForgotMyPasswordFragment : BaseFragment<FragmentForgotMyPasswordBinding>(
 
     private val viewModel: ForgotMyPasswordViewModel by viewModels()
 
-    override fun initViews() {
-        super.initViews()
+    override fun initViews(savedInstanceState: Bundle?) {
+        super.initViews(savedInstanceState)
         with(binding) {
             editTextSetEmail.addTextChangedListener(TextFieldValidation(editTextSetEmail))
             toolbarForgotPassword.setTitle(

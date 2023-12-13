@@ -1,5 +1,6 @@
 package com.oguzdogdu.wallieshd.presentation.collectionslistsbyid
 
+import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -22,8 +23,8 @@ class SingleCollectionFragment :
 
     private val args: SingleCollectionFragmentArgs by navArgs()
 
-    override fun initViews() {
-        super.initViews()
+    override fun initViews(savedInstanceState: Bundle?) {
+        super.initViews(savedInstanceState)
         binding.apply {
             val layoutManager =
                 StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)

@@ -1,5 +1,6 @@
 package com.oguzdogdu.wallieshd.presentation.popular
 
+import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
@@ -23,8 +24,8 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(FragmentPopularBind
 
     private val popularWallpaperAdapter by lazy { PopularWallpaperAdapter() }
 
-    override fun initViews() {
-        super.initViews()
+    override fun initViews(savedInstanceState: Bundle?) {
+        super.initViews(savedInstanceState)
         binding.apply {
             toolbar.setTitle(
                 title = getString(R.string.popular_title),

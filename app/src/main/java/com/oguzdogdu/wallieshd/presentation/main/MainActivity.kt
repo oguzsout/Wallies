@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -106,7 +105,6 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_host_fragment_content_main
         ) as NavHostFragment
         navController = navHostFragment.navController
-        navController.navInflater.inflate(R.navigation.graph_wallies)
         binding.bottomNavigationView.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             viewModel.showBottomNavigation.value = when (destination.id) {

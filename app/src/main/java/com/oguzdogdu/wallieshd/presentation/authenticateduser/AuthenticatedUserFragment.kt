@@ -1,5 +1,6 @@
 package com.oguzdogdu.wallieshd.presentation.authenticateduser
 
+import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -36,8 +37,8 @@ class AuthenticatedUserFragment :
 
     private val viewModel: AuthenticedUserViewModel by viewModels()
 
-    override fun initViews() {
-        super.initViews()
+    override fun initViews(savedInstanceState: Bundle?) {
+        super.initViews(savedInstanceState)
         binding.rvUserOptions.setupRecyclerView(
             layout = LinearLayoutManager(
                 requireContext(),

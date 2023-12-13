@@ -1,5 +1,6 @@
 package com.oguzdogdu.wallieshd.presentation.profiledetail
 
+import android.os.Bundle
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import coil.load
@@ -32,8 +33,8 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
 
     private val args: ProfileDetailFragmentArgs by navArgs()
 
-    override fun initViews() {
-        super.initViews()
+    override fun initViews(savedInstanceState: Bundle?) {
+        super.initViews(savedInstanceState)
         viewModel.setUsername(args.username)
         initViewPager()
         initTabLayout()

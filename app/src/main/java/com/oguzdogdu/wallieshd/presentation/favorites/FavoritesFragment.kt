@@ -1,5 +1,6 @@
 package com.oguzdogdu.wallieshd.presentation.favorites
 
+import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,8 +23,8 @@ class FavoritesFragment :
 
     private val favoritesListAdapter by lazy { FavoritesListAdapter() }
 
-    override fun initViews() {
-        super.initViews()
+    override fun initViews(savedInstanceState: Bundle?) {
+        super.initViews(savedInstanceState)
         with(binding) {
             recyclerViewFavorites.setupRecyclerView(
                 layout = GridLayoutManager(requireContext(), 2),

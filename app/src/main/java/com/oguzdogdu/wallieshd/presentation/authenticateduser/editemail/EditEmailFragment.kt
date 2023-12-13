@@ -1,5 +1,6 @@
 package com.oguzdogdu.wallieshd.presentation.authenticateduser.editemail
 
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -23,8 +24,8 @@ class EditEmailFragment : BaseFragment<FragmentEditEmailBinding>(FragmentEditEma
     @Inject
     lateinit var tooltip: ITooltipUtils
 
-    override fun initViews() {
-        super.initViews()
+    override fun initViews(savedInstanceState: Bundle?) {
+        super.initViews(savedInstanceState)
         with(binding) {
             toolbar.setTitle(
                 title = getString(R.string.edit_email),

@@ -1,5 +1,6 @@
 package com.oguzdogdu.wallieshd.presentation.authenticateduser.editpassword
 
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -21,8 +22,8 @@ class EditPasswordFragment : BaseFragment<FragmentEditPasswordBinding>(
 
     private val viewModel: EditPasswordViewModel by viewModels()
 
-    override fun initViews() {
-        super.initViews()
+    override fun initViews(savedInstanceState: Bundle?) {
+        super.initViews(savedInstanceState)
         with(binding) {
             toolbar.setTitle(
                 title = getString(R.string.forgot_password_title),

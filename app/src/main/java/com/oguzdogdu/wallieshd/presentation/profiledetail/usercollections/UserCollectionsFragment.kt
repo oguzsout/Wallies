@@ -1,5 +1,6 @@
 package com.oguzdogdu.wallieshd.presentation.profiledetail.usercollections
 
+import android.os.Bundle
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.oguzdogdu.wallieshd.core.BaseFragment
@@ -21,8 +22,8 @@ class UserCollectionsFragment : BaseFragment<FragmentUserCollectionsBinding>(
 
     private val userCollectionAdapter by lazy { UserCollectionAdapter() }
 
-    override fun initViews() {
-        super.initViews()
+    override fun initViews(savedInstanceState: Bundle?) {
+        super.initViews(savedInstanceState)
         binding.rvUserCollections.setupRecyclerView(
             layout = GridLayoutManager(requireContext(), 2),
             adapter = userCollectionAdapter,

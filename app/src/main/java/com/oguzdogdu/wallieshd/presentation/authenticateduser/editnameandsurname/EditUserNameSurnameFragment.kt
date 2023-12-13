@@ -1,9 +1,9 @@
 package com.oguzdogdu.wallieshd.presentation.authenticateduser.editnameandsurname
 
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import com.oguzdogdu.wallieshd.R
 import com.oguzdogdu.wallieshd.core.BaseFragment
@@ -19,8 +19,8 @@ class EditUserNameSurnameFragment : BaseFragment<FragmentEditUserNameSurnameBind
 
     private val viewModel: EditUsernameSurnameViewModel by viewModels()
 
-    override fun initViews() {
-        super.initViews()
+    override fun initViews(savedInstanceState: Bundle?) {
+        super.initViews(savedInstanceState)
         with(binding) {
             toolbar.setTitle(
                 title = getString(R.string.edit_user_info_title),

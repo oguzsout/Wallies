@@ -1,6 +1,7 @@
 package com.oguzdogdu.wallieshd.presentation.search
 
 import android.content.Context
+import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
@@ -33,16 +34,16 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
 
     private var appLang: String? = null
 
-    override fun firstExecution() {
-        super.firstExecution()
+    override fun firstExecution(savedInstanceState: Bundle?) {
+        super.firstExecution(savedInstanceState)
         appLang = requireContext().resources?.configuration?.locale?.language
         when (requireContext().resources?.configuration?.locale?.language) {
             "en-US" -> appLang = "en"
         }
     }
 
-    override fun initViews() {
-        super.initViews()
+    override fun initViews(savedInstanceState: Bundle?) {
+        super.initViews(savedInstanceState)
         binding.apply {
             recyclerViewSearch.setupRecyclerView(
                 layout = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL),

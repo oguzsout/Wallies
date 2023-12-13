@@ -1,6 +1,7 @@
 package com.oguzdogdu.wallieshd.presentation.settings
 
 import android.content.Context
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -42,8 +43,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
     )
     private val language = arrayOf(LanguageValues.English.title, LanguageValues.Turkish.title)
 
-    override fun initViews() {
-        super.initViews()
+    override fun initViews(savedInstanceState: Bundle?) {
+        super.initViews(savedInstanceState)
         binding.rvAppOptions.setupRecyclerView(
             layout = LinearLayoutManager(
                 requireContext(),

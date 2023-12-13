@@ -1,5 +1,6 @@
 package com.oguzdogdu.wallieshd.presentation.collections
 import android.content.res.Resources
+import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
@@ -32,8 +33,8 @@ class CollectionsFragment :
 
     private val collectionListAdapter by lazy { CollectionListAdapter() }
 
-    override fun initViews() {
-        super.initViews()
+    override fun initViews(savedInstanceState: Bundle?) {
+        super.initViews(savedInstanceState)
         with(binding) {
             recyclerViewCollections.setupRecyclerView(
                 layout = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL),

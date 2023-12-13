@@ -1,5 +1,6 @@
 package com.oguzdogdu.wallieshd.presentation.profiledetail.userphotos
 
+import android.os.Bundle
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.oguzdogdu.wallieshd.core.BaseFragment
@@ -23,8 +24,8 @@ class UserPhotosFragment : BaseFragment<FragmentUserPhotosBinding>(
 
     private val usersPhotosAdapter by lazy { UsersPhotosAdapter() }
 
-    override fun initViews() {
-        super.initViews()
+    override fun initViews(savedInstanceState: Bundle?) {
+        super.initViews(savedInstanceState)
         binding.rvUserPhotos.setupRecyclerView(
             layout = GridLayoutManager(requireContext(), 2),
             adapter = usersPhotosAdapter,
