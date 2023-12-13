@@ -21,6 +21,7 @@ import com.oguzdogdu.wallieshd.presentation.detail.SavedPlaceWarningDialog.Compa
 import com.oguzdogdu.wallieshd.util.formatDate
 import com.oguzdogdu.wallieshd.util.hide
 import com.oguzdogdu.wallieshd.util.itemLoading
+import com.oguzdogdu.wallieshd.util.loadImage
 import com.oguzdogdu.wallieshd.util.observeInLifecycle
 import com.oguzdogdu.wallieshd.util.setFragmentResultListener
 import com.oguzdogdu.wallieshd.util.setupRecyclerView
@@ -192,17 +193,13 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
                 diskCachePolicy(CachePolicy.DISABLED)
                 transformations(CircleCropTransformation())
                 placeholder(R.drawable.avatar)
-                allowConversionToBitmap(true)
             }
 
-            imageViewDetail.load(photo?.urls.orEmpty()) {
-                diskCachePolicy(CachePolicy.DISABLED)
-                placeholder(
-                    requireContext().itemLoading(resources.getColor(R.color.background_main_icon))
-                )
-                allowConversionToBitmap(true)
-            }
-
+            imageViewDetail.loadImage(
+                photo?.urls.orEmpty(),
+                placeholder = requireContext()
+                    .itemLoading(resources.getColor(R.color.background_main_icon))
+            )
             toolbar.title = photo?.desc.orEmpty()
             textViewPhotoOwnerName.text = photo?.username.orEmpty()
             textViewPhotoOwnerPortfolio.text = photo?.portfolio.orEmpty()

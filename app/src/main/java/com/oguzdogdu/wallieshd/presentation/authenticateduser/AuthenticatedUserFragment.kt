@@ -24,7 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AuthenticedUserFragment :
+class AuthenticatedUserFragment :
     BaseFragment<FragmentAuthenticedUserBinding>(
         FragmentAuthenticedUserBinding::inflate
     ) {
@@ -82,27 +82,27 @@ class AuthenticedUserFragment :
             )
         }
         binding.toolbarProfile.setLeftIconClickListener {
-            navigateWithDirection(AuthenticedUserFragmentDirections.toMain())
+            navigateWithDirection(AuthenticatedUserFragmentDirections.toMain())
         }
         binding.buttonSignOut.setOnClickListener {
             viewModel.handleUiEvents(AuthenticatedUserEvent.SignOut)
-            navigateWithDirection(AuthenticedUserFragmentDirections.toLogin())
+            navigateWithDirection(AuthenticatedUserFragmentDirections.toLogin())
         }
         binding.textViewRequireLogin.setOnClickListener {
-            navigateWithDirection(AuthenticedUserFragmentDirections.toLogin())
+            navigateWithDirection(AuthenticatedUserFragmentDirections.toLogin())
         }
         userOptionsAdapter.setOnItemClickListener { option ->
             when (option?.titleRes) {
                 R.string.edit_user_info_title -> navigateWithDirection(
-                    AuthenticedUserFragmentDirections.toEditUserName()
+                    AuthenticatedUserFragmentDirections.toEditUserName()
                 )
 
                 R.string.edit_email_title -> navigateWithDirection(
-                    AuthenticedUserFragmentDirections.toEditEmail()
+                    AuthenticatedUserFragmentDirections.toEditEmail()
                 )
 
                 R.string.forgot_password_title -> navigateWithDirection(
-                    AuthenticedUserFragmentDirections.toUpdatePassword()
+                    AuthenticatedUserFragmentDirections.toUpdatePassword()
                 )
             }
         }
@@ -120,7 +120,6 @@ class AuthenticedUserFragment :
                 is AuthenticatedUserScreenState.UserInfos -> {
                     setUserComponents(
                         name = state.name,
-                        surname = state.surname,
                         profileImage = state.profileImage
                     )
                     goToChangeProfilePhoto(image = state.profileImage)
@@ -178,17 +177,16 @@ class AuthenticedUserFragment :
 
     private fun goToChangeProfilePhoto(image: String?) {
         binding.imageViewEditPhoto.setOnClickListener {
-            navigateWithDirection(AuthenticedUserFragmentDirections.toEditProfilePhoto(image))
+            navigateWithDirection(AuthenticatedUserFragmentDirections.toEditProfilePhoto(image))
         }
     }
 
-    private fun setUserComponents(name: String?, surname: String?, profileImage: String?) {
+    private fun setUserComponents(name: String?, profileImage: String?) {
         with(binding) {
             when (profileImage.isNullOrBlank()) {
                 false -> imageViewProfileImage.load(profileImage) {
                     diskCachePolicy(CachePolicy.DISABLED)
                     transformations(CircleCropTransformation())
-                    allowConversionToBitmap(true)
                 }
 
                 true -> imageViewProfileImage.load(R.drawable.ic_default_avatar)

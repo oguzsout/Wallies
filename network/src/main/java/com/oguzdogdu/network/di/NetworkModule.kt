@@ -22,16 +22,20 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
+    @InterceptorLogging
+    fun provideLoggingInterceptor() = HttpLoggingInterceptor().apply {
+        level = if (BuildConfig.BUILD_TYPE != "release") {
+            HttpLoggingInterceptor.Level.BODY
+        } else {
+            HttpLoggingInterceptor.Level.NONE
         }
     }
 
     @Provides
     @Singleton
+    @WalliesOkHttpClient
     fun provideOkHttpClient(
-        loggingInterceptor: HttpLoggingInterceptor,
+        @InterceptorLogging loggingInterceptor: HttpLoggingInterceptor,
         @ApplicationContext context: Context
     ): OkHttpClient {
         val builder = OkHttpClient.Builder().apply {
@@ -47,7 +51,6 @@ object NetworkModule {
             connectTimeout(30, TimeUnit.SECONDS)
             readTimeout(30, TimeUnit.SECONDS)
             writeTimeout(30, TimeUnit.SECONDS)
-            followSslRedirects(true)
             followRedirects(true)
             retryOnConnectionFailure(true)
         }
@@ -56,7 +59,10 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    @WalliesRetrofit
+    fun provideRetrofit(
+        @WalliesOkHttpClient okHttpClient: OkHttpClient,
+    ): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(UNSPLASH_BASE_URL)

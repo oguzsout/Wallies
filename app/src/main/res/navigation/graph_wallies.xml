@@ -41,7 +41,7 @@
             app:destination="@id/settings" />
         <action
             android:id="@+id/toAuthUser"
-            app:destination="@id/authenticedUserFragment" />
+            app:destination="@id/authenticatedUserFragment" />
 
     </fragment>
 
@@ -308,8 +308,8 @@
             app:destination="@id/singleCollectionFragment" />
     </fragment>
     <fragment
-        android:id="@+id/authenticedUserFragment"
-        android:name="com.oguzdogdu.wallieshd.presentation.authenticateduser.AuthenticedUserFragment"
+        android:id="@+id/authenticatedUserFragment"
+        android:name="com.oguzdogdu.wallieshd.presentation.authenticateduser.AuthenticatedUserFragment"
         android:label="AuthenticedUserFragment"
         tools:layout="@layout/fragment_authenticed_user">
         <action
@@ -318,7 +318,7 @@
         <action
             android:id="@+id/toLogin"
             app:destination="@id/loginFragment"
-            app:popUpTo="@id/authenticedUserFragment"
+            app:popUpTo="@id/authenticatedUserFragment"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/toEditUserName"
@@ -340,7 +340,7 @@
         tools:layout="@layout/fragment_edit_user_name_surname">
         <action
             android:id="@+id/toAuthUser"
-            app:destination="@id/authenticedUserFragment" />
+            app:destination="@id/authenticatedUserFragment" />
     </fragment>
     <fragment
         android:id="@+id/editEmailFragment"
@@ -349,7 +349,7 @@
         tools:layout="@layout/fragment_edit_email">
         <action
             android:id="@+id/toAuthUser"
-            app:destination="@id/authenticedUserFragment" />
+            app:destination="@id/authenticatedUserFragment" />
     </fragment>
     <dialog
         android:id="@+id/editProfilePhotoDialog"
@@ -362,7 +362,7 @@
             app:nullable="true" />
         <action
             android:id="@+id/toAuthUser"
-            app:destination="@id/authenticedUserFragment" />
+            app:destination="@id/authenticatedUserFragment" />
     </dialog>
     <fragment
         android:id="@+id/forgotMyPasswordFragment"
@@ -382,7 +382,7 @@
         tools:layout="@layout/fragment_edit_password">
         <action
             android:id="@+id/toAuthUser"
-            app:destination="@id/authenticedUserFragment" />
+            app:destination="@id/authenticatedUserFragment" />
     </fragment>
 
     <dialog

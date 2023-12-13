@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
 import com.oguzdogdu.domain.model.home.HomePopularAndLatest
 import com.oguzdogdu.wallieshd.R
@@ -121,7 +120,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
                     true -> binding.imageViewProfileAvatar.load(R.drawable.ic_default_avatar)
 
                     false -> binding.imageViewProfileAvatar.load(state.profileImage) {
-                        diskCachePolicy(CachePolicy.DISABLED)
                         transformations(CircleCropTransformation())
                     }
                 }

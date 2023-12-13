@@ -3,11 +3,10 @@ package com.oguzdogdu.wallieshd.presentation.popular
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import coil.request.CachePolicy
 import com.oguzdogdu.domain.model.popular.PopularImage
 import com.oguzdogdu.wallieshd.core.BasePagingDataAdapter
 import com.oguzdogdu.wallieshd.databinding.ItemMainImageBinding
+import com.oguzdogdu.wallieshd.util.loadImage
 
 class PopularWallpaperAdapter :
     BasePagingDataAdapter<PopularImage, PopularWallpaperAdapter.MainImageViewHolder>() {
@@ -16,9 +15,7 @@ class PopularWallpaperAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(wallpaper: PopularImage?) {
             binding.apply {
-                imageViewItemWallpaper.load(wallpaper?.url) {
-                    diskCachePolicy(CachePolicy.DISABLED)
-                }
+                imageViewItemWallpaper.loadImage(wallpaper?.url)
                 imageViewItemWallpaper.setOnClickListener {
                     onItemClickListener?.let {
                         it(wallpaper)

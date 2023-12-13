@@ -57,12 +57,12 @@ data class UnsplashResponseItem(
     ) : Parcelable
 }
 fun UnsplashResponseItem.convertList() = tags.map { it?.title }
-fun UnsplashResponseItem.toDomainModelPopular() = PopularImage(id = id, url = urls?.regular)
-fun UnsplashResponseItem.toDomainModelLatest() = LatestImage(id = id, url = urls?.regular)
+fun UnsplashResponseItem.toDomainModelPopular() = PopularImage(id = id, url = urls?.small)
+fun UnsplashResponseItem.toDomainModelLatest() = LatestImage(id = id, url = urls?.small)
 fun UnsplashResponseItem.homieListToDomain(): HomePopularAndLatest {
     val listType = HomePopularAndLatest.ListType.fromType("")
 
-    val homeListItems = HomeListItems(id, urls?.regular)
+    val homeListItems = HomeListItems(id, urls?.small)
 
     return HomePopularAndLatest(Pair(listType?.type,homeListItems))
 }
@@ -74,7 +74,7 @@ fun UnsplashResponseItem.toDomainModelPhoto() = Photo(
     profileimage = user?.profileImage?.large,
     createdAt = createdAt,
     desc = altDescription,
-    urls = urls?.full,
+    urls = urls?.regular,
     views = views,
     downloads = downloads,
     unsplashProfile = user?.links?.html,

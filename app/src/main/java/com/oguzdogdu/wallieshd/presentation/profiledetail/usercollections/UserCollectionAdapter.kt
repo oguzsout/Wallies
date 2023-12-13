@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.oguzdogdu.domain.model.userdetail.UserCollections
 import com.oguzdogdu.wallieshd.databinding.ItemCollectionsBinding
+import com.oguzdogdu.wallieshd.util.loadImage
 
 class UserCollectionAdapter :
     ListAdapter<UserCollections, UserCollectionAdapter.CollectionsViewHolder>(
@@ -25,7 +25,7 @@ class UserCollectionAdapter :
         fun bind(wallpaper: UserCollections) {
             binding.apply {
                 textViewAuthorName.text = wallpaper.title
-                imageViewPost.load(wallpaper.photo)
+                imageViewPost.loadImage(wallpaper.photo)
                 imageViewPost.setOnClickListener {
                     onItemClickListener?.let {
                         it(wallpaper)

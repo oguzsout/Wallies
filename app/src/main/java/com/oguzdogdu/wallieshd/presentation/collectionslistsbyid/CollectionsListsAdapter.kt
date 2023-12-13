@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.oguzdogdu.domain.model.collection.CollectionList
 import com.oguzdogdu.wallieshd.databinding.ItemCollectionsListsBinding
+import com.oguzdogdu.wallieshd.util.loadImage
 
 class CollectionsListsAdapter :
     ListAdapter<CollectionList, CollectionsListsAdapter.CollectionsListsViewHolder>(
@@ -24,7 +24,7 @@ class CollectionsListsAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(wallpaper: CollectionList) {
             binding.apply {
-                imageViewItemWallpaper.load(wallpaper.url)
+                imageViewItemWallpaper.loadImage(wallpaper.url)
                 binding.root.setOnClickListener {
                     onItemClickListener?.let {
                         it(wallpaper)

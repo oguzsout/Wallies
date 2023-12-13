@@ -3,11 +3,10 @@ package com.oguzdogdu.wallieshd.presentation.search
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import coil.request.CachePolicy
 import com.oguzdogdu.domain.model.search.SearchPhoto
 import com.oguzdogdu.wallieshd.core.BasePagingDataAdapter
 import com.oguzdogdu.wallieshd.databinding.ItemMainImageBinding
+import com.oguzdogdu.wallieshd.util.loadImage
 
 class SearchWallpaperAdapter :
     BasePagingDataAdapter<SearchPhoto, SearchWallpaperAdapter.MainImageViewHolder>() {
@@ -16,9 +15,7 @@ class SearchWallpaperAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(wallpaper: SearchPhoto?) {
             binding.apply {
-                imageViewItemWallpaper.load(wallpaper?.url) {
-                    diskCachePolicy(CachePolicy.DISABLED)
-                }
+                imageViewItemWallpaper.loadImage(wallpaper?.url)
                 root.setOnClickListener {
                     onItemClickListener?.let {
                         it(wallpaper)

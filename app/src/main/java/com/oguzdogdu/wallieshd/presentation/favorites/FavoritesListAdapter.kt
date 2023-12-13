@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.oguzdogdu.domain.model.favorites.FavoriteImages
 import com.oguzdogdu.wallieshd.databinding.ItemMainImageBinding
+import com.oguzdogdu.wallieshd.util.loadImage
 
 class FavoritesListAdapter : ListAdapter<FavoriteImages, FavoritesListAdapter.FavoritesViewHolder>(
     DIFF_CALLBACK
@@ -23,7 +23,7 @@ class FavoritesListAdapter : ListAdapter<FavoriteImages, FavoritesListAdapter.Fa
         RecyclerView.ViewHolder(binding.root) {
         fun bind(wallpaper: FavoriteImages) {
             binding.apply {
-                imageViewItemWallpaper.load(wallpaper.url)
+                imageViewItemWallpaper.loadImage(wallpaper.url)
                 binding.root.setOnClickListener {
                     onItemClickListener?.let {
                         it(wallpaper)

@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.oguzdogdu.domain.model.topics.Topics
 import com.oguzdogdu.wallieshd.databinding.ItemTopicsTitleBinding
+import com.oguzdogdu.wallieshd.util.loadImage
 import com.oguzdogdu.wallieshd.util.shadow
 
 class TopicsTitleAdapter : ListAdapter<Topics, TopicsTitleAdapter.TopicsTitleViewHolder>(
@@ -24,7 +24,7 @@ class TopicsTitleAdapter : ListAdapter<Topics, TopicsTitleAdapter.TopicsTitleVie
         fun bind(topic: Topics) {
             binding.apply {
                 imageViewTopicTitleBackground.shadow(150)
-                imageViewTopicTitleBackground.load(topic.titleBackground)
+                imageViewTopicTitleBackground.loadImage(topic.titleBackground)
                 textViewTopicTitle.text = topic.title
                 binding.root.setOnClickListener {
                     onItemClickListener?.let {

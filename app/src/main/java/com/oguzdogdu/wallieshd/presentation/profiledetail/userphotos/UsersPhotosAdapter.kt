@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.oguzdogdu.domain.model.userdetail.UsersPhotos
 import com.oguzdogdu.wallieshd.databinding.ItemUserCollectionPhotosBinding
+import com.oguzdogdu.wallieshd.util.loadImage
 
 class UsersPhotosAdapter : ListAdapter<UsersPhotos, UsersPhotosAdapter.UsersPhotosListsViewHolder>(
     DIFF_CALLBACK
@@ -23,7 +23,7 @@ class UsersPhotosAdapter : ListAdapter<UsersPhotos, UsersPhotosAdapter.UsersPhot
         RecyclerView.ViewHolder(binding.root) {
         fun bind(photo: UsersPhotos) {
             binding.apply {
-                imageViewUserCollectionPhoto.load(photo.url)
+                imageViewUserCollectionPhoto.loadImage(photo.url)
                 binding.root.setOnClickListener {
                     onItemClickListener?.let {
                         it(photo)

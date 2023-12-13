@@ -70,7 +70,6 @@ class EditProfilePhotoDialog :
             false -> binding.imageViewEditProfilePhoto.load(args.profilePhoto) {
                 diskCachePolicy(CachePolicy.DISABLED)
                 transformations(CircleCropTransformation())
-                allowConversionToBitmap(true)
             }
         }
     }
@@ -144,7 +143,6 @@ class EditProfilePhotoDialog :
             false -> binding.imageViewEditProfilePhoto.load(image) {
                 diskCachePolicy(CachePolicy.DISABLED)
                 transformations(CircleCropTransformation())
-                allowConversionToBitmap(true)
             }
         }
     }

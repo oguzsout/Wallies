@@ -80,7 +80,6 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
                 diskCachePolicy(CachePolicy.DISABLED)
                 transformations(CircleCropTransformation())
                 placeholder(R.drawable.ic_default_avatar)
-                allowConversionToBitmap(true)
             }
             userDetails?.username?.let {
                 binding.toolbar.setTitle(

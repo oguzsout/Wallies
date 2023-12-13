@@ -3,11 +3,10 @@ package com.oguzdogdu.wallieshd.presentation.latest
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import coil.request.CachePolicy
 import com.oguzdogdu.domain.model.latest.LatestImage
 import com.oguzdogdu.wallieshd.core.BasePagingDataAdapter
 import com.oguzdogdu.wallieshd.databinding.ItemMainImageBinding
+import com.oguzdogdu.wallieshd.util.loadImage
 
 class LatestWallpaperAdapter :
     BasePagingDataAdapter<LatestImage, LatestWallpaperAdapter.MainImageViewHolder>() {
@@ -16,9 +15,7 @@ class LatestWallpaperAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(wallpaper: LatestImage?) {
             binding.apply {
-                imageViewItemWallpaper.load(wallpaper?.url) {
-                    diskCachePolicy(CachePolicy.DISABLED)
-                }
+                imageViewItemWallpaper.loadImage(url = wallpaper?.url)
                 root.setOnClickListener {
                     onItemClickListener?.let {
                         it(wallpaper)
