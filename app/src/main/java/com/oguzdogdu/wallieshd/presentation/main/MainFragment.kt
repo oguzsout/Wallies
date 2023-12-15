@@ -154,6 +154,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         homeLatestAdapter.setOnItemClickListener {
             navigateWithDirection(MainFragmentDirections.toDetail(it?.id))
         }
+        binding.topicsViewContainer.textViewShowAll.setOnClickListener {
+            navigate(R.id.toTopics, null)
+        }
         binding.popularViewContainer.textViewShowAll.setOnClickListener {
             navigate(R.id.toPopular, null)
         }

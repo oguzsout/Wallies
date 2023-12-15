@@ -46,6 +46,12 @@
         <action
             android:id="@+id/toAuthUser"
             app:destination="@id/authenticatedUserFragment" />
+        <action
+            android:id="@+id/toTopics"
+            app:destination="@id/topicsListFragment"
+            app:popUpToInclusive="true"
+            app:restoreState="true"
+            app:popUpToSaveState="true"/>
 
     </fragment>
 
@@ -418,6 +424,15 @@
         <action
             android:id="@+id/toSingleCollection"
             app:destination="@id/singleCollectionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/topicsListFragment"
+        android:name="com.oguzdogdu.wallieshd.presentation.topics.TopicsListFragment"
+        android:label="TopicsListFragment"
+        tools:layout="@layout/fragment_topics_list">
+        <action
+            android:id="@+id/action_topicsListFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
 
 </navigation>

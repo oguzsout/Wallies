@@ -5,6 +5,7 @@ import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
@@ -54,8 +55,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         }
     }
 
-    override fun firstExecution() {
-        super.firstExecution()
+    override fun firstExecution(savedInstanceState: Bundle?) {
+        super.firstExecution(savedInstanceState)
         val googleSignInOptions =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(
                 getString(R.string.default_web_client_id)
@@ -64,8 +65,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         googleSignInClient = GoogleSignIn.getClient(requireContext(), googleSignInOptions)
     }
 
-    override fun initViews() {
-        super.initViews()
+    override fun initViews(savedInstanceState: Bundle?) {
+        super.initViews(savedInstanceState)
         setUiComponents()
         setPasswordCleanIcon()
     }
