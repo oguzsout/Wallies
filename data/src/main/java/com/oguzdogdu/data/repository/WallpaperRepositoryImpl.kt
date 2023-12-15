@@ -14,6 +14,7 @@ import com.oguzdogdu.data.source.paging.CollectionsPagingSource
 import com.oguzdogdu.data.source.paging.LatestPagingSource
 import com.oguzdogdu.data.source.paging.PopularPagingSource
 import com.oguzdogdu.data.source.paging.SearchPagingSource
+import com.oguzdogdu.data.source.paging.TopicsPagingSource
 import com.oguzdogdu.domain.model.collection.CollectionList
 import com.oguzdogdu.domain.model.collection.WallpaperCollections
 import com.oguzdogdu.domain.model.favorites.FavoriteImages
@@ -71,6 +72,19 @@ class WallpaperRepositoryImpl @Inject constructor(
         ).flow.mapNotNull {
             it.map { latest ->
                 latest.toDomainModelLatest()
+            }
+        }
+    }
+
+    override suspend fun getTopicsTitleWithPaging(): Flow<PagingData<Topics>> {
+        val pagingConfig = PagingConfig(pageSize = PAGE_ITEM_LIMIT)
+        return Pager(
+            config = pagingConfig,
+            initialKey = 1,
+            pagingSourceFactory = { TopicsPagingSource(service = service) }
+        ).flow.mapNotNull {
+            it.map { topics ->
+                topics.toDomainTopics()
             }
         }
     }
@@ -184,7 +198,7 @@ class WallpaperRepositoryImpl @Inject constructor(
 
     override suspend fun getTopicsTitle(): Flow<Resource<List<Topics>?>> {
         return safeApiCall(ioDispatcher) {
-            service.getTopics().body()?.map {
+            service.getTopics(perPage = 6, page = 1).body()?.map {
                 it.toDomainTopics()
             }
         }

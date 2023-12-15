@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.Flow
 interface WallpaperRepository {
     suspend fun getImagesByPopulars(): Flow<PagingData<PopularImage>>
     suspend fun getImagesByLatest(): Flow<PagingData<LatestImage>>
+    suspend fun getTopicsTitleWithPaging(): Flow<PagingData<Topics>>
     suspend fun getPopularAndLatestImagesForHomeScreen(type:String?): Flow<Resource<List<HomeListItems>?>>
     suspend fun getPhoto(id: String?): Flow<Resource<Photo?>>
     suspend fun searchPhoto(query: String?,language:String?): Flow<PagingData<SearchPhoto>>

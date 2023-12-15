@@ -1,3 +1,8 @@
 package com.oguzdogdu.domain.model.topics
 
-data class Topics(val title: String?, val titleBackground: String?)
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+
+@Parcelize
+data class Topics(val title: String?, val titleBackground: String?) : Parcelable

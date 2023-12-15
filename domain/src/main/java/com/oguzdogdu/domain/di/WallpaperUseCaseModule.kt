@@ -61,6 +61,8 @@ import com.oguzdogdu.domain.usecase.singlephoto.GetPhotoDetailUseCase
 import com.oguzdogdu.domain.usecase.singlephoto.GetPhotoDetailUseCaseImpl
 import com.oguzdogdu.domain.usecase.topics.GetTopicsListUseCase
 import com.oguzdogdu.domain.usecase.topics.GetTopicsListUseCaseImpl
+import com.oguzdogdu.domain.usecase.topics.GetTopicsListWithPagingUseCase
+import com.oguzdogdu.domain.usecase.topics.GetTopicsListWithPagingUseCaseImpl
 import com.oguzdogdu.domain.usecase.userdetails.GetUnsplashUserDetailsUseCase
 import com.oguzdogdu.domain.usecase.userdetails.GetUnsplashUserDetailsUseCaseImpl
 import com.oguzdogdu.domain.usecase.userdetails.GetUnsplashUsersPhotosUseCase
@@ -287,5 +289,12 @@ object WallpaperUseCaseModule {
         repository: Authenticator
     ): GetUpdatePasswordUseCase {
         return GetUpdatePasswordUseCaseImpl(repository)
+    }
+
+    @Provides
+    fun provideTopicsListPagingUseCase(
+        repository: WallpaperRepository
+    ): GetTopicsListWithPagingUseCase {
+        return GetTopicsListWithPagingUseCaseImpl(repository)
     }
 }

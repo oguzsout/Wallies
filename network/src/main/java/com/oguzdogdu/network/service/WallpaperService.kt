@@ -44,5 +44,8 @@ interface WallpaperService {
     ): Response<List<Photo>>
 
     @GET("topics")
-    suspend fun getTopics(@Query("per_page") perPage: Int? = 6): Response<List<TopicsResponseItem>>
+    suspend fun getTopics(
+        @Query("page") page: Int?,
+        @Query("per_page") perPage: Int?,
+    ): Response<List<TopicsResponseItem>>
 }
