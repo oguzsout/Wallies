@@ -29,7 +29,6 @@ class FavoritesFragment :
             recyclerViewFavorites.setupRecyclerView(
                 layout = GridLayoutManager(requireContext(), 2),
                 adapter = favoritesListAdapter,
-                true,
                 onScroll = {
                     recyclerViewFavorites.addOnScrollListener(object :
                             RecyclerView.OnScrollListener() {

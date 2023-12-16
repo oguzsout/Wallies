@@ -52,6 +52,12 @@
             app:popUpToInclusive="true"
             app:restoreState="true"
             app:popUpToSaveState="true"/>
+        <action
+            android:id="@+id/toTopicDetailList"
+            app:destination="@id/topicDetailListFragment"
+            app:popUpToInclusive="true"
+            app:restoreState="true"
+            app:popUpToSaveState="true"/>
 
     </fragment>
 
@@ -139,6 +145,9 @@
         <action
             android:id="@+id/toSearch"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/toTopicDetailList"
+            app:destination="@id/topicDetailListFragment" />
 
     </fragment>
 
@@ -431,8 +440,29 @@
         android:label="TopicsListFragment"
         tools:layout="@layout/fragment_topics_list">
         <action
-            android:id="@+id/action_topicsListFragment_to_mainFragment"
+            android:id="@+id/toMain"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/toTopicDetailList"
+            app:destination="@id/topicDetailListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/topicDetailListFragment"
+        android:name="com.oguzdogdu.wallieshd.presentation.topics.topicdetaillist.TopicDetailListFragment"
+        android:label="TopicDetailListFragment" >
+        <argument
+            android:name="idOrSlug"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/toMain"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/toTopics"
+            app:destination="@id/topicsListFragment" />
+        <action
+            android:id="@+id/toDetail"
+            app:destination="@id/detailFragment" />
     </fragment>
 
 </navigation>

@@ -144,9 +144,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
             navigate(R.id.toSearch, null)
         }
         topicsTitleAdapter.setOnItemClickListener { item ->
-            if (item != null) {
-                showMessage(message = item.title!!, MessageType.SUCCESS)
-            }
+            navigateWithDirection(MainFragmentDirections.toTopicDetailList(item?.title))
         }
         homePopularAdapter.setOnItemClickListener {
             navigateWithDirection(MainFragmentDirections.toDetail(it?.id))

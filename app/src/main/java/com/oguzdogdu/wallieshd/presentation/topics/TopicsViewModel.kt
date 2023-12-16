@@ -5,12 +5,12 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.oguzdogdu.domain.usecase.topics.GetTopicsListWithPagingUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class TopicsViewModel @Inject constructor(
@@ -18,10 +18,6 @@ class TopicsViewModel @Inject constructor(
 ) : ViewModel() {
     private val _getTopics = MutableStateFlow<TopicsState?>(null)
     val getTopics = _getTopics.asStateFlow()
-
-    init {
-        getTopicsList()
-    }
 
     fun handleUIEvent(event: TopicsScreenEvent) {
         when (event) {

@@ -1,14 +1,15 @@
-package com.oguzdogdu.wallieshd.presentation.topics
+package com.oguzdogdu.wallieshd.presentation.topics.topicdetaillist
 
 import android.os.Bundle
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.oguzdogdu.wallieshd.R
 import com.oguzdogdu.wallieshd.core.BaseFragment
 import com.oguzdogdu.wallieshd.core.snackbar.MessageType
-import com.oguzdogdu.wallieshd.databinding.FragmentTopicsListBinding
+import com.oguzdogdu.wallieshd.databinding.FragmentTopicDetailListBinding
 import com.oguzdogdu.wallieshd.presentation.main.MainActivity
 import com.oguzdogdu.wallieshd.util.LoaderAdapter
 import com.oguzdogdu.wallieshd.util.hide
@@ -18,32 +19,36 @@ import com.oguzdogdu.wallieshd.util.show
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class TopicsListFragment :
-    BaseFragment<FragmentTopicsListBinding>(FragmentTopicsListBinding::inflate) {
+class TopicDetailListFragment :
+    BaseFragment<FragmentTopicDetailListBinding>(FragmentTopicDetailListBinding::inflate) {
 
-    private val viewModel: TopicsViewModel by viewModels()
+    private val viewModel: TopicDetailListViewModel by viewModels()
 
-    private val topicsListAdapter by lazy { TopicsListAdapter() }
+    private val topicDetailListAdapter by lazy { TopicDetailListAdapter() }
+
+    private val args: TopicDetailListFragmentArgs by navArgs()
 
     override fun firstExecution(savedInstanceState: Bundle?) {
         super.firstExecution(savedInstanceState)
-        viewModel.handleUIEvent(TopicsScreenEvent.FetchTopicsData)
+        viewModel.handleUIEvent(TopicDetailListEvent.FetchTopicListData(args.idOrSlug))
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         binding.apply {
-            toolbar.setTitle(
-                title = getString(R.string.topics_title),
-                titleStyleRes = R.style.DialogTitleText
-            )
+            args.idOrSlug?.let {
+                toolbar.setTitle(
+                    title = it,
+                    titleStyleRes = R.style.DialogTitleText
+                )
+            }
             toolbar.setLeftIcon(R.drawable.back)
-            recyclerViewTopics.setupRecyclerView(
+            recyclerViewTopicDetailList.setupRecyclerView(
                 layout = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL),
-                adapter = topicsListAdapter.withLoadStateFooter(LoaderAdapter()),
+                adapter = topicDetailListAdapter.withLoadStateFooter(LoaderAdapter()),
                 true
             ) {
-                recyclerViewTopics.addOnScrollListener(object :
+                recyclerViewTopicDetailList.addOnScrollListener(object :
                         RecyclerView.OnScrollListener() {
                         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                             super.onScrolled(recyclerView, dx, dy)
@@ -61,30 +66,28 @@ class TopicsListFragment :
     override fun initListeners() {
         super.initListeners()
         binding.swipeRefresh.setOnRefreshListener {
-            viewModel.handleUIEvent(TopicsScreenEvent.FetchTopicsData)
+            viewModel.handleUIEvent(TopicDetailListEvent.FetchTopicListData(args.idOrSlug))
             binding.swipeRefresh.isRefreshing = false
+        }
+        topicDetailListAdapter.setOnItemClickListener {
+            navigateWithDirection(TopicDetailListFragmentDirections.toDetail(it?.id))
         }
         binding.toolbar.setLeftIconClickListener {
             navigateBack()
-        }
-        topicsListAdapter.setOnItemClickListener { topics ->
-            navigateWithDirection(TopicsListFragmentDirections.toTopicDetailList(topics?.title))
         }
     }
 
     override fun observeData() {
         super.observeData()
-        fetchLatestData()
+        fetchTopicDetailData()
         handlePagingState()
     }
 
-    private fun fetchLatestData() {
-        viewModel.getTopics.observeInLifecycle(viewLifecycleOwner, observer = { state ->
+    private fun fetchTopicDetailData() {
+        viewModel.getTopicList.observeInLifecycle(viewLifecycleOwner, observer = { state ->
             when (state) {
-                is TopicsState.TopicsListState -> state.topics.let {
-                    topicsListAdapter.submitData(
-                        it
-                    )
+                is TopicDetailListState.TopicListState -> {
+                    state.topicList?.let { topicDetailListAdapter.submitData(it) }
                 }
 
                 null -> {
@@ -94,15 +97,15 @@ class TopicsListFragment :
     }
 
     private fun handlePagingState() {
-        topicsListAdapter.addLoadStateListener { loadState ->
+        topicDetailListAdapter.addLoadStateListener { loadState ->
             when (loadState.refresh) {
                 is LoadState.Loading -> {
                     binding.progressBar.show()
-                    binding.recyclerViewTopics.hide()
+                    binding.recyclerViewTopicDetailList.hide()
                 }
                 is LoadState.NotLoading -> {
                     binding.progressBar.hide()
-                    binding.recyclerViewTopics.show()
+                    binding.recyclerViewTopicDetailList.show()
                 }
                 else -> {}
             }

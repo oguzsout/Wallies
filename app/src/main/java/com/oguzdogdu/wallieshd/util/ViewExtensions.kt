@@ -48,7 +48,7 @@ internal fun View?.findSuitableParent(): ViewGroup? {
 
 inline fun RecyclerView.setupRecyclerView(
     layout: RecyclerView.LayoutManager? = null,
-    adapter: RecyclerView.Adapter<*>,
+    adapter: RecyclerView.Adapter<*>? = null,
     hasFixedSize: Boolean = true,
     itemAnimator: RecyclerView.ItemAnimator? = null,
     itemDecoration: RecyclerView.ItemDecoration? = null,
