@@ -6,7 +6,8 @@ plugins {
     id("kotlin-kapt")
     id("kotlin-parcelize")
 }
-val apiKey: String = gradleLocalProperties(rootDir).getProperty("API_KEY")
+val debugApiKey: String = gradleLocalProperties(rootDir).getProperty("DEBUG_API_KEY")
+val releaseApiKey: String = gradleLocalProperties(rootDir).getProperty("RELEASE_API_KEY")
 android {
     namespace = "com.oguzdogdu.network"
     compileSdk = 33
@@ -16,7 +17,22 @@ android {
         targetSdk = 33
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-        buildConfigField("String", "API_KEY", apiKey)
+    }
+
+    buildTypes {
+        buildTypes {
+            debug {
+                buildConfigField ("String", "API_KEY", debugApiKey)
+            }
+            release {
+                buildConfigField ("String", "API_KEY", releaseApiKey)
+                isMinifyEnabled =  false
+                proguardFiles(
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
+                )
+            }
+        }
     }
 
     compileOptions {
