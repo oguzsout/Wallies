@@ -8,6 +8,7 @@ import com.oguzdogdu.domain.model.latest.LatestImage
 import com.oguzdogdu.domain.model.popular.PopularImage
 import com.oguzdogdu.domain.model.search.SearchPhoto
 import com.oguzdogdu.domain.model.singlephoto.Photo
+import com.oguzdogdu.domain.model.topics.TopicDetail
 import com.oguzdogdu.domain.model.topics.Topics
 import com.oguzdogdu.domain.wrapper.Resource
 import kotlinx.coroutines.flow.Flow
@@ -16,6 +17,7 @@ interface WallpaperRepository {
     suspend fun getImagesByPopulars(): Flow<PagingData<PopularImage>>
     suspend fun getImagesByLatest(): Flow<PagingData<LatestImage>>
     suspend fun getTopicsTitleWithPaging(): Flow<PagingData<Topics>>
+    suspend fun getTopicListWithPaging(idOrSlug:String?): Flow<PagingData<TopicDetail>>
     suspend fun getPopularAndLatestImagesForHomeScreen(type:String?): Flow<Resource<List<HomeListItems>?>>
     suspend fun getPhoto(id: String?): Flow<Resource<Photo?>>
     suspend fun searchPhoto(query: String?,language:String?): Flow<PagingData<SearchPhoto>>

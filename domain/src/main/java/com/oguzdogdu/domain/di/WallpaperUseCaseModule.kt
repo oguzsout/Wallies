@@ -63,6 +63,8 @@ import com.oguzdogdu.domain.usecase.topics.GetTopicsListUseCase
 import com.oguzdogdu.domain.usecase.topics.GetTopicsListUseCaseImpl
 import com.oguzdogdu.domain.usecase.topics.GetTopicsListWithPagingUseCase
 import com.oguzdogdu.domain.usecase.topics.GetTopicsListWithPagingUseCaseImpl
+import com.oguzdogdu.domain.usecase.topics.topicdetail.GetTopicDetailListUseCase
+import com.oguzdogdu.domain.usecase.topics.topicdetail.GetTopicDetailListUseCaseImpl
 import com.oguzdogdu.domain.usecase.userdetails.GetUnsplashUserDetailsUseCase
 import com.oguzdogdu.domain.usecase.userdetails.GetUnsplashUserDetailsUseCaseImpl
 import com.oguzdogdu.domain.usecase.userdetails.GetUnsplashUsersPhotosUseCase
@@ -296,5 +298,12 @@ object WallpaperUseCaseModule {
         repository: WallpaperRepository
     ): GetTopicsListWithPagingUseCase {
         return GetTopicsListWithPagingUseCaseImpl(repository)
+    }
+
+    @Provides
+    fun provideTopicDetailListPagingUseCase(
+        repository: WallpaperRepository
+    ): GetTopicDetailListUseCase {
+        return GetTopicDetailListUseCaseImpl(repository)
     }
 }

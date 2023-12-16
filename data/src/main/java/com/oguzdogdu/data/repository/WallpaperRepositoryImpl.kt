@@ -14,6 +14,7 @@ import com.oguzdogdu.data.source.paging.CollectionsPagingSource
 import com.oguzdogdu.data.source.paging.LatestPagingSource
 import com.oguzdogdu.data.source.paging.PopularPagingSource
 import com.oguzdogdu.data.source.paging.SearchPagingSource
+import com.oguzdogdu.data.source.paging.TopicListSource
 import com.oguzdogdu.data.source.paging.TopicsPagingSource
 import com.oguzdogdu.domain.model.collection.CollectionList
 import com.oguzdogdu.domain.model.collection.WallpaperCollections
@@ -23,6 +24,7 @@ import com.oguzdogdu.domain.model.latest.LatestImage
 import com.oguzdogdu.domain.model.popular.PopularImage
 import com.oguzdogdu.domain.model.search.SearchPhoto
 import com.oguzdogdu.domain.model.singlephoto.Photo
+import com.oguzdogdu.domain.model.topics.TopicDetail
 import com.oguzdogdu.domain.model.topics.Topics
 import com.oguzdogdu.domain.repository.WallpaperRepository
 import com.oguzdogdu.domain.wrapper.Resource
@@ -33,6 +35,7 @@ import com.oguzdogdu.network.model.maindto.toDomainModelLatest
 import com.oguzdogdu.network.model.maindto.toDomainModelPhoto
 import com.oguzdogdu.network.model.maindto.toDomainModelPopular
 import com.oguzdogdu.network.model.searchdto.toDomainSearch
+import com.oguzdogdu.network.model.topics.toDomainTopicList
 import com.oguzdogdu.network.model.topics.toDomainTopics
 import com.oguzdogdu.network.service.WallpaperService
 import com.oguzdogdu.wallieshd.cache.dao.FavoriteDao
@@ -85,6 +88,19 @@ class WallpaperRepositoryImpl @Inject constructor(
         ).flow.mapNotNull {
             it.map { topics ->
                 topics.toDomainTopics()
+            }
+        }
+    }
+
+    override suspend fun getTopicListWithPaging(idOrSlug:String?): Flow<PagingData<TopicDetail>> {
+        val pagingConfig = PagingConfig(pageSize = PAGE_ITEM_LIMIT)
+        return Pager(
+            config = pagingConfig,
+            initialKey = 1,
+            pagingSourceFactory = { TopicListSource(service = service, idOrSlug = idOrSlug) }
+        ).flow.mapNotNull {
+            it.map { topicList ->
+                topicList.toDomainTopicList()
             }
         }
     }

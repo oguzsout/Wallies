@@ -3,6 +3,7 @@ package com.oguzdogdu.network.model.topics
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.oguzdogdu.domain.model.topics.TopicDetail
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -40,3 +41,5 @@ data class CoverPhoto(
     @SerializedName("width")
     val width: Int?
 ):Parcelable
+
+fun CoverPhoto.toDomainTopicList() = TopicDetail(id = id, url = urls?.small)
