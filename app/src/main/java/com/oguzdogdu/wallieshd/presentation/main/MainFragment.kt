@@ -161,6 +161,16 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         binding.latestViewContainer.textViewShowAll.setOnClickListener {
             navigate(R.id.toLatest, null)
         }
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.handleUIEvent(MainScreenEvent.FetchMainScreenUserData)
+            viewModel.handleUIEvent(
+                MainScreenEvent.FetchMainScreenList(HomePopularAndLatest.ListType.POPULAR.type)
+            )
+            viewModel.handleUIEvent(
+                MainScreenEvent.FetchMainScreenList(HomePopularAndLatest.ListType.LATEST.type)
+            )
+            binding.swipeRefresh.isRefreshing = false
+        }
     }
 
     private fun goToUserInfoScreen(isAuthenticated: Boolean) {
