@@ -32,8 +32,8 @@ android {
         applicationId = "com.oguzdogdu.wallieshd"
         minSdk = 21
         targetSdk = 33
-        versionCode = 10
-        versionName = "1.3.6"
+        versionCode = 11
+        versionName = "1.3.8"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         signingConfig = signingConfigs.getByName("debug")
     }

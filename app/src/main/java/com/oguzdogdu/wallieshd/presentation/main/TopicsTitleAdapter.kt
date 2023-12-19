@@ -1,12 +1,15 @@
 package com.oguzdogdu.wallieshd.presentation.main
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.oguzdogdu.domain.model.topics.Topics
+import com.oguzdogdu.wallieshd.R
 import com.oguzdogdu.wallieshd.databinding.ItemTopicsTitleBinding
+import com.oguzdogdu.wallieshd.util.itemLoading
 import com.oguzdogdu.wallieshd.util.loadImage
 import com.oguzdogdu.wallieshd.util.shadow
 
@@ -21,10 +24,16 @@ class TopicsTitleAdapter : ListAdapter<Topics, TopicsTitleAdapter.TopicsTitleVie
 
     inner class TopicsTitleViewHolder(private val binding: ItemTopicsTitleBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("ResourceAsColor")
         fun bind(topic: Topics) {
             binding.apply {
                 imageViewTopicTitleBackground.shadow(150)
-                imageViewTopicTitleBackground.loadImage(topic.titleBackground)
+                imageViewTopicTitleBackground.loadImage(
+                    topic.titleBackground,
+                    placeholder = this.root.context.itemLoading(
+                        R.color.purple_03
+                    )
+                )
                 textViewTopicTitle.text = topic.title
                 binding.root.setOnClickListener {
                     onItemClickListener?.let {

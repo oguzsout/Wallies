@@ -1,12 +1,15 @@
 package com.oguzdogdu.wallieshd.presentation.profiledetail.userphotos
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.oguzdogdu.domain.model.userdetail.UsersPhotos
+import com.oguzdogdu.wallieshd.R
 import com.oguzdogdu.wallieshd.databinding.ItemUserCollectionPhotosBinding
+import com.oguzdogdu.wallieshd.util.itemLoading
 import com.oguzdogdu.wallieshd.util.loadImage
 
 class UsersPhotosAdapter : ListAdapter<UsersPhotos, UsersPhotosAdapter.UsersPhotosListsViewHolder>(
@@ -21,9 +24,15 @@ class UsersPhotosAdapter : ListAdapter<UsersPhotos, UsersPhotosAdapter.UsersPhot
 
     inner class UsersPhotosListsViewHolder(private val binding: ItemUserCollectionPhotosBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("ResourceAsColor")
         fun bind(photo: UsersPhotos) {
             binding.apply {
-                imageViewUserCollectionPhoto.loadImage(photo.url)
+                imageViewUserCollectionPhoto.loadImage(
+                    photo.url,
+                    placeholder = this.root.context.itemLoading(
+                        R.color.purple_03
+                    )
+                )
                 binding.root.setOnClickListener {
                     onItemClickListener?.let {
                         it(photo)

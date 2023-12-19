@@ -1,12 +1,15 @@
 package com.oguzdogdu.wallieshd.presentation.collectionslistsbyid
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.oguzdogdu.domain.model.collection.CollectionList
+import com.oguzdogdu.wallieshd.R
 import com.oguzdogdu.wallieshd.databinding.ItemCollectionsListsBinding
+import com.oguzdogdu.wallieshd.util.itemLoading
 import com.oguzdogdu.wallieshd.util.loadImage
 
 class CollectionsListsAdapter :
@@ -22,9 +25,15 @@ class CollectionsListsAdapter :
 
     inner class CollectionsListsViewHolder(private val binding: ItemCollectionsListsBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("ResourceAsColor")
         fun bind(wallpaper: CollectionList) {
             binding.apply {
-                imageViewItemWallpaper.loadImage(wallpaper.url)
+                imageViewItemWallpaper.loadImage(
+                    wallpaper.url,
+                    placeholder = this.root.context.itemLoading(
+                        R.color.purple_03
+                    )
+                )
                 binding.root.setOnClickListener {
                     onItemClickListener?.let {
                         it(wallpaper)

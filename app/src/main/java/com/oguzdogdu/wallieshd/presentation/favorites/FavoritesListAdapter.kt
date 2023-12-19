@@ -1,12 +1,15 @@
 package com.oguzdogdu.wallieshd.presentation.favorites
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.oguzdogdu.domain.model.favorites.FavoriteImages
+import com.oguzdogdu.wallieshd.R
 import com.oguzdogdu.wallieshd.databinding.ItemMainImageBinding
+import com.oguzdogdu.wallieshd.util.itemLoading
 import com.oguzdogdu.wallieshd.util.loadImage
 
 class FavoritesListAdapter : ListAdapter<FavoriteImages, FavoritesListAdapter.FavoritesViewHolder>(
@@ -21,9 +24,15 @@ class FavoritesListAdapter : ListAdapter<FavoriteImages, FavoritesListAdapter.Fa
 
     inner class FavoritesViewHolder(private val binding: ItemMainImageBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("ResourceAsColor")
         fun bind(wallpaper: FavoriteImages) {
             binding.apply {
-                imageViewItemWallpaper.loadImage(wallpaper.url)
+                imageViewItemWallpaper.loadImage(
+                    wallpaper.url,
+                    placeholder = this.root.context.itemLoading(
+                        R.color.purple_03
+                    )
+                )
                 binding.root.setOnClickListener {
                     onItemClickListener?.let {
                         it(wallpaper)

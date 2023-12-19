@@ -45,7 +45,9 @@ class FirebaseService : FirebaseMessagingService() {
         val builder: NotificationCompat.Builder = NotificationCompat.Builder(
             applicationContext,
             channelId
-        ).setSmallIcon(R.drawable.notnot).setContentTitle(title).setContentText(message)
+        ).setSmallIcon(com.skydoves.powermenu.R.drawable.notification_bg).setContentTitle(title).setContentText(
+            message
+        )
             .setAutoCancel(true).setVibrate(longArrayOf(1000, 1000, 1000, 1000))
             .setOnlyAlertOnce(true).setContentIntent(pendingIntent)
 

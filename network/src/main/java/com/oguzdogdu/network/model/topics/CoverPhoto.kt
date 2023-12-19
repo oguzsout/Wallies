@@ -42,4 +42,4 @@ data class CoverPhoto(
     val width: Int?
 ):Parcelable
 
-fun CoverPhoto.toDomainTopicList() = TopicDetail(id = id, url = urls?.small)
+fun CoverPhoto.toDomainTopicList() = TopicDetail(id = id, url = urls?.regular)

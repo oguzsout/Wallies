@@ -1,12 +1,15 @@
 package com.oguzdogdu.wallieshd.presentation.profiledetail.usercollections
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.oguzdogdu.domain.model.userdetail.UserCollections
+import com.oguzdogdu.wallieshd.R
 import com.oguzdogdu.wallieshd.databinding.ItemCollectionsBinding
+import com.oguzdogdu.wallieshd.util.itemLoading
 import com.oguzdogdu.wallieshd.util.loadImage
 
 class UserCollectionAdapter :
@@ -22,10 +25,16 @@ class UserCollectionAdapter :
 
     inner class CollectionsViewHolder(private val binding: ItemCollectionsBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("ResourceAsColor")
         fun bind(wallpaper: UserCollections) {
             binding.apply {
                 textViewAuthorName.text = wallpaper.title
-                imageViewPost.loadImage(wallpaper.photo)
+                imageViewPost.loadImage(
+                    wallpaper.photo,
+                    placeholder = this.root.context.itemLoading(
+                        R.color.purple_03
+                    )
+                )
                 imageViewPost.setOnClickListener {
                     onItemClickListener?.let {
                         it(wallpaper)
