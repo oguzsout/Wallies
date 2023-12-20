@@ -143,6 +143,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         binding.imageViewSearch.setOnClickListener {
             navigate(R.id.toSearch, null)
         }
+        binding.imageViewProfileAvatar.setOnClickListener {
+            navigate(R.id.authenticatedUserFragment, null)
+        }
         topicsTitleAdapter.setOnItemClickListener { item ->
             navigateWithDirection(MainFragmentDirections.toTopicDetailList(item?.title))
         }

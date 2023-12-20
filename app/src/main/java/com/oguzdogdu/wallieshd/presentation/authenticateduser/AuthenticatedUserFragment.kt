@@ -83,7 +83,7 @@ class AuthenticatedUserFragment :
             )
         }
         binding.toolbarProfile.setLeftIconClickListener {
-            navigateWithDirection(AuthenticatedUserFragmentDirections.toMain())
+            navigateBack()
         }
         binding.buttonSignOut.setOnClickListener {
             viewModel.handleUiEvents(AuthenticatedUserEvent.SignOut)

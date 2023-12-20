@@ -7,7 +7,9 @@ import com.oguzdogdu.domain.usecase.auth.GetCheckUserAuthStateUseCase
 import com.oguzdogdu.domain.usecase.auth.GetCurrentUserInfoUseCase
 import com.oguzdogdu.domain.usecase.home.GetPopularAndLatestUseCase
 import com.oguzdogdu.domain.usecase.topics.GetTopicsListUseCase
-import com.oguzdogdu.domain.wrapper.Resource
+import com.oguzdogdu.domain.wrapper.onFailure
+import com.oguzdogdu.domain.wrapper.onLoading
+import com.oguzdogdu.domain.wrapper.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -43,64 +45,59 @@ class MainViewModel @Inject constructor(
             }
         }
     }
+
     private fun fetchPopularAndLatestList(type: String?) {
         viewModelScope.launch {
             getPopularAndLatestHomeListUseCase.invoke(type = type).collect { value ->
                 when (type) {
                     HomePopularAndLatest.ListType.POPULAR.type -> {
-                        when (value) {
-                            is Resource.Success -> {
-                                _homeListState.update {
-                                    HomeRecyclerViewItems.PopularImageList(
-                                        loading = false,
-                                        list = value.data
-                                    )
-                                }
+                        value.onLoading {
+                            _homeListState.update {
+                                HomeRecyclerViewItems.PopularImageList(
+                                    loading = true
+                                )
                             }
-
-                            is Resource.Loading -> {
-                                _homeListState.update {
-                                    HomeRecyclerViewItems.PopularImageList(
-                                        loading = true
-                                    )
-                                }
+                        }
+                        value.onSuccess { list ->
+                            _homeListState.update {
+                                HomeRecyclerViewItems.PopularImageList(
+                                    loading = false,
+                                    list = list
+                                )
                             }
-
-                            is Resource.Error -> {
-                                _homeListState.update {
-                                    HomeRecyclerViewItems.PopularImageList(
-                                        error = value.errorMessage
-                                    )
-                                }
+                        }
+                        value.onFailure { error ->
+                            _homeListState.update {
+                                HomeRecyclerViewItems.PopularImageList(
+                                    error = error
+                                )
                             }
                         }
                     }
 
                     HomePopularAndLatest.ListType.LATEST.type -> {
-                        when (value) {
-                            is Resource.Success -> {
-                                _homeListState.update {
-                                    HomeRecyclerViewItems.LatestImageList(
-                                        loading = false,
-                                        list = value.data
-                                    )
-                                }
+                        value.onLoading {
+                            _homeListState.update {
+                                HomeRecyclerViewItems.LatestImageList(
+                                    loading = true
+                                )
                             }
+                        }
 
-                            is Resource.Loading -> {
-                                _homeListState.update {
-                                    HomeRecyclerViewItems.LatestImageList(
-                                        loading = true
-                                    )
-                                }
+                        value.onSuccess { list ->
+                            _homeListState.update {
+                                HomeRecyclerViewItems.LatestImageList(
+                                    loading = false,
+                                    list = list
+                                )
                             }
+                        }
 
-                            is Resource.Error -> {
-                                _homeListState.update {
-                                    HomeRecyclerViewItems.LatestImageList(
-                                        error = value.errorMessage
-                                    )
-                                }
+                        value.onFailure { error ->
+                            _homeListState.update {
+                                HomeRecyclerViewItems.LatestImageList(
+                                    error = error
+                                )
                             }
                         }
                     }
@@ -112,28 +109,26 @@ class MainViewModel @Inject constructor(
     private fun fetchTopicTitleList() {
         viewModelScope.launch {
             getTopicsListUseCase.invoke().collectLatest { value ->
-                when (value) {
-                    is Resource.Success -> {
-                        _homeListState.update {
-                            HomeRecyclerViewItems.TopicsTitleList(
-                                loading = false,
-                                topics = value.data
-                            )
-                        }
+                value.onLoading {
+                    _homeListState.update {
+                        HomeRecyclerViewItems.TopicsTitleList(
+                            loading = true
+                        )
                     }
-                    is Resource.Loading -> {
-                        _homeListState.update {
-                            HomeRecyclerViewItems.TopicsTitleList(
-                                loading = true
-                            )
-                        }
+                }
+                value.onSuccess { list ->
+                    _homeListState.update {
+                        HomeRecyclerViewItems.TopicsTitleList(
+                            loading = false,
+                            topics = list
+                        )
                     }
-                    is Resource.Error -> {
-                        _homeListState.update {
-                            HomeRecyclerViewItems.TopicsTitleList(
-                                error = value.errorMessage
-                            )
-                        }
+                }
+                value.onFailure { error ->
+                    _homeListState.update {
+                        HomeRecyclerViewItems.TopicsTitleList(
+                            error = error
+                        )
                     }
                 }
             }
@@ -143,32 +138,31 @@ class MainViewModel @Inject constructor(
     private fun getUserProfileImage() {
         viewModelScope.launch {
             getCurrentUserInfoUseCase.invoke().collectLatest { value ->
-                when (value) {
-                    is Resource.Success -> {
-                        _userState.update {
-                            MainScreenState.UserProfile(
-                                profileImage = value.data?.image
-                            )
-                        }
+                value.onLoading {}
+
+                value.onSuccess { user ->
+                    _userState.update {
+                        MainScreenState.UserProfile(
+                            profileImage = user?.image
+                        )
                     }
-                    is Resource.Loading -> {}
-                    is Resource.Error -> {}
                 }
+
+                value.onFailure {}
             }
         }
     }
+
     private fun checkUserAuthenticate() {
         viewModelScope.launch {
             getCheckUserAuthStateUseCase.invoke().collectLatest { status ->
-                when (status) {
-                    is Resource.Success -> {
-                        _userState.update {
-                            MainScreenState.UserAuthenticated(isAuthenticated = status.data)
-                        }
+                status.onSuccess { auth ->
+                    _userState.update {
+                        MainScreenState.UserAuthenticated(isAuthenticated = auth)
                     }
-                    is Resource.Loading -> {}
-                    is Resource.Error -> {}
                 }
+
+                status.onFailure {}
             }
         }
     }

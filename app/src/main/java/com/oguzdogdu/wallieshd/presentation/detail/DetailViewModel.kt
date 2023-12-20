@@ -13,6 +13,9 @@ import com.oguzdogdu.domain.usecase.favorites.GetDeleteFromFavoritesUseCase
 import com.oguzdogdu.domain.usecase.favorites.GetImageFromFavoritesUseCase
 import com.oguzdogdu.domain.usecase.singlephoto.GetPhotoDetailUseCase
 import com.oguzdogdu.domain.wrapper.Resource
+import com.oguzdogdu.domain.wrapper.onFailure
+import com.oguzdogdu.domain.wrapper.onLoading
+import com.oguzdogdu.domain.wrapper.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
@@ -87,19 +90,19 @@ class DetailViewModel @Inject constructor(
     private fun getSinglePhoto(id: String?) {
         viewModelScope.launch {
             getPhotoDetailUseCase.invoke(id = id).collectLatest { result ->
-                when (result) {
-                    is Resource.Loading -> _getPhoto.update { DetailState.Loading }
+                result.onLoading {
+                    _getPhoto.update { DetailState.Loading }
+                }
 
-                    is Resource.Success -> {
-                        _getPhoto.update { DetailState.DetailOfPhoto(detail = result.data) }
-                    }
+                result.onSuccess { photo ->
+                    _getPhoto.update { DetailState.DetailOfPhoto(detail = photo) }
+                }
 
-                    is Resource.Error -> {
-                        _getPhoto.update {
-                            DetailState.DetailError(
-                                errorMessage = result.errorMessage
-                            )
-                        }
+                result.onFailure { error ->
+                    _getPhoto.update {
+                        DetailState.DetailError(
+                            errorMessage = error
+                        )
                     }
                 }
             }

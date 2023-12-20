@@ -1,11 +1,15 @@
 package com.oguzdogdu.wallieshd.presentation.profiledetail
 
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oguzdogdu.domain.usecase.collection.GetUserCollectionUseCase
 import com.oguzdogdu.domain.usecase.userdetails.GetUnsplashUserDetailsUseCase
 import com.oguzdogdu.domain.usecase.userdetails.GetUnsplashUsersPhotosUseCase
 import com.oguzdogdu.domain.wrapper.Resource
+import com.oguzdogdu.domain.wrapper.onFailure
+import com.oguzdogdu.domain.wrapper.onLoading
+import com.oguzdogdu.domain.wrapper.onSuccess
 import com.oguzdogdu.wallieshd.presentation.profiledetail.usercollections.UserCollectionState
 import com.oguzdogdu.wallieshd.presentation.profiledetail.userphotos.UserPhotosState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -49,14 +53,18 @@ class ProfileDetailViewModel @Inject constructor(
     private fun getUserDetails(username: String?) {
         viewModelScope.launch {
             getUnsplashUserDetailsUseCase.invoke(username).collectLatest { result ->
-                when (result) {
-                    is Resource.Success -> _getUserDetails.update {
-                        ProfileDetailState.UserInfos(userDetails = result.data)
+                result.onLoading {
+                    _getUserDetails.update { ProfileDetailState.Loading }
+                }
+                result.onSuccess { userDetails ->
+                    _getUserDetails.update {
+                        ProfileDetailState.UserInfos(userDetails = userDetails)
                     }
+                }
 
-                    is Resource.Loading -> _getUserDetails.update { ProfileDetailState.Loading }
-                    is Resource.Error -> _getUserDetails.update {
-                        ProfileDetailState.UserDetailError(errorMessage = result.errorMessage)
+                result.onFailure { error ->
+                    _getUserDetails.update {
+                        ProfileDetailState.UserDetailError(errorMessage = error)
                     }
                 }
             }
@@ -66,30 +74,41 @@ class ProfileDetailViewModel @Inject constructor(
     private fun getUsersPhotos(username: String?) {
         viewModelScope.launch {
             getUnsplashUsersPhotosUseCase.invoke(username).collectLatest { result ->
-                when (result) {
-                    is Resource.Success -> _getUserPhotoList.update {
-                        UserPhotosState.UserPhotos(result.data)
-                    }
+                result.onLoading {
+                    _getUserPhotoList.update { UserPhotosState.Loading }
+                }
 
-                    is Resource.Loading -> _getUserPhotoList.update { UserPhotosState.Loading }
-                    is Resource.Error -> _getUserPhotoList.update {
-                        UserPhotosState.UserPhotosError(errorMessage = result.errorMessage)
+                result.onSuccess { list ->
+                    _getUserPhotoList.update {
+                        UserPhotosState.UserPhotos(list)
+                    }
+                }
+
+                result.onFailure { error ->
+                    _getUserPhotoList.update {
+                        UserPhotosState.UserPhotosError(errorMessage = error)
                     }
                 }
             }
         }
     }
+
     private fun getUsersCollections(username: String?) {
         viewModelScope.launch {
             getUserCollectionUseCase.invoke(username).collectLatest { result ->
-                when (result) {
-                    is Resource.Success -> _getUserCollectionList.update {
-                        UserCollectionState.UserCollections(result.data)
-                    }
+                result.onLoading {
+                    _getUserCollectionList.update { UserCollectionState.Loading }
+                }
 
-                    is Resource.Loading -> _getUserCollectionList.update { UserCollectionState.Loading }
-                    is Resource.Error -> _getUserCollectionList.update {
-                        UserCollectionState.UserCollectionError(errorMessage = result.errorMessage)
+                result.onSuccess { list ->
+                    _getUserCollectionList.update {
+                        UserCollectionState.UserCollections(list)
+                    }
+                }
+
+                result.onFailure { error ->
+                    _getUserCollectionList.update {
+                        UserCollectionState.UserCollectionError(errorMessage = error)
                     }
                 }
             }

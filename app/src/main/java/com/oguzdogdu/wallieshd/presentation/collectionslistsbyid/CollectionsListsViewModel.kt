@@ -4,6 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oguzdogdu.domain.usecase.collection.GetCollectionListByIdUseCase
 import com.oguzdogdu.domain.wrapper.Resource
+import com.oguzdogdu.domain.wrapper.onFailure
+import com.oguzdogdu.domain.wrapper.onLoading
+import com.oguzdogdu.domain.wrapper.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,18 +35,22 @@ class CollectionsListsViewModel @Inject constructor(
     private fun getCollectionsLists(id: String?) {
         viewModelScope.launch {
             getCollectionListByIdUseCase(id).collectLatest { result ->
-                when (result) {
-                    is Resource.Loading -> _getPhoto.update { CollectionsListsState.Loading }
+                result.onLoading {
+                    _getPhoto.update { CollectionsListsState.Loading }
+                }
 
-                    is Resource.Success -> _getPhoto.update {
+                result.onSuccess { list ->
+                    _getPhoto.update {
                         CollectionsListsState.CollectionList(
-                            collectionsLists = result.data
+                            collectionsLists = list
                         )
                     }
+                }
 
-                    is Resource.Error -> _getPhoto.update {
+                result.onFailure { error ->
+                    _getPhoto.update {
                         CollectionsListsState.CollectionListError(
-                            errorMessage = result.errorMessage
+                            errorMessage = error
                         )
                     }
                 }
