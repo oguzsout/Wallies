@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layoutDescription="@xml/fragment_profile_detail_scene">
@@ -52,13 +51,13 @@
 
             <TextView
                 android:id="@+id/textViewNumberOfPosts"
-                style="@style/DialogTitleText"
+                style="@style/DetailText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/textViewPosts"
-                style="@style/MainText"
+                style="@style/DetailText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_8"
@@ -70,9 +69,7 @@
             android:id="@+id/linearLayoutFollowersContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_24"
             android:layout_marginTop="@dimen/dp_8"
-            android:layout_marginEnd="@dimen/dp_24"
             android:layout_marginBottom="@dimen/dp_8"
             android:gravity="center_horizontal"
             android:orientation="vertical"
@@ -83,13 +80,13 @@
 
             <TextView
                 android:id="@+id/textViewNumberOfFollowers"
-                style="@style/DialogTitleText"
+                style="@style/DetailText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/textViewFollowers"
-                style="@style/MainText"
+                style="@style/DetailText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_8"
@@ -112,13 +109,13 @@
 
             <TextView
                 android:id="@+id/textViewNumberOfFollowing"
-                style="@style/DialogTitleText"
+                style="@style/DetailText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/textViewFollowing"
-                style="@style/MainText"
+                style="@style/DetailText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_8"
@@ -128,8 +125,8 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/textViewBio"
-        style="@style/DialogText"
+        android:id="@+id/textViewUserNameAndLastname"
+        style="@style/DetailText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_16"
@@ -139,29 +136,55 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewDetailProfilePhoto" />
-
     <TextView
-        android:id="@+id/textViewPortfolioUrl"
-        style="@style/DialogText"
+        android:id="@+id/textViewBio"
+        style="@style/DetailText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginEnd="@dimen/dp_16"
-        android:autoLink="web"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewUserNameAndLastname" />
+
+    <TextView
+        android:id="@+id/textViewLocation"
+        style="@style/DetailText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:includeFontPadding="true"
+        android:visibility="visible"
+        android:textAlignment="viewEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewBio"
+        app:drawableStartCompat="@drawable/location" />
+
+    <TextView
+        android:id="@+id/textViewPortfolioUrl"
+        style="@style/DetailText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_16"
         android:maxLines="1"
         android:singleLine="true"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewBio" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewLocation">
+    </TextView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/dp_16"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        android:layout_marginTop="@dimen/dp_8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

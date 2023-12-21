@@ -27,7 +27,7 @@ class UserPhotosFragment : BaseFragment<FragmentUserPhotosBinding>(
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
         binding.rvUserPhotos.setupRecyclerView(
-            layout = GridLayoutManager(requireContext(), 2),
+            layout = GridLayoutManager(requireContext(), 3),
             adapter = usersPhotosAdapter,
             true,
             onScroll = {}

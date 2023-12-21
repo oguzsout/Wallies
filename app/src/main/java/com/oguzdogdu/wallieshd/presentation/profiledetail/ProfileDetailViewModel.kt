@@ -1,12 +1,10 @@
 package com.oguzdogdu.wallieshd.presentation.profiledetail
 
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oguzdogdu.domain.usecase.collection.GetUserCollectionUseCase
 import com.oguzdogdu.domain.usecase.userdetails.GetUnsplashUserDetailsUseCase
 import com.oguzdogdu.domain.usecase.userdetails.GetUnsplashUsersPhotosUseCase
-import com.oguzdogdu.domain.wrapper.Resource
 import com.oguzdogdu.domain.wrapper.onFailure
 import com.oguzdogdu.domain.wrapper.onLoading
 import com.oguzdogdu.domain.wrapper.onSuccess
@@ -27,7 +25,8 @@ class ProfileDetailViewModel @Inject constructor(
     private val getUserCollectionUseCase: GetUserCollectionUseCase
 ) : ViewModel() {
 
-    private var username: String? = null
+    var username: String? = null
+        private set
 
     fun setUsername(username: String?) {
         this.username = username

@@ -11,6 +11,7 @@ import com.oguzdogdu.wallieshd.R
 import com.oguzdogdu.wallieshd.databinding.ItemCollectionsBinding
 import com.oguzdogdu.wallieshd.util.itemLoading
 import com.oguzdogdu.wallieshd.util.loadImage
+import com.oguzdogdu.wallieshd.util.shadow
 
 class UserCollectionAdapter :
     ListAdapter<UserCollections, UserCollectionAdapter.CollectionsViewHolder>(
@@ -28,6 +29,7 @@ class UserCollectionAdapter :
         @SuppressLint("ResourceAsColor")
         fun bind(wallpaper: UserCollections) {
             binding.apply {
+                imageViewPost.shadow(100)
                 textViewAuthorName.text = wallpaper.title
                 imageViewPost.loadImage(
                     wallpaper.photo,

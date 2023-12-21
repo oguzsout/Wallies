@@ -3,7 +3,6 @@ package com.oguzdogdu.wallieshd.presentation.collectionslistsbyid
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oguzdogdu.domain.usecase.collection.GetCollectionListByIdUseCase
-import com.oguzdogdu.domain.wrapper.Resource
 import com.oguzdogdu.domain.wrapper.onFailure
 import com.oguzdogdu.domain.wrapper.onLoading
 import com.oguzdogdu.domain.wrapper.onSuccess

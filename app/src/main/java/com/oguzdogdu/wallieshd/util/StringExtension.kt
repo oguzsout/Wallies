@@ -3,6 +3,9 @@ package com.oguzdogdu.wallieshd.util
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import java.net.HttpURLConnection
 import java.net.URL
 import java.text.SimpleDateFormat
@@ -29,6 +32,17 @@ fun String.formatDate(
     } else {
         outputDateFormat.format(d)
     }
+}
+
+fun String.colorize(color: Int): SpannableString {
+    val spannable = SpannableString(this)
+    spannable.setSpan(
+        ForegroundColorSpan(color),
+        0,
+        this.length,
+        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+    )
+    return spannable
 }
 
 fun String.toBitmap(): Bitmap {

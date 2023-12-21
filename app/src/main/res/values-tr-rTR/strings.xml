@@ -111,4 +111,6 @@
     <string name="show_all">Tümünü Gör</string>
     <string name="popular_title">Popüler</string>
     <string name="latest_title">En Son</string>
+    <string name="photos">Fotoğraflar</string>
+    <string name="connect_with_user">%1$s ile bağlantı kurun</string>
 </resources>

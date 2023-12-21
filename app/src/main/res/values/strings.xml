@@ -110,4 +110,6 @@
     <string name="show_all">Show All</string>
     <string name="popular_title">Popular</string>
     <string name="latest_title">Latest</string>
+    <string name="photos">Photos</string>
+    <string name="connect_with_user">Connect with %1$s</string>
 </resources>
