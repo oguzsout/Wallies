@@ -2,13 +2,13 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    kotlin("kapt")
+    id("com.google.devtools.ksp")
     id("kotlin-parcelize")
 }
 
 android {
     namespace = "com.oguzdogdu.data"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 21
@@ -63,7 +63,7 @@ dependencies {
     implementation(libs.okhttp.logging)
 
     implementation(libs.google.dagger.hilt)
-    kapt(libs.google.dagger.hilt.compiler)
+    ksp(libs.google.dagger.hilt.compiler)
 
     implementation(libs.androidx.paging.runtime)
     testImplementation(libs.androidx.paging.common)

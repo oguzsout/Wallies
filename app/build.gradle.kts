@@ -1,12 +1,13 @@
 
 import java.io.FileInputStream
+import java.util.Locale
 import java.util.Properties
 
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("com.android.application")
     kotlin("android")
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
     id("androidx.navigation.safeargs.kotlin")
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
@@ -26,7 +27,7 @@ android {
             storePassword = keystoreProperties["storePassword"] as String
         }
     }
-    compileSdk = 33
+    compileSdk = 34
     namespace = "com.oguzdogdu.wallieshd"
     defaultConfig {
         applicationId = "com.oguzdogdu.wallieshd"
@@ -69,13 +70,6 @@ android {
         viewBinding = true
         buildConfig = true
     }
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.6"
-    }
 }
 
 tasks.getByPath("preBuild").dependsOn("ktlintFormat")
@@ -89,6 +83,43 @@ ktlint {
         reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.SARIF)
     }
     outputToConsole.set(true)
+}
+
+androidComponents {
+    onVariants(selector().all()) { variant ->
+        afterEvaluate {
+            // This is a workaround for https://issuetracker.google.com/301245705 which depends on internal
+            // implementations of the android gradle plugin and the ksp gradle plugin which might change in the future
+            // in an unpredictable way.
+            val dataBindingTask = this.project.tasks.named(
+                "dataBindingGenBaseClasses" + variant.name.replaceFirstChar {
+                    if (it.isLowerCase()) {
+                        it.titlecase(
+                            Locale.getDefault()
+                        )
+                    } else {
+                        it.toString()
+                    }
+                }
+            ).get() as com.android.build.gradle.internal.tasks.databinding.DataBindingGenBaseClassesTask
+
+            project.tasks.getByName(
+                "ksp" + variant.name.replaceFirstChar {
+                    if (it.isLowerCase()) {
+                        it.titlecase(
+                            Locale.getDefault()
+                        )
+                    } else {
+                        it.toString()
+                    }
+                } + "Kotlin"
+            ) {
+                (this as org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompileTool<*>).setSource(
+                    dataBindingTask.sourceOutFolder
+                )
+            }
+        }
+    }
 }
 
 dependencies {
@@ -176,7 +207,7 @@ dependencies {
     implementation(libs.kotlin.coil)
 
     implementation(libs.google.dagger.hilt)
-    kapt(libs.google.dagger.hilt.compiler)
+    ksp(libs.google.dagger.hilt.compiler)
 
     implementation(libs.androidx.swipe.refresh)
     implementation(libs.glide)

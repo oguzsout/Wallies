@@ -2,13 +2,13 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
     id("kotlin-parcelize")
 }
 
 android {
     namespace = "com.oguzdogdu.domain"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 21
@@ -29,7 +29,7 @@ android {
 dependencies {
 
     implementation(libs.google.dagger.hilt)
-    kapt(libs.google.dagger.hilt.compiler)
+    ksp(libs.google.dagger.hilt.compiler)
     implementation ("com.google.firebase:firebase-auth-ktx:22.1.0")
     implementation ("com.google.firebase:firebase-bom:32.2.0")
     implementation ("com.google.firebase:firebase-firestore-ktx:24.7.0")

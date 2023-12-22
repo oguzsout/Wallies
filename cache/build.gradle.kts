@@ -2,14 +2,14 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
     id("kotlin-parcelize")
 }
 
 android {
 
     namespace = "com.oguzdogdu.cache"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 21
@@ -49,10 +49,10 @@ dependencies {
     androidTestImplementation ("android.arch.core:core-testing:1.1.1")
 
     implementation(libs.google.dagger.hilt)
-    kapt(libs.google.dagger.hilt.compiler)
+    ksp(libs.google.dagger.hilt.compiler)
 
     api(libs.androidx.room.runtime)
-    kapt(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
     testImplementation ("androidx.room:room-testing:2.5.1")
 }

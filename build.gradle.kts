@@ -1,6 +1,6 @@
 buildscript {
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0")
+        classpath(libs.kotlin.gradle.plugin)
         classpath("com.google.gms:google-services:4.3.15")
     }
 }
@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.hilt.android) apply false
     alias(libs.plugins.navigation.safe.args) apply false
+    id("com.google.devtools.ksp") version "1.9.0-1.0.13" apply false
 }
 
 task("clean") {
