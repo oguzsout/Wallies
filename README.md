@@ -19,6 +19,7 @@ DEBUG_API_KEY=""
 This project uses many of the popular libraries, plugins and tools of the android ecosystem.
 - [Clean Architecture](https://developer.android.com/topic/architecture) - Clean architecture is a method of software development in which you should be able to identify what a program performs merely by looking at its source code.
 - [Hilt](https://dagger.dev/hilt/) - Dependency Injection library.
+- [KSP](https://developer.android.com/build/migrate-to-ksp) - KSP (Kotlin Symbol Processing) is a Kotlin-first alternative to kapt. KSP analyzes Kotlin code directly, which is up to 2x faster.
 - [Retrofit](https://square.github.io/retrofit/) - Type-safe http client and supports coroutines out of the box.
 - [Ktlint](https://github.com/jlleitschuh/ktlint-gradle) - This plugin creates convenient tasks in your Gradle project that run ktlint checks or do code auto format.
 - [OkHttp-Logging-Interceptor](https://github.com/square/okhttp/blob/master/okhttp-logging-interceptor/README.md) - Logs HTTP request and response data.
