@@ -339,7 +339,7 @@
         <action
             android:id="@+id/toLogin"
             app:destination="@id/loginFragment"
-            app:popUpTo="@id/authenticatedUserFragment"
+            app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/toEditUserName"

@@ -33,7 +33,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
 
     override fun firstExecution(savedInstanceState: Bundle?) {
         super.firstExecution(savedInstanceState)
-        viewModel.handleUIEvent(MainScreenEvent.FetchMainScreenUserData)
         viewModel.handleUIEvent(
             MainScreenEvent.FetchMainScreenList(HomePopularAndLatest.ListType.POPULAR.type)
         )
@@ -92,12 +91,13 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
             textViewTitle.text = resources.getString(R.string.app_name)
             imageViewSearch.load(R.drawable.search)
         }
+        checkUserAuthStat()
     }
 
     override fun observeData() {
         super.observeData()
-        viewModel.userState.observeInLifecycle(viewLifecycleOwner, ::getAuthenticatedUserInfos)
         fetchHomeScreenList()
+        viewModel.userState.observeInLifecycle(viewLifecycleOwner, ::getAuthenticatedUserInfos)
     }
 
     private fun fetchHomeScreenList() {
@@ -125,15 +125,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
                     }
                 }
             }
-
-            is MainScreenState.UserAuthenticated -> {
-                when (state.isAuthenticated) {
-                    false -> binding.imageViewProfileAvatar.load(R.drawable.ic_default_avatar)
-                    else -> {}
-                }
-                state.isAuthenticated?.let { goToUserInfoScreen(it) }
-            }
-
             null -> return
         }
     }
@@ -144,7 +135,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
             navigate(R.id.toSearch, null)
         }
         binding.imageViewProfileAvatar.setOnClickListener {
-            navigate(R.id.authenticatedUserFragment, null)
+            navigate(R.id.toAuthUser, bundleOf(Pair("auth", arguments?.getBoolean("Guest"))))
         }
         topicsTitleAdapter.setOnItemClickListener { item ->
             navigateWithDirection(MainFragmentDirections.toTopicDetailList(item?.title))
@@ -165,7 +156,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
             navigate(R.id.toLatest, null)
         }
         binding.swipeRefresh.setOnRefreshListener {
-            viewModel.handleUIEvent(MainScreenEvent.FetchMainScreenUserData)
             viewModel.handleUIEvent(
                 MainScreenEvent.FetchMainScreenList(HomePopularAndLatest.ListType.POPULAR.type)
             )
@@ -176,9 +166,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         }
     }
 
-    private fun goToUserInfoScreen(isAuthenticated: Boolean) {
-        binding.imageViewProfileAvatar.setOnClickListener {
-            navigate(R.id.toAuthUser, bundleOf(Pair("auth", isAuthenticated)))
+    private fun checkUserAuthStat() {
+        val isGuest = arguments?.getBoolean("Guest")
+        if (isGuest == false) {
+            viewModel.handleUIEvent(MainScreenEvent.FetchMainScreenUserData)
+        } else {
+            binding.imageViewProfileAvatar.load(R.drawable.ic_default_avatar)
         }
     }
 

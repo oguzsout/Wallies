@@ -36,7 +36,6 @@ class MainViewModel @Inject constructor(
         when (event) {
             is MainScreenEvent.FetchMainScreenUserData -> {
                 getUserProfileImage()
-                checkUserAuthenticate()
             }
 
             is MainScreenEvent.FetchMainScreenList -> {
@@ -148,21 +147,8 @@ class MainViewModel @Inject constructor(
                     }
                 }
 
-                value.onFailure {}
-            }
-        }
-    }
-
-    private fun checkUserAuthenticate() {
-        viewModelScope.launch {
-            getCheckUserAuthStateUseCase.invoke().collectLatest { status ->
-                status.onSuccess { auth ->
-                    _userState.update {
-                        MainScreenState.UserAuthenticated(isAuthenticated = auth)
-                    }
+                value.onFailure {
                 }
-
-                status.onFailure {}
             }
         }
     }

@@ -212,6 +212,12 @@
         <item name="android:fontFamily">@font/googlesansmedium</item>
     </style>
 
+    <style name="ForgotPasswordText" parent="@android:style/TextAppearance">
+        <item name="android:textSize">@dimen/sp_12</item>
+        <item name="android:textColor">@color/main_color</item>
+        <item name="android:fontFamily">@font/googlesansmedium</item>
+    </style>
+
     <style name="SnackBarText" parent="@android:style/TextAppearance">
         <item name="android:textSize">@dimen/sp_12</item>
         <item name="android:textColor">@color/black</item>

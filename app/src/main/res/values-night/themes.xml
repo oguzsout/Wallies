@@ -144,6 +144,12 @@
         <item name="android:fontFamily">@font/googlesansregular</item>
     </style>
 
+    <style name="ForgotPasswordText" parent="@android:style/TextAppearance">
+        <item name="android:textSize">@dimen/sp_12</item>
+        <item name="android:textColor">@color/main_color</item>
+        <item name="android:fontFamily">@font/googlesansmedium</item>
+    </style>
+
     <style name="Tab.Background" parent="Widget.MaterialComponents.TabLayout">
         <item name="android:background">@drawable/bg_tab</item>
         <item name="tabIndicator">@drawable/tab_indicator</item>

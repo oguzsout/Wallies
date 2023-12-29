@@ -113,4 +113,6 @@
     <string name="latest_title">En Son</string>
     <string name="photos">Fotoğraflar</string>
     <string name="connect_with_user">%1$s ile bağlantı kurun</string>
+    <string name="or">Veya</string>
+    <string name="continue_without_registration">Kayıt olmadan devam et</string>
 </resources>

@@ -86,6 +86,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         binding.buttonGoogleSignIn.setOnClickListener {
             checkVersion()
         }
+        binding.textViewWithoutLogin.setOnClickListener {
+            val bundle = Bundle().apply {
+                this.putBoolean("Guest", true)
+            }
+            navigate(R.id.toMain, bundle)
+        }
     }
 
     private fun checkVersion() {

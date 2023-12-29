@@ -112,4 +112,6 @@
     <string name="latest_title">Latest</string>
     <string name="photos">Photos</string>
     <string name="connect_with_user">Connect with %1$s</string>
+    <string name="or">Or</string>
+    <string name="continue_without_registration">Continue without registration</string>
 </resources>

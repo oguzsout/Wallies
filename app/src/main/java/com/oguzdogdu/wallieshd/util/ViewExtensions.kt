@@ -22,30 +22,6 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.google.android.material.snackbar.Snackbar
 import com.oguzdogdu.wallieshd.R
 
-internal fun View?.findSuitableParent(): ViewGroup? {
-    var view = this
-    var fallback: ViewGroup? = null
-
-    do {
-        if (view is ConstraintLayout) {
-            return view
-        } else if (view is FrameLayout) {
-            if (view.id == android.R.id.content) {
-                return view
-            } else {
-                fallback = view
-            }
-        }
-
-        if (view != null) {
-            val parent = view.parent
-            view = if (parent is View) parent else null
-        }
-    } while (view != null)
-
-    return fallback
-}
-
 inline fun RecyclerView.setupRecyclerView(
     layout: RecyclerView.LayoutManager? = null,
     adapter: RecyclerView.Adapter<*>? = null,
@@ -148,4 +124,28 @@ fun View.invisible() {
 
 fun View.hide() {
     visibility = View.GONE
+}
+
+internal fun View?.findSuitableParent(): ViewGroup? {
+    var view = this
+    var fallback: ViewGroup? = null
+
+    do {
+        if (view is ConstraintLayout) {
+            return view
+        } else if (view is FrameLayout) {
+            if (view.id == android.R.id.content) {
+                return view
+            } else {
+                fallback = view
+            }
+        }
+
+        if (view != null) {
+            val parent = view.parent
+            view = if (parent is View) parent else null
+        }
+    } while (view != null)
+
+    return fallback
 }
