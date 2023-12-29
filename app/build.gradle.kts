@@ -184,6 +184,8 @@ dependencies {
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
 
+    implementation(libs.app.update.ktx)
+
     implementation(libs.google.firebase.bom)
 
     implementation(libs.androidx.lifecycle.viewmodel)

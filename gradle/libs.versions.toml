@@ -1,5 +1,6 @@
 [versions]
 androidGradlePlugin = "8.1.0"
+appUpdateKtx = "2.1.0"
 kotlin = "1.9.0"
 kotlinGradlePlugin = "1.9.0"
 navigation = "2.7.6"
@@ -48,6 +49,7 @@ androidx-test-core = { module = "androidx.test:core-ktx", version.ref = "testCor
 androidx-junit = { module = "junit:junit", version.ref = "jUnit" }
 androidx-junit-ext = { module = "androidx.test.ext:junit", version.ref = "jUnitExt" }
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
+app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdateKtx" }
 google-dagger-hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 google-dagger-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 androidx-navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }

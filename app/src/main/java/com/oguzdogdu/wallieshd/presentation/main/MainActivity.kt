@@ -2,6 +2,8 @@ package com.oguzdogdu.wallieshd.presentation.main
 
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -13,6 +15,13 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.appupdate.AppUpdateOptions
+import com.google.android.play.core.install.InstallStateUpdatedListener
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.InstallStatus
+import com.google.android.play.core.install.model.UpdateAvailability
 import com.oguzdogdu.wallieshd.R
 import com.oguzdogdu.wallieshd.databinding.ActivityMainBinding
 import com.oguzdogdu.wallieshd.presentation.settings.LanguageValues
@@ -32,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
 
-    private lateinit var currentLanguage: String
+    private lateinit var appUpdateManager: AppUpdateManager
 
     private val appBarConfiguration = AppBarConfiguration(
         setOf(
@@ -49,11 +58,42 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        appUpdateManager = AppUpdateManagerFactory.create(this)
+        checkUpdates()
         setupNavigation()
         navigationBarCorners()
         getLanguage()
         setTheme()
     }
+
+    private fun checkUpdates() {
+        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(
+                    AppUpdateType.FLEXIBLE
+                )
+            ) {
+                appUpdateManager.startUpdateFlowForResult(
+                    appUpdateInfo,
+                    activityResultLauncher,
+                    AppUpdateOptions.newBuilder(AppUpdateType.FLEXIBLE).build()
+                )
+            }
+        }
+        appUpdateManager.registerListener(listener)
+    }
+
+    private val listener = InstallStateUpdatedListener { state ->
+        if (state.installStatus() == InstallStatus.DOWNLOADED) {
+            Toast.makeText(this, "Download Successful", Toast.LENGTH_LONG)
+        }
+    }
+    private val activityResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) {
+            if (it.resultCode != RESULT_OK) {
+                Toast.makeText(this, "Error", Toast.LENGTH_LONG)
+            }
+        }
 
     private fun getLanguage() {
         viewModel.handleUIEvent(SettingsEvent.LanguageChanged)
@@ -101,11 +141,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             viewModel.showBottomNavigation.value = when (destination.id) {
-                R.id.mainFragment,
-                R.id.collectionsFragment,
-                R.id.favoritesFragment,
-                R.id.settings
-                -> true
+                R.id.mainFragment, R.id.collectionsFragment, R.id.favoritesFragment, R.id.settings -> true
 
                 else -> false
             }
@@ -174,5 +210,10 @@ class MainActivity : AppCompatActivity() {
 
     fun slideDown() {
         binding.bottomNavigationView.hide()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        appUpdateManager.unregisterListener(listener)
     }
 }
