@@ -1,6 +1,6 @@
 package com.oguzdogdu.wallieshd.presentation.main
 
-import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -24,7 +24,6 @@ import com.oguzdogdu.wallieshd.util.hide
 import com.oguzdogdu.wallieshd.util.observeInLifecycle
 import com.oguzdogdu.wallieshd.util.show
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Locale
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -32,6 +31,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private lateinit var navController: NavController
+
+    private lateinit var currentLanguage: String
 
     private val appBarConfiguration = AppBarConfiguration(
         setOf(
@@ -55,24 +56,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getLanguage() {
+        viewModel.handleUIEvent(SettingsEvent.LanguageChanged)
         viewModel.languageState.observeInLifecycle(lifecycleOwner = this, observer = { lang ->
-            setLocale(lang?.value)
-            updateBottomNavigationTitles(lang?.value)
-        })
-    }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                LocaleHelper(context = this).updateResourcesLegacy(lang.value)
+            } else {
+                LocaleHelper(context = this).updateResources(lang.value)
+            }
 
-    private fun setLocale(language: String?) {
-        val locale = language?.let { Locale(it) }
-        if (locale != null) {
-            Locale.setDefault(locale)
-        }
-        val config = Configuration()
-        config.setLocale(locale)
-        this.resources.updateConfiguration(
-            config,
-            this.resources.displayMetrics
-        )
-        language?.let { LocaleHelper.setLocale(context = this@MainActivity, it) }
+            updateBottomNavigationTitles(lang.value)
+        })
     }
 
     private fun setTheme() {

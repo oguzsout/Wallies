@@ -1,26 +1,24 @@
 package com.oguzdogdu.wallieshd.util
 
-import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
 import java.util.*
 
-object LocaleHelper {
+class LocaleHelper(private val context: Context) : ILocaleHelper {
 
-    fun onAttach(context: Context, defaultLanguage: String): Context {
-        return setLocale(context, defaultLanguage)
+    override fun onAttach(defaultLanguage: String): Context {
+        return setLocale(defaultLanguage)
     }
 
-    fun setLocale(context: Context, language: String): Context {
+    override fun setLocale(language: String): Context {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            updateResources(context, language)
+            updateResources(language)
         } else {
-            updateResourcesLegacy(context, language)
+            updateResourcesLegacy(language)
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.N)
-    private fun updateResources(context: Context, language: String): Context {
+    override fun updateResources(language: String): Context {
         val locale = Locale(language)
         Locale.setDefault(locale)
 
@@ -31,7 +29,7 @@ object LocaleHelper {
         return context.createConfigurationContext(configuration)
     }
 
-    private fun updateResourcesLegacy(context: Context, language: String): Context {
+    override fun updateResourcesLegacy(language: String): Context {
         val locale = Locale(language)
         Locale.setDefault(locale)
 

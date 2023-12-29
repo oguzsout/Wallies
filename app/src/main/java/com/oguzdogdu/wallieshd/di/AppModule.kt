@@ -2,7 +2,9 @@ package com.oguzdogdu.wallieshd.di
 
 import android.content.Context
 import com.oguzdogdu.wallieshd.util.CheckConnection
+import com.oguzdogdu.wallieshd.util.ILocaleHelper
 import com.oguzdogdu.wallieshd.util.ITooltipUtils
+import com.oguzdogdu.wallieshd.util.LocaleHelper
 import com.oguzdogdu.wallieshd.util.TooltipUtils
 import dagger.Module
 import dagger.Provides
@@ -26,5 +28,11 @@ object AppModule {
     @Singleton
     fun provideTooltip(@ApplicationContext context: Context): ITooltipUtils {
         return TooltipUtils(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLocaleHelper(@ApplicationContext context: Context): ILocaleHelper {
+        return LocaleHelper(context)
     }
 }

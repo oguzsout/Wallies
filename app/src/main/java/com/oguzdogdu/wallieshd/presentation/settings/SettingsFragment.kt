@@ -15,6 +15,7 @@ import com.oguzdogdu.wallieshd.core.snackbar.MessageType
 import com.oguzdogdu.wallieshd.databinding.FragmentSettingsBinding
 import com.oguzdogdu.wallieshd.presentation.authenticateduser.ProfileMenu
 import com.oguzdogdu.wallieshd.util.ChoiseDialogBuilder
+import com.oguzdogdu.wallieshd.util.LocaleHelper
 import com.oguzdogdu.wallieshd.util.OptionLists
 import com.oguzdogdu.wallieshd.util.observeInLifecycle
 import com.oguzdogdu.wallieshd.util.setupRecyclerView
@@ -143,6 +144,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
             },
             positive = { dialog, which ->
                 viewModel.handleUIEvent(SettingsEvent.LanguageChanged)
+                LocaleHelper(context = requireContext()).setLocale(selectedLanguages)
                 requireActivity().recreate()
             }
         )
@@ -167,7 +169,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
     private fun observeLanguageState() {
         lifecycleScope.launch {
             viewModel.languageState.observeInLifecycle(viewLifecycleOwner, observer = { lang ->
-                selectedLanguages = lang?.value?.ifBlank { language[selectedLanguageIndex] }.toString()
+                selectedLanguages = lang.value.ifBlank { language[selectedLanguageIndex] }.toString()
             })
         }
     }

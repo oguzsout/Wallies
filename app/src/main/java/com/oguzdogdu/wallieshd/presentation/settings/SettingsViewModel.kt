@@ -31,7 +31,7 @@ class SettingsViewModel @Inject constructor(
     private val _themeState = MutableStateFlow<SettingsState.ThemeValue?>(null)
     val themeState = _themeState.asStateFlow()
 
-    private val _languageState = MutableStateFlow<SettingsState.LanguageValue?>(null)
+    private val _languageState = MutableStateFlow(SettingsState.LanguageValue(""))
     val languageState = _languageState.asStateFlow()
 
     init {
