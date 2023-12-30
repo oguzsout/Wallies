@@ -8,13 +8,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import coil.transform.CircleCropTransformation
 import com.oguzdogdu.domain.model.home.HomePopularAndLatest
 import com.oguzdogdu.wallieshd.R
 import com.oguzdogdu.wallieshd.core.BaseFragment
 import com.oguzdogdu.wallieshd.core.snackbar.MessageType
 import com.oguzdogdu.wallieshd.databinding.FragmentMainBinding
 import com.oguzdogdu.wallieshd.util.hide
+import com.oguzdogdu.wallieshd.util.loadImage
 import com.oguzdogdu.wallieshd.util.observeInLifecycle
 import com.oguzdogdu.wallieshd.util.setupRecyclerView
 import com.oguzdogdu.wallieshd.util.show
@@ -91,13 +91,16 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
             textViewTitle.text = resources.getString(R.string.app_name)
             imageViewSearch.load(R.drawable.search)
         }
-        checkUserAuthStat()
     }
 
     override fun observeData() {
         super.observeData()
+        viewModel.handleUIEvent(MainScreenEvent.FetchMainScreenUserData)
         fetchHomeScreenList()
-        viewModel.userState.observeInLifecycle(viewLifecycleOwner, ::getAuthenticatedUserInfos)
+        checkUserAuthStat()
+        viewModel.userState.observeInLifecycle(viewLifecycleOwner, observer = {
+            getAuthenticatedUserInfos(it)
+        })
     }
 
     private fun fetchHomeScreenList() {
@@ -120,9 +123,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
                 when (state.profileImage.isNullOrBlank()) {
                     true -> binding.imageViewProfileAvatar.load(R.drawable.ic_default_avatar)
 
-                    false -> binding.imageViewProfileAvatar.load(state.profileImage) {
-                        transformations(CircleCropTransformation())
-                    }
+                    false -> binding.imageViewProfileAvatar.loadImage(
+                        state.profileImage,
+                        radius = true
+                    )
                 }
             }
             null -> return
@@ -162,17 +166,14 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
             viewModel.handleUIEvent(
                 MainScreenEvent.FetchMainScreenList(HomePopularAndLatest.ListType.LATEST.type)
             )
+            viewModel.handleUIEvent(MainScreenEvent.FetchMainScreenUserData)
             binding.swipeRefresh.isRefreshing = false
         }
     }
 
     private fun checkUserAuthStat() {
         val isGuest = arguments?.getBoolean("Guest")
-        if (isGuest == false) {
-            viewModel.handleUIEvent(MainScreenEvent.FetchMainScreenUserData)
-        } else {
-            binding.imageViewProfileAvatar.load(R.drawable.ic_default_avatar)
-        }
+        if (isGuest == true) binding.imageViewProfileAvatar.load(R.drawable.ic_default_avatar)
     }
 
     private fun handleTopicsTitleListState(state: HomeRecyclerViewItems.TopicsTitleList) {

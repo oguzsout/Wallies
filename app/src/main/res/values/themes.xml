@@ -246,11 +246,12 @@
     </style>
 
     <style name="AlertDialog" parent="MaterialAlertDialog.Material3">
-        <item name="android:background">@color/background</item>
+        <item name="android:backgroundTint">@color/background</item>
         <item name="android:bottomLeftRadius">@dimen/dp_20</item>
         <item name="android:bottomRightRadius">@dimen/dp_20</item>
         <item name="android:topLeftRadius">@dimen/dp_20</item>
         <item name="android:topRightRadius">@dimen/dp_20</item>
+        <item name="isMaterial3Theme">true</item>
         <item name="materialAlertDialogTitleTextStyle">@style/AlertDialogTitle</item>
         <item name="materialAlertDialogBodyTextStyle">@style/AlertDialogBody</item>
     </style>

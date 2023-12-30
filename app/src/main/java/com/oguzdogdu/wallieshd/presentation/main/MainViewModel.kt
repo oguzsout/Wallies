@@ -3,7 +3,6 @@ package com.oguzdogdu.wallieshd.presentation.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oguzdogdu.domain.model.home.HomePopularAndLatest
-import com.oguzdogdu.domain.usecase.auth.GetCheckUserAuthStateUseCase
 import com.oguzdogdu.domain.usecase.auth.GetCurrentUserInfoUseCase
 import com.oguzdogdu.domain.usecase.home.GetPopularAndLatestUseCase
 import com.oguzdogdu.domain.usecase.topics.GetTopicsListUseCase
@@ -21,7 +20,6 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getCurrentUserInfoUseCase: GetCurrentUserInfoUseCase,
-    private val getCheckUserAuthStateUseCase: GetCheckUserAuthStateUseCase,
     private val getTopicsListUseCase: GetTopicsListUseCase,
     private val getPopularAndLatestHomeListUseCase: GetPopularAndLatestUseCase
 ) : ViewModel() {
