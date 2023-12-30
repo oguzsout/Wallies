@@ -95,12 +95,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
 
     override fun observeData() {
         super.observeData()
-        viewModel.handleUIEvent(MainScreenEvent.FetchMainScreenUserData)
         fetchHomeScreenList()
         checkUserAuthStat()
-        viewModel.userState.observeInLifecycle(viewLifecycleOwner, observer = {
-            getAuthenticatedUserInfos(it)
-        })
+        getAuthenticatedUserInfos()
     }
 
     private fun fetchHomeScreenList() {
@@ -117,20 +114,17 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         })
     }
 
-    private fun getAuthenticatedUserInfos(state: MainScreenState?) {
-        when (state) {
-            is MainScreenState.UserProfile -> {
-                when (state.profileImage.isNullOrBlank()) {
-                    true -> binding.imageViewProfileAvatar.load(R.drawable.ic_default_avatar)
+    private fun getAuthenticatedUserInfos() {
+        viewModel.userState.observeInLifecycle(viewLifecycleOwner, observer = { state ->
+            when (state.profileImage.isNullOrBlank()) {
+                true -> binding.imageViewProfileAvatar.load(R.drawable.ic_default_avatar)
 
-                    false -> binding.imageViewProfileAvatar.loadImage(
-                        state.profileImage,
-                        radius = true
-                    )
-                }
+                false -> binding.imageViewProfileAvatar.loadImage(
+                    state.profileImage,
+                    radius = true
+                )
             }
-            null -> return
-        }
+        })
     }
 
     override fun initListeners() {
@@ -173,7 +167,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
 
     private fun checkUserAuthStat() {
         val isGuest = arguments?.getBoolean("Guest")
-        if (isGuest == true) binding.imageViewProfileAvatar.load(R.drawable.ic_default_avatar)
+        if (isGuest == true) {
+            binding.imageViewProfileAvatar.load(R.drawable.ic_default_avatar)
+        } else {
+            viewModel.handleUIEvent(MainScreenEvent.FetchMainScreenUserData)
+        }
     }
 
     private fun handleTopicsTitleListState(state: HomeRecyclerViewItems.TopicsTitleList) {

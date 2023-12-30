@@ -24,7 +24,7 @@ class MainViewModel @Inject constructor(
     private val getPopularAndLatestHomeListUseCase: GetPopularAndLatestUseCase
 ) : ViewModel() {
 
-    private val _userState = MutableStateFlow<MainScreenState?>(null)
+    private val _userState = MutableStateFlow(MainScreenState.UserProfile(""))
     val userState = _userState.asStateFlow()
 
     private val _homeListState = MutableStateFlow<HomeRecyclerViewItems?>(null)
