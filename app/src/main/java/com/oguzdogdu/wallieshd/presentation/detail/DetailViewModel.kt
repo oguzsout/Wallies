@@ -112,14 +112,7 @@ class DetailViewModel @Inject constructor(
     private fun checkUserAuthStatus() {
         viewModelScope.launch {
             getCheckUserAuthStateUseCase.invoke().collectLatest { status ->
-                when (status) {
-                    is Resource.Success -> {
-                        _getPhoto.update { DetailState.UserAuthenticated(status.data) }
-                    }
-
-                    is Resource.Error -> {}
-                    is Resource.Loading -> {}
-                }
+                _getPhoto.update { DetailState.UserAuthenticated(status) }
             }
         }
     }
@@ -141,15 +134,8 @@ class DetailViewModel @Inject constructor(
         viewModelScope.launch {
             getCheckUserAuthStateUseCase.invoke().collectLatest { status ->
                 when (status) {
-                    is Resource.Success -> {
-                        when (status.data) {
-                            true -> getFavoritesFromFirebase(id)
-                            false -> getFavoritesFromRoom(id)
-                        }
-                    }
-
-                    is Resource.Error -> {}
-                    is Resource.Loading -> {}
+                    true -> getFavoritesFromFirebase(id)
+                    false -> getFavoritesFromRoom(id)
                 }
             }
         }
@@ -159,40 +145,35 @@ class DetailViewModel @Inject constructor(
         viewModelScope.launch {
             getCheckUserAuthStateUseCase.invoke().collectLatest { status ->
                 when (status) {
-                    is Resource.Success -> {
-                        when (status.data) {
-                            true -> {
-                                when (process) {
-                                    DatabaseProcess.ADD.name -> addImagesToFavorites(
-                                        favoriteImage,
-                                        whichDb = ChooseDB.FIREBASE.name
-                                    )
-                                    DatabaseProcess.DELETE.name -> deleteImagesToFavorites(
-                                        favoriteImage,
-                                        whichDb = ChooseDB.FIREBASE.name
-                                    )
-                                }
-                            }
-                            false -> {
-                                when (process) {
-                                    DatabaseProcess.ADD.name -> {
-                                        addImagesToFavorites(
-                                            favoriteImage,
-                                            whichDb = ChooseDB.ROOM.name
-                                        )
-                                    }
+                    true -> {
+                        when (process) {
+                            DatabaseProcess.ADD.name -> addImagesToFavorites(
+                                favoriteImage,
+                                whichDb = ChooseDB.FIREBASE.name
+                            )
 
-                                    DatabaseProcess.DELETE.name -> deleteImagesToFavorites(
-                                        favoriteImage,
-                                        whichDb = ChooseDB.ROOM.name
-                                    )
-                                }
-                            }
+                            DatabaseProcess.DELETE.name -> deleteImagesToFavorites(
+                                favoriteImage,
+                                whichDb = ChooseDB.FIREBASE.name
+                            )
                         }
                     }
 
-                    is Resource.Error -> {}
-                    is Resource.Loading -> {}
+                    false -> {
+                        when (process) {
+                            DatabaseProcess.ADD.name -> {
+                                addImagesToFavorites(
+                                    favoriteImage,
+                                    whichDb = ChooseDB.ROOM.name
+                                )
+                            }
+
+                            DatabaseProcess.DELETE.name -> deleteImagesToFavorites(
+                                favoriteImage,
+                                whichDb = ChooseDB.ROOM.name
+                            )
+                        }
+                    }
                 }
             }
         }

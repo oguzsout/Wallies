@@ -3,7 +3,6 @@ package com.oguzdogdu.wallieshd.presentation.splash
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oguzdogdu.domain.usecase.auth.GetCheckUserAuthStateUseCase
-import com.oguzdogdu.domain.wrapper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,17 +29,10 @@ class SplashViewModel @Inject constructor(
     private fun checkSignIn() {
         viewModelScope.launch {
             getCheckUserAuthStateUseCase.invoke().collectLatest { status ->
-                when (status) {
-                    is Resource.Success -> {
-                        if (status.data) {
-                            _splashState.update { SplashScreenState.UserSignedIn }
-                        } else {
-                            _splashState.update { SplashScreenState.UserNotSigned }
-                        }
-                    }
-
-                    is Resource.Error -> {}
-                    else -> {}
+                if (status) {
+                    _splashState.update { SplashScreenState.UserSignedIn }
+                } else {
+                    _splashState.update { SplashScreenState.UserNotSigned }
                 }
             }
         }

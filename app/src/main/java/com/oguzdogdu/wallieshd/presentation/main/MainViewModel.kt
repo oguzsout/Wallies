@@ -3,7 +3,9 @@ package com.oguzdogdu.wallieshd.presentation.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oguzdogdu.domain.model.home.HomePopularAndLatest
+import com.oguzdogdu.domain.usecase.auth.GetCheckUserAuthStateUseCase
 import com.oguzdogdu.domain.usecase.auth.GetCurrentUserInfoUseCase
+import com.oguzdogdu.domain.usecase.auth.GetSignInCheckGoogleUseCase
 import com.oguzdogdu.domain.usecase.home.GetPopularAndLatestUseCase
 import com.oguzdogdu.domain.usecase.topics.GetTopicsListUseCase
 import com.oguzdogdu.domain.wrapper.onFailure
@@ -13,12 +15,16 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
+    private val checkUserAuthStateUseCase: GetCheckUserAuthStateUseCase,
+    private val checkGoogleUseCase: GetSignInCheckGoogleUseCase,
     private val getCurrentUserInfoUseCase: GetCurrentUserInfoUseCase,
     private val getTopicsListUseCase: GetTopicsListUseCase,
     private val getPopularAndLatestHomeListUseCase: GetPopularAndLatestUseCase
@@ -30,10 +36,15 @@ class MainViewModel @Inject constructor(
     private val _homeListState = MutableStateFlow<HomeRecyclerViewItems?>(null)
     val homeListState = _homeListState.asStateFlow()
 
+    var userFirebaseMethodAuth = MutableStateFlow(false)
+        private set
+    var userGoogleSignInMethodAuth = MutableStateFlow(false)
+        private set
+
     fun handleUIEvent(event: MainScreenEvent) {
         when (event) {
             is MainScreenEvent.FetchMainScreenUserData -> {
-                getUserProfileImage()
+                checkUserAuthState()
             }
 
             is MainScreenEvent.FetchMainScreenList -> {
@@ -103,6 +114,13 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    private fun checkUserAuthState() {
+        viewModelScope.launch {
+            userFirebaseMethodAuth.emit(checkUserAuthStateUseCase.invoke().single())
+            userGoogleSignInMethodAuth.emit(checkGoogleUseCase.invoke().single())
+        }
+    }
+
     private fun fetchTopicTitleList() {
         viewModelScope.launch {
             getTopicsListUseCase.invoke().collectLatest { value ->
@@ -132,7 +150,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private fun getUserProfileImage() {
+    fun getUserProfileImage() {
         viewModelScope.launch {
             getCurrentUserInfoUseCase.invoke().collectLatest { value ->
                 value.onLoading {}

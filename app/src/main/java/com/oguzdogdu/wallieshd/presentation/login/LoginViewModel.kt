@@ -97,16 +97,10 @@ class LoginViewModel @Inject constructor(
     private fun checkSignIn() {
         viewModelScope.launch {
             getCheckUserAuthStateUseCase.invoke().collectLatest { status ->
-                when (status) {
-                    is Resource.Success -> {
-                        if (status.data) {
-                            _loginState.update { LoginState.UserSignIn }
-                        } else {
-                            _loginState.update { LoginState.UserNotSignIn }
-                        }
-                    }
-                    is Resource.Error -> {}
-                    else -> {}
+                if (status) {
+                    _loginState.update { LoginState.UserSignIn }
+                } else {
+                    _loginState.update { LoginState.UserNotSignIn }
                 }
             }
         }

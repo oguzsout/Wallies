@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -33,6 +34,8 @@ import com.oguzdogdu.wallieshd.util.hide
 import com.oguzdogdu.wallieshd.util.observeInLifecycle
 import com.oguzdogdu.wallieshd.util.show
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -85,13 +88,22 @@ class MainActivity : AppCompatActivity() {
 
     private val listener = InstallStateUpdatedListener { state ->
         if (state.installStatus() == InstallStatus.DOWNLOADED) {
-            Toast.makeText(this, "Download Successful", Toast.LENGTH_LONG)
+            Toast.makeText(
+                this,
+                "Download Successful. Restarting app in 3 seconds.",
+                Toast.LENGTH_LONG
+            ).show()
+            lifecycleScope.launch {
+                delay(3000)
+                appUpdateManager.completeUpdate()
+            }
         }
     }
+
     private val activityResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) {
             if (it.resultCode != RESULT_OK) {
-                Toast.makeText(this, "Error", Toast.LENGTH_LONG)
+                Toast.makeText(this, "Error", Toast.LENGTH_LONG).show()
             }
         }
 

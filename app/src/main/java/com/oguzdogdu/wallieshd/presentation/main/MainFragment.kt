@@ -39,6 +39,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         viewModel.handleUIEvent(
             MainScreenEvent.FetchMainScreenList(HomePopularAndLatest.ListType.LATEST.type)
         )
+        viewModel.handleUIEvent(MainScreenEvent.FetchMainScreenUserData)
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
@@ -96,7 +97,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
     override fun observeData() {
         super.observeData()
         fetchHomeScreenList()
-        checkUserAuthStat()
         getAuthenticatedUserInfos()
     }
 
@@ -115,16 +115,24 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
     }
 
     private fun getAuthenticatedUserInfos() {
-        viewModel.userState.observeInLifecycle(viewLifecycleOwner, observer = { state ->
-            when (state.profileImage.isNullOrBlank()) {
-                true -> binding.imageViewProfileAvatar.load(R.drawable.ic_default_avatar)
+        when (viewModel.userFirebaseMethodAuth.value || viewModel.userGoogleSignInMethodAuth.value) {
+            true -> {
+                viewModel.getUserProfileImage()
+                viewModel.userState.observeInLifecycle(viewLifecycleOwner, observer = { state ->
+                    when (state.profileImage.isNullOrBlank()) {
+                        true -> binding.imageViewProfileAvatar.load(R.drawable.ic_default_avatar)
 
-                false -> binding.imageViewProfileAvatar.loadImage(
-                    state.profileImage,
-                    radius = true
-                )
+                        false -> binding.imageViewProfileAvatar.loadImage(
+                            state.profileImage,
+                            radius = true
+                        )
+                    }
+                })
             }
-        })
+            false -> {
+                binding.imageViewProfileAvatar.load(R.drawable.ic_default_avatar)
+            }
+        }
     }
 
     override fun initListeners() {
@@ -162,15 +170,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
             )
             viewModel.handleUIEvent(MainScreenEvent.FetchMainScreenUserData)
             binding.swipeRefresh.isRefreshing = false
-        }
-    }
-
-    private fun checkUserAuthStat() {
-        val isGuest = arguments?.getBoolean("Guest")
-        if (isGuest == true) {
-            binding.imageViewProfileAvatar.load(R.drawable.ic_default_avatar)
-        } else {
-            viewModel.handleUIEvent(MainScreenEvent.FetchMainScreenUserData)
         }
     }
 

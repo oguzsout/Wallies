@@ -10,7 +10,7 @@ import javax.inject.Inject
 class GetSignInCheckGoogleUseCaseImpl @Inject constructor(
     private val repository: Authenticator,
 ) : GetSignInCheckGoogleUseCase {
-    override suspend fun invoke(): Flow<Resource<Boolean>> = flow {
+    override suspend fun invoke(): Flow<Boolean> = flow {
         emit(repository.isUserAuthenticatedWithGoogle())
-    }.toResource()
+    }
 }

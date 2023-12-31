@@ -109,14 +109,7 @@ class SettingsViewModel @Inject constructor(
     fun checkSignIn() {
         viewModelScope.launch {
             getCheckUserAuthStateUseCase.invoke().collectLatest { status ->
-                when (status) {
-                    is Resource.Success -> {
-                        checkSignIn.value = status.data
-                    }
-
-                    is Resource.Error -> {}
-                    else -> {}
-                }
+                checkSignIn.value = status
             }
         }
     }

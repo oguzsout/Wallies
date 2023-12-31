@@ -37,15 +37,8 @@ class FavoritesViewModel @Inject constructor(
         viewModelScope.launch {
             getCheckUserAuthStateUseCase.invoke().collectLatest { status ->
                 when (status) {
-                    is Resource.Success -> {
-                        when (status.data) {
-                            true -> getFavoritesFromFirebase()
-                            false -> getFavoritesList()
-                        }
-                    }
-
-                    is Resource.Error -> {}
-                    is Resource.Loading -> {}
+                    true -> getFavoritesFromFirebase()
+                    false -> getFavoritesList()
                 }
             }
         }

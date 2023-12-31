@@ -4,5 +4,5 @@ import com.oguzdogdu.domain.wrapper.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface GetCheckUserAuthStateUseCase {
-    suspend operator fun invoke(): Flow<Resource<Boolean>>
+    suspend operator fun invoke(): Flow<Boolean>
 }

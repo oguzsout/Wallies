@@ -74,17 +74,10 @@ class AuthenticedUserViewModel @Inject constructor(
     private fun checkSignIn() {
         viewModelScope.launch {
             getCheckUserAuthStateUseCase.invoke().collectLatest { status ->
-                when (status) {
-                    is Resource.Success -> {
-                        _userState.update {
-                            AuthenticatedUserScreenState.CheckUserAuthenticated(
-                                status.data
-                            )
-                        }
-                    }
-
-                    is Resource.Error -> {}
-                    is Resource.Loading -> {}
+                _userState.update {
+                    AuthenticatedUserScreenState.CheckUserAuthenticated(
+                        status
+                    )
                 }
             }
         }
@@ -93,23 +86,10 @@ class AuthenticedUserViewModel @Inject constructor(
     private fun checkUserSignInMethod() {
         viewModelScope.launch {
             getSignInCheckGoogleUseCase.invoke().collectLatest { result ->
-                when (result) {
-                    is Resource.Loading -> _userState.update { AuthenticatedUserScreenState.Loading }
-
-                    is Resource.Error -> _userState.update {
-                        AuthenticatedUserScreenState.UserInfoError(
-                            result.errorMessage
-                        )
-                    }
-
-                    is Resource.Success ->
-                        _userState.update {
-                            AuthenticatedUserScreenState.CheckUserGoogleSignIn(
-                                isAuthenticated = result.data
-                            )
-                        }
-
-                    else -> {}
+                _userState.update {
+                    AuthenticatedUserScreenState.CheckUserGoogleSignIn(
+                        isAuthenticated = result
+                    )
                 }
             }
         }

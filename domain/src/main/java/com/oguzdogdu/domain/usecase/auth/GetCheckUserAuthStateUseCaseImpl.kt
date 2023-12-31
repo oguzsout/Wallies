@@ -10,7 +10,7 @@ import javax.inject.Inject
 class GetCheckUserAuthStateUseCaseImpl @Inject constructor(
     private val repository: Authenticator,
 ) : GetCheckUserAuthStateUseCase {
-    override suspend fun invoke(): Flow<Resource<Boolean>> = flow {
+    override suspend fun invoke(): Flow<Boolean> = flow {
         emit(repository.isUserAuthenticatedInFirebase())
-    }.toResource()
+    }
 }
