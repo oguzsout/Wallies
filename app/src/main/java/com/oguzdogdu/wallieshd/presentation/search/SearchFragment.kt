@@ -38,7 +38,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
         super.firstExecution(savedInstanceState)
         appLang = requireContext().resources?.configuration?.locale?.language
         when (requireContext().resources?.configuration?.locale?.language) {
-            "en-US" -> appLang = "en"
+            "en" -> appLang = "en"
+            "tr" -> appLang = "tr"
         }
     }
 

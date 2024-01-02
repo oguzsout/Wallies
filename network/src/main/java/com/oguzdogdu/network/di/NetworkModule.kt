@@ -9,7 +9,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Cache
+import okhttp3.CacheControl
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -38,16 +41,28 @@ object NetworkModule {
         @InterceptorLogging loggingInterceptor: HttpLoggingInterceptor,
         @ApplicationContext context: Context
     ): OkHttpClient {
+        val cacheSize = (10 * 1024 * 1024).toLong()
+        val cache = Cache(context.cacheDir, cacheSize)
         val builder = OkHttpClient.Builder().apply {
+            cache(cache)
             addInterceptor(loggingInterceptor)
             addInterceptor(ChuckerInterceptor(context))
-                .addInterceptor { chain ->
+            addInterceptor { chain ->
                     val originalRequest = chain.request()
                     val newRequest = originalRequest.newBuilder()
                         .addHeader("Authorization", "Client-ID ${BuildConfig.API_KEY}")
                         .build()
                     chain.proceed(newRequest)
                 }
+            addInterceptor {
+                val response: Response = it.proceed(it.request())
+                val cacheControl = CacheControl.Builder()
+                    .maxStale(2, TimeUnit.HOURS)
+                    .build()
+                 response.newBuilder()
+                    .header("Cache-Control", cacheControl.toString())
+                    .build()
+            }
             connectTimeout(30, TimeUnit.SECONDS)
             readTimeout(30, TimeUnit.SECONDS)
             writeTimeout(30, TimeUnit.SECONDS)
