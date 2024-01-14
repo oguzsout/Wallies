@@ -53,12 +53,12 @@ class DataStoreImpl @Inject constructor(
         }
     }
 
-    override suspend fun getLanguageStrings(key: String): Flow<Resource<String?>> {
+    override suspend fun getLanguageStrings(key: String): Flow<String?> {
         return flow {
             val preferencesKey = stringPreferencesKey(key)
             val preference = context.languageDataStore.data.first()
             emit(preference[preferencesKey])
-        }.toResource()
+        }
     }
 
     override suspend fun clearPReferences(key: String) {

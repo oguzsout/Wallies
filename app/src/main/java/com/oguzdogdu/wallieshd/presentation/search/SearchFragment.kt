@@ -1,6 +1,7 @@
 package com.oguzdogdu.wallieshd.presentation.search
 
 import android.content.Context
+import android.content.res.Resources.*
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -32,15 +33,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
 
     private val suggestSearchWordsAdapter by lazy { SuggestSearchWordsAdapter() }
 
-    private var appLang: String? = null
-
     override fun firstExecution(savedInstanceState: Bundle?) {
         super.firstExecution(savedInstanceState)
-        appLang = requireContext().resources?.configuration?.locale?.language
-        when (requireContext().resources?.configuration?.locale?.language) {
-            "en" -> appLang = "en"
-            "tr" -> appLang = "tr"
-        }
+        viewModel.handleUIEvent(SearchEvent.GetAppLanguageValue)
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
@@ -60,10 +55,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
             )
         }
         val tag = this.arguments?.getString("tag")
-        if (tag != null) {
+        if (tag?.isNotEmpty() == true) {
             binding.editTextSearchWalpaper.setText(tag)
             viewModel.handleUIEvent(
-                SearchEvent.EnteredSearchQuery(tag, appLang)
+                SearchEvent.EnteredSearchQuery(tag, viewModel.appLanguage.value)
             )
         }
     }
@@ -78,7 +73,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
             val suggestSearch = suggest?.keyword.orEmpty()
             binding.editTextSearchWalpaper.setText(suggestSearch)
             viewModel.handleUIEvent(
-                SearchEvent.EnteredSearchQuery(suggest?.keyword.orEmpty(), appLang)
+                SearchEvent.EnteredSearchQuery(
+                    suggest?.keyword.orEmpty(),
+                    viewModel.appLanguage.value
+                )
             )
             binding.tvCancel.show()
         }
@@ -108,7 +106,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
 
     private fun showSearchDatas() {
         viewModel.getSearchPhotos.observeInLifecycle(viewLifecycleOwner, observer = { state ->
-            state?.let { searchWallpaperAdapter.submitData(it.search) }
+            when (state) {
+                is SearchPhotoState.ItemState -> {
+                    state.let { searchWallpaperAdapter.submitData(it.search) }
+                }
+
+                else -> {}
+            }
         })
     }
 
@@ -122,7 +126,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
                 .onEach {
                     if (it?.isNotEmpty() == true) {
                         viewModel.handleUIEvent(
-                            SearchEvent.EnteredSearchQuery(it.toString(), appLang)
+                            SearchEvent.EnteredSearchQuery(
+                                it.toString(),
+                                viewModel.appLanguage.value
+                            )
                         )
                     }
                 }
@@ -133,7 +140,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
                     viewModel.handleUIEvent(
                         SearchEvent.EnteredSearchQuery(
                             editTextSearchWalpaper.text.toString(),
-                            appLang
+                            viewModel.appLanguage.value
                         )
                     )
                 }

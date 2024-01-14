@@ -11,6 +11,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -88,21 +89,8 @@ class SettingsViewModel @Inject constructor(
 
     private fun getLanguageValue() {
         viewModelScope.launch {
-            dataStore.getLanguageStrings(key = "language").collect { value ->
-                when (value) {
-                    is Resource.Success -> {
-                        _languageState.update {
-                            SettingsState.LanguageValue(value.data.orEmpty())
-                        }
-                    }
-
-                    is Resource.Error -> {
-                    }
-
-                    else -> {
-                    }
-                }
-            }
+            val language = dataStore.getLanguageStrings(key = "language").single()
+            _languageState.update { SettingsState.LanguageValue(value = language.orEmpty()) }
         }
     }
 
