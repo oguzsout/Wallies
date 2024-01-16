@@ -46,16 +46,16 @@ class FavoritesViewModel @Inject constructor(
 
     private fun getFavoritesFromFirebase() {
         viewModelScope.launch {
-            getCurrentUserInfoUseCase.invoke().collectLatest { userDatas ->
+            getCurrentUserInfoUseCase.invoke().collect { userDatas ->
                 when (userDatas) {
                     is Resource.Success -> {
                         val remoteList = userDatas.data?.favorites?.map { favoriteMap ->
-                            val id = favoriteMap?.get("id") ?: ""
-                            val url = favoriteMap?.get("favorite") ?: ""
+                            val id = favoriteMap["id"] ?: ""
+                            val url = favoriteMap["favorite"] ?: ""
                             FavoriteImages(id = id, url = url)
-                        }
+                        } ?: emptyList()
                         _getFavorites.update {
-                            remoteList?.let { list -> FavoriteUiState.FavoritesFromFirebase(list) }
+                            FavoriteUiState.FavoritesFromFirebase(remoteList)
                         }
                     }
                     is Resource.Error -> {}

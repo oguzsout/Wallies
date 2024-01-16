@@ -73,6 +73,11 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
     override fun observeData() {
         super.observeData()
         viewModel.handleUIEvent(DetailScreenEvent.GetPhotoDetails(id = args.id))
+        viewModel.handleUIEvent(
+            DetailScreenEvent.GetPhotoFromWhere(
+                id = args.id.orEmpty()
+            )
+        )
         showDetailScreenDatas()
     }
 
@@ -105,11 +110,6 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
                 is DetailState.DetailOfPhoto -> {
                     photo = state.detail
                     binding.dashboardContainer.show()
-                    viewModel.handleUIEvent(
-                        DetailScreenEvent.GetPhotoFromWhere(
-                            id = state.detail?.id.orEmpty()
-                        )
-                    )
                     setItems()
                     showProfileInfos()
                     navigateToSetWallpaper()

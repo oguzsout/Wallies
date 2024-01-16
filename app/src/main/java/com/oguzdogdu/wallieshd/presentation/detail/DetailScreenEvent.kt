@@ -8,5 +8,5 @@ sealed class DetailScreenEvent {
     data class AddFavorites(val photo: Photo?) : DetailScreenEvent()
     data class DeleteFavorites(val photo: Photo?) : DetailScreenEvent()
     data class SetLoginDialogState(val isShown: Boolean) : DetailScreenEvent()
-    object CheckUserAuth : DetailScreenEvent()
+    data object CheckUserAuth : DetailScreenEvent()
 }

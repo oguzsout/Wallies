@@ -12,7 +12,6 @@ import com.oguzdogdu.domain.usecase.favorites.GetAddFavoritesUseCase
 import com.oguzdogdu.domain.usecase.favorites.GetDeleteFromFavoritesUseCase
 import com.oguzdogdu.domain.usecase.favorites.GetImageFromFavoritesUseCase
 import com.oguzdogdu.domain.usecase.singlephoto.GetPhotoDetailUseCase
-import com.oguzdogdu.domain.wrapper.Resource
 import com.oguzdogdu.domain.wrapper.onFailure
 import com.oguzdogdu.domain.wrapper.onLoading
 import com.oguzdogdu.domain.wrapper.onSuccess
@@ -215,21 +214,16 @@ class DetailViewModel @Inject constructor(
     private fun getFavoritesFromFirebase(id: String?) {
         viewModelScope.launch {
             getCurrentUserInfoUseCase.invoke().collectLatest { userDatas ->
-                when (userDatas) {
-                    is Resource.Success -> {
-                        val containsUrl = userDatas.data?.favorites?.any { favorite ->
-                            favorite?.containsValue(id) == true
-                        }
-                        containsUrl?.let { _toogleState.emit(it) }
-                        _getPhoto.update {
-                            DetailState.FavoriteStateOfPhoto(
-                                favorite = containsUrl == true
-                            )
-                        }
+                userDatas.onSuccess { user ->
+                    val containsUrl = user?.favorites?.any { favorite ->
+                        favorite.containsValue(id)
                     }
-
-                    is Resource.Error -> {}
-                    is Resource.Loading -> {}
+                    containsUrl?.let { _toogleState.emit(it) }
+                    _getPhoto.update {
+                        DetailState.FavoriteStateOfPhoto(
+                            favorite = containsUrl == true
+                        )
+                    }
                 }
             }
         }
@@ -238,20 +232,16 @@ class DetailViewModel @Inject constructor(
     private fun getFavoritesFromRoom(id: String?) {
         viewModelScope.launch {
             getImageFromFavoritesUseCase.invoke().collectLatest { result ->
-                when (result) {
-                    is Resource.Loading -> {}
-                    is Resource.Error -> {}
-                    is Resource.Success -> {
-                        val matchingFavorite = result.data?.find { it.id == id }
-                        _getPhoto.update {
-                            matchingFavorite?.isChecked?.let { it1 ->
-                                DetailState.FavoriteStateOfPhoto(
-                                    favorite = it1
-                                )
-                            }
+                result.onSuccess { list ->
+                    val matchingFavorite = list?.find { it.id == id }
+                    _getPhoto.update {
+                        matchingFavorite?.isChecked?.let { it1 ->
+                            DetailState.FavoriteStateOfPhoto(
+                                favorite = it1
+                            )
                         }
-                        matchingFavorite?.isChecked?.let { _toogleState.emit(it) }
                     }
+                    matchingFavorite?.isChecked?.let { _toogleState.emit(it) }
                 }
             }
         }
