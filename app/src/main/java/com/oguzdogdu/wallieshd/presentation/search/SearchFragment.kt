@@ -1,25 +1,18 @@
 package com.oguzdogdu.wallieshd.presentation.search
 
 import android.content.Context
-import android.content.res.Resources.*
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
-import androidx.paging.LoadState
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.fragment.app.activityViewModels
+import com.google.android.material.tabs.TabLayoutMediator
 import com.oguzdogdu.wallieshd.R
 import com.oguzdogdu.wallieshd.core.BaseFragment
-import com.oguzdogdu.wallieshd.core.snackbar.MessageType
 import com.oguzdogdu.wallieshd.databinding.FragmentSearchBinding
-import com.oguzdogdu.wallieshd.util.LoaderAdapter
-import com.oguzdogdu.wallieshd.util.hide
+import com.oguzdogdu.wallieshd.presentation.profiledetail.usercollections.UserCollectionsFragment
+import com.oguzdogdu.wallieshd.presentation.profiledetail.userphotos.UserPhotosFragment
 import com.oguzdogdu.wallieshd.util.observeInLifecycle
-import com.oguzdogdu.wallieshd.util.setupRecyclerView
-import com.oguzdogdu.wallieshd.util.show
 import com.oguzdogdu.wallieshd.util.textChanges
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.onEach
@@ -27,11 +20,11 @@ import kotlinx.coroutines.flow.onEach
 @AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding::inflate) {
 
-    private val viewModel: SearchPhotoViewModel by viewModels()
+    private val viewModel: SearchViewModel by activityViewModels()
 
-    private val searchWallpaperAdapter by lazy { SearchWallpaperAdapter() }
-
-    private val suggestSearchWordsAdapter by lazy { SuggestSearchWordsAdapter() }
+    private val fragments by lazy {
+        listOf(UserPhotosFragment(), UserCollectionsFragment())
+    }
 
     override fun firstExecution(savedInstanceState: Bundle?) {
         super.firstExecution(savedInstanceState)
@@ -40,20 +33,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
 
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
-        binding.apply {
-            recyclerViewSearch.setupRecyclerView(
-                layout = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL),
-                adapter = searchWallpaperAdapter.withLoadStateFooter(LoaderAdapter()),
-                true,
-                onScroll = {}
-            )
-            recyclerViewSuggestSearchWords.setupRecyclerView(
-                layout = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false),
-                adapter = suggestSearchWordsAdapter,
-                hasFixedSize = true,
-                onScroll = {}
-            )
-        }
+        initViewPager()
+        initTabLayout()
         val tag = this.arguments?.getString("tag")
         if (tag?.isNotEmpty() == true) {
             binding.editTextSearchWalpaper.setText(tag)
@@ -66,54 +47,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
     override fun initListeners() {
         super.initListeners()
         binding.buttonBack.setOnClickListener { navigateBack() }
-        searchWallpaperAdapter.setOnItemClickListener {
-            navigateWithDirection(SearchFragmentDirections.toDetail(id = it?.id))
-        }
-        suggestSearchWordsAdapter.setOnItemClickListener { suggest ->
-            val suggestSearch = suggest?.keyword.orEmpty()
-            binding.editTextSearchWalpaper.setText(suggestSearch)
-            viewModel.handleUIEvent(
-                SearchEvent.EnteredSearchQuery(
-                    suggest?.keyword.orEmpty(),
-                    viewModel.appLanguage.value
-                )
-            )
-            binding.tvCancel.show()
-        }
         searchToImages()
-    }
-
-    override fun observeData() {
-        super.observeData()
-        showSearchDatas()
-        handlePagingState()
-        setSuggestionKeywordToAdapter()
-    }
-
-    private fun setSuggestionKeywordToAdapter() {
-        val list = mutableListOf(
-            SuggestWords(getString(R.string.search_animal)),
-            SuggestWords(getString(R.string.search_jungle)),
-            SuggestWords(getString(R.string.search_natural)),
-            SuggestWords(getString(R.string.search_space)),
-            SuggestWords(getString(R.string.search_cars)),
-            SuggestWords(getString(R.string.search_walley)),
-            SuggestWords(getString(R.string.search_cat)),
-            SuggestWords(getString(R.string.search_rain))
-        )
-        suggestSearchWordsAdapter.submitList(list)
-    }
-
-    private fun showSearchDatas() {
-        viewModel.getSearchPhotos.observeInLifecycle(viewLifecycleOwner, observer = { state ->
-            when (state) {
-                is SearchPhotoState.ItemState -> {
-                    state.let { searchWallpaperAdapter.submitData(it.search) }
-                }
-
-                else -> {}
-            }
-        })
     }
 
     private fun searchToImages() {
@@ -165,30 +99,29 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
         im.showSoftInput(activity?.currentFocus, InputMethodManager.SHOW_IMPLICIT)
     }
 
-    private fun handlePagingState() {
-        searchWallpaperAdapter.addLoadStateListener { loadState ->
-            when (loadState.refresh) {
-                is LoadState.Loading -> {
-                    binding.progressBar.show()
-                    binding.recyclerViewSearch.hide()
-                }
-                is LoadState.NotLoading -> {
-                    binding.progressBar.hide()
-                    binding.recyclerViewSearch.show()
-                }
-                else -> {}
-            }
-            val errorState = when {
-                loadState.append is LoadState.Error -> loadState.append as LoadState.Error
-                loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
-                loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
-                else -> null
-            }
-            errorState?.let {
-                it.error.message?.let { message ->
-                    showMessage(message = message, type = MessageType.ERROR)
-                }
-            }
-        }
+    private fun initTabLayout() {
+        val tabTitles =
+            listOf(
+                getString(R.string.photos),
+                getString(R.string.users)
+            )
+
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            tab.text = tabTitles[position]
+        }.attach()
+    }
+
+    private fun initViewPager() {
+        val pagerAdapter = SearchScreenViewPagerAdapter(
+            requireParentFragment().requireActivity(),
+            fragments
+        )
+        binding.viewPager.adapter = pagerAdapter
+        binding.viewPager.isUserInputEnabled = true
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.handleUIEvent(SearchEvent.EnteredSearchQuery("", ""))
     }
 }

@@ -15,12 +15,12 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class SearchPhotoViewModel @Inject constructor(
+class SearchViewModel @Inject constructor(
     private val getSearchPhotosUseCase: GetSearchPhotosUseCase,
     private val dataStore: DataStore
 ) : ViewModel() {
 
-    private val _getSearchPhotos = MutableStateFlow<SearchPhotoState?>(null)
+    private val _getSearchPhotos = MutableStateFlow<SearchState?>(null)
     val getSearchPhotos = _getSearchPhotos.asStateFlow()
 
     var appLanguage = MutableStateFlow("")
@@ -40,7 +40,7 @@ class SearchPhotoViewModel @Inject constructor(
         viewModelScope.launch {
             getSearchPhotosUseCase.invoke(query, language).cachedIn(viewModelScope)
                 .collectLatest { search ->
-                    _getSearchPhotos.update { SearchPhotoState.ItemState(search = search) }
+                    _getSearchPhotos.update { SearchState.PhotoState(searchPhoto = search) }
                 }
         }
     }
