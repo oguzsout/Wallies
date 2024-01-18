@@ -90,6 +90,14 @@
         <item name="android:paddingEnd">@dimen/dp_16</item>
     </style>
 
+    <style name="Tab.SearchBackground" parent="Widget.MaterialComponents.TabLayout">
+        <item name="android:background">@drawable/bg_tab_second</item>
+        <item name="tabIndicatorColor">@color/purple_03</item>
+        <item name="rippleColor">@null</item>
+        <item name="tabTextAppearance">@style/TabSearch</item>
+        <item name="tabSelectedTextColor">@color/purple_03</item>
+    </style>
+
     <style name="BaseButtonStyle" parent="Widget.AppCompat.Button">
         <item name="android:textColor">@color/white</item>
         <item name="android:fontFamily">@font/googlesansmedium</item>

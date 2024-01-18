@@ -164,6 +164,9 @@
             app:destination="@id/detailFragment"
             app:popUpToSaveState="false"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/toSearchPhoto"
+            app:destination="@id/searchPhotoFragment" />
     </fragment>
 
     <fragment
@@ -463,6 +466,14 @@
         <action
             android:id="@+id/toDetail"
             app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchPhotoFragment"
+        android:name="com.oguzdogdu.wallieshd.presentation.search.searchphoto.SearchPhotoFragment"
+        android:label="SearchPhotoFragment" >
+        <action
+            android:id="@+id/toSearch"
+            app:destination="@id/searchFragment" />
     </fragment>
 
 </navigation>
