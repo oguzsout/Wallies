@@ -57,6 +57,8 @@ import com.oguzdogdu.domain.usecase.popular.GetPopularUseCase
 import com.oguzdogdu.domain.usecase.popular.GetPopularUseCaseImpl
 import com.oguzdogdu.domain.usecase.search.GetSearchPhotosUseCase
 import com.oguzdogdu.domain.usecase.search.GetSearchPhotosUseCaseImpl
+import com.oguzdogdu.domain.usecase.search.searchuser.GetSearchUserUseCase
+import com.oguzdogdu.domain.usecase.search.searchuser.GetSearchUserUseCaseImpl
 import com.oguzdogdu.domain.usecase.singlephoto.GetPhotoDetailUseCase
 import com.oguzdogdu.domain.usecase.singlephoto.GetPhotoDetailUseCaseImpl
 import com.oguzdogdu.domain.usecase.topics.GetTopicsListUseCase
@@ -305,5 +307,12 @@ object WallpaperUseCaseModule {
         repository: WallpaperRepository
     ): GetTopicDetailListUseCase {
         return GetTopicDetailListUseCaseImpl(repository)
+    }
+
+    @Provides
+    fun provideUserSearchPagingUseCase(
+        repository: UnsplashUserRepository
+    ): GetSearchUserUseCase {
+        return GetSearchUserUseCaseImpl(repository)
     }
 }
