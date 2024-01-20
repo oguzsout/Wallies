@@ -16,6 +16,7 @@ class SearchWallpaperAdapter :
 
     inner class MainImageViewHolder(private val binding: ItemMainImageBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         @SuppressLint("ResourceAsColor")
         fun bind(wallpaper: SearchPhoto?) {
             binding.apply {

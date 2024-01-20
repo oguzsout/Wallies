@@ -4,8 +4,8 @@ import android.content.res.Resources
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.oguzdogdu.wallieshd.presentation.profiledetail.usercollections.UserCollectionsFragment
 import com.oguzdogdu.wallieshd.presentation.search.searchphoto.SearchPhotoFragment
+import com.oguzdogdu.wallieshd.presentation.search.searchuser.SearchUserFragment
 
 class SearchScreenViewPagerAdapter(
     container: FragmentActivity,
@@ -21,7 +21,7 @@ class SearchScreenViewPagerAdapter(
             }
 
             1 -> {
-                UserCollectionsFragment()
+                SearchUserFragment()
             }
 
             else -> {

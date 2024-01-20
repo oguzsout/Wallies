@@ -2,7 +2,6 @@ package com.oguzdogdu.wallieshd.presentation.search
 
 import android.content.Context
 import android.os.Bundle
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -15,7 +14,6 @@ import com.oguzdogdu.wallieshd.presentation.profiledetail.userphotos.UserPhotosF
 import com.oguzdogdu.wallieshd.util.observeInLifecycle
 import com.oguzdogdu.wallieshd.util.textChanges
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding::inflate) {
@@ -56,29 +54,14 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
                 tvCancel.isVisible = hasFocus
             }
 
-            editTextSearchWalpaper.textChanges()
-                .onEach {
-                    if (it?.isNotEmpty() == true) {
-                        viewModel.handleUIEvent(
-                            SearchEvent.EnteredSearchQuery(
-                                it.toString(),
-                                viewModel.appLanguage.value
-                            )
-                        )
-                    }
-                }
-                .observeInLifecycle(lifecycleOwner = viewLifecycleOwner, observer = {})
-
-            editTextSearchWalpaper.setOnEditorActionListener { _, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    viewModel.handleUIEvent(
-                        SearchEvent.EnteredSearchQuery(
-                            editTextSearchWalpaper.text.toString(),
-                            viewModel.appLanguage.value
-                        )
+            editTextSearchWalpaper.textChanges().observeInLifecycle(viewLifecycleOwner) {
+                viewModel.handleUIEvent(
+                    SearchEvent.EnteredSearchQuery(
+                        query = it.toString(),
+                        language = viewModel.appLanguage.value,
+                        position = binding.viewPager.currentItem
                     )
-                }
-                true
+                )
             }
 
             editTextSearchWalpaper.requestFocus()

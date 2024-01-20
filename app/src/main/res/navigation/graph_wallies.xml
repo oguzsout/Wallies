@@ -167,6 +167,9 @@
         <action
             android:id="@+id/toSearchPhoto"
             app:destination="@id/searchPhotoFragment" />
+        <action
+            android:id="@+id/toSearchUser"
+            app:destination="@id/searchUserFragment" />
     </fragment>
 
     <fragment
@@ -471,6 +474,14 @@
         android:id="@+id/searchPhotoFragment"
         android:name="com.oguzdogdu.wallieshd.presentation.search.searchphoto.SearchPhotoFragment"
         android:label="SearchPhotoFragment" >
+        <action
+            android:id="@+id/toSearch"
+            app:destination="@id/searchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchUserFragment"
+        android:name="com.oguzdogdu.wallieshd.presentation.search.searchuser.SearchUserFragment"
+        android:label="SearchUserFragment" >
         <action
             android:id="@+id/toSearch"
             app:destination="@id/searchFragment" />

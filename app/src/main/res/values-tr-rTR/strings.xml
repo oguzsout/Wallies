@@ -116,4 +116,5 @@
     <string name="or">Veya</string>
     <string name="continue_without_registration">Kayıt Olmadan Devam Et</string>
     <string name="users">Kullanıcılar</string>
+    <string name="profile_image">Profil Resmi</string>
 </resources>

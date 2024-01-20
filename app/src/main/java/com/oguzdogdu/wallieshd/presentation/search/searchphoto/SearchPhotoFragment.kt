@@ -51,12 +51,10 @@ class SearchPhotoFragment :
     }
 
     private fun getSearchPhotoData() {
-        viewModel.getSearchPhotos.observeInLifecycle(viewLifecycleOwner, observer = { state ->
+        viewModel.getSearchContents.observeInLifecycle(viewLifecycleOwner, observer = { state ->
             when (state) {
                 is SearchState.PhotoState -> {
-                    state.searchPhoto.let {
-                        searchWallpaperAdapter.submitData(it)
-                    }
+                    state.searchPhoto.let { searchWallpaperAdapter.submitData(it) }
                 }
 
                 else -> {

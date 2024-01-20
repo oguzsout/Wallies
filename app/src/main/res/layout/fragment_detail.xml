@@ -100,7 +100,7 @@
                 android:layout_centerInParent="true"
                 android:layout_marginStart="@dimen/dp_8"
                 android:layout_marginTop="@dimen/dp_16"
-                android:contentDescription="@string/set_wallpaper_image_desc"
+                android:contentDescription="@string/profile_image"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
