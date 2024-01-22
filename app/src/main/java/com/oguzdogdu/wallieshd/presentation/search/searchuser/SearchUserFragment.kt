@@ -55,6 +55,14 @@ class SearchUserFragment : BaseFragment<FragmentSearchUserBinding>(
             )
         }
     }
+    override fun initListeners() {
+        super.initListeners()
+        searchUserAdapter.setOnItemClickListener {
+            navigateWithDirection(
+                SearchUserFragmentDirections.toProfileDetail(it?.username.orEmpty())
+            )
+        }
+    }
 
     private fun getSearchPhotoData() {
         viewModel.getSearchContents.observeInLifecycle(viewLifecycleOwner, observer = { state ->

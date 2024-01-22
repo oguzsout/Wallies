@@ -148,6 +148,9 @@
         <action
             android:id="@+id/toTopicDetailList"
             app:destination="@id/topicDetailListFragment" />
+        <action
+            android:id="@+id/toSearchPhoto"
+            app:destination="@id/searchPhotoFragment" />
 
     </fragment>
 
@@ -164,6 +167,9 @@
             app:destination="@id/detailFragment"
             app:popUpToSaveState="false"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/toProfileDetail"
+            app:destination="@id/profileDetailFragment" />
         <action
             android:id="@+id/toSearchPhoto"
             app:destination="@id/searchPhotoFragment" />
@@ -333,6 +339,12 @@
         <action
             android:id="@+id/toSingleCollection"
             app:destination="@id/singleCollectionFragment" />
+        <action
+            android:id="@+id/toSearch"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/toSearchUser"
+            app:destination="@id/searchUserFragment" />
     </fragment>
     <fragment
         android:id="@+id/authenticatedUserFragment"
@@ -477,6 +489,9 @@
         <action
             android:id="@+id/toSearch"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/toDetail"
+            app:destination="@id/detailFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchUserFragment"
@@ -485,6 +500,9 @@
         <action
             android:id="@+id/toSearch"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/toProfileDetail"
+            app:destination="@id/profileDetailFragment" />
     </fragment>
 
 </navigation>

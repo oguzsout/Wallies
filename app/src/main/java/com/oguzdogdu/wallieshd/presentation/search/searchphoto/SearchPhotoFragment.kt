@@ -44,6 +44,13 @@ class SearchPhotoFragment :
         }
     }
 
+    override fun initListeners() {
+        super.initListeners()
+        searchWallpaperAdapter.setOnItemClickListener {
+            navigateWithDirection(SearchPhotoFragmentDirections.toDetail(it?.id.orEmpty()))
+        }
+    }
+
     override fun observeData() {
         super.observeData()
         getSearchPhotoData()
