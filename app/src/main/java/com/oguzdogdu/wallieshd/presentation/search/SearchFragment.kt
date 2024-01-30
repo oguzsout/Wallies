@@ -2,6 +2,7 @@ package com.oguzdogdu.wallieshd.presentation.search
 
 import android.content.Context
 import android.os.Bundle
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -62,6 +63,17 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
                         position = binding.viewPager.currentItem
                     )
                 )
+            }
+            editTextSearchWalpaper.setOnEditorActionListener { _, actionId, _ ->
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    viewModel.handleUIEvent(
+                        SearchEvent.EnteredSearchQuery(
+                            editTextSearchWalpaper.text.toString(),
+                            viewModel.appLanguage.value
+                        )
+                    )
+                }
+                true
             }
 
             editTextSearchWalpaper.requestFocus()

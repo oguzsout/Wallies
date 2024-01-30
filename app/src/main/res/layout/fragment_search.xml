@@ -26,6 +26,7 @@
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginEnd="@dimen/dp_8"
         android:padding="@dimen/dp_8"
+        android:imeOptions="actionSearch"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/buttonBack"

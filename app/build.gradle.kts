@@ -33,8 +33,8 @@ android {
         applicationId = "com.oguzdogdu.wallieshd"
         minSdk = 21
         targetSdk = 33
-        versionCode = 16
-        versionName = "1.4.4"
+        versionCode = 18
+        versionName = "1.4.6"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         signingConfig = signingConfigs.getByName("debug")
     }
@@ -88,9 +88,6 @@ ktlint {
 androidComponents {
     onVariants(selector().all()) { variant ->
         afterEvaluate {
-            // This is a workaround for https://issuetracker.google.com/301245705 which depends on internal
-            // implementations of the android gradle plugin and the ksp gradle plugin which might change in the future
-            // in an unpredictable way.
             val dataBindingTask = this.project.tasks.named(
                 "dataBindingGenBaseClasses" + variant.name.replaceFirstChar {
                     if (it.isLowerCase()) {
