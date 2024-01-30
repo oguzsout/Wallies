@@ -80,9 +80,9 @@ abstract class BaseFragment<VB : ViewBinding>(
         findNavController().navigateSafe(id, extras)
     }
 
-    fun navigateBack(@IdRes destination: Int? = null) {
+    fun navigateBack(@IdRes destination: Int? = null, inclusive: Boolean = false) {
         if (destination != null) {
-            findNavController().popBackStack(destination, false)
+            findNavController().popBackStack(destination, inclusive)
         } else {
             if (!findNavController().popBackStack()) {
                 requireActivity().finish()

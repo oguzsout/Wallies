@@ -329,7 +329,8 @@
             app:nullable="true" />
         <action
             android:id="@+id/toDetail"
-            app:destination="@id/detailFragment" />
+            app:destination="@id/detailFragment"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/toUserPhotos"
             app:destination="@id/userPhotosFragment" />
