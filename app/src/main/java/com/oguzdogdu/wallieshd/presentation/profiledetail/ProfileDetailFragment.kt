@@ -50,6 +50,7 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
 
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
+        viewModel.setUsername(args.username)
         initViewPager()
         binding.toolbar.setLeftIcon(R.drawable.back)
     }
@@ -57,7 +58,7 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
     override fun initListeners() {
         super.initListeners()
         binding.toolbar.setLeftIconClickListener {
-            navigateBack()
+            navigateBack(inclusive = true)
         }
         binding.textViewPortfolioUrl.setOnClickListener {
             adjustFilteredView(
@@ -71,7 +72,6 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
 
     override fun observeData() {
         super.observeData()
-        viewModel.setUsername(args.username)
         viewModel.handleUIEvent(ProfileDetailEvent.FetchUserDetailInfos)
         getUserDetails()
     }
@@ -80,7 +80,10 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
         viewModel.handleUIEvent(ProfileDetailEvent.FetchUserDetailInfos)
         viewModel.getUserDetails.observeInLifecycle(viewLifecycleOwner, observer = { state ->
             when (state) {
-                is ProfileDetailState.Loading -> {}
+                is ProfileDetailState.Loading -> {
+                    binding.progressBar.show()
+                    binding.profileDetailContainer.hide()
+                }
                 is ProfileDetailState.UserDetailError -> showMessage(
                     message = state.errorMessage.orEmpty(),
                     type = MessageType.ERROR
@@ -90,6 +93,8 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
                     state.userDetails?.let {
                         userDetails = it
                     }
+                    binding.progressBar.hide()
+                    binding.profileDetailContainer.show()
                 }
                 else -> {}
             }
@@ -236,6 +241,14 @@ class ProfileDetailFragment : BaseFragment<FragmentProfileDetailBinding>(
             }
             false -> {
                 binding.textViewBio.show()
+            }
+        }
+        when (userDetails?.portfolioUrl.isNullOrEmpty()) {
+            true -> {
+                binding.textViewPortfolioUrl.hide()
+            }
+            false -> {
+                binding.textViewPortfolioUrl.show()
             }
         }
         checkUserActivityCount(userDetails)
