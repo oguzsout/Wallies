@@ -42,7 +42,7 @@ This project uses many of the popular libraries, plugins and tools of the androi
 - [PowerMenu](https://github.com/skydoves/PowerMenu) - PowerMenu is a modernized and fully customizable popup menu, which can be displayed on top of layouts.
 
 ## 📸 Screenshots
-![Component 1](https://github.com/oguzsout/Wallies/assets/73955284/004ce7ba-c6d6-42e9-9259-de51d4920a4b)
+![Component 1](https://github.com/oguzsout/Wallies/assets/73955284/1cd58ab5-28c7-490b-bbba-7a30099fa78c)
 
 ## 📐 Architecture
 A well planned architecture is extremely important for an app to scale and all architectures have one common goal- to manage complexity of your app. This isn't something to be worried about in smaller apps however it may prove very useful when working on apps with longer development lifecycle and a bigger team.
