@@ -41,7 +41,7 @@ class ForgotMyPasswordFragment : BaseFragment<FragmentForgotMyPasswordBinding>(
             )
         }
         binding.toolbarForgotPassword.setLeftIconClickListener {
-            navigateWithDirection(ForgotMyPasswordFragmentDirections.toLogin())
+            navigateBack()
         }
     }
 
