@@ -15,6 +15,7 @@ import com.oguzdogdu.wallieshd.presentation.profiledetail.userphotos.UserPhotosF
 import com.oguzdogdu.wallieshd.util.observeInLifecycle
 import com.oguzdogdu.wallieshd.util.textChanges
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding::inflate) {
@@ -49,6 +50,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
         searchToImages()
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun searchToImages() {
         binding.apply {
             editTextSearchWalpaper.setOnFocusChangeListener { _, hasFocus ->
@@ -58,22 +60,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
             editTextSearchWalpaper.textChanges().observeInLifecycle(viewLifecycleOwner) {
                 viewModel.handleUIEvent(
                     SearchEvent.EnteredSearchQuery(
-                        query = it.toString(),
-                        language = viewModel.appLanguage.value,
-                        position = binding.viewPager.currentItem
+                        it.toString(),
+                        viewModel.appLanguage.value
                     )
                 )
-            }
-            editTextSearchWalpaper.setOnEditorActionListener { _, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    viewModel.handleUIEvent(
-                        SearchEvent.EnteredSearchQuery(
-                            editTextSearchWalpaper.text.toString(),
-                            viewModel.appLanguage.value
-                        )
-                    )
-                }
-                true
             }
 
             editTextSearchWalpaper.requestFocus()
