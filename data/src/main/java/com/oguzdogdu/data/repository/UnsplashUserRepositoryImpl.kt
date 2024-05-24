@@ -22,6 +22,7 @@ import com.oguzdogdu.network.model.searchdto.searchuser.SearchUsersResponse
 import com.oguzdogdu.network.model.searchdto.searchuser.toSearchUser
 import com.oguzdogdu.network.model.searchdto.toDomainSearch
 import com.oguzdogdu.network.model.userdetail.toDomain
+import com.oguzdogdu.network.service.UnsplashBaseApiService
 import com.oguzdogdu.network.service.UnsplashUserService
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -34,13 +35,13 @@ class UnsplashUserRepositoryImpl @Inject constructor(private val service: Unspla
     UnsplashUserRepository {
     override suspend fun getUserDetails(username: String?): Flow<Resource<UserDetails?>> {
         return safeApiCall(ioDispatcher) {
-            service.getUserDetailInfos(username = username).body()?.toDomain()
+            service.getUserDetailInfos(username = username).toDomain()
         }
     }
 
     override suspend fun getUsersPhotos(username: String?): Flow<Resource<List<UsersPhotos>?>>{
         return safeApiCall(ioDispatcher) {
-            service.getUserPhotos(username = username).body().orEmpty().map {
+            service.getUserPhotos(username = username).map {
                 it.toDomainUsersPhotos()
             }
         }
@@ -48,7 +49,7 @@ class UnsplashUserRepositoryImpl @Inject constructor(private val service: Unspla
 
     override suspend fun getUsersCollections(username: String?): Flow<Resource<List<UserCollections>?>> {
         return safeApiCall(dispatcher = ioDispatcher) {
-            service.getUserCollections(username = username).body().orEmpty().map {
+            service.getUserCollections(username = username).map {
                 it.toUserCollection()
             }
         }

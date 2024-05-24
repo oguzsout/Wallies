@@ -19,7 +19,7 @@ class TopicsPagingSource(private val service: WallpaperService) :
             val page = params.key ?: 1
             val response = service.getTopics(
                 perPage = 10, page = page
-            ).body()
+            )
             LoadResult.Page(
                 data = response.orEmpty(),
                 prevKey = if (page == 1) null else page - 1,

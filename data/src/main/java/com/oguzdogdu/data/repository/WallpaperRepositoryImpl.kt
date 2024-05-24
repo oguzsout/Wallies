@@ -107,7 +107,7 @@ class WallpaperRepositoryImpl @Inject constructor(
 
     override suspend fun getPopularAndLatestImagesForHomeScreen(type:String?): Flow<Resource<List<HomeListItems>?>> {
         return safeApiCall(ioDispatcher) {
-            service.getImagesByOrders(perPage = 10, page = 1, order = type).body()?.map {
+            service.getImagesByOrders(perPage = 10, page = 1, order = type).map {
                 it.homieListToDomain().homeList.second
             }
         }
@@ -115,7 +115,7 @@ class WallpaperRepositoryImpl @Inject constructor(
 
     override suspend fun getPhoto(id: String?): Flow<Resource<Photo?>> {
         return safeApiCall(ioDispatcher) {
-            service.getPhoto(id = id).body()?.toDomainModelPhoto()
+            service.getPhoto(id = id).toDomainModelPhoto()
         }
     }
 
@@ -173,7 +173,7 @@ class WallpaperRepositoryImpl @Inject constructor(
 
     override suspend fun getCollectionsListById(id: String?): Flow<Resource<List<CollectionList>?>> {
         return safeApiCall(ioDispatcher){
-            service.getCollectionsListById(id).body()?.map {
+            service.getCollectionsListById(id).map {
                 it.toDomain() }
         }
     }
@@ -214,7 +214,7 @@ class WallpaperRepositoryImpl @Inject constructor(
 
     override suspend fun getTopicsTitle(): Flow<Resource<List<Topics>?>> {
         return safeApiCall(ioDispatcher) {
-            service.getTopics(perPage = 6, page = 1).body()?.map {
+            service.getTopics(perPage = 6, page = 1).map {
                 it.toDomainTopics()
             }
         }

@@ -30,7 +30,7 @@ class SearchPagingSource(
                 query = query,
                 perPage = Constants.PAGE_ITEM_LIMIT,
                 language = lang
-            ).body()?.results.orEmpty()
+            ).results
             LoadResult.Page(
                 data = response,
                 prevKey = if (page == 1) null else page - 1,

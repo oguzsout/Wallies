@@ -25,7 +25,7 @@ class SearchUsersPagingSource(
             val response = service.getSearchUserData(
                 page = page,
                 query = query
-            ).body()?.results.orEmpty()
+            ).results
             LoadResult.Page(
                 data = response,
                 prevKey = if (page == 1) null else page - 1,

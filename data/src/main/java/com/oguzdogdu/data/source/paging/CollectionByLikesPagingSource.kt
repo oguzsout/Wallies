@@ -19,8 +19,7 @@ class CollectionByLikesPagingSource(private val service: WallpaperService) :
         return try {
             val page = params.key ?: 1
             val response =
-                service.getCollections(page = page, perPage = Constants.PAGE_ITEM_LIMIT).body()
-                    .orEmpty()
+                service.getCollections(page = page, perPage = Constants.PAGE_ITEM_LIMIT)
             val filteredAndSortedResponse = response.sortedBy { it.cover_photo?.likes }
             LoadResult.Page(
                 data = filteredAndSortedResponse,

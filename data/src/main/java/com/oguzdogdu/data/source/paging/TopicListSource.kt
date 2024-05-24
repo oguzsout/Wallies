@@ -20,7 +20,7 @@ class TopicListSource (private val service: WallpaperService,private val idOrSlu
             val response = service.getTopicList(
                 id = idOrSlug,
                 perPage = 10, page = page
-            ).body()
+            )
             LoadResult.Page(
                 data = response.orEmpty(),
                 prevKey = if (page == 1) null else page - 1,
