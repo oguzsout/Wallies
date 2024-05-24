@@ -5,6 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
     id("kotlin-parcelize")
+    id("kotlinx-serialization")
 }
 val debugApiKey: String = gradleLocalProperties(rootDir).getProperty("DEBUG_API_KEY")
 val releaseApiKey: String = gradleLocalProperties(rootDir).getProperty("RELEASE_API_KEY")
@@ -63,24 +64,23 @@ dependencies {
     testImplementation("app.cash.turbine:turbine:0.4.0")
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.11.0"))
     testImplementation ("com.squareup.okhttp3:mockwebserver:4.11.0")
-        testImplementation("androidx.arch.core:core-testing:2.2.0")
-
-        //Truth
-        testImplementation ("com.google.truth:truth:1.1.4")
-        //MockK
-        testImplementation ("io.mockk:mockk:1.12.4")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation ("com.google.truth:truth:1.1.4")
+    testImplementation ("io.mockk:mockk:1.12.4")
 
     debugImplementation("com.github.chuckerteam.chucker:library:4.0.0")
     releaseImplementation("com.github.chuckerteam.chucker:library-no-op:4.0.0")
 
-    implementation(libs.retrofit.core)
-    implementation(libs.retrofit.converter)
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.android)
+    implementation (libs.ktor.client.logging)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
+    implementation(libs.ktor.serialization.gson)
+    implementation(libs.ktor.client.logging)
 
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
-
-    implementation(libs.okhttp.core)
-    implementation(libs.okhttp.logging)
 
     implementation(libs.google.dagger.hilt)
     ksp(libs.google.dagger.hilt.compiler)

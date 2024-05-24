@@ -20,6 +20,7 @@
     <application
        android:name="com.oguzdogdu.wallieshd.core.WalliesHD"
         android:allowBackup="true"
+        android:usesCleartextTraffic="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:requestLegacyExternalStorage="true"
         android:fullBackupContent="@xml/backup_rules"

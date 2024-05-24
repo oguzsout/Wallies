@@ -29,6 +29,8 @@ android {
 dependencies {
 
     implementation(libs.google.dagger.hilt)
+    implementation(libs.androidx.monitor)
+    implementation(libs.androidx.junit.ktx)
     ksp(libs.google.dagger.hilt.compiler)
     implementation ("com.google.firebase:firebase-auth-ktx:22.1.0")
     implementation ("com.google.firebase:firebase-bom:32.2.0")

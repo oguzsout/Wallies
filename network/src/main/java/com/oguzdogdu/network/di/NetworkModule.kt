@@ -1,22 +1,25 @@
 package com.oguzdogdu.network.di
 
-import android.content.Context
-import com.chuckerteam.chucker.api.ChuckerInterceptor
+import android.util.Log
 import com.oguzdogdu.network.BuildConfig
 import com.oguzdogdu.network.common.Constants.UNSPLASH_BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import okhttp3.Cache
-import okhttp3.CacheControl
-import okhttp3.OkHttpClient
-import okhttp3.Response
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.android.Android
+import io.ktor.client.plugins.DefaultRequest
+import io.ktor.client.plugins.HttpRequestRetry
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.logging.DEFAULT
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.plugins.observer.ResponseObserver
+import io.ktor.client.request.header
+import io.ktor.http.HttpHeaders
+import io.ktor.serialization.gson.gson
 import javax.inject.Singleton
 
 @Module
@@ -25,63 +28,37 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    @InterceptorLogging
-    fun provideLoggingInterceptor() = HttpLoggingInterceptor().apply {
-        level = if (BuildConfig.BUILD_TYPE != "release") {
-            HttpLoggingInterceptor.Level.BODY
-        } else {
-            HttpLoggingInterceptor.Level.NONE
-        }
-    }
+    fun provideKtorClient(): HttpClient {
+        return HttpClient(Android) {
+            engine {
 
-    @Provides
-    @Singleton
-    @WalliesOkHttpClient
-    fun provideOkHttpClient(
-        @InterceptorLogging loggingInterceptor: HttpLoggingInterceptor,
-        @ApplicationContext context: Context
-    ): OkHttpClient {
-        val cacheSize = (10 * 1024 * 1024).toLong()
-        val cache = Cache(context.cacheDir, cacheSize)
-        val builder = OkHttpClient.Builder().apply {
-            cache(cache)
-            addInterceptor(loggingInterceptor)
-            addInterceptor(ChuckerInterceptor(context))
-            addInterceptor { chain ->
-                    val originalRequest = chain.request()
-                    val newRequest = originalRequest.newBuilder()
-                        .addHeader("Authorization", "Client-ID ${BuildConfig.API_KEY}")
-                        .build()
-                    chain.proceed(newRequest)
-                }
-            addInterceptor {
-                val response: Response = it.proceed(it.request())
-                val cacheControl = CacheControl.Builder()
-                    .maxStale(2, TimeUnit.HOURS)
-                    .build()
-                 response.newBuilder()
-                    .header("Cache-Control", cacheControl.toString())
-                    .build()
             }
-            connectTimeout(30, TimeUnit.SECONDS)
-            readTimeout(30, TimeUnit.SECONDS)
-            writeTimeout(30, TimeUnit.SECONDS)
-            followRedirects(true)
-            retryOnConnectionFailure(true)
-        }
-        return builder.build()
-    }
+            install(DefaultRequest) {
+                url(UNSPLASH_BASE_URL)
+                header("Authorization", "Client-ID ${BuildConfig.API_KEY}")
+            }
 
-    @Provides
-    @Singleton
-    @WalliesRetrofit
-    fun provideRetrofit(
-        @WalliesOkHttpClient okHttpClient: OkHttpClient,
-    ): Retrofit {
-        return Retrofit.Builder()
-            .client(okHttpClient)
-            .baseUrl(UNSPLASH_BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+            expectSuccess = true
+            install(Logging) {
+                logger = Logger.DEFAULT
+                level = LogLevel.HEADERS
+                sanitizeHeader { header -> header == HttpHeaders.Authorization }
+            }
+            install(ContentNegotiation) {
+                gson {
+                    setPrettyPrinting()
+                    disableHtmlEscaping()
+                }
+            }
+            install(ResponseObserver) {
+                onResponse { response ->
+                    Log.d("TAG_HTTP_STATUS_LOGGER", "${response.status.value}")
+                }
+            }
+
+            install(HttpRequestRetry) {
+                retryOnServerErrors(maxRetries = 3)
+            }
+        }
     }
 }

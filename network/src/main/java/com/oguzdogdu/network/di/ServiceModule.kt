@@ -1,12 +1,13 @@
 package com.oguzdogdu.network.di
 
+import com.oguzdogdu.network.service.UnsplashBaseApiService
 import com.oguzdogdu.network.service.UnsplashUserService
 import com.oguzdogdu.network.service.WallpaperService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import retrofit2.Retrofit
+import io.ktor.client.HttpClient
 import javax.inject.Singleton
 
 @Module
@@ -14,12 +15,12 @@ import javax.inject.Singleton
 object ServiceModule {
     @Provides
     @Singleton
-    fun provideWallpaperService(@WalliesRetrofit retrofit: Retrofit): WallpaperService =
-        retrofit.create(WallpaperService::class.java)
+    fun provideWallpaperService(httpClient: HttpClient): WallpaperService =
+        UnsplashBaseApiService(httpClient)
 
 
     @Provides
     @Singleton
-    fun provideUnsplashUserService(@WalliesRetrofit retrofit: Retrofit): UnsplashUserService =
-        retrofit.create(UnsplashUserService::class.java)
+    fun provideUnsplashUserService(httpClient: HttpClient): UnsplashUserService =
+        UnsplashBaseApiService(httpClient)
 }
