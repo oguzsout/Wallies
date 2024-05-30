@@ -22,7 +22,7 @@ This project uses many of the popular libraries, plugins and tools of the androi
 - [KSP](https://developer.android.com/build/migrate-to-ksp) - KSP (Kotlin Symbol Processing) is a Kotlin-first alternative to kapt. KSP analyzes Kotlin code directly, which is up to 2x faster.
 - [Retrofit](https://square.github.io/retrofit/) - Type-safe http client and supports coroutines out of the box.
 - [Ktlint](https://github.com/jlleitschuh/ktlint-gradle) - This plugin creates convenient tasks in your Gradle project that run ktlint checks or do code auto format.
-- [OkHttp-Logging-Interceptor](https://github.com/square/okhttp/blob/master/okhttp-logging-interceptor/README.md) - Logs HTTP request and response data.
+- [Ktor](https://github.com/square/okhttp/blob/master/okhttp-logging-interceptor/README.md](https://ktor.io/docs/client-create-new-application.html) - Ktor includes a multiplatform asynchronous HTTP client, which allows you to make requests and handle responses, extend its functionality with plugins, such as authentication, JSON serialization, and more.
 - [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) - Library Support for coroutines.
 - [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/) - A cold asynchronous data stream that sequentially emits values and completes normally or with an exception.
 - [StateFlow](https://developer.android.com/kotlin/flow/stateflow-and-sharedflow) - StateFlow is a
