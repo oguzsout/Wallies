@@ -32,9 +32,9 @@ android {
     defaultConfig {
         applicationId = "com.oguzdogdu.wallieshd"
         minSdk = 21
-        targetSdk = 33
-        versionCode = 18
-        versionName = "1.4.6"
+        targetSdk = 35
+        versionCode = 19
+        versionName = "1.4.7"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         signingConfig = signingConfigs.getByName("debug")
     }

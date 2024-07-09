@@ -26,6 +26,7 @@
 -keep class * implements android.os.Parcelable {
        *;
    }
+   -dontwarn org.slf4j.**
    -keep class * extends com.google.gson.TypeAdapter
    -keep class * implements com.google.gson.TypeAdapterFactory
    -keep class * implements com.google.gson.JsonSerializer
@@ -35,3 +36,12 @@
    -keep,allowobfuscation,allowshrinking interface retrofit2.Call
     -keep,allowobfuscation,allowshrinking class retrofit2.Response
     -keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
+
+    -keep class io.ktor.server.netty.EngineMain { *; }
+    -keep class io.ktor.server.config.HoconConfigLoader { *; }
+    -keep class com.example.ApplicationKt { *; }
+    -keep class kotlin.reflect.jvm.internal.** { *; }
+    -keep class kotlin.text.RegexOption { *; }
+    -keep class io.ktor.serialization.kotlinx.json.KotlinxSerializationJsonExtensionProvider { *; }
+
+-keep @kotlinx.serialization.Serializable class * {*;}
