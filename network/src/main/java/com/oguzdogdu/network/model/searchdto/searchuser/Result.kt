@@ -1,9 +1,8 @@
 package com.oguzdogdu.network.model.searchdto.searchuser
 
 import android.os.Parcelable
-import com.oguzdogdu.domain.model.search.SearchPhoto
 import com.oguzdogdu.domain.model.search.searchuser.SearchUser
-import com.oguzdogdu.network.model.searchdto.Result
+import com.oguzdogdu.network.model.maindto.ProfileImage
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -32,6 +31,6 @@ data class Result(
     val username: String
 ) : Parcelable
 
-fun com.oguzdogdu.network.model.searchdto.searchuser.Result.toSearchUser() = SearchUser(
+fun Result.toSearchUser() = SearchUser(
     id = id, username = username, profileImage = profile_image.medium, name = name
 )

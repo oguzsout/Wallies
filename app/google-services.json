@@ -1,42 +1,33 @@
 {
   "project_info": {
-    "project_number": "225181955346",
-    "firebase_url": "https://wallies-d029e-default-rtdb.firebaseio.com",
-    "project_id": "wallies-d029e",
-    "storage_bucket": "wallies-d029e.appspot.com"
+    "project_number": "907788755834",
+    "project_id": "wallies-18d29",
+    "storage_bucket": "wallies-18d29.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:225181955346:android:7d086f0dff42a49584efcb",
+        "mobilesdk_app_id": "1:907788755834:android:20ca086171fc1a3822acc3",
         "android_client_info": {
-          "package_name": "com.oguzdogdu.wallies"
+          "package_name": "com.oguzdogdu.walliescompose"
         }
       },
       "oauth_client": [
         {
-          "client_id": "225181955346-jm25gn2htfor0mr6lkbhi3mvb91uuttk.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.oguzdogdu.wallies",
-            "certificate_hash": "5a57d5d657dd9d9e673937ea449fad1502d99a8b"
-          }
-        },
-        {
-          "client_id": "225181955346-optbgqie0019o21o6d77h7b5inf7op6s.apps.googleusercontent.com",
+          "client_id": "907788755834-kra5u3206sk24vcla8vbbl1n9hnqrm49.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBDtMdM70JfeBXp2_r3Iigz4Hj3e2pr1Xo"
+          "current_key": "AIzaSyBI_Ju-GKZX-oVeht1zq-SfT54U4CbC9Zo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "225181955346-fe24mqoaiu3lon9gt5ud0rds0dubrpjp.apps.googleusercontent.com",
+              "client_id": "907788755834-kra5u3206sk24vcla8vbbl1n9hnqrm49.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -45,27 +36,85 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:225181955346:android:cdb9eb2b07eb834584efcb",
+        "mobilesdk_app_id": "1:907788755834:android:b00afd5e6d661c0122acc3",
         "android_client_info": {
-          "package_name": "com.oguzdogdu.wallieshd"
+          "package_name": "com.oguzdogdu.walliescompose.free"
         }
       },
       "oauth_client": [
         {
-          "client_id": "225181955346-optbgqie0019o21o6d77h7b5inf7op6s.apps.googleusercontent.com",
+          "client_id": "907788755834-kra5u3206sk24vcla8vbbl1n9hnqrm49.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBDtMdM70JfeBXp2_r3Iigz4Hj3e2pr1Xo"
+          "current_key": "AIzaSyBI_Ju-GKZX-oVeht1zq-SfT54U4CbC9Zo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "225181955346-fe24mqoaiu3lon9gt5ud0rds0dubrpjp.apps.googleusercontent.com",
+              "client_id": "907788755834-kra5u3206sk24vcla8vbbl1n9hnqrm49.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:907788755834:android:21003c22d6621efb22acc3",
+        "android_client_info": {
+          "package_name": "com.oguzdogdu.walliescompose.premium"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "907788755834-kra5u3206sk24vcla8vbbl1n9hnqrm49.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBI_Ju-GKZX-oVeht1zq-SfT54U4CbC9Zo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "907788755834-kra5u3206sk24vcla8vbbl1n9hnqrm49.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:907788755834:android:a108a01207d7c02422acc3",
+        "android_client_info": {
+          "package_name": "com.oguzdogdu.wallieshd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "907788755834-kra5u3206sk24vcla8vbbl1n9hnqrm49.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBI_Ju-GKZX-oVeht1zq-SfT54U4CbC9Zo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "907788755834-kra5u3206sk24vcla8vbbl1n9hnqrm49.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
