@@ -101,6 +101,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "907788755834-8ravgpi09gel4boni854v01lmkgr76h8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.oguzdogdu.wallieshd",
+            "certificate_hash": "52de15a74cc2f3d26b3722cf275c40ab7eebf450"
+          }
+        },
+        {
           "client_id": "907788755834-kra5u3206sk24vcla8vbbl1n9hnqrm49.apps.googleusercontent.com",
           "client_type": 3
         }

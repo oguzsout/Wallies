@@ -27,14 +27,14 @@ android {
             storePassword = keystoreProperties["storePassword"] as String
         }
     }
-    compileSdk = 34
+    compileSdk = 35
     namespace = "com.oguzdogdu.wallieshd"
     defaultConfig {
         applicationId = "com.oguzdogdu.wallieshd"
         minSdk = 21
         targetSdk = 35
-        versionCode = 19
-        versionName = "1.4.7"
+        versionCode = 22
+        versionName = "1.5.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         signingConfig = signingConfigs.getByName("debug")
     }
